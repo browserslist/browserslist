@@ -99,6 +99,7 @@ browserslist.byName = function (name) {
 
 // Find config, read file and parse it
 browserslist.readConfig = function (from) {
+    if ( from === false )   return false;
     if ( !fs.readFileSync ) return false;
     if ( typeof(from) == 'undefined' ) from = '.';
 
