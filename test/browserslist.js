@@ -29,7 +29,7 @@ describe('browserslist()', function () {
     });
 
     it('has default selection', function () {
-        expect(browserslist.defaults.length).to.not.be.empty;
+        expect(browserslist.defaults.length).to.not.be.empty();
     });
 
     it('use default selection on empty request', function () {
@@ -263,7 +263,7 @@ describe('browserslist()', function () {
         });
 
         it('loads country from Can I Use', function () {
-            expect(browserslist('> 1% in RU')).to.not.be.empty;
+            expect(browserslist('> 1% in RU')).to.not.be.empty();
         });
 
     });
