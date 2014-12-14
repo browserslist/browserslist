@@ -1,10 +1,13 @@
 var browserslist = require('../');
 var expect       = require('chai').expect;
+var path         = require('path');
 
 var originData  = browserslist.data;
 var originUsage = browserslist.usage;
 
-describe('browserslist()', function () {
+var config = path.join(__dirname, 'fixtures', 'dir', 'test.css');
+
+describe('browserslist', function () {
 
     afterEach(function () {
         browserslist.data  = originData;
@@ -28,11 +31,15 @@ describe('browserslist()', function () {
         expect(browserslist('')).to.eql([]);
     });
 
+    it('reads config on empty request', function () {
+        expect(browserslist(null, { path: config })).to.eql(['ie 11', 'ie 10']);
+    });
+
     it('has default selection', function () {
         expect(browserslist.defaults.length).to.not.be.empty();
     });
 
-    it('use default selection on empty request', function () {
+    it('use default selection on empty request and no config', function () {
         expect(browserslist())
             .to.eql(browserslist(browserslist.defaults));
     });
@@ -264,6 +271,37 @@ describe('browserslist()', function () {
 
         it('loads country from Can I Use', function () {
             expect(browserslist('> 1% in RU')).to.not.be.empty();
+        });
+
+    });
+
+    describe('.parseConfig()', function () {
+
+        it('parses queries', function () {
+            expect(browserslist.parseConfig('ie 10\n> 1%'))
+                .to.eql(['ie 10', '> 1%']);
+        });
+
+        it('trims whitespaces', function () {
+            expect(browserslist.parseConfig('ie 10 \n \n  > 1%\n'))
+                .to.eql(['ie 10', '> 1%']);
+        });
+
+        it('removes comments', function () {
+            expect(browserslist.parseConfig('# support list\nie 10#bad\n> 1%'))
+                .to.eql(['ie 10', '> 1%']);
+        });
+
+    });
+
+    describe('.readConfig()', function () {
+
+        it('returns false on no config', function () {
+            expect(browserslist.readConfig(__dirname)).to.be.false();
+        });
+
+        it('reads config', function () {
+            expect(browserslist.readConfig(config)).to.eql(['ie 11', 'ie 10']);
         });
 
     });

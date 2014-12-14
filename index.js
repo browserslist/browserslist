@@ -1,3 +1,7 @@
+var caniuse = require('caniuse-db/data').agents;
+var path    = require('path');
+var fs      = require('fs');
+
 var uniq = function (array) {
     var filtered = [];
     for ( var i = 0; i < array.length; i++ ) {
@@ -9,14 +13,23 @@ var uniq = function (array) {
 // Return array of browsers by selection queries:
 //
 //   browserslist('IE >= 10, IE 8') //=> ['ie 11', 'ie 10', 'ie 8']
-browserslist = function (selections) {
-    var result = [];
+browserslist = function (selections, opts) {
+    if ( typeof(opts) == 'undefined' ) opts = { };
 
-    if ( typeof(selections) == 'undefined' ) {
-        selections = browserslist.defaults;
-    } else if ( typeof(selections) == 'string' ) {
+    if ( typeof(selections) == 'undefined' || selections === null ) {
+        var config = browserslist.readConfig(opts.path);
+        if ( config === false ) {
+            selections = browserslist.defaults;
+        } else {
+            selections = config;
+        }
+    }
+
+    if ( typeof(selections) == 'string' ) {
         selections = selections.split(/,\s*/);
     }
+
+    var result = [];
 
     var query, match, array, used;
     selections.forEach(function (selection) {
@@ -82,6 +95,39 @@ browserslist.byName = function (name) {
     var data = browserslist.data[name];
     if ( !data ) throw 'Unknown browser ' + name;
     return data;
+};
+
+// Find config, read file and parse it
+browserslist.readConfig = function (from) {
+    if ( !fs.readFileSync ) return false;
+    if ( typeof(from) == 'undefined' ) from = '.';
+
+    var dirs = path.resolve(from).split(path.sep);
+    var config, stat;
+    while ( dirs.length ) {
+        config = dirs.concat(['browserslist']).join(path.sep);
+
+        if ( fs.existsSync(config) && fs.lstatSync(config).isFile() ) {
+            return browserslist.parseConfig( fs.readFileSync(config) );
+        }
+
+        dirs.pop();
+    }
+
+    return false;
+};
+
+// Return array of queries from config content
+browserslist.parseConfig = function (string) {
+    return string.toString()
+                 .replace(/#[^\n]*/g, '')
+                 .split(/\n/)
+                 .map(function (i) {
+                    return i.trim();
+                 })
+                 .filter(function (i) {
+                    return i !== '';
+                 });
 };
 
 browserslist.queries = {
@@ -209,8 +255,6 @@ browserslist.queries = {
 };
 
 // Get and convert Can I Use data
-
-var caniuse = require('caniuse-db/data').agents;
 
 var normalizeVersion = function (version) {
     var interval = version.split('-');
