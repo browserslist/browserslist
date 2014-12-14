@@ -66,6 +66,42 @@ describe('browserslist', function () {
 
         });
 
+        describe('never than query', function () {
+
+            it('selects browser by more sign', function () {
+                expect(browserslist.get('ie > 9')).to.eql(['ie 10', 'ie 11']);
+            });
+
+            it('selects browser by more or equal sign', function () {
+                expect(browserslist.get('ie >= 10')).to.eql(['ie 10', 'ie 11']);
+            });
+
+            it('raises on unknown browser', function () {
+                expect(function () {
+                    browserslist.get('unknow > 10');
+                }).to.throw('Unknown browser unknow');
+            });
+
+        });
+
+        describe('older than query', function () {
+
+            it('selects browser by less sign', function () {
+                expect(browserslist.get('ie < 7')).to.eql(['ie 5.5', 'ie 6']);
+            });
+
+            it('selects browser by less or equal sign', function () {
+                expect(browserslist.get('ie <= 6')).to.eql(['ie 5.5', 'ie 6']);
+            });
+
+            it('raises on unknown browser', function () {
+                expect(function () {
+                    browserslist.get('unknow < 10');
+                }).to.throw('Unknown browser unknow');
+            });
+
+        });
+
     });
 
 });

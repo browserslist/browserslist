@@ -1,16 +1,21 @@
 var caniuse = require('caniuse-db/data').agents;
 
+var normalize = function (versions) {
+    return versions
+        .filter(function (version) {
+            return typeof(version) == 'string';
+        })
+        .map(function (version) {
+            return version.split('-')[0];
+        });
+};
+
 var agents = { };
 for ( var name in caniuse ) {
     agents[name] = {
         name:     name,
-        versions: caniuse[name].versions.map(function (version) {
-            if ( typeof(version) == 'string' ) {
-                return version.split('-')[0];
-            } else {
-                return version;
-            }
-        })
+        versions: normalize(caniuse[name].versions),
+        released: normalize(caniuse[name].versions.slice(0, -3))
     };
 }
 
@@ -47,6 +52,52 @@ var browserslist = {
     },
 
     queries: {
+
+        newerThan: {
+            regexp: /^(\w+) (>=?)\s*([\d\.]+)/,
+            select: function (name, sign, version) {
+                var data = byName(name);
+                version  = parseFloat(version);
+
+                var filter;
+                if ( sign == '>' ) {
+                    filter = function (v) {
+                        return v > version;
+                    };
+                } else {
+                    filter = function (v) {
+                        return v >= version;
+                    };
+                }
+
+                return data.released.filter(filter).map(function (v) {
+                    return data.name + ' ' + v;
+                });
+            }
+        },
+
+        olderThan: {
+            regexp: /^(\w+) (<=?)\s*([\d\.]+)/,
+            select: function (name, sign, version) {
+                var data = byName(name);
+                version  = parseFloat(version);
+
+                var filter;
+                if ( sign == '<' ) {
+                    filter = function (v) {
+                        return v < version;
+                    };
+                } else {
+                    filter = function (v) {
+                        return v <= version;
+                    };
+                }
+
+                return data.released.filter(filter).map(function (v) {
+                    return data.name + ' ' + v;
+                });
+            }
+        },
 
         esr: {
             regexp: /^(firefox|ff|fx) esr$/i,
