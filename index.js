@@ -13,6 +13,10 @@ var browserslist = {
     // Converted Can I Use data
     data: { },
 
+    // What browsers will be used in `last n version` query
+    major: ['firefox', 'chrome',  'safari', 'ios_saf',
+            'opera',   'android', 'ie',     'ie_mob'],
+
     // Browser names aliases
     aliases: {
         fx:             'firefox',
@@ -72,10 +76,37 @@ var browserslist = {
 
     queries: {
 
+        lastVersions: {
+            regexp: /^last (\d+) versions?$/i,
+            select: function (versions) {
+                var selected = [];
+                browserslist.major.forEach(function (name) {
+                    var data  = browserslist.byName(name);
+                    var array = data.released.slice(-versions);
+
+                    array = array.map(function (v) {
+                        return data.name + ' ' + v;
+                    });
+                    selected = selected.concat(array);
+                });
+                return selected;
+            }
+        },
+
+        lastByBrowser: {
+            regexp: /^last (\d+) (\w+) versions?$/i,
+            select: function (versions, name) {
+                var data = browserslist.byName(name);
+                return data.released.slice(-versions).map(function (v) {
+                    return data.name + ' ' + v;
+                });
+            }
+        },
+
         newerThan: {
             regexp: /^(\w+) (>=?)\s*([\d\.]+)/,
             select: function (name, sign, version) {
-                var data = this.byName(name);
+                var data = browserslist.byName(name);
                 version  = parseFloat(version);
 
                 var filter;
@@ -98,7 +129,7 @@ var browserslist = {
         olderThan: {
             regexp: /^(\w+) (<=?)\s*([\d\.]+)/,
             select: function (name, sign, version) {
-                var data = this.byName(name);
+                var data = browserslist.byName(name);
                 version  = parseFloat(version);
 
                 var filter;
@@ -128,7 +159,7 @@ var browserslist = {
         direct: {
             regexp: /^(\w+) ([\d\.]+)$/,
             select: function (name, version) {
-                var data = this.byName(name);
+                var data = browserslist.byName(name);
                 if ( data.versions.indexOf(version) == -1 ) {
                     throw 'Unknown version ' + version + ' of ' + name;
                 }

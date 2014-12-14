@@ -7,7 +7,7 @@ describe('browserslist', function () {
 
     afterEach(function () {
         browserslist.data = origin;
-    })
+    });
 
     describe('.get()', function () {
 
@@ -78,9 +78,10 @@ describe('browserslist', function () {
                 browserslist.data = {
                     ie: {
                         name:      'ie',
-                        released: ['9', '10', '11']
+                        released: ['9', '10', '11'],
+                        versions: ['9', '10', '11', '12']
                     }
-                }
+                };
             });
 
             it('selects browser by more sign', function () {
@@ -121,6 +122,92 @@ describe('browserslist', function () {
                 expect(function () {
                     browserslist.get('unknow < 10');
                 }).to.throw('Unknown browser unknow');
+            });
+
+        });
+
+        describe('last n version query', function () {
+
+            beforeEach(function () {
+                browserslist.data = {
+                    ie: {
+                        name:      'ie',
+                        released: ['9', '10', '11'],
+                        versions: ['9', '10', '11', '12']
+                    },
+                    chrome: {
+                        name:      'chrome',
+                        released: ['37', '38', '39'],
+                        versions: ['37', '38', '39', '40']
+                    },
+                    blackberry: {
+                        name:      'blackberry',
+                        released: ['8'],
+                        versions: []
+                    },
+                    firefox: {
+                        released: []
+                    },
+                    safari: {
+                        released: []
+                    },
+                    ios_saf: {
+                        released: []
+                    },
+                    opera: {
+                        released: []
+                    },
+                    android: {
+                        released: []
+                    },
+                    ie_mob: {
+                        released: []
+                    }
+                };
+            });
+
+            it('selects versions of each major browser', function () {
+                expect(browserslist.get('last 2 versions'))
+                    .to.eql(['chrome 38', 'chrome 39', 'ie 10', 'ie 11']);
+            });
+
+            it('supports pluralization', function () {
+                expect(browserslist.get('last 1 version'))
+                    .to.eql(['chrome 39', 'ie 11']);
+            });
+
+            it('is case insensitive', function () {
+                expect(browserslist.get('Last 01 Version'))
+                    .to.eql(['chrome 39', 'ie 11']);
+            });
+
+        });
+
+        describe('last n version of browser query', function () {
+
+            beforeEach(function () {
+                browserslist.data = {
+                    ie: {
+                        name:      'ie',
+                        released: ['9', '10', '11'],
+                        versions: ['9', '10', '11', '12']
+                    }
+                };
+            });
+
+            it('selects versions of browser', function () {
+                expect(browserslist.get('last 2 ie versions'))
+                    .to.eql(['ie 10', 'ie 11']);
+            });
+
+            it('supports pluralization', function () {
+                expect(browserslist.get('last 1 ie version'))
+                    .to.eql(['ie 11']);
+            });
+
+            it('has case insensitive aliases', function () {
+                expect(browserslist.get('Last 01 Explorer Version'))
+                    .to.eql(['ie 11']);
             });
 
         });
