@@ -113,19 +113,19 @@ describe('browserslist', function () {
         });
 
         it('selects browser by more sign', function () {
-            expect(browserslist('ie > 9')).to.eql(['ie 10', 'ie 11']);
+            expect(browserslist('ie > 9')).to.eql(['ie 11', 'ie 10']);
         });
 
         it('selects browser by more or equal sign', function () {
-            expect(browserslist('ie >= 10')).to.eql(['ie 10', 'ie 11']);
+            expect(browserslist('ie >= 10')).to.eql(['ie 11', 'ie 10']);
         });
 
         it('selects browser by less sign', function () {
-            expect(browserslist('ie < 10')).to.eql(['ie 8', 'ie 9']);
+            expect(browserslist('ie < 10')).to.eql(['ie 9', 'ie 8']);
         });
 
         it('selects browser by less or equal sign', function () {
-            expect(browserslist('ie <= 9')).to.eql(['ie 8', 'ie 9']);
+            expect(browserslist('ie <= 9')).to.eql(['ie 9', 'ie 8']);
         });
 
         it('uses case insensitive aliases', function () {
@@ -182,17 +182,17 @@ describe('browserslist', function () {
 
         it('selects versions of each major browser', function () {
             expect(browserslist('last 2 versions'))
-                .to.eql(['chrome 38', 'chrome 39', 'ie 10', 'ie 11']);
+                .to.eql(['ie 11', 'ie 10', 'chrome 39', 'chrome 38']);
         });
 
         it('supports pluralization', function () {
             expect(browserslist('last 1 version'))
-                .to.eql(['chrome 39', 'ie 11']);
+                .to.eql(['ie 11', 'chrome 39']);
         });
 
         it('is case insensitive', function () {
             expect(browserslist('Last 01 Version'))
-                .to.eql(['chrome 39', 'ie 11']);
+                .to.eql(['ie 11', 'chrome 39']);
         });
 
     });
@@ -211,7 +211,7 @@ describe('browserslist', function () {
 
         it('selects versions of browser', function () {
             expect(browserslist('last 2 ie versions'))
-                .to.eql(['ie 10', 'ie 11']);
+                .to.eql(['ie 11', 'ie 10']);
         });
 
         it('supports pluralization', function () {
@@ -237,7 +237,7 @@ describe('browserslist', function () {
         });
 
         it('selects browsers by popularity', function () {
-            expect(browserslist('> 10%')).to.eql(['ie 10', 'ie 11']);
+            expect(browserslist('> 10%')).to.eql(['ie 11', 'ie 10']);
         });
 
         it('works with float', function () {
@@ -258,7 +258,7 @@ describe('browserslist', function () {
         });
 
         it('selects browsers by popularity', function () {
-            expect(browserslist('> 10% in US')).to.eql(['ie 10', 'ie 11']);
+            expect(browserslist('> 10% in US')).to.eql(['ie 11', 'ie 10']);
         });
 
         it('works with float', function () {

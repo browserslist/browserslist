@@ -52,7 +52,7 @@ browserslist = function (selections, opts) {
         }
     });
 
-    return uniq(result);
+    return uniq(result).sort().reverse();
 };
 
 // Will be filled by Can I Use data below
