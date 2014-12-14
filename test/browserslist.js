@@ -29,7 +29,7 @@ describe('browserslist()', function () {
     });
 
     it('has default selection', function () {
-        expect(browserslist.defaults.length).to.be.at.least(1);
+        expect(browserslist.defaults.length).to.not.be.empty;
     });
 
     it('use default selection on empty request', function () {
@@ -236,6 +236,36 @@ describe('browserslist()', function () {
         it('works with float', function () {
             expect(browserslist('> 10.2%')).to.eql(['ie 11']);
         });
+    });
+
+    describe('country statistics query', function () {
+
+        beforeEach(function () {
+            browserslist.usage = {
+                US: {
+                    'ie 9':  5,
+                    'ie 10': 10.1,
+                    'ie 11': 75
+                }
+            };
+        });
+
+        it('selects browsers by popularity', function () {
+            expect(browserslist('> 10% in US')).to.eql(['ie 10', 'ie 11']);
+        });
+
+        it('works with float', function () {
+            expect(browserslist('> 10.2% in US')).to.eql(['ie 11']);
+        });
+
+        it('fixes country case', function () {
+            expect(browserslist('> 10.2% in us')).to.eql(['ie 11']);
+        });
+
+        it('loads country from Can I Use', function () {
+            expect(browserslist('> 1% in RU')).to.not.be.empty;
+        });
+
     });
 
 });

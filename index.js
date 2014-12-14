@@ -113,14 +113,41 @@ browserslist.queries = {
         }
     },
 
-    statistics: {
-        regexp: /^> (\d+(\.\d+)?)%$/,
+    globalStatistics: {
+        regexp: /^> (\d+\.?\d*)%$/,
         select: function (popularity) {
             popularity = parseFloat(popularity);
             var result = [];
 
             for ( var version in browserslist.usage.global ) {
                 if ( browserslist.usage.global[version] > popularity ) {
+                    result.push(version);
+                }
+            }
+
+            return result;
+        }
+    },
+
+    countryStatistics: {
+        regexp: /^> (\d+\.?\d*)% in (\w\w)$/,
+        select: function (popularity, country) {
+            popularity = parseFloat(popularity);
+            country    = country.toUpperCase();
+            var result = [];
+
+            var usage = browserslist.usage[country];
+            if ( !usage ) {
+                usage = { };
+                var data = require('caniuse-db/region-usage-json/' + country);
+                for ( var i in data.data ) {
+                    fillUsage(usage, i, data.data[i]);
+                }
+                browserslist.usage[country] = usage;
+            }
+
+            for ( var version in usage ) {
+                if ( usage[version] > popularity ) {
                     result.push(version);
                 }
             }
@@ -186,7 +213,7 @@ browserslist.queries = {
 var caniuse = require('caniuse-db/data').agents;
 
 var normalizeVersion = function (version) {
-    var interval = version.split('-')
+    var interval = version.split('-');
     return interval[interval.length - 1];
 };
 
