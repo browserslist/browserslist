@@ -43,6 +43,15 @@ describe('browserslist()', function () {
         }).to.throw('Unknown browser query `good`');
     });
 
+    it('use latest version when Can I Use join it', function () {
+        expect(function () {
+            browserslist('iOS 7.0');
+        }).to.throw('Unknown version 7.0 of iOS');
+        expect(function () {
+            browserslist('iOS 7.1');
+        }).not.to.throw();
+    });
+
     describe('ESR query', function () {
 
         it('selects Firefox ESR', function () {

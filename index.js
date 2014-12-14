@@ -186,7 +186,8 @@ browserslist.queries = {
 var caniuse = require('caniuse-db/data').agents;
 
 var normalizeVersion = function (version) {
-    return version.split('-')[0];
+    var interval = version.split('-')
+    return interval[interval.length - 1];
 };
 
 var normalize = function (versions) {
