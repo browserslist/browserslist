@@ -13,6 +13,9 @@ var browserslist = {
     // Converted Can I Use data
     data: { },
 
+    // Default browsers query
+    defaults: ['last 2 versions', 'Firefox ESR', 'Opera 12.1'],
+
     // What browsers will be used in `last n version` query
     major: ['firefox', 'chrome',  'safari', 'ios_saf',
             'opera',   'android', 'ie',     'ie_mob'],
@@ -37,12 +40,15 @@ var browserslist = {
     get: function (selections) {
         var result = [];
 
-        if ( typeof(selections) == 'string' ) {
+        if ( typeof(selections) == 'undefined' ) {
+            selections = browserslist.defaults;
+        } else if ( typeof(selections) == 'string' ) {
             selections = selections.split(/,\s*/);
         }
 
         var query, match, array, used;
         selections.forEach(function (selection) {
+            if ( selection.trim() === '' ) return;
             used = false;
 
             for ( var i in browserslist.queries ) {

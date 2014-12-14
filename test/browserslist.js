@@ -25,6 +25,20 @@ describe('browserslist', function () {
             expect(browserslist.get('ie 10, ie 10')).to.eql(['ie 10']);
         });
 
+        it('returns empty result', function () {
+            expect(browserslist.get([])).to.eql([]);
+            expect(browserslist.get('')).to.eql([]);
+        });
+
+        it('has default selection', function () {
+            expect(browserslist.defaults.length).to.be.at.least(1);
+        });
+
+        it('use default selection on empty request', function () {
+            expect(browserslist.get())
+                .to.eql(browserslist.get(browserslist.defaults));
+        });
+
         it('raises on unknow query', function () {
             expect(function () {
                 browserslist.get('good');
