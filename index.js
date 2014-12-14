@@ -109,8 +109,8 @@ var browserslist = {
             }
         },
 
-        newerThan: {
-            regexp: /^(\w+) (>=?)\s*([\d\.]+)/,
+        versions: {
+            regexp: /^(\w+) (>=?|<=?)\s*([\d\.]+)/,
             select: function (name, sign, version) {
                 var data = browserslist.byName(name);
                 version  = parseFloat(version);
@@ -120,30 +120,15 @@ var browserslist = {
                     filter = function (v) {
                         return parseFloat(v) > version;
                     };
-                } else {
+                } else if ( sign == '>=' ) {
                     filter = function (v) {
                         return parseFloat(v) >= version;
                     };
-                }
-
-                return data.released.filter(filter).map(function (v) {
-                    return data.name + ' ' + v;
-                });
-            }
-        },
-
-        olderThan: {
-            regexp: /^(\w+) (<=?)\s*([\d\.]+)/,
-            select: function (name, sign, version) {
-                var data = browserslist.byName(name);
-                version  = parseFloat(version);
-
-                var filter;
-                if ( sign == '<' ) {
+                } else if ( sign == '<' ) {
                     filter = function (v) {
                         return parseFloat(v) < version;
                     };
-                } else {
+                } else if ( sign == '<=' ) {
                     filter = function (v) {
                         return parseFloat(v) <= version;
                     };

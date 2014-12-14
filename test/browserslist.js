@@ -86,14 +86,14 @@ describe('browserslist', function () {
 
         });
 
-        describe('never than query', function () {
+        describe('versions query', function () {
 
             beforeEach(function () {
                 browserslist.data = {
                     ie: {
                         name:      'ie',
-                        released: ['9', '10', '11'],
-                        versions: ['9', '10', '11', '12']
+                        released: ['8', '9', '10', '11'],
+                        versions: ['8', '9', '10', '11', '12']
                     }
                 };
             });
@@ -106,6 +106,14 @@ describe('browserslist', function () {
                 expect(browserslist.get('ie >= 10')).to.eql(['ie 10', 'ie 11']);
             });
 
+            it('selects browser by less sign', function () {
+                expect(browserslist.get('ie < 10')).to.eql(['ie 8', 'ie 9']);
+            });
+
+            it('selects browser by less or equal sign', function () {
+                expect(browserslist.get('ie <= 9')).to.eql(['ie 8', 'ie 9']);
+            });
+
             it('uses case insensitive aliases', function () {
                 expect(browserslist.get('Explorer > 10')).to.eql(['ie 11']);
             });
@@ -113,28 +121,6 @@ describe('browserslist', function () {
             it('raises on unknown browser', function () {
                 expect(function () {
                     browserslist.get('unknow > 10');
-                }).to.throw('Unknown browser unknow');
-            });
-
-        });
-
-        describe('older than query', function () {
-
-            it('selects browser by less sign', function () {
-                expect(browserslist.get('ie < 7')).to.eql(['ie 5.5', 'ie 6']);
-            });
-
-            it('selects browser by less or equal sign', function () {
-                expect(browserslist.get('ie <= 6')).to.eql(['ie 5.5', 'ie 6']);
-            });
-
-            it('uses case insensitive aliases', function () {
-                expect(browserslist.get('Explorer < 6')).to.eql(['ie 5.5']);
-            });
-
-            it('raises on unknown browser', function () {
-                expect(function () {
-                    browserslist.get('unknow < 10');
                 }).to.throw('Unknown browser unknow');
             });
 
