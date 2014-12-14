@@ -1,61 +1,52 @@
-var agents = require('caniuse-db/data').agents;
+var caniuse = require('caniuse-db/data').agents;
 
-var browserslist = function () {
+var agents = { };
+for ( var name in caniuse ) {
+    agents[name] = {
+        name:     name,
+        versions: caniuse[name].versions.map(function (version) {
+            if ( typeof(version) == 'string' ) {
+                return version.split('-')[0];
+            } else {
+                return version;
+            }
+        })
+    };
+}
 
-    defaults: ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1'],
+var uniq = function (array) {
+    var filtered = [];
+    for ( var i = 0; i < array.length; i++ ) {
+        if ( filtered.indexOf(array[i]) == -1 ) filtered.push(array[i]);
+    }
+    return filtered;
+};
 
-    major: ['firefox', 'chrome',  'safari', 'ios_saf',
-            'opera',   'android', 'ie',     'ie_mob'],
+var byName = function (name) {
+    name = name.toLowerCase();
+    name = browserslist.aliases[name] || name;
+
+    var data = agents[name];
+    if ( !data ) throw 'Unknown browser ' + name;
+    return data;
+};
+
+var browserslist = {
 
     aliases: {
-        fx:             'firefox'
-        ff:             'firefox'
-        ios:            'ios_saf'
-        explorer:       'ie'
-        blackberry:     'bb'
-        explorermobile: 'ie_mob'
-        operamini:      'op_mini'
-        operamobile:    'op_mob'
-        chromeandroid:  'and_chr'
+        fx:             'firefox',
+        ff:             'firefox',
+        ios:            'ios_saf',
+        explorer:       'ie',
+        blackberry:     'bb',
+        explorermobile: 'ie_mob',
+        operamini:      'op_mini',
+        operamobile:    'op_mob',
+        chromeandroid:  'and_chr',
         firefoxandroid: 'and_ff'
     },
 
     queries: {
-
-        lastVersions: {
-            regexp: /^last (\d+) versions?$/i,
-            select: function (versions) {
-                //TODO
-            }
-        },
-
-        lastByBrowser: {
-            regexp: /^last (\d+) versions?$/i,
-            select: function (versions) {
-                //TODO
-            }
-        },
-
-        globalStatistics: {
-            regexp: /^> (\d+(\.\d+)?)%$/,
-            select: function (popularity) {
-                //TODO
-            }
-        },
-
-        newerThan: {
-            regexp: /^(\w+) (>=?)\s*([\d\.]+)/,
-            select: function (browser, sign, version) {
-                //TODO
-            }
-        },
-
-        olderThan: {
-            regexp: /^(\w+) (<=?)\s*([\d\.]+)/,
-            select: function (browser, sign, version) {
-                //TODO
-            }
-        },
 
         esr: {
             regexp: /^(firefox|ff|fx) esr$/i,
@@ -66,8 +57,13 @@ var browserslist = function () {
 
         direct: {
             regexp: /^(\w+) ([\d\.]+)$/,
-            select: function (browser, version) {
-                //TODO
+            select: function (name, version) {
+                var data = byName(name);
+                if ( data.versions.indexOf(version) == -1 ) {
+                    throw 'Unknown version ' + version + ' of ' + name;
+                }
+
+                return [data.name + ' ' + version];
             }
         }
 
@@ -77,10 +73,33 @@ var browserslist = function () {
     //
     //   browserslist.get('IE >= 10, IE 8') //=> ['ie 11', 'ie 10', 'ie 8']
     get: function (selections) {
+        var result = [];
+
         if ( typeof(selections) == 'string' ) {
-            selections = selections.split(/,\s*/)
+            selections = selections.split(/,\s*/);
         }
-        //TODO
+
+        var query, match, array, used;
+        selections.forEach(function (selection) {
+            used = false;
+
+            for ( var i in browserslist.queries ) {
+                query = browserslist.queries[i];
+                match = selection.match(query.regexp);
+                if ( match ) {
+                    array  = query.select.apply(browserslist, match.slice(1));
+                    result = result.concat(array);
+                    used   = true;
+                    break;
+                }
+            }
+
+            if ( !used ) {
+                throw 'Unknown browser query ' + selection;
+            }
+        });
+
+        return uniq(result);
     }
 
 };
