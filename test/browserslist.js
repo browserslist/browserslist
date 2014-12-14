@@ -1,7 +1,13 @@
 var browserslist = require('../');
 var expect       = require('chai').expect;
 
+var origin = browserslist.data;
+
 describe('browserslist', function () {
+
+    afterEach(function () {
+        browserslist.data = origin;
+    })
 
     describe('.get()', function () {
 
@@ -22,7 +28,7 @@ describe('browserslist', function () {
         it('raises on unknow query', function () {
             expect(function () {
                 browserslist.get('good');
-            }).to.throw('Unknown browser query good');
+            }).to.throw('Unknown browser query `good`');
         });
 
         describe('ESR query', function () {
@@ -31,7 +37,7 @@ describe('browserslist', function () {
                 expect(browserslist.get('Firefox ESR')).to.eql(['firefox 31']);
             });
 
-            it('has case insensitive aliases', function () {
+            it('uses case insensitive aliases', function () {
                 var result = browserslist.get('Firefox ESR');
                 expect(browserslist.get('firefox esr')).to.eql(result);
                 expect(browserslist.get('ff esr')).to.eql(result);
@@ -46,7 +52,7 @@ describe('browserslist', function () {
                 expect(browserslist.get('ie 10')).to.eql(['ie 10']);
             });
 
-            it('has case insensitive aliases', function () {
+            it('uses case insensitive aliases', function () {
                 var result = browserslist.get('ie 10');
                 expect(browserslist.get('Explorer 10')).to.eql(result);
                 expect(browserslist.get('IE 10')).to.eql(result);
@@ -68,12 +74,25 @@ describe('browserslist', function () {
 
         describe('never than query', function () {
 
+            beforeEach(function () {
+                browserslist.data = {
+                    ie: {
+                        name:      'ie',
+                        released: ['9', '10', '11']
+                    }
+                }
+            });
+
             it('selects browser by more sign', function () {
                 expect(browserslist.get('ie > 9')).to.eql(['ie 10', 'ie 11']);
             });
 
             it('selects browser by more or equal sign', function () {
                 expect(browserslist.get('ie >= 10')).to.eql(['ie 10', 'ie 11']);
+            });
+
+            it('uses case insensitive aliases', function () {
+                expect(browserslist.get('Explorer > 10')).to.eql(['ie 11']);
             });
 
             it('raises on unknown browser', function () {
@@ -92,6 +111,10 @@ describe('browserslist', function () {
 
             it('selects browser by less or equal sign', function () {
                 expect(browserslist.get('ie <= 6')).to.eql(['ie 5.5', 'ie 6']);
+            });
+
+            it('uses case insensitive aliases', function () {
+                expect(browserslist.get('Explorer < 6')).to.eql(['ie 5.5']);
             });
 
             it('raises on unknown browser', function () {
