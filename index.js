@@ -13,8 +13,13 @@ var browserslist = {
     // Converted Can I Use data
     data: { },
 
+    // Usage statistics from Can I Use
+    usage: {
+        global: { }
+    },
+
     // Default browsers query
-    defaults: ['last 2 versions', 'Firefox ESR', 'Opera 12.1'],
+    defaults: ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1'],
 
     // What browsers will be used in `last n version` query
     major: ['firefox', 'chrome',  'safari', 'ios_saf',
@@ -109,6 +114,22 @@ var browserslist = {
             }
         },
 
+        statistics: {
+            regexp: /^> (\d+(\.\d+)?)%$/,
+            select: function (popularity) {
+                popularity = parseFloat(popularity);
+                var result = [];
+
+                for ( var version in browserslist.usage.global ) {
+                    if ( browserslist.usage.global[version] > popularity ) {
+                        result.push(version);
+                    }
+                }
+
+                return result;
+            }
+        },
+
         versions: {
             regexp: /^(\w+) (>=?|<=?)\s*([\d\.]+)/,
             select: function (name, sign, version) {
@@ -163,14 +184,22 @@ var browserslist = {
 
 };
 
+var normalizeVersion = function (version) {
+    return version.split('-')[0];
+};
+
 var normalize = function (versions) {
     return versions
         .filter(function (version) {
             return typeof(version) == 'string';
         })
-        .map(function (version) {
-            return version.split('-')[0];
-        });
+        .map(normalizeVersion);
+};
+
+var fillUsage = function (result, name, data) {
+    for ( var i in data ) {
+        result[name + ' ' + normalizeVersion(i)] = data[i];
+    }
 };
 
 for ( var name in caniuse ) {
@@ -179,6 +208,7 @@ for ( var name in caniuse ) {
         versions: normalize(caniuse[name].versions),
         released: normalize(caniuse[name].versions.slice(0, -3))
     };
+    fillUsage(browserslist.usage.global, name, caniuse[name].usage_global);
 }
 
 module.exports = browserslist;

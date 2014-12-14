@@ -1,12 +1,14 @@
 var browserslist = require('../');
 var expect       = require('chai').expect;
 
-var origin = browserslist.data;
+var originData  = browserslist.data;
+var originUsage = browserslist.usage;
 
 describe('browserslist', function () {
 
     afterEach(function () {
-        browserslist.data = origin;
+        browserslist.data  = originData;
+        browserslist.usage = originUsage;
     });
 
     describe('.get()', function () {
@@ -210,6 +212,27 @@ describe('browserslist', function () {
                     .to.eql(['ie 11']);
             });
 
+        });
+
+        describe('global statistics query', function () {
+
+            beforeEach(function () {
+                browserslist.usage = {
+                    global: {
+                        'ie 9':  5,
+                        'ie 10': 10.1,
+                        'ie 11': 75
+                    }
+                };
+            });
+
+            it('selects browsers by popularity', function () {
+                expect(browserslist.get('> 10%')).to.eql(['ie 10', 'ie 11']);
+            });
+
+            it('works with float', function () {
+                expect(browserslist.get('> 10.2%')).to.eql(['ie 11']);
+            });
         });
 
     });
