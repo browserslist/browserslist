@@ -70,8 +70,8 @@ browserslist.defaults = [
 ];
 
 // What browsers will be used in `last n version` query
-browserslist.major = ['firefox', 'chrome',  'safari', 'ios_saf',
-                      'opera',   'android', 'ie',     'ie_mob'];
+browserslist.major = ['safari', 'opera', 'ios_saf', 'ie_mob', 'ie',
+                      'firefox', 'chrome'];
 
 // Browser names aliases
 browserslist.aliases = {
