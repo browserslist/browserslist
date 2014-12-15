@@ -1,10 +1,12 @@
 # Browserslist [![Build Status](https://travis-ci.org/ai/browserslist.svg)](https://travis-ci.org/ai/browserslist)
 
-Select browsers by criterions to use in tools like [Autoprefixer].
+Get a browsers list by by criterias. Useful for tools like [Autoprefixer].
 
-You can select browser versions by Can I Use data. For example, last version
-of each major browser and version, which is used more that 5% in global usage
-statistics:
+You can select browsers by passing a string. This library will use Can I Use
+data to return you a appropriate list.
+
+For example, last version of each major browser and version, which is used more
+that 5% in global usage statistics:
 
 ```js
 browserslist('> 5%, last 1 version');
@@ -12,10 +14,10 @@ browserslist('> 5%, last 1 version');
 //    'firefox 33', 'firefox 32', 'chrome 39', 'chrome 38', 'chrome 37']
 ```
 
-If you will miss argument, Browserslist will try to find `browserslist`
-config in current or parent dirs.
+if you don't provide an argument, Browserslist will look for a `browserslist`
+config file in current or parent directories.
 
-If config will be missed too, Browserslist will use default browsers list:
+If no config file is found, Browserslist will use default list.:
 `> 1%, last 2 versions, Firefox ESR, Opera 12.1`.
 
 <a href="https://evilmartians.com/?utm_source=browserslist">
@@ -77,14 +79,14 @@ var process = function (css, opts) {
 }
 ```
 
-If `opts.browsers` will be missed by user, Browserslist will try to find
-config. So you must set `path` option with processed file, to find config
-relative to this user file.
+If list is missing, Browserslist will look for a config file.
+You can provide a `path` option (that can be a file) to find config file
+relatively to it.
 
 Queries can be a string `"> 5%, last 1 version"`
 or and array `[''> 5%', 'last 1 version']`.
 
-## Config
+## Config File
 
 Browserslist’s config should has `browserslist` name and splits browsers queries
 by new line. You can write comment after `#`:
