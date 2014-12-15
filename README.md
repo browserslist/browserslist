@@ -1,9 +1,9 @@
 # Browserslist [![Build Status](https://travis-ci.org/ai/browserslist.svg)](https://travis-ci.org/ai/browserslist)
 
-Get a browsers list by by criterias. Useful for tools like [Autoprefixer].
+Get a browsers versions by by criterias. Useful for tools like [Autoprefixer].
 
 You can select browsers by passing a string. This library will use Can I Use
-data to return you a appropriate list.
+data to return you a appropriate list of all versions.
 
 For example, last version of each major browser and version, which is used more
 that 5% in global usage statistics:
