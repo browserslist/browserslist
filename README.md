@@ -2,7 +2,9 @@
 
 Select browsers by criterions to use in tools like [Autoprefixer].
 
-You can select browsers by Can I Use data:
+You can select browser versions by Can I Use data. For example, last version
+of each major browser and version, which is used more that 5% in global usage
+statistics:
 
 ```js
 browserslist('> 5%, last 1 version');
@@ -23,35 +25,6 @@ If config will be missed too, Browserslist will use default browsers list:
 [Autoprefixer]: https://github.com/postcss/autoprefixer
 [two-letter contry codes]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 
-## Usage
-
-```js
-var browserslist = require('browserslist');
-
-// Your CSS/JS build tool code
-var process = function (css, opts) {
-    var browsers = browserslist(opts.browsers, { path: opts.file });
-    // Your code to add features for selected browsers
-}
-```
-
-If `opts.browsers` will be missed by user, Browserslist will try to find
-config. So you must set `path` option with processed file, to find config
-relative to this user file.
-
-## Config
-
-Browserslist’s config should has `browserslist` name and splits browsers queries
-by new line. You can write comment after `#`:
-
-```
-# Browsers that we support
-
-> 1%
-Last 2 versions
-IE 8 # sorry
-```
-
 ## Queries
 
 You can specify the browsers by queries (case insensitive):
@@ -69,6 +42,8 @@ You can specify the browsers by queries (case insensitive):
 
 Blackberry and Android WebView will not be used in `last n versions`.
 You should add them by name.
+
+You can combine 
 
 ## Browsers
 
@@ -88,3 +63,36 @@ Names are case insensitive:
   (mostly same as common `Chrome`).
 * `FirefoxAndroid` or `and_ff` for Firefox for Android.
 * `ExplorerMobile` or `ie_mob` for Internet Explorer Mobile.
+
+
+## Usage
+
+```js
+var browserslist = require('browserslist');
+
+// Your CSS/JS build tool code
+var process = function (css, opts) {
+    var browsers = browserslist(opts.browsers, { path: opts.file });
+    // Your code to add features for selected browsers
+}
+```
+
+If `opts.browsers` will be missed by user, Browserslist will try to find
+config. So you must set `path` option with processed file, to find config
+relative to this user file.
+
+Queries can be a string `"> 5%, last 1 version"`
+or and array `[''> 5%', 'last 1 version']`.
+
+## Config
+
+Browserslist’s config should has `browserslist` name and splits browsers queries
+by new line. You can write comment after `#`:
+
+```
+# Browsers that we support
+
+> 1%
+Last 2 versions
+IE 8 # sorry
+```
