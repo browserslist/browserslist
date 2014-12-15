@@ -1,8 +1,10 @@
 # Browserslist [![Build Status](https://travis-ci.org/ai/browserslist.svg)](https://travis-ci.org/ai/browserslist)
 
-Select browsers by criterions to use in tools like [Autoprefixer].
+> Get a browsers list by by criterias. Useful for tools like [Autoprefixer].
 
-You can select browsers by Can I Use data:
+You can select browsers by passing a string. This library will use Can I Use data to return you a appropriate list.
+
+Example:
 
 ```js
 browserslist('> 5%, last 1 version');
@@ -10,20 +12,22 @@ browserslist('> 5%, last 1 version');
 //    'firefox 33', 'firefox 32', 'chrome 39', 'chrome 38', 'chrome 37']
 ```
 
-If you will miss argument, Browserslist will try to find `browserslist`
-config in current or parent dirs.
+**Important note:** _if you don't provide an argument, Browserslist will look for a `browserslist`
+config file in current or parent directories._
 
-If config will be missed too, Browserslist will use default browsers list:
+If no config file is found, Browserslist will use default list.
+
+Browserlist default list:
 `> 1%, last 2 versions, Firefox ESR, Opera 12.1`.
 
-<a href="https://evilmartians.com/?utm_source=browserslist">
-<img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54">
-</a>
+[<img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54">](https://evilmartians.com/?utm_source=browserslist)
 
 [Autoprefixer]: https://github.com/postcss/autoprefixer
 [two-letter contry codes]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 
 ## Usage
+
+### `var browsers = browserslist(list, options)`
 
 ```js
 var browserslist = require('browserslist');
@@ -35,11 +39,10 @@ var process = function (css, opts) {
 }
 ```
 
-If `opts.browsers` will be missed by user, Browserslist will try to find
-config. So you must set `path` option with processed file, to find config
-relative to this user file.
+If list is missing, Browserslist will look for a config file.
+You can provide a `path` option (that can be a file) to find config file relatively to it.
 
-## Config
+## Config file
 
 Browserslist’s config should has `browserslist` name and splits browsers queries
 by new line. You can write comment after `#`:
@@ -67,7 +70,7 @@ You can specify the browsers by queries (case insensitive):
 * `Firefox ESR`: the latest [Firefox ESR] version.
 * `iOS 7`: the browser version directly.
 
-Blackberry and Android WebView will not be used in `last n versions`.
+**Blackberry and Android WebView will not be used in `last n versions`.**
 You should add them by name.
 
 ## Browsers
