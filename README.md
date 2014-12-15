@@ -3,10 +3,10 @@
 Get a browsers list by by criterias. Useful for tools like [Autoprefixer].
 
 You can select browsers by passing a string. This library will use Can I Use
-data to return you a appropriate list.
+data to return you a appropriate list.
 
 For example, last version of each major browser and version, which is used more
-that 5% in global usage statistics:
+that 5% in global usage statistics:
 
 ```js
 browserslist('> 5%, last 1 version');
@@ -15,9 +15,9 @@ browserslist('> 5%, last 1 version');
 ```
 
 if you don't provide an argument, Browserslist will look for a `browserslist`
-config file in current or parent directories.
+config file in current or parent directories.
 
-If no config file is found, Browserslist will use default list.:
+If no config file is found, Browserslist will use default list:
 `> 1%, last 2 versions, Firefox ESR, Opera 12.1`.
 
 <a href="https://evilmartians.com/?utm_source=browserslist">
@@ -44,8 +44,6 @@ You can specify the browsers by queries (case insensitive):
 
 Blackberry and Android WebView will not be used in `last n versions`.
 You should add them by name.
-
-You can combine 
 
 ## Browsers
 
@@ -80,7 +78,7 @@ var process = function (css, opts) {
 ```
 
 If list is missing, Browserslist will look for a config file.
-You can provide a `path` option (that can be a file) to find config file
+You can provide a `path` option (that can be a file) to find config file
 relatively to it.
 
 Queries can be a string `"> 5%, last 1 version"`
