@@ -1,7 +1,7 @@
 {
     "name": "browserslist",
     "version": "0.0.1",
-    "description": "Select browsers by criterions like in Autoprefixer",
+    "description": "Get browsers versions that matches given criterias like in Autoprefixer",
     "keywords": ["caniuse", "browsers"],
     "author": "Andrey Sitnik <andrey@sitnik.ru>",
     "license": "MIT",
