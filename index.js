@@ -52,7 +52,15 @@ browserslist = function (selections, opts) {
         }
     });
 
-    return uniq(result).sort().reverse();
+    return uniq(result).sort(function (name1, name2) {
+        name1 = name1.split(' ');
+        name2 = name2.split(' ');
+        if ( name1[0] == name2[0] ) {
+            return parseFloat(name2[1]) - parseFloat(name1[1]);
+        } else {
+            return name1[0].localeCompare(name2[0]);
+        }
+    });
 };
 
 // Will be filled by Can I Use data below

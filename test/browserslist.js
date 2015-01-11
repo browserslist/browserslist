@@ -59,6 +59,11 @@ describe('browserslist', function () {
         }).not.to.throw();
     });
 
+    it('sorts browsers', function () {
+        expect(browserslist(['ff 10', 'ie 11', 'ie 6', 'ie 10', 'ff 9']))
+            .to.eql(['firefox 10', 'firefox 9', 'ie 11', 'ie 10', 'ie 6']);
+    });
+
     describe('ESR query', function () {
 
         it('selects Firefox ESR', function () {
@@ -182,17 +187,17 @@ describe('browserslist', function () {
 
         it('selects versions of each major browser', function () {
             expect(browserslist('last 2 versions'))
-                .to.eql(['ie 11', 'ie 10', 'chrome 39', 'chrome 38']);
+                .to.eql(['chrome 39', 'chrome 38', 'ie 11', 'ie 10']);
         });
 
         it('supports pluralization', function () {
             expect(browserslist('last 1 version'))
-                .to.eql(['ie 11', 'chrome 39']);
+                .to.eql(['chrome 39', 'ie 11']);
         });
 
         it('is case insensitive', function () {
             expect(browserslist('Last 01 Version'))
-                .to.eql(['ie 11', 'chrome 39']);
+                .to.eql(['chrome 39', 'ie 11']);
         });
 
     });
