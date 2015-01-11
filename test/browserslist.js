@@ -39,7 +39,7 @@ describe('browserslist', function () {
         expect(browserslist.defaults.length).to.not.be.empty();
     });
 
-    it('use default selection on empty request and no config', function () {
+    it('uses default selection on empty request and no config', function () {
         expect(browserslist())
             .to.eql(browserslist(browserslist.defaults));
     });
@@ -50,7 +50,7 @@ describe('browserslist', function () {
         }).to.throw('Unknown browser query `good`');
     });
 
-    it('use latest version when Can I Use join it', function () {
+    it('uses latest version when Can I Use join it', function () {
         expect(function () {
             browserslist('iOS 7.0');
         }).to.throw('Unknown version 7.0 of iOS');
