@@ -1,6 +1,6 @@
 # Browserslist [![Build Status](https://travis-ci.org/ai/browserslist.svg)](https://travis-ci.org/ai/browserslist)
 
-Get browsers versions that matches given criterias.
+Get browsers versions that matches given criteria.
 Useful for tools like [Autoprefixer].
 
 You can select browsers by passing a string. This library will use Can I Use
