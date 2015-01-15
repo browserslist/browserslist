@@ -26,7 +26,7 @@ If no config file is found, Browserslist will use default list:
 </a>
 
 [Autoprefixer]: https://github.com/postcss/autoprefixer
-[two-letter contry codes]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
+[two-letter country codes]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 
 ## Queries
 
@@ -35,7 +35,7 @@ You can specify the browsers by queries (case insensitive):
 * `last 2 versions`: the last 2 versions for each major browser.
 * `last 2 Chrome versions`: the last versions of a specific browser.
 * `> 5%`: versions selected by global usage statistics.
-* `> 5% in US`: uses USA usage statistics. It accepts [two-letter contry codes].
+* `> 5% in US`: uses USA usage statistics. It accepts [two-letter country codes].
 * `Firefox > 20`: versions of Firefox newer than 20.
 * `Firefox >= 20`: versions of Firefox newer than or equal to 20.
 * `Firefox < 20`: versions of Firefox less than 20.
