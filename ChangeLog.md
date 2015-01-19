@@ -1,3 +1,6 @@
+## 0.1.2
+* Do not create global `browserslist` var (by Maxime Thirouin).
+
 ## 0.1.1
 * Sort browsers by name and version.
 
