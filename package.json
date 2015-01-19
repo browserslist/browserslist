@@ -10,7 +10,7 @@
         "url":  "https://github.com/ai/browserslist.git"
     },
     "dependencies": {
-        "caniuse-db": "^1.0.30000043"
+        "caniuse-db": "^1.0.30000048"
     },
     "devDependencies": {
         "jshint-stylish": "1.0.0",
