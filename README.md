@@ -6,7 +6,8 @@ Useful for tools like [Autoprefixer].
 You can select browsers by passing a string. This library will use Can I Use
 data to return the appropriate list of all matching versions.
 
-For example, the last version of each major browser and version, with a usage of over 5% in global usage statistics:
+For example, the last version of each major browser and version,
+with a usage of over 5% in global usage statistics:
 
 ```js
 browserslist('> 5%, last 1 version');
@@ -25,7 +26,6 @@ If no config file is found, Browserslist will use the default list:
 </a>
 
 [Autoprefixer]: https://github.com/postcss/autoprefixer
-[two-letter country codes]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 
 ## Queries
 
@@ -34,7 +34,7 @@ You can specify the browsers by queries (case insensitive):
 * `last 2 versions`: the last 2 versions for each major browser.
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
 * `> 5%`: versions selected by global usage statistics.
-* `> 5% in US`: uses USA usage statistics. It accepts [two-letter country codes].
+* `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
 * `Firefox > 20`: versions of Firefox newer than 20.
 * `Firefox >= 20`: versions of Firefox newer than or equal to 20.
 * `Firefox < 20`: versions of Firefox less than 20.
@@ -44,6 +44,8 @@ You can specify the browsers by queries (case insensitive):
 
 Blackberry and Android WebView will not be used in `last n versions`.
 You should add them by name.
+
+[two-letter country codes]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 
 ## Browsers
 
@@ -86,8 +88,8 @@ or and array `['> 5%', 'last 1 version']`.
 
 ## Config File
 
-Browserslist’s config should be named `browserslist` and have browsers queries split
-by a new line. You can write a comment after `#`:
+Browserslist’s config should be named `browserslist` and have browsers queries
+split by a new line. You can write a comment after `#`:
 
 ```
 # Browsers that we support
