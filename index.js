@@ -13,7 +13,7 @@ var uniq = function (array) {
 // Return array of browsers by selection queries:
 //
 //   browserslist('IE >= 10, IE 8') //=> ['ie 11', 'ie 10', 'ie 8']
-browserslist = function (selections, opts) {
+var browserslist = function (selections, opts) {
     if ( typeof(opts) == 'undefined' ) opts = { };
 
     if ( typeof(selections) == 'undefined' || selections === null ) {
