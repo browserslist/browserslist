@@ -1,13 +1,12 @@
 # Browserslist [![Build Status](https://travis-ci.org/ai/browserslist.svg)](https://travis-ci.org/ai/browserslist)
 
-Get browsers versions that matches given criteria.
+Get browser versions that match given criteria.
 Useful for tools like [Autoprefixer].
 
 You can select browsers by passing a string. This library will use Can I Use
-data to return you a appropriate list of all versions.
+data to return the appropriate list of all matching versions.
 
-For example, last version of each major browser and version, which is used more
-that 5% in global usage statistics:
+For example, the last version of each major browser and version, with a usage of over 5% in global usage statistics:
 
 ```js
 browserslist('> 5%, last 1 version');
@@ -15,10 +14,10 @@ browserslist('> 5%, last 1 version');
 //    'firefox 33', 'firefox 32', 'chrome 39', 'chrome 38', 'chrome 37']
 ```
 
-if you don't provide an argument, Browserslist will look for a `browserslist`
-config file in current or parent directories.
+If you don't provide an argument, Browserslist will look for a `browserslist`
+config file in current or parent directories.
 
-If no config file is found, Browserslist will use default list:
+If no config file is found, Browserslist will use the default list:
 `> 1%, last 2 versions, Firefox ESR, Opera 12.1`.
 
 <a href="https://evilmartians.com/?utm_source=browserslist">
@@ -32,16 +31,16 @@ If no config file is found, Browserslist will use default list:
 
 You can specify the browsers by queries (case insensitive):
 
-* `last 2 versions`: the last 2 versions for each major browser.
-* `last 2 Chrome versions`: the last versions of a specific browser.
-* `> 5%`: versions selected by global usage statistics.
+* `last 2 versions`: the last 2 versions for each major browser.
+* `last 2 Chrome versions`: the last 2 versions of Chrome browser.
+* `> 5%`: versions selected by global usage statistics.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country codes].
 * `Firefox > 20`: versions of Firefox newer than 20.
 * `Firefox >= 20`: versions of Firefox newer than or equal to 20.
 * `Firefox < 20`: versions of Firefox less than 20.
 * `Firefox <= 20`: versions of Firefox less than or equal to 20.
 * `Firefox ESR`: the latest [Firefox ESR] version.
-* `iOS 7`: the browser version directly.
+* `iOS 7`: the iOS browser version 7 directly.
 
 Blackberry and Android WebView will not be used in `last n versions`.
 You should add them by name.
@@ -78,8 +77,8 @@ var process = function (css, opts) {
 }
 ```
 
-If list is missing, Browserslist will look for a config file.
-You can provide a `path` option (that can be a file) to find config file
+If a list is missing, Browserslist will look for a config file.
+You can provide a `path` option (that can be a file) to find the config file
 relatively to it.
 
 Queries can be a string `"> 5%, last 1 version"`
@@ -87,8 +86,8 @@ or and array `['> 5%', 'last 1 version']`.
 
 ## Config File
 
-Browserslist’s config should has `browserslist` name and splits browsers queries
-by new line. You can write comment after `#`:
+Browserslist’s config should be named `browserslist` and have browsers queries split
+by a new line. You can write a comment after `#`:
 
 ```
 # Browsers that we support
