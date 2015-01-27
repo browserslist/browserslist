@@ -95,6 +95,9 @@ browserslist.aliases = {
     firefoxandroid: 'and_ff'
 };
 
+// Aliases ot work with joined versions like `ios_saf 7.0-7.1`
+browserslist.versionAliases = { };
+
 // Get browser data by alias or case insensitive name
 browserslist.byName = function (name) {
     name = name.toLowerCase();
@@ -254,7 +257,12 @@ browserslist.queries = {
         select: function (name, version) {
             var data = browserslist.byName(name);
             if ( data.versions.indexOf(version) == -1 ) {
-                throw 'Unknown version ' + version + ' of ' + name;
+                var alias = browserslist.versionAliases[data.name][version];
+                if ( alias ) {
+                    version = alias;
+                } else {
+                    throw 'Unknown version ' + version + ' of ' + name;
+                }
             }
 
             return [data.name + ' ' + version];
@@ -267,7 +275,7 @@ browserslist.queries = {
 
 var normalizeVersion = function (version) {
     var interval = version.split('-');
-    return interval[interval.length - 1];
+    return interval[0];
 };
 
 var normalize = function (versions) {
@@ -291,6 +299,16 @@ for ( var name in caniuse ) {
         released: normalize(caniuse[name].versions.slice(0, -3))
     };
     fillUsage(browserslist.usage.global, name, caniuse[name].usage_global);
+
+    browserslist.versionAliases[name] = { };
+    for ( var i = 0; i < caniuse[name].versions.length; i++ ) {
+        if ( !caniuse[name].versions[i] ) continue;
+        var interval = caniuse[name].versions[i].split('-');
+
+        for ( var j = 1; j < interval.length; j++ ) {
+            browserslist.versionAliases[name][ interval[j] ] = interval[0];
+        }
+    }
 }
 
 module.exports = browserslist;

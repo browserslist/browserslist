@@ -50,13 +50,9 @@ describe('browserslist', function () {
         }).to.throw('Unknown browser query `good`');
     });
 
-    it('uses latest version when Can I Use join it', function () {
-        expect(function () {
-            browserslist('iOS 7.0');
-        }).to.throw('Unknown version 7.0 of iOS');
-        expect(function () {
-            browserslist('iOS 7.1');
-        }).not.to.throw();
+    it('works with joined versions from Can I Use', function () {
+        expect(browserslist('ios 7.0')).to.eql(['ios_saf 7.0']);
+        expect(browserslist('ios 7.1')).to.eql(['ios_saf 7.0']);
     });
 
     it('sorts browsers', function () {
