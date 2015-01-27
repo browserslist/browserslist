@@ -261,7 +261,16 @@ browserslist.queries = {
                 if ( alias ) {
                     version = alias;
                 } else {
-                    throw 'Unknown version ' + version + ' of ' + name;
+                    if ( version.indexOf('.') == -1 ) {
+                        alias = version + '.0';
+                    } else if ( /\.0$/.test(version) ) {
+                        alias = version.replace(/\.0$/, '');
+                    }
+                    if ( alias && data.versions.indexOf(alias) != -1 ) {
+                        version = alias;
+                    } else {
+                        throw 'Unknown version ' + version + ' of ' + name;
+                    }
                 }
             }
 

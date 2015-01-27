@@ -50,11 +50,6 @@ describe('browserslist', function () {
         }).to.throw('Unknown browser query `good`');
     });
 
-    it('works with joined versions from Can I Use', function () {
-        expect(browserslist('ios 7.0')).to.eql(['ios_saf 7.0']);
-        expect(browserslist('ios 7.1')).to.eql(['ios_saf 7.0']);
-    });
-
     it('sorts browsers', function () {
         expect(browserslist(['ff 10', 'ie 11', 'ie 6', 'ie 10', 'ff 9']))
             .to.eql(['firefox 10', 'firefox 9', 'ie 11', 'ie 10', 'ie 6']);
@@ -97,6 +92,16 @@ describe('browserslist', function () {
             expect(function () {
                 browserslist('IE 1');
             }).to.throw('Unknown version 1 of IE');
+        });
+
+        it('works with joined versions from Can I Use', function () {
+            expect(browserslist('ios 7.0')).to.eql(['ios_saf 7.0']);
+            expect(browserslist('ios 7.1')).to.eql(['ios_saf 7.0']);
+        });
+
+        it('allows to miss zero in version', function () {
+            expect(browserslist('ios 7')).to.eql(['ios_saf 7.0']);
+            expect(browserslist('ios 8.0')).to.eql(['ios_saf 8']);
         });
 
     });
