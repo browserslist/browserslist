@@ -91,7 +91,7 @@ or and array `['> 5%', 'last 1 version']`.
 Browserslist’s config should be named `browserslist` and have browsers queries
 split by a new line. You can write a comment after `#`:
 
-```
+```yaml
 # Browsers that we support
 
 > 1%
