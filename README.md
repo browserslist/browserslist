@@ -11,8 +11,8 @@ with a usage of over 5% in global usage statistics:
 
 ```js
 browserslist('> 5%, last 1 version');
-//=> ['safari 8', 'opera 26', 'ios_saf 8.1', 'ie_mob 11', 'ie 11', 'and_chr 39',
-//    'firefox 33', 'firefox 32', 'chrome 39', 'chrome 38', 'chrome 37']
+//=> ['and_chr 40', 'chrome 40', 'chrome 39', 'firefox 35', 'firefox 34',
+//    'ie 11', 'ie_mob 11', 'ios_saf 8.1', 'opera 26', 'safari 8']
 ```
 
 If you don't provide an argument, Browserslist will look for a `browserslist`
