@@ -95,12 +95,12 @@ describe('browserslist', function () {
         });
 
         it('works with joined versions from Can I Use', function () {
-            expect(browserslist('ios 7.0')).to.eql(['ios_saf 7.0']);
-            expect(browserslist('ios 7.1')).to.eql(['ios_saf 7.0']);
+            expect(browserslist('ios 7.0')).to.eql(['ios_saf 7.0-7.1']);
+            expect(browserslist('ios 7.1')).to.eql(['ios_saf 7.0-7.1']);
         });
 
         it('allows to miss zero in version', function () {
-            expect(browserslist('ios 7')).to.eql(['ios_saf 7.0']);
+            expect(browserslist('ios 7')).to.eql(['ios_saf 7.0-7.1']);
             expect(browserslist('ios 8.0')).to.eql(['ios_saf 8']);
         });
 

@@ -10,6 +10,15 @@ var uniq = function (array) {
     return filtered;
 };
 
+normalizeVersion = function (data, version) {
+    if ( data.versions.indexOf(version) != -1 ) {
+        return version;
+    } else {
+        var alias = browserslist.versionAliases[data.name][version];
+        if ( alias ) return alias;
+    }
+}
+
 // Return array of browsers by selection queries:
 //
 //   browserslist('IE >= 10, IE 8') //=> ['ie 11', 'ie 10', 'ie 8']
@@ -255,22 +264,21 @@ browserslist.queries = {
     direct: {
         regexp: /^(\w+) ([\d\.]+)$/,
         select: function (name, version) {
-            var data = browserslist.byName(name);
-            if ( data.versions.indexOf(version) == -1 ) {
-                var alias = browserslist.versionAliases[data.name][version];
+            var data  = browserslist.byName(name);
+            var alias = normalizeVersion(data, version);
+            if ( alias ) {
+                version = alias;
+            } else {
+                if ( version.indexOf('.') == -1 ) {
+                    alias = version + '.0';
+                } else if ( /\.0$/.test(version) ) {
+                    alias = version.replace(/\.0$/, '');
+                }
+                alias = normalizeVersion(data, alias);
                 if ( alias ) {
                     version = alias;
                 } else {
-                    if ( version.indexOf('.') == -1 ) {
-                        alias = version + '.0';
-                    } else if ( /\.0$/.test(version) ) {
-                        alias = version.replace(/\.0$/, '');
-                    }
-                    if ( alias && data.versions.indexOf(alias) != -1 ) {
-                        version = alias;
-                    } else {
-                        throw 'Unknown version ' + version + ' of ' + name;
-                    }
+                    throw 'Unknown version ' + version + ' of ' + name;
                 }
             }
 
@@ -282,22 +290,15 @@ browserslist.queries = {
 
 // Get and convert Can I Use data
 
-var normalizeVersion = function (version) {
-    var interval = version.split('-');
-    return interval[0];
-};
-
 var normalize = function (versions) {
-    return versions
-        .filter(function (version) {
-            return typeof(version) == 'string';
-        })
-        .map(normalizeVersion);
+    return versions.filter(function (version) {
+        return typeof(version) == 'string';
+    });
 };
 
 var fillUsage = function (result, name, data) {
     for ( var i in data ) {
-        result[name + ' ' + normalizeVersion(i)] = data[i];
+        result[name + ' ' + i] = data[i];
     }
 };
 
@@ -312,10 +313,13 @@ for ( var name in caniuse ) {
     browserslist.versionAliases[name] = { };
     for ( var i = 0; i < caniuse[name].versions.length; i++ ) {
         if ( !caniuse[name].versions[i] ) continue;
-        var interval = caniuse[name].versions[i].split('-');
+        var full = caniuse[name].versions[i];
 
-        for ( var j = 1; j < interval.length; j++ ) {
-            browserslist.versionAliases[name][ interval[j] ] = interval[0];
+        if ( full.indexOf('-') != -1 ) {
+            var interval = full.split('-');
+            for ( var j = 0; j < interval.length; j++ ) {
+                browserslist.versionAliases[name][ interval[j] ] = full;
+            }
         }
     }
 }
