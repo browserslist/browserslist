@@ -17,7 +17,7 @@ normalizeVersion = function (data, version) {
         var alias = browserslist.versionAliases[data.name][version];
         if ( alias ) return alias;
     }
-}
+};
 
 // Return array of browsers by selection queries:
 //
