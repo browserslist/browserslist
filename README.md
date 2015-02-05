@@ -84,7 +84,7 @@ You can provide a `path` option (that can be a file) to find the config file
 relatively to it.
 
 Queries can be a string `"> 5%, last 1 version"`
-or and array `['> 5%', 'last 1 version']`.
+or an array `['> 5%', 'last 1 version']`.
 
 ## Config File
 
