@@ -1,3 +1,6 @@
+## 0.3
+* Takes criterias from `BROWSERSLIST` environment variable.
+
 ## 0.2
 * Return Can I Use joined versions as `ios_saf 7.0-7.1`.
 
