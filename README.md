@@ -17,7 +17,7 @@ browserslist('last 1 version, > 5%');
 
 Browserslist will use browsers criterias from:
 
-1. First argument if it will not be `null`.
+1. First argument.
 2. `BROWSERSLIST` environment variable.
 3. `browserslist` config file in current or parent directories.
 4. If all methods will not give a result, Browserslist will use defaults:<br>
