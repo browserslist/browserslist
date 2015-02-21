@@ -10,9 +10,9 @@ For example, the last version of each major browser and versions,
 with a usage of over 5% in global usage statistics:
 
 ```js
-browserslist('> 5%, last 1 version');
+browserslist('last 1 version, > 5%');
 //=> ['and_chr 40', 'chrome 40', 'chrome 39', 'firefox 35', 'firefox 34',
-//    'ie 11', 'ie_mob 11', 'ios_saf 8.1', 'opera 26', 'safari 8']
+//    'ie 11', 'ie_mob 11', 'ios_saf 8.1', 'opera 27', 'safari 8']
 ```
 
 Browserslist will use browsers criterias from:
@@ -20,8 +20,7 @@ Browserslist will use browsers criterias from:
 1. First argument if it will not be `null`.
 2. `BROWSERSLIST` environment variable.
 3. `browserslist` config file in current or parent directories.
-4. If all methods will not give a result, Browserslist will use default value:
-
+4. If all methods will not give a result, Browserslist will use defaults:<br>
    `> 1%, last 2 versions, Firefox ESR, Opera 12.1`.
 
 <a href="https://evilmartians.com/?utm_source=browserslist">
