@@ -26,11 +26,16 @@ var browserslist = function (selections, opts) {
     if ( typeof(opts) == 'undefined' ) opts = { };
 
     if ( typeof(selections) == 'undefined' || selections === null ) {
-        var config = browserslist.readConfig(opts.path);
-        if ( config === false ) {
-            selections = browserslist.defaults;
+
+        if ( process.env.BROWSERSLIST ) {
+            selections = process.env.BROWSERSLIST;
         } else {
-            selections = config;
+            var config = browserslist.readConfig(opts.path);
+            if ( config !== false ) {
+                selections = config;
+            } else {
+                selections = browserslist.defaults;
+            }
         }
     }
 

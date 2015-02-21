@@ -15,11 +15,13 @@ browserslist('> 5%, last 1 version');
 //    'ie 11', 'ie_mob 11', 'ios_saf 8.1', 'opera 26', 'safari 8']
 ```
 
-If you don't provide an argument, Browserslist will look for a `browserslist`
-config file in current or parent directories.
+Browserslist will use browsers criterias from:
 
-If no config file is found, Browserslist will use the default list:
-`> 1%, last 2 versions, Firefox ESR, Opera 12.1`.
+1. First argument if it will not be `null`.
+2. `BROWSERSLIST` environment variable.
+3. `browserslist` config file in current or parent directories.
+4. If all methods will not give a result, Browserslist will use default value:
+   `> 1%, last 2 versions, Firefox ESR, Opera 12.1`.
 
 <a href="https://evilmartians.com/?utm_source=browserslist">
 <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54">

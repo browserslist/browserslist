@@ -12,6 +12,7 @@ describe('browserslist', function () {
     afterEach(function () {
         browserslist.data  = originData;
         browserslist.usage = originUsage;
+        delete process.env.BROWSERSLIST;
     });
 
     it('accepts array', function () {
@@ -31,7 +32,12 @@ describe('browserslist', function () {
         expect(browserslist('')).to.eql([]);
     });
 
-    it('reads config on empty request', function () {
+    it('uses environment variable on empty request', function () {
+        process.env.BROWSERSLIST = 'ie 10';
+        expect(browserslist(null, { path: config })).to.eql(['ie 10']);
+    });
+
+    it('reads config on no variable', function () {
         expect(browserslist(null, { path: config })).to.eql(['ie 11', 'ie 10']);
     });
 
