@@ -4,10 +4,10 @@ Get browser versions that match given criteria.
 Useful for tools like [Autoprefixer].
 
 You can select browsers by passing a string. This library will use Can I Use
-data to return the appropriate list of all matching versions.
+data to return the appropriate list of all matching versions.
 
-For example, the last version of each major browser and version,
-with a usage of over 5% in global usage statistics:
+For example, the last version of each major browser and versions,
+with a usage of over 5% in global usage statistics:
 
 ```js
 browserslist('> 5%, last 1 version');
@@ -21,6 +21,7 @@ Browserslist will use browsers criterias from:
 2. `BROWSERSLIST` environment variable.
 3. `browserslist` config file in current or parent directories.
 4. If all methods will not give a result, Browserslist will use default value:
+
    `> 1%, last 2 versions, Firefox ESR, Opera 12.1`.
 
 <a href="https://evilmartians.com/?utm_source=browserslist">
@@ -47,7 +48,7 @@ You can specify the browsers by queries (case insensitive):
 Blackberry and Android WebView will not be used in `last n versions`.
 You should add them by name.
 
-[two-letter country codes]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
+[two-letter country code]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 
 ## Browsers
 
