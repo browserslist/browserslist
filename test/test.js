@@ -63,7 +63,7 @@ describe('browserslist', function () {
 
     it('has actual example in README.md', function () {
         expect(browserslist('last 1 version, > 5%')).to.eql(
-            ['and_chr 40', 'chrome 40', 'chrome 39', 'firefox 35', 'firefox 34',
+            ['and_chr 40', 'chrome 40', 'chrome 39', 'firefox 36', 'firefox 34',
              'ie 11', 'ie_mob 11', 'ios_saf 8.1', 'opera 27', 'safari 8']);
     });
 
