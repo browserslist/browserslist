@@ -10,7 +10,7 @@ var uniq = function (array) {
     return filtered;
 };
 
-normalizeVersion = function (data, version) {
+var normalizeVersion = function (data, version) {
     if ( data.versions.indexOf(version) != -1 ) {
         return version;
     } else {
