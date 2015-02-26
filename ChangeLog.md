@@ -1,3 +1,6 @@
+## 0.3.1
+* Fix global variable leak (by Peter Müller).
+
 ## 0.3
 * Takes criterias from `BROWSERSLIST` environment variable.
 
