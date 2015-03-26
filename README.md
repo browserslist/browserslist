@@ -10,7 +10,7 @@ For example, the last version of each major browser and versions,
 with a usage of over 5% in global usage statistics:
 
 ```js
-browserslist('last 1 version, > 5%');
+browserslist('last 1 version', '> 5%');
 //=> ['and_chr 40', 'chrome 40', 'chrome 39', 'firefox 36', 'firefox 34',
 //    'ie 11', 'ie_mob 11', 'ios_saf 8.1', 'opera 27', 'safari 8']
 ```
