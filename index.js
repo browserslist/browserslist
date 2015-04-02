@@ -5,27 +5,18 @@ var fs      = require('fs');
 var uniq = function (array) {
     var filtered = [];
     for ( var i = 0; i < array.length; i++ ) {
-        if ( filtered.indexOf(array[i]) == -1 ) filtered.push(array[i]);
+        if ( filtered.indexOf(array[i]) === -1 ) filtered.push(array[i]);
     }
     return filtered;
-};
-
-var normalizeVersion = function (data, version) {
-    if ( data.versions.indexOf(version) != -1 ) {
-        return version;
-    } else {
-        var alias = browserslist.versionAliases[data.name][version];
-        if ( alias ) return alias;
-    }
 };
 
 // Return array of browsers by selection queries:
 //
 //   browserslist('IE >= 10, IE 8') //=> ['ie 11', 'ie 10', 'ie 8']
 var browserslist = function (selections, opts) {
-    if ( typeof(opts) == 'undefined' ) opts = { };
+    if ( typeof opts === 'undefined' ) opts = { };
 
-    if ( typeof(selections) == 'undefined' || selections === null ) {
+    if ( typeof selections === 'undefined' || selections === null ) {
 
         if ( process.env.BROWSERSLIST ) {
             selections = process.env.BROWSERSLIST;
@@ -39,7 +30,7 @@ var browserslist = function (selections, opts) {
         }
     }
 
-    if ( typeof(selections) == 'string' ) {
+    if ( typeof selections === 'string' ) {
         selections = selections.split(/,\s*/);
     }
 
@@ -69,12 +60,35 @@ var browserslist = function (selections, opts) {
     return uniq(result).sort(function (name1, name2) {
         name1 = name1.split(' ');
         name2 = name2.split(' ');
-        if ( name1[0] == name2[0] ) {
+        if ( name1[0] === name2[0] ) {
             return parseFloat(name2[1]) - parseFloat(name1[1]);
         } else {
             return name1[0].localeCompare(name2[0]);
         }
     });
+};
+
+// Helpers
+
+var normalizeVersion = function (data, version) {
+    if ( data.versions.indexOf(version) !== -1 ) {
+        return version;
+    } else {
+        var alias = browserslist.versionAliases[data.name][version];
+        if ( alias ) return alias;
+    }
+};
+
+var normalize = function (versions) {
+    return versions.filter(function (version) {
+        return typeof version === 'string';
+    });
+};
+
+var fillUsage = function (result, name, data) {
+    for ( var i in data ) {
+        result[name + ' ' + i] = data[i];
+    }
 };
 
 // Will be filled by Can I Use data below
@@ -116,8 +130,13 @@ browserslist.versionAliases = { };
 browserslist.byName = function (name) {
     name = name.toLowerCase();
     name = browserslist.aliases[name] || name;
+    return browserslist.data[name];
+};
 
-    var data = browserslist.data[name];
+// Get browser data by alias or case insensitive name and throw error
+// on unknown browser
+browserslist.checkName = function (name) {
+    var data = browserslist.byName(name);
     if ( !data ) throw 'Unknown browser ' + name;
     return data;
 };
@@ -126,10 +145,10 @@ browserslist.byName = function (name) {
 browserslist.readConfig = function (from) {
     if ( from === false )   return false;
     if ( !fs.readFileSync ) return false;
-    if ( typeof(from) == 'undefined' ) from = '.';
+    if ( typeof from === 'undefined' ) from = '.';
 
     var dirs = path.resolve(from).split(path.sep);
-    var config, stat;
+    var config;
     while ( dirs.length ) {
         config = dirs.concat(['browserslist']).join(path.sep);
 
@@ -149,10 +168,10 @@ browserslist.parseConfig = function (string) {
                  .replace(/#[^\n]*/g, '')
                  .split(/\n/)
                  .map(function (i) {
-                    return i.trim();
+                     return i.trim();
                  })
                  .filter(function (i) {
-                    return i !== '';
+                     return i !== '';
                  });
 };
 
@@ -164,6 +183,7 @@ browserslist.queries = {
             var selected = [];
             browserslist.major.forEach(function (name) {
                 var data  = browserslist.byName(name);
+                if ( !data ) return;
                 var array = data.released.slice(-versions);
 
                 array = array.map(function (v) {
@@ -178,7 +198,7 @@ browserslist.queries = {
     lastByBrowser: {
         regexp: /^last (\d+) (\w+) versions?$/i,
         select: function (versions, name) {
-            var data = browserslist.byName(name);
+            var data = browserslist.checkName(name);
             return data.released.slice(-versions).map(function (v) {
                 return data.name + ' ' + v;
             });
@@ -231,7 +251,7 @@ browserslist.queries = {
     versions: {
         regexp: /^(\w+) (>=?|<=?)\s*([\d\.]+)/,
         select: function (name, sign, version) {
-            var data = browserslist.byName(name);
+            var data = browserslist.checkName(name);
             var alias = normalizeVersion(data, version);
             if ( alias ) {
                 version = alias;
@@ -239,19 +259,19 @@ browserslist.queries = {
             version = parseFloat(version);
 
             var filter;
-            if ( sign == '>' ) {
+            if ( sign === '>' ) {
                 filter = function (v) {
                     return parseFloat(v) > version;
                 };
-            } else if ( sign == '>=' ) {
+            } else if ( sign === '>=' ) {
                 filter = function (v) {
                     return parseFloat(v) >= version;
                 };
-            } else if ( sign == '<' ) {
+            } else if ( sign === '<' ) {
                 filter = function (v) {
                     return parseFloat(v) < version;
                 };
-            } else if ( sign == '<=' ) {
+            } else if ( sign === '<=' ) {
                 filter = function (v) {
                     return parseFloat(v) <= version;
                 };
@@ -264,7 +284,7 @@ browserslist.queries = {
 
     esr: {
         regexp: /^(firefox|ff|fx) esr$/i,
-        select: function (versions) {
+        select: function () {
             return ['firefox 31'];
         }
     },
@@ -272,12 +292,12 @@ browserslist.queries = {
     direct: {
         regexp: /^(\w+) ([\d\.]+)$/,
         select: function (name, version) {
-            var data  = browserslist.byName(name);
+            var data  = browserslist.checkName(name);
             var alias = normalizeVersion(data, version);
             if ( alias ) {
                 version = alias;
             } else {
-                if ( version.indexOf('.') == -1 ) {
+                if ( version.indexOf('.') === -1 ) {
                     alias = version + '.0';
                 } else if ( /\.0$/.test(version) ) {
                     alias = version.replace(/\.0$/, '');
@@ -297,38 +317,28 @@ browserslist.queries = {
 
 // Get and convert Can I Use data
 
-var normalize = function (versions) {
-    return versions.filter(function (version) {
-        return typeof(version) == 'string';
-    });
-};
+(function () {
+    for ( var name in caniuse ) {
+        browserslist.data[name] = {
+            name:     name,
+            versions: normalize(caniuse[name].versions),
+            released: normalize(caniuse[name].versions.slice(0, -3))
+        };
+        fillUsage(browserslist.usage.global, name, caniuse[name].usage_global);
 
-var fillUsage = function (result, name, data) {
-    for ( var i in data ) {
-        result[name + ' ' + i] = data[i];
-    }
-};
+        browserslist.versionAliases[name] = { };
+        for ( var i = 0; i < caniuse[name].versions.length; i++ ) {
+            if ( !caniuse[name].versions[i] ) continue;
+            var full = caniuse[name].versions[i];
 
-for ( var name in caniuse ) {
-    browserslist.data[name] = {
-        name:     name,
-        versions: normalize(caniuse[name].versions),
-        released: normalize(caniuse[name].versions.slice(0, -3))
-    };
-    fillUsage(browserslist.usage.global, name, caniuse[name].usage_global);
-
-    browserslist.versionAliases[name] = { };
-    for ( var i = 0; i < caniuse[name].versions.length; i++ ) {
-        if ( !caniuse[name].versions[i] ) continue;
-        var full = caniuse[name].versions[i];
-
-        if ( full.indexOf('-') != -1 ) {
-            var interval = full.split('-');
-            for ( var j = 0; j < interval.length; j++ ) {
-                browserslist.versionAliases[name][ interval[j] ] = full;
+            if ( full.indexOf('-') !== -1 ) {
+                var interval = full.split('-');
+                for ( var j = 0; j < interval.length; j++ ) {
+                    browserslist.versionAliases[name][ interval[j] ] = full;
+                }
             }
         }
     }
-}
+})();
 
 module.exports = browserslist;

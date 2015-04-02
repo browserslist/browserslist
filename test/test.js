@@ -189,16 +189,10 @@ describe('browserslist', function () {
                 safari: {
                     released: []
                 },
-                ios_saf: {
-                    released: []
-                },
                 opera: {
                     released: []
                 },
                 android: {
-                    released: []
-                },
-                ie_mob: {
                     released: []
                 }
             };
