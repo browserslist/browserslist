@@ -1,3 +1,6 @@
+## 0.3.2
+* Fix joined versions on versions query (by Vincent De Oliveira).
+
 ## 0.3.1
 * Fix global variable leak (by Peter Müller).
 
