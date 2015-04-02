@@ -232,7 +232,11 @@ browserslist.queries = {
         regexp: /^(\w+) (>=?|<=?)\s*([\d\.]+)/,
         select: function (name, sign, version) {
             var data = browserslist.byName(name);
-            version  = parseFloat(version);
+            var alias = normalizeVersion(data, version);
+            if ( alias ) {
+                version = alias;
+            }
+            version = parseFloat(version);
 
             var filter;
             if ( sign == '>' ) {
@@ -252,7 +256,6 @@ browserslist.queries = {
                     return parseFloat(v) <= version;
                 };
             }
-
             return data.released.filter(filter).map(function (v) {
                 return data.name + ' ' + v;
             });
@@ -286,7 +289,6 @@ browserslist.queries = {
                     throw 'Unknown version ' + version + ' of ' + name;
                 }
             }
-
             return [data.name + ' ' + version];
         }
     }

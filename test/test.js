@@ -63,7 +63,7 @@ describe('browserslist', function () {
 
     it('has actual example in README.md', function () {
         expect(browserslist('last 1 version, > 5%')).to.eql(
-            ['and_chr 40', 'chrome 40', 'chrome 39', 'firefox 36', 'firefox 34',
+            ['and_chr 41', 'chrome 41', 'chrome 40', 'firefox 36',
              'ie 11', 'ie_mob 11', 'ios_saf 8.1', 'opera 27', 'safari 8']);
     });
 
@@ -154,6 +154,12 @@ describe('browserslist', function () {
             expect(function () {
                 browserslist('unknow > 10');
             }).to.throw('Unknown browser unknow');
+        });
+
+        it('works with joined versions from Can I Use', function () {
+            browserslist.data = originData;
+            expect(browserslist('android >= 4.2')).to.include('android 4.2-4.3');
+            expect(browserslist('android >= 4.3')).to.include('android 4.2-4.3');
         });
 
     });
