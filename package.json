@@ -10,12 +10,12 @@
         "url":  "https://github.com/ai/browserslist.git"
     },
     "dependencies": {
-        "caniuse-db": "^1.0.30000113"
+        "caniuse-db": "^1.0.30000127"
     },
     "devDependencies": {
-        "gulp-eslint": "0.6.0",
+        "gulp-eslint": "0.9.0",
         "gulp-mocha":  "2.0.1",
-        "mocha":       "2.2.1",
+        "mocha":       "2.2.4",
         "chai":        "2.2.0",
         "gulp":        "3.8.11"
     },

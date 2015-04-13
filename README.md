@@ -11,8 +11,8 @@ with a usage of over 5% in global usage statistics:
 
 ```js
 browserslist('last 1 version, > 5%');
-//=> ['and_chr 41', 'chrome 41', 'chrome 40', 'firefox 36',
-//    'ie 11', 'ie_mob 11', 'ios_saf 8.1', 'opera 27', 'safari 8']
+//=> ['and_chr 41', 'chrome 41', 'chrome 40', 'firefox 37', 'firefox 36',
+//    'ie 11', 'ie_mob 11', 'ios_saf 8.1-8.3', 'opera 27', 'safari 8']
 ```
 
 Browserslist will use browsers criterias from:
