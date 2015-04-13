@@ -1,3 +1,6 @@
+## 0.3.3
+* Fix DynJS compatibility (by Nick Howes).
+
 ## 0.3.2
 * Fix joined versions on versions query (by Vincent De Oliveira).
 
