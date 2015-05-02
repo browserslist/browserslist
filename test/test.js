@@ -5,8 +5,9 @@ var path         = require('path');
 var originData  = browserslist.data;
 var originUsage = browserslist.usage;
 
-var css = path.join(__dirname, 'fixtures', 'dir', 'test.css');
-var ies = path.join(__dirname, 'fixtures', 'explorers');
+var css  = path.join(__dirname, 'fixtures', 'dir', 'test.css');
+var ies  = path.join(__dirname, 'fixtures', 'explorers');
+var link = path.join(__dirname, 'fixtures', 'symlink');
 
 describe('browserslist', function () {
 
@@ -56,6 +57,10 @@ describe('browserslist', function () {
         expect(function () {
             browserslist(null, { config: ies + '2' });
         }).to.throw(/Can't read/);
+    });
+
+    it('reads config by symlink', function () {
+        expect(browserslist(null, { config: link })).to.eql(['ie 9', 'ie 8']);
     });
 
     it('has default selection', function () {

@@ -22,7 +22,7 @@ var browserslist = function (selections, opts) {
             selections = process.env.BROWSERSLIST;
         } else if ( opts.config || process.env.BROWSERSLIST_CONFIG ) {
             var file = opts.config || process.env.BROWSERSLIST_CONFIG;
-            if ( fs.existsSync(file) && fs.lstatSync(file).isFile() ) {
+            if ( fs.existsSync(file) && fs.statSync(file).isFile() ) {
                 selections = browserslist.parseConfig( fs.readFileSync(file) );
             } else {
                 throw 'Can\'t read ' + file + ' config';
