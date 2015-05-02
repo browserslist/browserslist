@@ -166,7 +166,7 @@ browserslist.readConfig = function (from) {
     while ( dirs.length ) {
         config = dirs.concat(['browserslist']).join(path.sep);
 
-        if ( fs.existsSync(config) && fs.lstatSync(config).isFile() ) {
+        if ( fs.existsSync(config) && fs.statSync(config).isFile() ) {
             return browserslist.parseConfig( fs.readFileSync(config) );
         }
 
