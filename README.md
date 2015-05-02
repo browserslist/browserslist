@@ -31,7 +31,7 @@ Browserslist will use browsers criterias from:
 
 ## Queries
 
-You can specify the browsers by queries (case insensitive):
+You can specify the versions by queries (case insensitive):
 
 * `last 2 versions`: the last 2 versions for each major browser.
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
@@ -46,6 +46,9 @@ You can specify the browsers by queries (case insensitive):
 
 Blackberry and Android WebView will not be used in `last n versions`.
 You should add them by name.
+
+Browserslist works with separated versions of browsers. To use all versions
+of some browsers you can use `Firefox > 0`, but it is a very bad way.
 
 [two-letter country code]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 
