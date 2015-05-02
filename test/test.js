@@ -14,6 +14,7 @@ describe('browserslist', function () {
         browserslist.data  = originData;
         browserslist.usage = originUsage;
         delete process.env.BROWSERSLIST;
+        delete process.env.BROWSERSLIST_CONFIG;
     });
 
     it('accepts array', function () {
@@ -44,6 +45,11 @@ describe('browserslist', function () {
 
     it('reads config by direct path', function () {
         expect(browserslist(null, { config: ies })).to.eql(['ie 9', 'ie 8']);
+    });
+
+    it('reads config by direct path in environment variable', function () {
+        process.env.BROWSERSLIST_CONFIG = ies;
+        expect(browserslist(null, { path: css })).to.eql(['ie 9', 'ie 8']);
     });
 
     it('throw a error on wrong path to config', function () {

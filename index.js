@@ -20,8 +20,8 @@ var browserslist = function (selections, opts) {
 
         if ( process.env.BROWSERSLIST ) {
             selections = process.env.BROWSERSLIST;
-        } else if ( opts.config ) {
-            var file = opts.config;
+        } else if ( opts.config || process.env.BROWSERSLIST_CONFIG ) {
+            var file = opts.config || process.env.BROWSERSLIST_CONFIG;
             if ( fs.existsSync(file) && fs.lstatSync(file).isFile() ) {
                 selections = browserslist.parseConfig( fs.readFileSync(file) );
             } else {
