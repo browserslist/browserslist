@@ -1,3 +1,7 @@
+## 0.4
+* Add `config` option and `BROWSERSLIST_CONFIG` environment variable support.
+* Add symlink config support.
+
 ## 0.3.3
 * Fix DynJS compatibility (by Nick Howes).
 
