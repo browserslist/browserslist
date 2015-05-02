@@ -48,7 +48,8 @@ Blackberry and Android WebView will not be used in `last n versions`.
 You should add them by name.
 
 Browserslist works with separated versions of browsers. To use all versions
-of some browsers you can use `Firefox > 0`, but it is a very bad way.
+of some browsers you can use for example `Firefox > 0`,
+but it is bad practice.
 
 [two-letter country code]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 
