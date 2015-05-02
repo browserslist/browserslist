@@ -5,7 +5,8 @@ var path         = require('path');
 var originData  = browserslist.data;
 var originUsage = browserslist.usage;
 
-var config = path.join(__dirname, 'fixtures', 'dir', 'test.css');
+var css = path.join(__dirname, 'fixtures', 'dir', 'test.css');
+var ies = path.join(__dirname, 'fixtures', 'explorers');
 
 describe('browserslist', function () {
 
@@ -34,11 +35,21 @@ describe('browserslist', function () {
 
     it('uses environment variable on empty request', function () {
         process.env.BROWSERSLIST = 'ie 10';
-        expect(browserslist(null, { path: config })).to.eql(['ie 10']);
+        expect(browserslist(null, { path: css })).to.eql(['ie 10']);
     });
 
     it('reads config on no variable', function () {
-        expect(browserslist(null, { path: config })).to.eql(['ie 11', 'ie 10']);
+        expect(browserslist(null, { path: css })).to.eql(['ie 11', 'ie 10']);
+    });
+
+    it('reads config by direct path', function () {
+        expect(browserslist(null, { config: ies })).to.eql(['ie 9', 'ie 8']);
+    });
+
+    it('throw a error on wrong path to config', function () {
+        expect(function () {
+            browserslist(null, { config: ies + '2' });
+        }).to.throw(/Can't read/);
     });
 
     it('has default selection', function () {
@@ -320,7 +331,7 @@ describe('browserslist', function () {
         });
 
         it('reads config', function () {
-            expect(browserslist.readConfig(config)).to.eql(['ie 11', 'ie 10']);
+            expect(browserslist.readConfig(css)).to.eql(['ie 11', 'ie 10']);
         });
 
     });

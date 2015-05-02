@@ -103,3 +103,5 @@ split by a new line. You can write a comment after `#`:
 Last 2 versions
 IE 8 # sorry
 ```
+
+You can specify direct path to config by `config` option.
