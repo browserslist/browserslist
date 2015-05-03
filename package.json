@@ -10,7 +10,7 @@
         "url":  "https://github.com/ai/browserslist.git"
     },
     "dependencies": {
-        "caniuse-db": "^1.0.30000153"
+        "caniuse-db": "^1.0.30000155"
     },
     "devDependencies": {
         "gulp-eslint": "0.11.1",
