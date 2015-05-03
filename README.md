@@ -1,4 +1,4 @@
-# Browserslist [![Build Status](https://travis-ci.org/ai/browserslist.svg)](https://travis-ci.org/ai/browserslist)
+# Browserslist [![Build Status][ci-img]][ci]
 
 Get browser versions that match given criteria.
 Useful for tools like [Autoprefixer].
@@ -28,6 +28,8 @@ Browserslist will use browsers criterias from:
 </a>
 
 [Autoprefixer]: https://github.com/postcss/autoprefixer
+[ci-img]:       https://travis-ci.org/ai/browserslist.svg
+[ci]:           https://travis-ci.org/ai/browserslist
 
 ## Queries
 
