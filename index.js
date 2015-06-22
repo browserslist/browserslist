@@ -262,6 +262,24 @@ browserslist.queries = {
         }
     },
 
+    range: {
+        regexp: /^(\w+) ([\d\.]+)-([\d\.]+)/i,
+        select: function (name, from, to) {
+            var data = browserslist.checkName(name);
+            from = parseFloat(normalizeVersion(data, from) || from);
+            to = parseFloat(normalizeVersion(data, to) || to);
+
+            var filter = function (v) {
+                var parsed = parseFloat(v);
+                return parsed >= from && parsed <= to;
+            };
+
+            return data.released.filter(filter).map(function (v) {
+                return data.name + ' ' + v;
+            });
+        }
+    },
+
     versions: {
         regexp: /^(\w+) (>=?|<=?)\s*([\d\.]+)/,
         select: function (name, sign, version) {
