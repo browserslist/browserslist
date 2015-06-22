@@ -1,3 +1,6 @@
+## 0.5
+* Add version ranges `IE 6-9` (by Ben Briggs).
+
 ## 0.4
 * Add `config` option and `BROWSERSLIST_CONFIG` environment variable support.
 * Add symlink config support.
