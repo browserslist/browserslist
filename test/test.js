@@ -181,8 +181,10 @@ describe('browserslist', function () {
 
         it('works with joined versions from Can I Use', function () {
             browserslist.data = originData;
-            expect(browserslist('android >= 4.2')).to.include('android 4.2-4.3');
-            expect(browserslist('android >= 4.3')).to.include('android 4.2-4.3');
+            expect(browserslist('android >= 4.2'))
+                .to.include('android 4.2-4.3');
+            expect(browserslist('android >= 4.3'))
+                .to.include('android 4.2-4.3');
         });
 
     });
