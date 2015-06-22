@@ -39,6 +39,7 @@ You can specify the versions by queries (case insensitive):
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
 * `> 5%`: versions selected by global usage statistics.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
+* `ie 6-8`: selects an inclusive range of versions.
 * `Firefox > 20`: versions of Firefox newer than 20.
 * `Firefox >= 20`: versions of Firefox newer than or equal to 20.
 * `Firefox < 20`: versions of Firefox less than 20.

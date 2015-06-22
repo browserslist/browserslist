@@ -187,6 +187,28 @@ describe('browserslist', function () {
 
     });
 
+    describe('browser n-n query', function () {
+        beforeEach(function () {
+            browserslist.data = {
+                ie: {
+                    name:      'ie',
+                    released: ['8', '9', '10', '11'],
+                    versions: ['8', '9', '10', '11', '12']
+                }
+            };
+        });
+
+        it('selects a range of browsers', function () {
+            expect(browserslist('ie 8-10')).to.eql(['ie 10', 'ie 9', 'ie 8']);
+        });
+
+        it('raises on an unknown browser', function () {
+            expect(function () {
+                browserslist('unknown 4-7');
+            }).to.throw('Unknown browser unknown');
+        });
+    });
+
     describe('last n version query', function () {
 
         beforeEach(function () {
