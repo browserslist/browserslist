@@ -9,6 +9,7 @@
         "type": "git",
         "url":  "https://github.com/ai/browserslist.git"
     },
+    "bin": "./cli.js",
     "dependencies": {
         "caniuse-db": "^1.0.30000214"
     },
