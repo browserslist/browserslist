@@ -66,6 +66,7 @@ Names are case insensitive:
 * `Chrome` for Google Chrome.
 * `Firefox` or `ff` for Mozilla Firefox.
 * `Explorer` or `ie` for Internet Explorer.
+* `Edge` for Microsoft Edge.
 * `iOS` or `ios_saf` for iOS Safari.
 * `Opera` for Opera.
 * `Safari` for desktop Safari.
