@@ -220,6 +220,11 @@ describe('browserslist', function () {
                     released: ['9', '10', '11'],
                     versions: ['9', '10', '11', '12']
                 },
+                edge: {
+                    name:      'edge',
+                    released: ['1'],
+                    versions: ['1']
+                },
                 chrome: {
                     name:      'chrome',
                     released: ['37', '38', '39'],
@@ -247,17 +252,17 @@ describe('browserslist', function () {
 
         it('selects versions of each major browser', function () {
             expect(browserslist('last 2 versions'))
-                .to.eql(['chrome 39', 'chrome 38', 'ie 11', 'ie 10']);
+                .to.eql(['chrome 39', 'chrome 38', 'edge 1', 'ie 11', 'ie 10']);
         });
 
         it('supports pluralization', function () {
             expect(browserslist('last 1 version'))
-                .to.eql(['chrome 39', 'ie 11']);
+                .to.eql(['chrome 39', 'edge 1', 'ie 11']);
         });
 
         it('is case insensitive', function () {
             expect(browserslist('Last 01 Version'))
-                .to.eql(['chrome 39', 'ie 11']);
+                .to.eql(['chrome 39', 'edge 1', 'ie 11']);
         });
 
     });
