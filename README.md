@@ -97,6 +97,23 @@ relatively to it.
 Queries can be a string `"> 5%, last 1 version"`
 or an array `['> 5%', 'last 1 version']`.
 
+## Environment Variables
+
+If some tool use Browserslist inside, you can change browsers settings
+by UNIX environment variables:
+
+* `BROWSERSLIST` with browsers queries.
+
+   ```sh
+  BROWSERSLIST="> 5%" gulp css
+   ```
+
+* `BROWSERSLIST_CONFIG` with path to config file.
+
+   ```sh
+  BROWSERSLIST_CONFIG=./config/browserslist gulp css
+   ```
+
 ## Config File
 
 Browserslist’s config should be named `browserslist` and have browsers queries
@@ -110,4 +127,9 @@ Last 2 versions
 IE 8 # sorry
 ```
 
-You can specify direct path to config by `config` option.
+Browserslist will check config in every directory in `config.path` path.
+So, if tool with Browserslist process `app/styles/main.css`, you can put
+config to root, `app/` or `app/styles`.
+
+You can specify direct path to config by `config` option
+or `BROWSERSLIST_CONFIG` environment variables.
