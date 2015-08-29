@@ -85,10 +85,9 @@ describe('browserslist', function () {
 
     it('has actual example in README.md', function () {
         expect(browserslist('last 1 version, > 5%')).to.eql(
-            ['and_chr 42', 'and_uc 9.9', 'chrome 44',
-            'chrome 43', 'edge 1', 'firefox 39',
-            'firefox 38', 'ie 11', 'ie_mob 11',
-            'ios_saf 8.1-8.4', 'opera 30', 'safari 8']);
+            ['and_chr 44', 'and_uc 9.9', 'chrome 44', 'chrome 43', 'edge 1',
+             'firefox 40', 'firefox 39', 'ie 11', 'ie_mob 11',
+             'ios_saf 8.1-8.4', 'opera 30', 'safari 8']);
     });
 
     describe('ESR query', function () {
@@ -147,7 +146,7 @@ describe('browserslist', function () {
         beforeEach(function () {
             browserslist.data = {
                 ie: {
-                    name:      'ie',
+                    name:     'ie',
                     released: ['8', '9', '10', '11'],
                     versions: ['8', '9', '10', '11', '12']
                 }
@@ -194,7 +193,7 @@ describe('browserslist', function () {
         beforeEach(function () {
             browserslist.data = {
                 ie: {
-                    name:      'ie',
+                    name:     'ie',
                     released: ['8', '9', '10', '11'],
                     versions: ['8', '9', '10', '11', '12']
                 }
@@ -217,7 +216,7 @@ describe('browserslist', function () {
         beforeEach(function () {
             browserslist.data = {
                 ie: {
-                    name:      'ie',
+                    name:     'ie',
                     released: ['9', '10', '11'],
                     versions: ['9', '10', '11', '12']
                 },
@@ -227,12 +226,12 @@ describe('browserslist', function () {
                     versions: ['1']
                 },
                 chrome: {
-                    name:      'chrome',
+                    name:     'chrome',
                     released: ['37', '38', '39'],
                     versions: ['37', '38', '39', '40']
                 },
                 blackberry: {
-                    name:      'blackberry',
+                    name:     'blackberry',
                     released: ['8'],
                     versions: []
                 },
@@ -273,7 +272,7 @@ describe('browserslist', function () {
         beforeEach(function () {
             browserslist.data = {
                 ie: {
-                    name:      'ie',
+                    name:     'ie',
                     released: ['9', '10', '11'],
                     versions: ['9', '10', '11', '12']
                 }
