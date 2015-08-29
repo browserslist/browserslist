@@ -221,7 +221,7 @@ describe('browserslist', function () {
                     versions: ['9', '10', '11', '12']
                 },
                 edge: {
-                    name:      'edge',
+                    name:     'edge',
                     released: ['1'],
                     versions: ['1']
                 },
