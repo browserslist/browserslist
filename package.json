@@ -1,26 +1,29 @@
 {
-    "name": "browserslist",
-    "version": "0.5.0",
-    "description": "Get browsers versions that matches given criterias like in Autoprefixer",
-    "keywords": ["caniuse", "browsers"],
-    "author": "Andrey Sitnik <andrey@sitnik.ru>",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url":  "https://github.com/ai/browserslist.git"
-    },
-    "bin": "./cli.js",
-    "dependencies": {
-        "caniuse-db": "^1.0.30000214"
-    },
-    "devDependencies": {
-        "gulp-eslint": "0.14.0",
-        "gulp-mocha":  "2.1.2",
-        "mocha":       "2.2.5",
-        "chai":        "3.0.0",
-        "gulp":        "3.9.0"
-    },
-    "scripts": {
-        "test": "gulp"
-    }
+  "name": "browserslist",
+  "version": "0.5.0",
+  "description": "Get browsers versions that matches given criterias like in Autoprefixer",
+  "keywords": [
+    "caniuse",
+    "browsers"
+  ],
+  "author": "Andrey Sitnik <andrey@sitnik.ru>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url":  "https://github.com/ai/browserslist.git"
+  },
+  "dependencies": {
+    "caniuse-db": "^1.0.30000214"
+  },
+  "bin": "./cli.js",
+  "devDependencies": {
+    "gulp-eslint": "0.14.0",
+    "gulp-mocha":  "2.1.2",
+    "mocha":       "2.2.5",
+    "chai":        "3.0.0",
+    "gulp":        "3.9.0"
+  },
+  "scripts": {
+    "test": "gulp"
+  }
 }
