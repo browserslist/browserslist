@@ -22,7 +22,7 @@ Browserslist will use browsers criterias from:
 2. `BROWSERSLIST` environment variable.
 3. `browserslist` config file in current or parent directories.
 4. If all methods will not give a result, Browserslist will use defaults:<br>
-   `> 1%, last 2 versions, Firefox ESR, Opera 12.1`.
+   `> 1%, last 2 versions, Firefox ESR`.
 
 <a href="https://evilmartians.com/?utm_source=browserslist">
 <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54">

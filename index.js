@@ -144,8 +144,7 @@ browserslist.usage = {
 browserslist.defaults = [
     '> 1%',
     'last 2 versions',
-    'Firefox ESR',
-    'Opera 12.1'
+    'Firefox ESR'
 ];
 
 // What browsers will be used in `last n version` query
