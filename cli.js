@@ -8,23 +8,18 @@ function isArg(arg) {
     return args.indexOf(arg) >= 0;
 }
 
-if ( args.length === 0 || isArg('--help') >= 0 || isArg('-h') >= 0 ) {
-    console.log([
+if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
+    process.stdout.write([
+        pkg.description,
         '',
-        pkg.name + ' - ' + pkg.description,
-        '',
-        'Usage:',
-        '',
-        '  ' + pkg.name + ' query ...'
-    ].join('\n'));
-    return;
-}
+        'Usage: ' + pkg.name + ' QUERY'
+    ].join('\n') + '\n');
 
-if ( args.indexOf('--version') >= 0 ) {
-    console.log(pkg.version);
-    return;
-}
+} else if ( isArg('--version') ) {
+    process.stdout.write(pkg.name + ' ' + pkg.version + '\n');
 
-browserslist(args).forEach(function (browser) {
-    console.log(browser);
-});
+} else {
+    browserslist(args).forEach(function (browser) {
+        process.stdout.write(browser + '\n');
+    });
+}
