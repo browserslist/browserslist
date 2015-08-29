@@ -134,3 +134,9 @@ relatively to it.
 
 Queries can be a string `"> 5%, last 1 version"`
 or an array `['> 5%', 'last 1 version']`.
+
+For non-JS environment and debug purpose you can use CLI tool:
+
+```sh
+browserslist "> 1%" "last 2 version"
+```

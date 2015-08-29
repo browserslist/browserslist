@@ -12,7 +12,7 @@ if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
     process.stdout.write([
         pkg.description,
         '',
-        'Usage: ' + pkg.name + ' QUERY'
+        'Usage: ' + pkg.name + ' QUERY [QUERY...]'
     ].join('\n') + '\n');
 
 } else if ( isArg('--version') ) {
