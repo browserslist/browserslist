@@ -58,7 +58,7 @@ var browserslist = function (selections, opts) {
 
     var result = [];
 
-    var query, match, array, used;
+    var exclude, query, match, array, used;
     selections.forEach(function (selection) {
         if ( selection.trim() === '' ) return;
         exclude = false;
@@ -75,8 +75,8 @@ var browserslist = function (selections, opts) {
             if ( match ) {
                 array = query.select.apply(browserslist, match.slice(1));
                 if ( exclude ) {
-                    result = result.filter(function (i) {
-                        return array.indexOf(i) === -1;
+                    result = result.filter(function (j) {
+                        return array.indexOf(j) === -1;
                     });
                 } else {
                     result = result.concat(array);
