@@ -25,7 +25,7 @@ var browserslist = function (selections, opts) {
             if ( fs.existsSync(file) && fs.statSync(file).isFile() ) {
                 selections = browserslist.parseConfig( fs.readFileSync(file) );
             } else {
-                throw 'Can\'t read ' + file + ' config';
+                throw new Error('Can\'t read ' + file + ' config');
             }
         } else {
             var config = browserslist.readConfig(opts.path);
@@ -60,7 +60,7 @@ var browserslist = function (selections, opts) {
         }
 
         if ( !used ) {
-            throw 'Unknown browser query `' + selection + '`';
+            throw new Error('Unknown browser query `' + selection + '`');
         }
     });
 
@@ -151,7 +151,7 @@ browserslist.byName = function (name) {
 // on unknown browser
 browserslist.checkName = function (name) {
     var data = browserslist.byName(name);
-    if ( !data ) throw 'Unknown browser ' + name;
+    if ( !data ) throw new Error('Unknown browser ' + name);
     return data;
 };
 
@@ -179,14 +179,13 @@ browserslist.readConfig = function (from) {
 // Return array of queries from config content
 browserslist.parseConfig = function (string) {
     return string.toString()
-                 .replace(/#[^\n]*/g, '')
-                 .split(/\n/)
-                 .map(function (i) {
-                     return i.trim();
-                 })
-                 .filter(function (i) {
-                     return i !== '';
-                 });
+            .replace(/#[^\n]*/g, '')
+            .split(/\n/)
+            .map(function (i) {
+                return i.trim();
+            }).filter(function (i) {
+                return i !== '';
+            });
 };
 
 browserslist.queries = {
@@ -338,7 +337,8 @@ browserslist.queries = {
                 if ( alias ) {
                     version = alias;
                 } else {
-                    throw 'Unknown version ' + version + ' of ' + name;
+                    throw new Error(
+                        'Unknown version ' + version + ' of ' + name);
                 }
             }
             return [data.name + ' ' + version];
@@ -366,11 +366,11 @@ browserslist.queries = {
             if ( full.indexOf('-') !== -1 ) {
                 var interval = full.split('-');
                 for ( var j = 0; j < interval.length; j++ ) {
-                    browserslist.versionAliases[name][ interval[j] ] = full;
+                    browserslist.versionAliases[name][interval[j]] = full;
                 }
             }
         }
     }
-})();
+}());
 
 module.exports = browserslist;
