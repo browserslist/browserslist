@@ -61,14 +61,26 @@ var browserslist = function (selections, opts) {
     var query, match, array, used;
     selections.forEach(function (selection) {
         if ( selection.trim() === '' ) return;
-        used = false;
+        exclude = false;
+        used    = false;
+
+        if ( selection.indexOf('not ') === 0 ) {
+            selection = selection.slice(4);
+            exclude   = true;
+        }
 
         for ( var i in browserslist.queries ) {
             query = browserslist.queries[i];
             match = selection.match(query.regexp);
             if ( match ) {
-                array  = query.select.apply(browserslist, match.slice(1));
-                result = result.concat(array);
+                array = query.select.apply(browserslist, match.slice(1));
+                if ( exclude ) {
+                    result = result.filter(function (i) {
+                        return array.indexOf(i) === -1;
+                    });
+                } else {
+                    result = result.concat(array);
+                }
                 used   = true;
                 break;
             }

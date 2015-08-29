@@ -101,6 +101,11 @@ describe('browserslist', function () {
         expect(error.stack).to.exist;
     });
 
+    it('excludes queries', function () {
+        expect(browserslist(['ie >= 9', 'not ie 11', 'not ie 10', 'ie 10']))
+            .to.eql(['ie 10', 'ie 9']);
+    });
+
     describe('ESR query', function () {
 
         it('selects Firefox ESR', function () {

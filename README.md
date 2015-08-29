@@ -47,6 +47,8 @@ You can specify the versions by queries (case insensitive):
 * `Firefox <= 20`: versions of Firefox less than or equal to 20.
 * `Firefox ESR`: the latest [Firefox ESR] version.
 * `iOS 7`: the iOS browser version 7 directly.
+* `not ie <= 8`: exclude browsers selected before by this query.
+  You can add `not ` to any query.
 
 Blackberry and Android WebView will not be used in `last n versions`.
 You should add them by name.
