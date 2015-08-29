@@ -4,7 +4,11 @@ var browserslist = require('./');
 var pkg          = require('./package.json');
 var args         = process.argv.slice(2);
 
-if ( args.length <= 0 || args.indexOf('--help') >= 0 ) {
+function isArg(arg) {
+    return args.indexOf(arg) >= 0;
+}
+
+if ( args.length === 0 || isArg('--help') >= 0 || isArg('-h') >= 0 ) {
     console.log([
         '',
         pkg.name + ' - ' + pkg.description,
