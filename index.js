@@ -12,7 +12,7 @@ function uniq(array) {
 
 function BrowserslistError(message) {
     this.name = 'BrowserslistError';
-    this.message = (message || '');
+    this.message = message || '';
     if ( Error.captureStackTrace ) {
         Error.captureStackTrace(this, BrowserslistError);
     }
@@ -20,9 +20,9 @@ function BrowserslistError(message) {
 BrowserslistError.prototype = Error.prototype;
 
 function error(name) {
-    var error = new BrowserslistError(name);
-    error.browserslist = true;
-    throw error;
+    var obj = new BrowserslistError(name);
+    obj.browserslist = true;
+    throw obj;
 }
 
 // Return array of browsers by selection queries:
