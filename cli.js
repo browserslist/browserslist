@@ -19,7 +19,16 @@ if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
     process.stdout.write(pkg.name + ' ' + pkg.version + '\n');
 
 } else {
-    browserslist(args).forEach(function (browser) {
-        process.stdout.write(browser + '\n');
-    });
+    try {
+        browserslist(args).forEach(function (browser) {
+            process.stdout.write(browser + '\n');
+        });
+    } catch (e) {
+        if ( e.name === 'BrowserslistError' ) {
+            process.stderr.write(pkg.name + ': ' + e.message + '\n');
+            process.exit(1);
+        } else {
+            throw e;
+        }
+    }
 }
