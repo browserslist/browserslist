@@ -56,7 +56,7 @@ describe('browserslist', function () {
     it('throw a error on wrong path to config', function () {
         expect(function () {
             browserslist(null, { config: ies + '2' });
-        }).to.throw(/Can't read/);
+        }).to.throw(browserslist.Error, /Can't read/);
     });
 
     it('reads config by symlink', function () {
@@ -75,7 +75,7 @@ describe('browserslist', function () {
     it('raises on unknow query', function () {
         expect(function () {
             browserslist('good');
-        }).to.throw('Unknown browser query `good`');
+        }).to.throw(browserslist.Error, 'Unknown browser query `good`');
     });
 
     it('sorts browsers', function () {
@@ -88,6 +88,17 @@ describe('browserslist', function () {
             ['and_chr 44', 'and_uc 9.9', 'chrome 44', 'chrome 43', 'edge 1',
              'firefox 40', 'firefox 39', 'ie 11', 'ie_mob 11',
              'ios_saf 8.1-8.4', 'opera 30', 'safari 8']);
+    });
+
+    it('throws custom error', function () {
+        var error;
+        try {
+            browserslist('wrong');
+        } catch (e) {
+            error = e;
+        }
+        expect(error.name).to.eql('BrowserslistError');
+        expect(error.stack).to.exist;
     });
 
     describe('ESR query', function () {
@@ -120,13 +131,13 @@ describe('browserslist', function () {
         it('raises on unknown name', function () {
             expect(function () {
                 browserslist('unknow 10');
-            }).to.throw('Unknown browser unknow');
+            }).to.throw(browserslist.Error, 'Unknown browser unknow');
         });
 
         it('raises on unknown version', function () {
             expect(function () {
                 browserslist('IE 1');
-            }).to.throw('Unknown version 1 of IE');
+            }).to.throw(browserslist.Error, 'Unknown version 1 of IE');
         });
 
         it('works with joined versions from Can I Use', function () {
@@ -176,7 +187,7 @@ describe('browserslist', function () {
         it('raises on unknown browser', function () {
             expect(function () {
                 browserslist('unknow > 10');
-            }).to.throw('Unknown browser unknow');
+            }).to.throw(browserslist.Error, 'Unknown browser unknow');
         });
 
         it('works with joined versions from Can I Use', function () {
@@ -207,7 +218,7 @@ describe('browserslist', function () {
         it('raises on an unknown browser', function () {
             expect(function () {
                 browserslist('unknown 4-7');
-            }).to.throw('Unknown browser unknown');
+            }).to.throw(browserslist.Error, 'Unknown browser unknown');
         });
     });
 

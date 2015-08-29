@@ -2,13 +2,28 @@ var caniuse = require('caniuse-db/data').agents;
 var path    = require('path');
 var fs      = require('fs');
 
-var uniq = function (array) {
+function uniq(array) {
     var filtered = [];
     for ( var i = 0; i < array.length; i++ ) {
         if ( filtered.indexOf(array[i]) === -1 ) filtered.push(array[i]);
     }
     return filtered;
-};
+}
+
+function BrowserslistError(message) {
+    this.name = 'BrowserslistError';
+    this.message = (message || '');
+    if ( Error.captureStackTrace ) {
+        Error.captureStackTrace(this, BrowserslistError);
+    }
+}
+BrowserslistError.prototype = Error.prototype;
+
+function error(name) {
+    var error = new BrowserslistError(name);
+    error.browserslist = true;
+    throw error;
+}
 
 // Return array of browsers by selection queries:
 //
@@ -25,7 +40,7 @@ var browserslist = function (selections, opts) {
             if ( fs.existsSync(file) && fs.statSync(file).isFile() ) {
                 selections = browserslist.parseConfig( fs.readFileSync(file) );
             } else {
-                throw new Error('Can\'t read ' + file + ' config');
+                error('Can\'t read ' + file + ' config');
             }
         } else {
             var config = browserslist.readConfig(opts.path);
@@ -60,7 +75,7 @@ var browserslist = function (selections, opts) {
         }
 
         if ( !used ) {
-            throw new Error('Unknown browser query `' + selection + '`');
+            error('Unknown browser query `' + selection + '`');
         }
     });
 
@@ -104,6 +119,8 @@ var fillUsage = function (result, name, data) {
         result[name + ' ' + i] = data[i];
     }
 };
+
+browserslist.Error = BrowserslistError;
 
 // Will be filled by Can I Use data below
 browserslist.data  = { };
@@ -151,7 +168,7 @@ browserslist.byName = function (name) {
 // on unknown browser
 browserslist.checkName = function (name) {
     var data = browserslist.byName(name);
-    if ( !data ) throw new Error('Unknown browser ' + name);
+    if ( !data ) error('Unknown browser ' + name);
     return data;
 };
 
@@ -337,8 +354,7 @@ browserslist.queries = {
                 if ( alias ) {
                     version = alias;
                 } else {
-                    throw new Error(
-                        'Unknown version ' + version + ' of ' + name);
+                    error('Unknown version ' + version + ' of ' + name);
                 }
             }
             return [data.name + ' ' + version];
