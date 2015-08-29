@@ -77,43 +77,6 @@ Names are case insensitive:
 * `FirefoxAndroid` or `and_ff` for Firefox for Android.
 * `ExplorerMobile` or `ie_mob` for Internet Explorer Mobile.
 
-
-## Usage
-
-```js
-var browserslist = require('browserslist');
-
-// Your CSS/JS build tool code
-var process = function (css, opts) {
-    var browsers = browserslist(opts.browsers, { path: opts.file });
-    // Your code to add features for selected browsers
-}
-```
-
-If a list is missing, Browserslist will look for a config file.
-You can provide a `path` option (that can be a file) to find the config file
-relatively to it.
-
-Queries can be a string `"> 5%, last 1 version"`
-or an array `['> 5%', 'last 1 version']`.
-
-## Environment Variables
-
-If some tool use Browserslist inside, you can change browsers settings
-by UNIX environment variables:
-
-* `BROWSERSLIST` with browsers queries.
-
-   ```sh
-  BROWSERSLIST="> 5%" gulp css
-   ```
-
-* `BROWSERSLIST_CONFIG` with path to config file.
-
-   ```sh
-  BROWSERSLIST_CONFIG=./config/browserslist gulp css
-   ```
-
 ## Config File
 
 Browserslist’s config should be named `browserslist` and have browsers queries
@@ -133,3 +96,41 @@ config to root, `app/` or `app/styles`.
 
 You can specify direct path to config by `config` option
 or `BROWSERSLIST_CONFIG` environment variables.
+
+## Environment Variables
+
+If some tool use Browserslist inside, you can change browsers settings
+by [environment variables]:
+
+* `BROWSERSLIST` with browsers queries.
+
+   ```sh
+  BROWSERSLIST="> 5%" gulp css
+   ```
+
+* `BROWSERSLIST_CONFIG` with path to config file.
+
+   ```sh
+  BROWSERSLIST_CONFIG=./config/browserslist gulp css
+   ```
+
+[environment variables]: https://en.wikipedia.org/wiki/Environment_variable
+
+## Usage
+
+```js
+var browserslist = require('browserslist');
+
+// Your CSS/JS build tool code
+var process = function (css, opts) {
+    var browsers = browserslist(opts.browsers, { path: opts.file });
+    // Your code to add features for selected browsers
+}
+```
+
+If a list is missing, Browserslist will look for a config file.
+You can provide a `path` option (that can be a file) to find the config file
+relatively to it.
+
+Queries can be a string `"> 5%, last 1 version"`
+or an array `['> 5%', 'last 1 version']`.
