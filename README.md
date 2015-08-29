@@ -138,5 +138,5 @@ or an array `['> 5%', 'last 1 version']`.
 For non-JS environment and debug purpose you can use CLI tool:
 
 ```sh
-browserslist "> 1%" "last 2 version"
+browserslist "> 1%, last 2 version"
 ```

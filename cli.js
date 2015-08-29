@@ -12,7 +12,7 @@ if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
     process.stdout.write([
         pkg.description,
         '',
-        'Usage: ' + pkg.name + ' QUERY [QUERY...]'
+        'Usage: ' + pkg.name + ' "QUERIES"'
     ].join('\n') + '\n');
 
 } else if ( isArg('--version') ) {
@@ -20,7 +20,7 @@ if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
 
 } else {
     try {
-        browserslist(args).forEach(function (browser) {
+        browserslist(args[0]).forEach(function (browser) {
             process.stdout.write(browser + '\n');
         });
     } catch (e) {
