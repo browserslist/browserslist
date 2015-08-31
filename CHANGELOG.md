@@ -1,5 +1,6 @@
 ## 1.0
 * Remove Opera 12.1 from default query.
+* Add `not` keywork and exclude browsers by query.
 * Add Microsoft Edge support (by Andrey Polischuk).
 * Add CLI for debug and non-JS usage (by Luke Horvat).
 * Use own class in Browserslist errors.
