@@ -109,7 +109,7 @@ describe('browserslist', function () {
     describe('ESR query', function () {
 
         it('selects Firefox ESR', function () {
-            expect(browserslist('Firefox ESR')).to.eql(['firefox 31']);
+            expect(browserslist('Firefox ESR')).to.eql(['firefox 38']);
         });
 
         it('uses case insensitive aliases', function () {
