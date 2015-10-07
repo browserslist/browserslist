@@ -1,5 +1,5 @@
 ## 1.0.1
-* Update Firefox ESR.
+* Update Firefox ESR (by Rouven Weßling).
 
 ## 1.0
 * Remove Opera 12.1 from default query.
