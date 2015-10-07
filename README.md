@@ -7,13 +7,12 @@ You can select browsers by passing a string. This library will use Can I Use
 data to return the appropriate list of all matching versions.
 
 For example, the last version of each major browser and versions,
-with a usage of over 5% in global usage statistics:
+with a usage of over 10% in global usage statistics:
 
 ```js
-browserslist('last 1 version, > 5%');
-//=> ['and_chr 44', 'and_uc 9.9', 'chrome 44', 'chrome 43', 'edge 1',
-//    'firefox 40', 'firefox 39', 'ie 11', 'ie_mob 11', 'ios_saf 8.1-8.4',
-//    'opera 30', 'safari 8']
+browserslist('last 1 version, > 10%');
+//=> ['and_chr 45', 'chrome 45', 'edge 12', 'firefox 41', 'ie 11', 'ie_mob 11',
+//    'ios_saf 9', 'opera 32', 'safari 9']
 ```
 
 Browserslist will use browsers criterias from:

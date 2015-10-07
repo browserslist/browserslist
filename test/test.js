@@ -64,7 +64,7 @@ describe('browserslist', function () {
     });
 
     it('has default selection', function () {
-        expect(browserslist.defaults.length).to.not.be.empty;
+        expect(browserslist.defaults).to.not.be.empty;
     });
 
     it('uses default selection on empty request and no config', function () {
@@ -84,10 +84,9 @@ describe('browserslist', function () {
     });
 
     it('has actual example in README.md', function () {
-        expect(browserslist('last 1 version, > 5%')).to.eql(
-            ['and_chr 44', 'and_uc 9.9', 'chrome 44', 'chrome 43', 'edge 1',
-             'firefox 40', 'firefox 39', 'ie 11', 'ie_mob 11',
-             'ios_saf 8.1-8.4', 'opera 30', 'safari 8']);
+        expect(browserslist('last 1 version, > 10%')).to.eql(
+            ['and_chr 45', 'chrome 45', 'edge 12', 'firefox 41',
+             'ie 11', 'ie_mob 11', 'ios_saf 9', 'opera 32', 'safari 9']);
     });
 
     it('throws custom error', function () {
