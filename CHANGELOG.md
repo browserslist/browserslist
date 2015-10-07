@@ -1,3 +1,6 @@
+## 1.0.1
+* Update Firefox ESR.
+
 ## 1.0
 * Remove Opera 12.1 from default query.
 * Add `not` keyword and exclude browsers by query.
