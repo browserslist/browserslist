@@ -6,14 +6,17 @@ Useful for tools like [Autoprefixer].
 You can select browsers by passing a string. This library will use Can I Use
 data to return the appropriate list of all matching versions.
 
-For example, the last version of each major browser and versions,
-with a usage of over 10% in global usage statistics:
+For example, to select all browser versions that are the last version of each
+major browser, or have a usage of over 10% in global usage statistics:
 
 ```js
 browserslist('last 1 version, > 10%');
 //=> ['and_chr 45', 'chrome 45', 'edge 12', 'firefox 41', 'ie 11', 'ie_mob 11',
 //    'ios_saf 9', 'opera 32', 'safari 9']
 ```
+
+Multiple criteria are combined as a boolean OR. In other words, a browser
+version must match at least one of the criteria to be selected.
 
 Browserslist will use browsers criterias from:
 
