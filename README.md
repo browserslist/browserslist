@@ -11,7 +11,7 @@ major browser, or have a usage of over 10% in global usage statistics:
 
 ```js
 browserslist('last 1 version, > 10%');
-//=> ['and_chr 46', 'chrome 46','chrome 45', 'edge 12', 'firefox 41'
+//=> ['and_chr 46', 'chrome 46', 'chrome 45', 'edge 12', 'firefox 41'
 //    'ie 11', 'ie_mob 11', 'ios_saf 9', 'opera 32', 'safari 9']
 ```
 
