@@ -163,7 +163,7 @@ describe('browserslist', function () {
                 ie: {
                     name:     'ie',
                     released: ['8', '9', '10', '11'],
-                    versions: ['8', '9', '10', '11', '12']
+                    versions: ['8', '9', '10', '11']
                 }
             };
         });
@@ -210,7 +210,7 @@ describe('browserslist', function () {
                 ie: {
                     name:     'ie',
                     released: ['8', '9', '10', '11'],
-                    versions: ['8', '9', '10', '11', '12']
+                    versions: ['8', '9', '10', '11']
                 }
             };
         });
@@ -233,12 +233,12 @@ describe('browserslist', function () {
                 ie: {
                     name:     'ie',
                     released: ['9', '10', '11'],
-                    versions: ['9', '10', '11', '12']
+                    versions: ['9', '10', '11']
                 },
                 edge: {
                     name:     'edge',
-                    released: ['1'],
-                    versions: ['1']
+                    released: ['12'],
+                    versions: ['12', '13']
                 },
                 chrome: {
                     name:     'chrome',
@@ -267,17 +267,17 @@ describe('browserslist', function () {
 
         it('selects versions of each major browser', function () {
             expect(browserslist('last 2 versions'))
-                .to.eql(['chrome 39', 'chrome 38', 'edge 1', 'ie 11', 'ie 10']);
+                .to.eql(['chrome 39', 'chrome 38', 'edge 12', 'ie 11', 'ie 10']);
         });
 
         it('supports pluralization', function () {
             expect(browserslist('last 1 version'))
-                .to.eql(['chrome 39', 'edge 1', 'ie 11']);
+                .to.eql(['chrome 39', 'edge 12', 'ie 11']);
         });
 
         it('is case insensitive', function () {
             expect(browserslist('Last 01 Version'))
-                .to.eql(['chrome 39', 'edge 1', 'ie 11']);
+                .to.eql(['chrome 39', 'edge 12', 'ie 11']);
         });
 
     });
@@ -289,7 +289,7 @@ describe('browserslist', function () {
                 ie: {
                     name:     'ie',
                     released: ['9', '10', '11'],
-                    versions: ['9', '10', '11', '12']
+                    versions: ['9', '10', '11']
                 }
             };
         });
