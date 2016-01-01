@@ -389,12 +389,14 @@ browserslist.queries = {
             }
             for ( var name in data ) {
                 for ( var version in data[name] ) {
-                    // See caniuse-db/CONTRIBUTING.md for details on the support string format.
-                    // 'y' means supported, 'a' means partially supported, and the rest we don't care about
+                    // See caniuse-db/CONTRIBUTING.md for details on the
+                    // support string format. 'y' means supported, 'a' means
+                    // partially supported, and the rest we don't care about
                     // (vendor prefix needed, unknown support, no support, etc)
                     var support = data[name][version].split(' ');
                     for ( var i = 0; i < support.length; i++ ) {
-                        if (support[i] === 'y' || (support[i] === 'a' && !fullSupportRequired)) {
+                        if (support[i] === 'y' ||
+                            support[i] === 'a' && !fullSupportRequired) {
                             result.push(name + ' ' + version);
                             break;
                         }

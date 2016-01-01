@@ -365,14 +365,14 @@ describe('browserslist', function () {
         beforeEach(function () {
             browserslist.features = {
                 websockets: {
-                    'ie': {
-                        '5':  'u',
-                        '6':  'n',
-                        '7':  'd',
-                        '8':  'a x #1',
-                        '9':  'a',
-                        '10': '#2 y',
-                        '11': 'y'
+                    ie: {
+                        5:  'u',
+                        6:  'n',
+                        7:  'd',
+                        8:  'a x #1',
+                        9:  'a',
+                        10: '#2 y',
+                        11: 'y'
                     }
                 }
             };
