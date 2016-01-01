@@ -360,6 +360,44 @@ describe('browserslist', function () {
 
     });
 
+    describe('feature query', function () {
+
+        beforeEach(function () {
+            browserslist.features = {
+                websockets: {
+                    'ie': {
+                        '5':  'u',
+                        '6':  'n',
+                        '7':  'd',
+                        '8':  'a x #1',
+                        '9':  'a',
+                        '10': '#2 y',
+                        '11': 'y'
+                    }
+                }
+            };
+        });
+
+        it('selects browsers which support a feature', function () {
+            var result = ['ie 11', 'ie 10', 'ie 9', 'ie 8'];
+            expect(browserslist('support websockets')).to.eql(result);
+            expect(browserslist('supports websockets')).to.eql(result);
+        });
+
+        it('selects browsers which completely support a feature', function () {
+            var result = ['ie 11', 'ie 10'];
+            expect(browserslist('full support websockets')).to.eql(result);
+            expect(browserslist('fully support websockets')).to.eql(result);
+            expect(browserslist('fully supports websockets')).to.eql(result);
+        });
+
+        it('raises on an unknown feature', function () {
+            expect(function () {
+                browserslist('supports potato-cannon');
+            }).to.throw(browserslist.Error, 'Unknown feature potato-cannon');
+        });
+    });
+
     describe('.parseConfig()', function () {
 
         it('parses queries', function () {

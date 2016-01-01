@@ -139,6 +139,7 @@ browserslist.data  = { };
 browserslist.usage = {
     global: { }
 };
+browserslist.features = { };
 
 // Default browsers query
 browserslist.defaults = [
@@ -369,6 +370,38 @@ browserslist.queries = {
                 }
             }
             return [data.name + ' ' + version];
+        }
+    },
+
+    feature: {
+        regexp: /^(fully? )?supports? ([a-zA-Z0-9-]+)$/i,
+        select: function (fullSupportRequired, feature) {
+            feature = feature.toLowerCase();
+            var result = [];
+            var data = browserslist.features[feature];
+            if ( !data ) {
+                try {
+                    data = require('caniuse-db/features-json/' + feature).stats;
+                    browserslist.features[feature] = data;
+                } catch (e) {
+                    error('Unknown feature ' + feature);
+                }
+            }
+            for ( var name in data ) {
+                for ( var version in data[name] ) {
+                    // See caniuse-db/CONTRIBUTING.md for details on the support string format.
+                    // 'y' means supported, 'a' means partially supported, and the rest we don't care about
+                    // (vendor prefix needed, unknown support, no support, etc)
+                    var support = data[name][version].split(' ');
+                    for ( var i = 0; i < support.length; i++ ) {
+                        if (support[i] === 'y' || (support[i] === 'a' && !fullSupportRequired)) {
+                            result.push(name + ' ' + version);
+                            break;
+                        }
+                    }
+                }
+            }
+            return result;
         }
     }
 
