@@ -11,8 +11,8 @@ major browser, or have a usage of over 10% in global usage statistics:
 
 ```js
 browserslist('last 1 version, > 10%');
-//=> ['and_chr 46', 'chrome 46', 'chrome 45', 'edge 12', 'firefox 41'
-//    'ie 11', 'ie_mob 11', 'ios_saf 9', 'opera 32', 'safari 9']
+//=> ['and_chr 47', 'chrome 47', 'chrome 46', 'edge 13', 'firefox 43',
+//    'ie 11', 'ie_mob 11', 'ios_saf 9.0-9.2', 'opera 34', 'safari 9']
 ```
 
 Multiple criteria are combined as a boolean OR. In other words, a browser
@@ -49,8 +49,12 @@ You can specify the versions by queries (case insensitive):
 * `Firefox <= 20`: versions of Firefox less than or equal to 20.
 * `Firefox ESR`: the latest [Firefox ESR] version.
 * `iOS 7`: the iOS browser version 7 directly.
+* `support css-gradients`: all browser versions that support to some extent the given feature (in this case, CSS Gradients)
+* `full support css-gradients`: all browser versions that _fully_ support the given feature (in this case, CSS Gradients)
 * `not ie <= 8`: exclude browsers selected before by this query.
   You can add `not ` to any query.
+
+To see the list of features that you can query for, visit http://caniuse.com
 
 Blackberry and Android WebView will not be used in `last n versions`.
 You should add them by name.

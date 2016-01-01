@@ -85,8 +85,8 @@ describe('browserslist', function () {
 
     it('has actual example in README.md', function () {
         expect(browserslist('last 1 version, > 10%')).to.eql(
-            ['and_chr 46', 'chrome 46', 'chrome 45', 'edge 12', 'firefox 41',
-             'ie 11', 'ie_mob 11', 'ios_saf 9', 'opera 32', 'safari 9']);
+            ['and_chr 47', 'chrome 47', 'chrome 46', 'edge 13', 'firefox 43',
+             'ie 11', 'ie_mob 11', 'ios_saf 9.0-9.2', 'opera 34', 'safari 9']);
     });
 
     it('throws custom error', function () {
@@ -358,6 +358,44 @@ describe('browserslist', function () {
             expect(browserslist('> 1% in RU')).to.not.be.empty;
         });
 
+    });
+
+    describe('feature query', function () {
+
+        beforeEach(function () {
+            browserslist.features = {
+                websockets: {
+                    ie: {
+                        5:  'u',
+                        6:  'n',
+                        7:  'd',
+                        8:  'a x #1',
+                        9:  'a',
+                        10: '#2 y',
+                        11: 'y'
+                    }
+                }
+            };
+        });
+
+        it('selects browsers which support a feature', function () {
+            var result = ['ie 11', 'ie 10', 'ie 9', 'ie 8'];
+            expect(browserslist('support websockets')).to.eql(result);
+            expect(browserslist('supports websockets')).to.eql(result);
+        });
+
+        it('selects browsers which completely support a feature', function () {
+            var result = ['ie 11', 'ie 10'];
+            expect(browserslist('full support websockets')).to.eql(result);
+            expect(browserslist('fully support websockets')).to.eql(result);
+            expect(browserslist('fully supports websockets')).to.eql(result);
+        });
+
+        it('raises on an unknown feature', function () {
+            expect(function () {
+                browserslist('supports potato-cannon');
+            }).to.throw(browserslist.Error, 'Unknown feature potato-cannon');
+        });
     });
 
     describe('.parseConfig()', function () {
