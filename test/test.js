@@ -85,8 +85,8 @@ describe('browserslist', function () {
 
     it('has actual example in README.md', function () {
         expect(browserslist('last 1 version, > 10%')).to.eql(
-            ['and_chr 46', 'chrome 46', 'chrome 45', 'edge 12', 'firefox 41',
-             'ie 11', 'ie_mob 11', 'ios_saf 9', 'opera 32', 'safari 9']);
+            ['and_chr 47', 'chrome 47', 'chrome 46', 'edge 13', 'firefox 43',
+             'ie 11', 'ie_mob 11', 'ios_saf 9.0-9.2', 'opera 34', 'safari 9']);
     });
 
     it('throws custom error', function () {
