@@ -77,7 +77,7 @@ var browserslist = function (selections, opts) {
             try {
                 stats = JSON.parse(fs.readFileSync(stats));
             } catch (e) {
-                error('Can\'t read ' + stats + ' custom usage stats file');
+                error('Can\'t read ' + stats);
             }
         }
         if ( 'dataByBrowser' in stats ) {

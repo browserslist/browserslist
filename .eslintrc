@@ -45,7 +45,6 @@
     "no-self-compare":             [2],
     "no-octal-escape":             [2],
     "no-new-wrappers":             [2],
-    "no-process-exit":             [2],
     "no-catch-shadow":             [2],
     "linebreak-style":             [2],
     "space-infix-ops":             [2],
@@ -87,7 +86,7 @@
     "comma-style":                 [2],
     "brace-style":                 [2],
     "no-debugger":                 [2],
-    "quote-props":                 [2, "as-needed"],
+    "quote-props":                 [2, "consistent-as-needed"],
     "no-iterator":                 [2],
     "no-new-func":                 [2],
     "key-spacing":                 [2, { "align": "value" }],
@@ -119,8 +118,11 @@
     "semi":                        [2, "always"],
     "yoda":                        [2, "never"]
   },
+  "ecmaFeatures": {
+    "modules": true
+  },
   "env": {
-    "mocha": true,
-    "node":  true
+    "node": true,
+    "es6":  true
   }
 }
