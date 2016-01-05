@@ -3,28 +3,16 @@
 Get browser versions that match given criteria.
 Useful for tools like [Autoprefixer].
 
-You can select browsers by passing a string. This library will use Can I Use
-data to return the appropriate list of all matching versions.
-
-For example, to select all browser versions that are the last version of each
-major browser, or have a usage of over 10% in global usage statistics:
+You can select browsers by passing a string. This library will use
+Can I Use data to return list of all matching versions.
+For example, query to select all browser versions that are the last version
+of each major browser, or have a usage of over 10% in global usage statistics:
 
 ```js
 browserslist('last 1 version, > 10%');
 //=> ['and_chr 47', 'chrome 47', 'edge 13', 'firefox 43',
 //    'ie 11', 'ie_mob 11', 'ios_saf 9.0-9.2', 'opera 34', 'safari 9']
 ```
-
-Multiple criteria are combined as a boolean OR. In other words, a browser
-version must match at least one of the criteria to be selected.
-
-Browserslist will use browsers criterias from:
-
-1. First argument.
-2. `BROWSERSLIST` environment variable.
-3. `browserslist` config file in current or parent directories.
-4. If all methods will not give a result, Browserslist will use defaults:
-   `> 1%, last 2 versions, Firefox ESR`.
 
 <a href="https://evilmartians.com/?utm_source=browserslist">
 <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54">
@@ -35,6 +23,17 @@ Browserslist will use browsers criterias from:
 [ci]:           https://travis-ci.org/ai/browserslist
 
 ## Queries
+
+Browserslist will use browsers criterias from:
+
+1. First argument.
+2. `BROWSERSLIST` environment variable.
+3. `browserslist` config file in current or parent directories.
+4. If all methods will not give a result, Browserslist will use defaults:
+   `> 1%, last 2 versions, Firefox ESR`.
+
+Multiple criteria are combined as a boolean `OR`. In other words, a browser
+version must match at least one of the criteria to be selected.
 
 You can specify the versions by queries (case insensitive):
 
