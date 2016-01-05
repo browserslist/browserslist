@@ -84,7 +84,7 @@ Names are case insensitive:
 ## Config File
 
 Browserslist’s config should be named `browserslist` and have browsers queries
-split by a new line. You can write a comment after `#`:
+split by a new line. Comments starts with `#` symbol:
 
 ```yaml
 # Browsers that we support
@@ -182,12 +182,12 @@ var process = function (css, opts) {
 }
 ```
 
-If a list is missing, Browserslist will look for a config file.
-You can provide a `path` option (that can be a file) to find the config file
-relatively to it.
-
 Queries can be a string `"> 5%, last 1 version"`
 or an array `['> 5%', 'last 1 version']`.
+
+If a query is missing, Browserslist will look for a config file.
+You can provide a `path` option (that can be a file) to find the config file
+relatively to it.
 
 For non-JS environment and debug purpose you can use CLI tool:
 
