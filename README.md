@@ -42,7 +42,7 @@ You can specify the versions by queries (case insensitive):
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
 * `> 5%`: versions selected by global usage statistics.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
-* `> 5% in my stats`: uses [custom usage data](#custom-usage-data).
+* `> 5% in my stats`: uses [custom usage data].
 * `ie 6-8`: selects an inclusive range of versions.
 * `Firefox > 20`: versions of Firefox newer than 20.
 * `Firefox >= 20`: versions of Firefox newer than or equal to 20.
@@ -61,6 +61,7 @@ of some browsers you can use for example `Firefox > 0`,
 but it is bad practice.
 
 [two-letter country code]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
+[custom usage data]:       #custom-usage-data
 
 ## Browsers
 
@@ -127,12 +128,11 @@ by [environment variables]:
 
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
-## Custom usage data
+## Custom Usage Data
 
-If you have a website and want to query against the usage statistics
-of your site, you can do it. First you have to get the usage data:
+If you have a website, you can query against the usage statistics of your site:
 
-1. Import your Google Analytics data into [caniuse.com].
+1. Import your Google Analytics data into [Can I Use].
    Press `Import…` button in Settings page.
 2. Open browser DevTools on [caniuse.com] add paste this snippet into Console:
 
@@ -148,7 +148,7 @@ of your site, you can do it. First you have to get the usage data:
     ```
 
 Of course, you can generate usage statistics file by any other method.
-Option `stats` accepts path to file or statistics data itself:
+Option `stats` accepts path to file or data itself:
 
 ```js
 var custom = {
@@ -167,10 +167,10 @@ browserslist('> 5% in my stats', { stats: custom });
 ```
 
 Note that you can query against your custom usage data while also querying
-against global or regional data. For example, the query
+against global or regional data. For example, the query
 `> 5% in my stats, > 1%, > 10% in US` is permitted.
 
-[caniuse.com]: http://caniuse.com/
+[Can I Use]: http://caniuse.com/
 
 ## Usage
 
