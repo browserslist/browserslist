@@ -84,7 +84,7 @@ Names are case insensitive:
 ## Config File
 
 Browserslist’s config should be named `browserslist` and have browsers queries
-split by a new line. Comments starts with `#` symbol:
+split by a new line. Comments starts with `#` symbol:
 
 ```yaml
 # Browsers that we support
@@ -94,9 +94,9 @@ Last 2 versions
 IE 8 # sorry
 ```
 
-Browserslist will check config in every directory in `config.path` path.
-So, if tool with Browserslist process `app/styles/main.css`, you can put
-config to root, `app/` or `app/styles`.
+Browserslist will check config in every directory in `path`.
+So, if tool process `app/styles/main.css`, you can put config to root,
+`app/` or `app/styles`.
 
 You can specify direct path to config by `config` option
 or `BROWSERSLIST_CONFIG` environment variables.
