@@ -1,13 +1,15 @@
 var browserslist = require('../');
 var expect       = require('chai').expect;
 var path         = require('path');
+var fs           = require('fs');
 
 var originData  = browserslist.data;
 var originUsage = browserslist.usage;
 
-var css  = path.join(__dirname, 'fixtures', 'dir', 'test.css');
-var ies  = path.join(__dirname, 'fixtures', 'explorers');
-var link = path.join(__dirname, 'fixtures', 'symlink');
+var css   = path.join(__dirname, 'fixtures', 'dir', 'test.css');
+var ies   = path.join(__dirname, 'fixtures', 'explorers');
+var link  = path.join(__dirname, 'fixtures', 'symlink');
+var usage = path.join(__dirname, 'fixtures', 'stats.json');
 
 describe('browserslist', function () {
 
@@ -16,6 +18,7 @@ describe('browserslist', function () {
         browserslist.usage = originUsage;
         delete process.env.BROWSERSLIST;
         delete process.env.BROWSERSLIST_CONFIG;
+        delete process.env.BROWSERSLIST_STATS;
     });
 
     it('accepts array', function () {
@@ -85,8 +88,8 @@ describe('browserslist', function () {
 
     it('has actual example in README.md', function () {
         expect(browserslist('last 1 version, > 10%')).to.eql(
-            ['and_chr 46', 'chrome 46', 'chrome 45', 'edge 12', 'firefox 41',
-             'ie 11', 'ie_mob 11', 'ios_saf 9', 'opera 32', 'safari 9']);
+            ['and_chr 47', 'chrome 47', 'edge 13', 'firefox 43',
+             'ie 11', 'ie_mob 11', 'ios_saf 9.0-9.2', 'opera 34', 'safari 9']);
     });
 
     it('throws custom error', function () {
@@ -358,6 +361,45 @@ describe('browserslist', function () {
             expect(browserslist('> 1% in RU')).to.not.be.empty;
         });
 
+    });
+
+    describe('custom statistics query', function () {
+        it('throws error on invalid file', function () {
+            expect(function () {
+                browserslist('', { stats: 'non_existing_file.json' });
+            }).to.throw(browserslist.Error);
+        });
+
+        it('work with environment variable', function () {
+            process.env.BROWSERSLIST_STATS = usage;
+            expect(browserslist('> 10% in my stats')).to.eql(['ie 11']);
+        });
+
+        it('work with file path', function () {
+            expect(browserslist('> 10% in my stats', { stats: usage }))
+                .to.eql(['ie 11']);
+        });
+
+        it('work with usage data object', function () {
+            var usageData = JSON.parse(fs.readFileSync(usage));
+            expect(browserslist('> 10% in my stats', { stats: usageData }))
+                .to.eql(['ie 11']);
+        });
+
+        it('work alongside global usage query', function () {
+            expect(browserslist('> 10% in my stats, > 99%', { stats: usage }))
+                .to.eql(['ie 11']);
+        });
+
+        it('work alongside global usage query', function () {
+            expect(browserslist('> 10% in my stats, > 1%', { stats: usage }))
+                .length.to.be.above(1);
+        });
+
+        it('work alongside country usage query', function () {
+            expect(browserslist('> 10% in my stats, > 99% in RU',
+                { stats: usage })).to.eql(['ie 11']);
+        });
     });
 
     describe('.parseConfig()', function () {

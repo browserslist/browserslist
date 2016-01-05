@@ -11,8 +11,8 @@ major browser, or have a usage of over 10% in global usage statistics:
 
 ```js
 browserslist('last 1 version, > 10%');
-//=> ['and_chr 46', 'chrome 46', 'chrome 45', 'edge 12', 'firefox 41'
-//    'ie 11', 'ie_mob 11', 'ios_saf 9', 'opera 32', 'safari 9']
+//=> ['and_chr 47', 'chrome 47', 'edge 13', 'firefox 43',
+//    'ie 11', 'ie_mob 11', 'ios_saf 9.0-9.2', 'opera 34', 'safari 9']
 ```
 
 Multiple criteria are combined as a boolean OR. In other words, a browser
@@ -42,6 +42,7 @@ You can specify the versions by queries (case insensitive):
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
 * `> 5%`: versions selected by global usage statistics.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
+* `> 5% in my stats`: uses custom usage statistics. See [Custom usage data](#custom-usage-data) for more details.
 * `ie 6-8`: selects an inclusive range of versions.
 * `Firefox > 20`: versions of Firefox newer than 20.
 * `Firefox >= 20`: versions of Firefox newer than or equal to 20.
@@ -49,8 +50,7 @@ You can specify the versions by queries (case insensitive):
 * `Firefox <= 20`: versions of Firefox less than or equal to 20.
 * `Firefox ESR`: the latest [Firefox ESR] version.
 * `iOS 7`: the iOS browser version 7 directly.
-* `not ie <= 8`: exclude browsers selected before by this query.
-  You can add `not ` to any query.
+* `not ie <= 8`: exclude browsers selected before by this query. You can add `not ` to any query.
 
 Blackberry and Android WebView will not be used in `last n versions`.
 You should add them by name.
@@ -118,6 +118,12 @@ by [environment variables]:
   BROWSERSLIST_CONFIG=./config/browserslist gulp css
    ```
 
+* `BROWSERSLIST_STATS` with path to the custom usage data.
+
+   ```sh
+  BROWSERSLIST_STATS=./config/usage_data.json gulp css
+   ```
+
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
 ## Usage
@@ -144,3 +150,43 @@ For non-JS environment and debug purpose you can use CLI tool:
 ```sh
 browserslist "> 1%, last 2 version"
 ```
+
+## Custom usage data
+
+Browserslist uses usage data from `caniuse-db`. If you have a website and want
+to query against the usage statistics of your site, you can do it. First you have
+to get the usage data in the expected format. The format is this:
+```js
+{
+    "browser": {
+        "version": <percentage>,
+        "anotherVersion": <percentage>,
+        ...
+    },
+    "anotherBrowser": {...},
+    ...
+}
+```
+If you already imported your Google Analytics data into [caniuse.com](http://caniuse.com),
+you can use this snippet to get the data (tested in Chrome, just paste it into the address bar):
+```js
+javascript:(function(){var e=document.createElement('a');e.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(JSON.stringify(JSON.parse(localStorage['usage-data-by-id'])[localStorage['config-primary_usage']])));e.setAttribute('download','stats.json');document.body.appendChild(e);e.click();document.body.removeChild(e);})()
+```
+
+After that, to feed the data to Browserslist, you have 3 options:
+* Give it the stats file path:
+
+  ```js
+  browserslist("> 5% in my stats, ...", {stats: "path/to/the/stats_file.json"});
+  ```
+* Give it the stats object directly:
+
+  ```js
+  var customStats = {"ie": {"6": 0.01, "7": "0.4", "8": 1.5}, "chrome": {...}}
+  browserslist("> 5% in my stats, ...", {stats: customStats});
+  ```
+
+* Set the environment variable `BROWSERSLIST_STATS` to the path of the stats JSON file.
+
+Note that you can query against your custom usage data while also querying against global or regional data.
+For example, the query `"> 5% in my stats, > 1%, > 10% in RU"` is permitted.

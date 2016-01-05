@@ -25,6 +25,20 @@ function error(name) {
     throw obj;
 }
 
+// Helpers
+
+var normalize = function (versions) {
+    return versions.filter(function (version) {
+        return typeof version === 'string';
+    });
+};
+
+var fillUsage = function (result, name, data) {
+    for ( var i in data ) {
+        result[name + ' ' + i] = data[i];
+    }
+};
+
 // Return array of browsers by selection queries:
 //
 //   browserslist('IE >= 10, IE 8') //=> ['ie 11', 'ie 10', 'ie 8']
@@ -54,6 +68,25 @@ var browserslist = function (selections, opts) {
 
     if ( typeof selections === 'string' ) {
         selections = selections.split(/,\s*/);
+    }
+
+    if ( opts.stats || process.env.BROWSERSLIST_STATS ) {
+        browserslist.usage.custom = { };
+        var stats = opts.stats || process.env.BROWSERSLIST_STATS;
+        if ( typeof stats === 'string' ) {
+            try {
+                stats = JSON.parse(fs.readFileSync(stats));
+            } catch (e) {
+                error('Can\'t read ' + stats + ' custom usage stats file');
+            }
+        }
+        if ( 'dataByBrowser' in stats ) {
+            // Allow to use the data as-is from the caniuse.com website
+            stats = stats.dataByBrowser;
+        }
+        for ( var browser in stats ) {
+            fillUsage(browserslist.usage.custom, browser, stats[browser]);
+        }
     }
 
     var result = [];
@@ -109,8 +142,6 @@ var browserslist = function (selections, opts) {
     });
 };
 
-// Helpers
-
 var normalizeVersion = function (data, version) {
     if ( data.versions.indexOf(version) !== -1 ) {
         return version;
@@ -120,24 +151,11 @@ var normalizeVersion = function (data, version) {
     }
 };
 
-var normalize = function (versions) {
-    return versions.filter(function (version) {
-        return typeof version === 'string';
-    });
-};
-
-var fillUsage = function (result, name, data) {
-    for ( var i in data ) {
-        result[name + ' ' + i] = data[i];
-    }
-};
-
-browserslist.Error = BrowserslistError;
-
 // Will be filled by Can I Use data below
 browserslist.data  = { };
 browserslist.usage = {
-    global: { }
+    global: { },
+    custom: null
 };
 
 // Default browsers query
@@ -254,6 +272,36 @@ browserslist.queries = {
 
             for ( var version in browserslist.usage.global ) {
                 if ( browserslist.usage.global[version] > popularity ) {
+                    result.push(version);
+                }
+            }
+
+            return result;
+        }
+    },
+
+    customStatistics: {
+        regexp: /^> (\d+\.?\d*)% in my stats$/,
+        select: function (popularity) {
+            popularity = parseFloat(popularity);
+            var result = [];
+
+            var usage = browserslist.usage.custom;
+            if ( !usage ) {
+                error('Custom usage data was not provided. ' +
+                    'To use selection "> ' + popularity + '% in my stats" ' +
+                    'you need one of the following:\n' +
+                    '* browserslist("selections", ' +
+                    '{stats: "path/to/the/stats_file.json"})\n' +
+                    '* browserslist("selections", {stats: <stats object>})\n' +
+                    '* Set the ENV variable BROWSERSLIST_STATS to the path ' +
+                    'of the stats JSON file.\nThe expected stats object is: ' +
+                    '{"browser": {"version": <percentage>, "anotherVersion"' +
+                    ': <percentage>, ...}, "anotherBrowser": {...}, ...}');
+            }
+
+            for ( var version in usage ) {
+                if ( usage[version] > popularity ) {
                     result.push(version);
                 }
             }
