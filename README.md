@@ -6,7 +6,7 @@ Useful for tools like [Autoprefixer].
 You can select browsers by passing a string. This library will use
 Can I Use data to return list of all matching versions.
 For example, query to select all browser versions that are the last version
-of each major browser, or have a usage of over 10% in global usage statistics:
+of each major browser, or have a usage of over 10% in global usage statistics:
 
 ```js
 browserslist('last 1 version, > 10%');
@@ -55,8 +55,8 @@ You can specify the versions by queries (case insensitive):
 Blackberry and Android WebView will not be used in `last n versions`.
 You should add them by name.
 
-Browserslist works with separated versions of browsers. To use all versions
-of some browsers you can use `Firefox > 0`, but it is bad practice.
+Browserslist works with separated versions of browsers.
+You should avoid queries like `Firefox > 0`.
 
 [two-letter country code]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 [custom usage data]:       #custom-usage-data
