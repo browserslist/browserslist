@@ -130,9 +130,7 @@ by [environment variables]:
 ## Custom usage data
 
 If you have a website and want to query against the usage statistics
-of your site, you can do it.
-
-First you have to get the usage data in the expected format. The format is this:
+of your site, you can do it. First you have to get the usage data:
 
 1. Import your Google Analytics data into [caniuse.com].
    Press `Import…` button in Settings page.
@@ -142,19 +140,18 @@ First you have to get the usage data in the expected format. The format is this:
    var e=document.createElement('a');e.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(JSON.stringify(JSON.parse(localStorage['usage-data-by-id'])[localStorage['config-primary_usage']])));e.setAttribute('download','stats.json');document.body.appendChild(e);e.click();document.body.removeChild(e);}
     ```
 3. Save data to file in your project.
-4. Give it to Browserslist by `stats` option:
+4. Give it to Browserslist by `stats` option
+   or `BROWSERSLIST_STATS` environment variable:
 
     ```js
-   browserslist("> 5% in my stats, ...", {stats: "path/to/the/stats_file.json"});
+   browserslist('> 5% in my stats', { stats: 'path/to/the/stats.json' });
     ```
 
-   Also you use `BROWSERSLIST_STATS` environment variable to set stat file path.
-
-Or you can generate usage statistics file by any other method.
+Of course, you can generate usage statistics file by any other method.
 Option `stats` accepts path to file or statistics data itself:
 
 ```js
-var customStats = {
+var custom = {
     ie: {
         6: 0.01,
         7: 0.4,
@@ -166,12 +163,12 @@ var customStats = {
     …
 };
 
-browserslist("> 5% in my stats", { stats: custom });
+browserslist('> 5% in my stats', { stats: custom });
 ```
 
 Note that you can query against your custom usage data while also querying
 against global or regional data. For example, the query
-`> 5% in my stats, > 1%, > 10% in RU` is permitted.
+`> 5% in my stats, > 1%, > 10% in US` is permitted.
 
 [caniuse.com]: http://caniuse.com/
 
