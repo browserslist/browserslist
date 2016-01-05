@@ -23,7 +23,7 @@ Browserslist will use browsers criterias from:
 1. First argument.
 2. `BROWSERSLIST` environment variable.
 3. `browserslist` config file in current or parent directories.
-4. If all methods will not give a result, Browserslist will use defaults:<br>
+4. If all methods will not give a result, Browserslist will use defaults:
    `> 1%, last 2 versions, Firefox ESR`.
 
 <a href="https://evilmartians.com/?utm_source=browserslist">
@@ -42,8 +42,7 @@ You can specify the versions by queries (case insensitive):
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
 * `> 5%`: versions selected by global usage statistics.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
-* `> 5% in my stats`: uses custom usage statistics.
-  See [Custom usage data](#custom-usage-data) for more details.
+* `> 5% in my stats`: uses [custom usage data](#custom-usage-data).
 * `ie 6-8`: selects an inclusive range of versions.
 * `Firefox > 20`: versions of Firefox newer than 20.
 * `Firefox >= 20`: versions of Firefox newer than or equal to 20.
@@ -128,6 +127,54 @@ by [environment variables]:
 
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
+## Custom usage data
+
+If you have a website and want to query against the usage statistics
+of your site, you can do it.
+
+First you have to get the usage data in the expected format. The format is this:
+
+1. Import your Google Analytics data into [caniuse.com].
+   Press `Import…` button in Settings page.
+2. Open browser DevTools on [caniuse.com] add paste this snippet into Console:
+
+    ```js
+   var e=document.createElement('a');e.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(JSON.stringify(JSON.parse(localStorage['usage-data-by-id'])[localStorage['config-primary_usage']])));e.setAttribute('download','stats.json');document.body.appendChild(e);e.click();document.body.removeChild(e);}
+    ```
+3. Save data to file in your project.
+4. Give it to Browserslist by `stats` option:
+
+    ```js
+   browserslist("> 5% in my stats, ...", {stats: "path/to/the/stats_file.json"});
+    ```
+
+   Also you use `BROWSERSLIST_STATS` environment variable to set stat file path.
+
+Or you can generate usage statistics file by any other method.
+Option `stats` accepts path to file or statistics data itself:
+
+```js
+var customStats = {
+    ie: {
+        6: 0.01,
+        7: 0.4,
+        8: 1.5
+    },
+    chrome: {
+        …
+    },
+    …
+};
+
+browserslist("> 5% in my stats", { stats: custom });
+```
+
+Note that you can query against your custom usage data while also querying
+against global or regional data. For example, the query
+`> 5% in my stats, > 1%, > 10% in RU` is permitted.
+
+[caniuse.com]: http://caniuse.com/
+
 ## Usage
 
 ```js
@@ -152,50 +199,3 @@ For non-JS environment and debug purpose you can use CLI tool:
 ```sh
 browserslist "> 1%, last 2 version"
 ```
-
-## Custom usage data
-
-Browserslist uses usage data from `caniuse-db`. If you have a website and want
-to query against the usage statistics of your site, you can do it.
-First you have to get the usage data in the expected format. The format is this:
-
-```js
-{
-    "browser": {
-        "version": <percentage>,
-        "anotherVersion": <percentage>,
-        ...
-    },
-    "anotherBrowser": { ... },
-    ...
-}
-```
-
-If you already imported your Google Analytics data into [caniuse.com],
-you can use this snippet to get the data (just paste it into the address bar):
-
-```js
-javascript:(function(){var e=document.createElement('a');e.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(JSON.stringify(JSON.parse(localStorage['usage-data-by-id'])[localStorage['config-primary_usage']])));e.setAttribute('download','stats.json');document.body.appendChild(e);e.click();document.body.removeChild(e);})()
-```
-
-After that, to feed the data to Browserslist, you have 3 options:
-
-* Give it the stats file path:
-
-  ```js
-  browserslist("> 5% in my stats, ...", {stats: "path/to/the/stats_file.json"});
-  ```
-* Give it the stats object directly:
-
-  ```js
-  var customStats = {"ie": {"6": 0.01, "7": "0.4", "8": 1.5}, "chrome": {...}}
-  browserslist("> 5% in my stats, ...", {stats: customStats});
-  ```
-
-* Set the environment variable `BROWSERSLIST_STATS` to the path of the stats JSON file.
-
-Note that you can query against your custom usage data while also querying
-against global or regional data. For example, the query
-`> 5% in my stats, > 1%, > 10% in RU` is permitted.
-
-[caniuse.com]: http://caniuse.com
