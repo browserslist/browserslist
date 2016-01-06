@@ -1,3 +1,6 @@
+## 1.1
+* Added query against custom browser usage data (by Daniel Rey).
+
 ## 1.0.1
 * Update Firefox ESR (by Rouven Weßling).
 
