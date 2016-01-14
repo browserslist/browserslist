@@ -265,7 +265,7 @@ browserslist.queries = {
     },
 
     globalStatistics: {
-        regexp: /^> (\d+\.?\d*)%$/,
+        regexp: /^>\s?(\d+\.?\d*)%$/,
         select: function (popularity) {
             popularity = parseFloat(popularity);
             var result = [];
@@ -281,7 +281,7 @@ browserslist.queries = {
     },
 
     customStatistics: {
-        regexp: /^> (\d+\.?\d*)% in my stats$/,
+        regexp: /^>\s?(\d+\.?\d*)% in my stats$/,
         select: function (popularity) {
             popularity = parseFloat(popularity);
             var result = [];

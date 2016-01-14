@@ -25,6 +25,10 @@ test('takes stats by path', t => {
     t.same(browserslist('> 10% in my stats', { stats: usage }), ['ie 11']);
 });
 
+test('accepts non-space query', t => {
+    t.same(browserslist('>10% in my stats', { stats: usage }), ['ie 11']);
+});
+
 test('take stats from usage data object', t => {
     const data = JSON.parse(fs.readFileSync(usage));
     t.same(browserslist('> 10% in my stats', { stats: data }), ['ie 11']);

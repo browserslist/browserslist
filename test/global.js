@@ -22,6 +22,10 @@ test('selects browsers by popularity', t => {
     t.same(browserslist('> 10%'), ['ie 11', 'ie 10']);
 });
 
+test('accepts non-space query', t => {
+    t.same(browserslist('>10%'), ['ie 11', 'ie 10']);
+});
+
 test('works with float', t => {
     t.same(browserslist('> 10.2%'), ['ie 11']);
 });
