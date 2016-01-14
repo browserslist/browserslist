@@ -1,3 +1,8 @@
+## 1.1.1
+* Fix space-less `>10%` and `>10% in my stats` queries.
+* Normalize error messages.
+* Remove development files from npm package.
+
 ## 1.1
 * Added query against custom browser usage data (by Daniel Rey).
 
