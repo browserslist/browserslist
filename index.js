@@ -288,16 +288,7 @@ browserslist.queries = {
 
             var usage = browserslist.usage.custom;
             if ( !usage ) {
-                error('Custom usage data was not provided. ' +
-                    'To use selection "> ' + popularity + '% in my stats" ' +
-                    'you need one of the following:\n' +
-                    '* browserslist("selections", ' +
-                    '{stats: "path/to/the/stats_file.json"})\n' +
-                    '* browserslist("selections", {stats: <stats object>})\n' +
-                    '* Set the ENV variable BROWSERSLIST_STATS to the path ' +
-                    'of the stats JSON file.\nThe expected stats object is: ' +
-                    '{"browser": {"version": <percentage>, "anotherVersion"' +
-                    ': <percentage>, ...}, "anotherBrowser": {...}, ...}');
+                error('Custom usage statistics was not provided');
             }
 
             for ( var version in usage ) {
