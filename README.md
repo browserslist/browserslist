@@ -56,9 +56,6 @@ You can specify the versions by queries (case insensitive):
 * `not ie <= 8`: exclude browsers selected before by previous queries.
   You can add `not ` to any query.
 
-Blackberry and Android WebView will not be used in `last n versions`.
-You should add them by name.
-
 Browserslist works with separated versions of browsers.
 You should avoid queries like `Firefox > 0`.
 
@@ -69,8 +66,8 @@ You should avoid queries like `Firefox > 0`.
 
 Names are case insensitive:
 
-* `Android` for Android WebView.
-* `BlackBerry` or `bb` for Blackberry browser.
+### Major browsers
+
 * `Chrome` for Google Chrome.
 * `Firefox` or `ff` for Mozilla Firefox.
 * `Explorer` or `ie` for Internet Explorer.
@@ -78,25 +75,18 @@ Names are case insensitive:
 * `iOS` or `ios_saf` for iOS Safari.
 * `Opera` for Opera.
 * `Safari` for desktop Safari.
-* `OperaMobile` or `op_mob` for Opera Mobile.
-* `OperaMini` or `op_mini` for Opera Mini.
-* `ChromeAndroid` or `and_chr` for Chrome for Android
-  (mostly same as common `Chrome`).
-* `FirefoxAndroid` or `and_ff` for Firefox for Android.
 * `ExplorerMobile` or `ie_mob` for Internet Explorer Mobile.
 
-### Major Browsers
+### Other
 
-- Safari
-- Opera
-- iOS Safari
-- Internet Explorer Mobile
-- Internet Explorer
-- Microsoft Edge
-- Firefox
-- Chrome
+* `Android` for Android WebView.
+* `BlackBerry` or `bb` for Blackberry browser.
+* `ChromeAndroid` or `and_chr` for Chrome for Android
+  (in Other section, because mostly same as common `Chrome`).
+* `FirefoxAndroid` or `and_ff` for Firefox for Android.
+* `OperaMobile` or `op_mob` for Opera Mobile.
+* `OperaMini` or `op_mini` for Opera Mini.
 
-This list can be validated by the behavior defined [here](https://github.com/ai/browserslist/blob/master/index.js#L169-L170).
 ## Config File
 
 Browserslist’s config should be named `browserslist` and have browsers queries
