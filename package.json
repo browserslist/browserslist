@@ -17,8 +17,9 @@
   },
   "bin": "./cli.js",
   "devDependencies": {
-    "eslint": "1.10.3",
-    "ava":    "0.10.0"
+    "eslint-config-postcss": "^1.0.0",
+    "eslint":                "1.10.3",
+    "ava":                   "0.11.0"
   },
   "scripts": {
     "test": "ava && eslint *.js test/*.js"
