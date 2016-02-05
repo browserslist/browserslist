@@ -15,7 +15,11 @@ browserslist('last 1 version, > 10%');
 ```
 
 <a href="https://evilmartians.com/?utm_source=browserslist">
-<img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54">
+  <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
+    alt="Sponsored by Evil Martians"
+    width="236"
+    height="54"
+  \>
 </a>
 
 [Autoprefixer]: https://github.com/postcss/autoprefixer
@@ -81,6 +85,18 @@ Names are case insensitive:
 * `FirefoxAndroid` or `and_ff` for Firefox for Android.
 * `ExplorerMobile` or `ie_mob` for Internet Explorer Mobile.
 
+### Major Browsers
+
+- Safari
+- Opera
+- iOS Safari
+- Internet Explorer Mobile
+- Internet Explorer
+- Microsoft Edge
+- Firefox
+- Chrome
+
+This list can be validated by the behavior defined [here](https://github.com/ai/browserslist/blob/master/index.js#L169-L170).
 ## Config File
 
 Browserslist’s config should be named `browserslist` and have browsers queries
