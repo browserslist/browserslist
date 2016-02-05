@@ -66,7 +66,7 @@ You should avoid queries like `Firefox > 0`.
 
 Names are case insensitive:
 
-### Major browsers
+### Major Browsers
 
 * `Chrome` for Google Chrome.
 * `Firefox` or `ff` for Mozilla Firefox.
