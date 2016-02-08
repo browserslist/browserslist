@@ -1,3 +1,6 @@
+## 1.1.2
+* Fix JSPM support (by Sean Anderson).
+
 ## 1.1.1
 * Fix space-less `>10%` and `>10% in my stats` queries.
 * Normalize error messages.
