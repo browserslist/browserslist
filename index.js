@@ -1,4 +1,4 @@
-var caniuse = require('caniuse-db/data').agents;
+var caniuse = require('caniuse-db/data.json').agents;
 var path    = require('path');
 var fs      = require('fs');
 
@@ -311,7 +311,7 @@ browserslist.queries = {
             var usage = browserslist.usage[country];
             if ( !usage ) {
                 usage = { };
-                var data = require('caniuse-db/region-usage-json/' + country);
+                var data = require('caniuse-db/region-usage-json/' + country + '.json');
                 for ( var i in data.data ) {
                     fillUsage(usage, i, data.data[i]);
                 }
