@@ -200,3 +200,18 @@ For non-JS environment and debug purpose you can use CLI tool:
 ```sh
 browserslist "> 1%, last 2 version"
 ```
+
+## Coverage
+
+You can get total users coverage for selected browsers by JS API:
+
+```js
+browserslist.coverage(browserslist('> 1%')) //=> 81.4
+```
+
+Or by CLI:
+
+```sh
+$ browserslist --coverage "> 1%"
+These browsers account for 81.4% of all users globally
+```
