@@ -1,3 +1,9 @@
+## 1.2
+* Add `browserslist.coverage()` method.
+* Add `--coverage` and `-c` argument to CLI.
+* Add `-v` argument support to CLI.
+* Better error handling in CLI.
+
 ## 1.1.3
 * Fix jspm support (by Sean Anderson).
 
