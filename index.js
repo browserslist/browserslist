@@ -146,8 +146,7 @@ var normalizeVersion = function (data, version) {
     if ( data.versions.indexOf(version) !== -1 ) {
         return version;
     } else {
-        var alias = browserslist.versionAliases[data.name][version];
-        if ( alias ) return alias;
+        return browserslist.versionAliases[data.name][version];
     }
 };
 
