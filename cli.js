@@ -5,7 +5,17 @@ var pkg          = require('./package.json');
 var args         = process.argv.slice(2);
 
 function isArg(arg) {
-    return args.indexOf(arg) >= 0;
+    return args.some(function (str) {
+        return str === arg || str.indexOf(arg + '=') === 0;
+    });
+}
+
+function getArgValue(arg) {
+    var found = args.filter(function (str) {
+        return str.indexOf(arg + '=') === 0;
+    })[0];
+    var value = found && found.split('=')[1];
+    return value && value.replace(/^['"]|['"]$/g, '');
 }
 
 function error(msg) {
@@ -45,10 +55,16 @@ if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
         return i[0] !== '-';
     });
     if ( !browsers ) error('Define a browsers query to get coverage');
-    var result = browserslist.coverage(query(browsers));
+    var country = getArgValue('--coverage') || getArgValue('-c');
+    var result = browserslist.coverage(query(browsers), country);
     var round  = Math.round(result * 100) / 100.0;
+    var where = 'globally';
+    if (country && country !== 'global') {
+        where = 'in the ' + country.toUpperCase();
+    }
     process.stdout.write(
-        'These browsers account for ' + round + '% of all users globally\n');
+        'These browsers account for ' + round + '% of all users ' +
+        where + '\n');
 
 } else if ( args.length === 1 && args[0][0] !== '-' ) {
     query(args[0]).forEach(function (browser) {

@@ -150,6 +150,18 @@ var normalizeVersion = function (data, version) {
     }
 };
 
+var loadCountryStatistics = function (country) {
+    if (!browserslist.usage[country]) {
+        var usage = { };
+        var data = require(
+            'caniuse-db/region-usage-json/' + country + '.json');
+        for ( var i in data.data ) {
+            fillUsage(usage, i, data.data[i]);
+        }
+        browserslist.usage[country] = usage;
+    }
+};
+
 // Will be filled by Can I Use data below
 browserslist.data  = { };
 browserslist.usage = {
@@ -222,9 +234,15 @@ browserslist.readConfig = function (from) {
 };
 
 // Return browsers market coverage
-browserslist.coverage = function (browsers) {
+browserslist.coverage = function (browsers, country) {
+    if (country && country !== 'global') {
+        country = country.toUpperCase();
+        loadCountryStatistics(country);
+    } else {
+        country = 'global';
+    }
     return browsers.reduce(function (all, i) {
-        return all + browserslist.usage.global[i];
+        return all + browserslist.usage[country][i];
     }, 0);
 };
 
@@ -314,16 +332,8 @@ browserslist.queries = {
             country    = country.toUpperCase();
             var result = [];
 
+            loadCountryStatistics(country);
             var usage = browserslist.usage[country];
-            if ( !usage ) {
-                usage = { };
-                var data = require(
-                    'caniuse-db/region-usage-json/' + country + '.json');
-                for ( var i in data.data ) {
-                    fillUsage(usage, i, data.data[i]);
-                }
-                browserslist.usage[country] = usage;
-            }
 
             for ( var version in usage ) {
                 if ( usage[version] > popularity ) {
