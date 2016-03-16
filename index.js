@@ -242,7 +242,11 @@ browserslist.coverage = function (browsers, country) {
         country = 'global';
     }
     return browsers.reduce(function (all, i) {
-        return all + browserslist.usage[country][i];
+        var usage = browserslist.usage[country][i];
+        if (usage === undefined) {
+            usage = browserslist.usage[country][i.replace(/ [\d.]+$/, ' 0')];
+        }
+        return all + (usage || 0);
     }, 0);
 };
 
