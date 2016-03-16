@@ -209,9 +209,18 @@ You can get total users coverage for selected browsers by JS API:
 browserslist.coverage(browserslist('> 1%')) //=> 81.4
 ```
 
+```js
+browserslist.coverage(browserslist('> 1% in US'), 'US') //=> 83.1
+```
+
 Or by CLI:
 
 ```sh
 $ browserslist --coverage "> 1%"
 These browsers account for 81.4% of all users globally
+```
+
+```sh
+$ browserslist --coverage=US "> 1% in US"
+These browsers account for 83.1% of all users in the US
 ```
