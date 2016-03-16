@@ -221,6 +221,13 @@ browserslist.readConfig = function (from) {
     return false;
 };
 
+// Return browsers market coverage
+browserslist.coverage = function (browsers) {
+    return browsers.reduce(function (all, i) {
+        return all + browserslist.usage.global[i];
+    }, 0);
+};
+
 // Return array of queries from config content
 browserslist.parseConfig = function (string) {
     return string.toString()
