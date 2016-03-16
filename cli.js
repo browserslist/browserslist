@@ -18,7 +18,7 @@ function query(queries) {
         return browserslist(queries);
     } catch (e) {
         if ( e.name === 'BrowserslistError' ) {
-            error(e.message);
+            return error(e.message);
         } else {
             throw e;
         }
@@ -56,5 +56,5 @@ if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
     });
 
 } else {
-    error('Unknown arguments. Use --help to pick right one.')
+    error('Unknown arguments. Use --help to pick right one.');
 }
