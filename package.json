@@ -13,7 +13,7 @@
     "url":  "https://github.com/ai/browserslist.git"
   },
   "dependencies": {
-    "caniuse-db": "^1.0.30000430"
+    "caniuse-db": "^1.0.30000431"
   },
   "bin": "./cli.js",
   "devDependencies": {
