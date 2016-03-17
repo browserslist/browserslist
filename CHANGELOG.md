@@ -1,3 +1,6 @@
+## 1.3
+* Add coverage for specific country (by Joshua Wise).
+
 ## 1.2
 * Add `browserslist.coverage()` method.
 * Add `--coverage` and `-c` argument to CLI.
