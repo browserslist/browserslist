@@ -10,7 +10,6 @@ function isArg(arg) {
     });
 }
 
-// Returns the value after an equals sign in an argument (or undefined).
 function getArgValue(arg) {
     var found = args.filter(function (str) {
         return str.indexOf(arg + '=') === 0;
@@ -56,18 +55,18 @@ if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
         return i[0] !== '-';
     });
     if ( !browsers ) error('Define a browsers query to get coverage');
-    var country = getArgValue('--coverage') || getArgValue('-c');
-    var result = browserslist.coverage(query(browsers), country);
-    var round  = Math.round(result * 100) / 100.0;
 
-    var where = 'globally';
+    var country = getArgValue('--coverage') || getArgValue('-c');
+    var result  = browserslist.coverage(query(browsers), country);
+    var round   = Math.round(result * 100) / 100.0;
+
+    var end = 'globally';
     if (country && country !== 'global') {
-        where = 'in the ' + country.toUpperCase();
+        end = 'in the ' + country.toUpperCase();
     }
 
     process.stdout.write(
-        'These browsers account for ' + round + '% of all users ' +
-        where + '\n');
+        'These browsers account for ' + round + '% of all users ' + end + '\n');
 
 } else if ( args.length === 1 && args[0][0] !== '-' ) {
     query(args[0]).forEach(function (browser) {
