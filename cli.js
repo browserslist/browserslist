@@ -41,7 +41,8 @@ if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
         '',
         'Usage:',
         '  ' + pkg.name + ' "QUERIES"',
-        '  ' + pkg.name + ' --coverage "QUERIES"'
+        '  ' + pkg.name + ' --coverage "QUERIES"',
+        '  ' + pkg.name + ' --coverage=US "QUERIES"'
     ].join('\n') + '\n');
 
 } else if ( isArg('--version') || isArg('-v') ) {
