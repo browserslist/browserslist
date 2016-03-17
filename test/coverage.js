@@ -30,9 +30,13 @@ test('returns zero coverage on empty browsers', t => {
 });
 
 test('returns usage in specified country', t => {
+    t.same(browserslist.coverage(['ie 10'], 'UK'), 4.4);
+});
+
+test('accepts country in any case', t => {
     t.same(browserslist.coverage(['ie 10'], 'uk'), 4.4);
 });
 
 test('loads country usage data from Can I Use', t => {
-    t.ok(browserslist.coverage(['ie 9', 'ie 10'], 'us') > 0);
+    t.ok(browserslist.coverage(['ie 9', 'ie 10'], 'US') > 0);
 });
