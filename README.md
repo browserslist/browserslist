@@ -11,7 +11,7 @@ of each major browser, or have a usage of over 10% in global usage statistic
 ```js
 browserslist('last 1 version, > 10%');
 //=> ["and_chr 49", "chrome 49", "chrome 48", "edge 13", "firefox 45",
-//    "ie 11", "ie_mob 11", "ios_saf 9.0-9.2", "opera 35", "safari 9"]
+//    "ie 11", "ie_mob 11", "ios_saf 9.0-9.2", "opera 36", "safari 9.1"]
 ```
 
 <a href="https://evilmartians.com/?utm_source=browserslist">
