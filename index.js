@@ -412,8 +412,9 @@ browserslist.queries = {
     },
 
     direct: {
-        regexp: /^(\w+) ([\d\.]+)$/,
+        regexp: /^(\w+) (tp|[\d\.]+)$/i,
         select: function (name, version) {
+            if ( /tp/i.test(version) ) version = 'TP';
             var data  = browserslist.checkName(name);
             var alias = normalizeVersion(data, version);
             if ( alias ) {

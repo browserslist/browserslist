@@ -33,3 +33,8 @@ test('allows to miss zero in version', t => {
     t.same(browserslist('ios 7'), ['ios_saf 7.0-7.1']);
     t.same(browserslist('ios 8.0'), ['ios_saf 8']);
 });
+
+test('supports Safari TP', t => {
+    t.same(browserslist('safari tp'), ['safari TP']);
+    t.same(browserslist('Safari TP'), ['safari TP']);
+});
