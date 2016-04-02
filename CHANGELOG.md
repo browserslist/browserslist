@@ -1,3 +1,6 @@
+## 1.3.1
+* Add Safari TP support.
+
 ## 1.3
 * Add coverage for specific country (by Joshua Wise).
 
