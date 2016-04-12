@@ -67,8 +67,8 @@ test('uses default selection on empty request and no config', t => {
 
 test('raises on unknow query', t => {
     t.throws(() => {
-        browserslist('good');
-    }, 'Unknown browser query `good`');
+        browserslist('good!');
+    }, 'Unknown browser query `good!`');
 });
 
 test('sorts browsers', t => {
