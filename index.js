@@ -434,8 +434,17 @@ browserslist.queries = {
             }
             return [data.name + ' ' + version];
         }
-    }
+    },
 
+    allVersions: {
+        regexp: /^(\w+)$/i,
+        select: function (name) {
+            var data  = browserslist.checkName(name);
+            return data.released.map(function (v) {
+                return data.name + ' ' + v;
+            });
+        }
+    }
 };
 
 // Get and convert Can I Use data
