@@ -19,7 +19,7 @@ test.after(() => {
 });
 
 test('selects a range of browsers', t => {
-    t.same(browserslist('ie 8-10'), ['ie 10', 'ie 9', 'ie 8']);
+    t.deepEqual(browserslist('ie 8-10'), ['ie 10', 'ie 9', 'ie 8']);
 });
 
 test('raises on an unknown browser', t => {

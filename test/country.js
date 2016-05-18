@@ -19,17 +19,17 @@ test.after(() => {
 });
 
 test('selects browsers by popularity', t => {
-    t.same(browserslist('> 10% in US'), ['ie 11', 'ie 10']);
+    t.deepEqual(browserslist('> 10% in US'), ['ie 11', 'ie 10']);
 });
 
 test('works with float', t => {
-    t.same(browserslist('> 10.2% in US'), ['ie 11']);
+    t.deepEqual(browserslist('> 10.2% in US'), ['ie 11']);
 });
 
 test('fixes country case', t => {
-    t.same(browserslist('> 10.2% in us'), ['ie 11']);
+    t.deepEqual(browserslist('> 10.2% in us'), ['ie 11']);
 });
 
 test('loads country from Can I Use', t => {
-    t.ok(browserslist('> 1% in RU').length > 0);
+    t.truthy(browserslist('> 1% in RU').length > 0);
 });

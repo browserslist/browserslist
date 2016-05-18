@@ -22,21 +22,21 @@ test.after(() => {
 });
 
 test('returns browsers coverage', t => {
-    t.same(browserslist.coverage(['ie 9', 'ie 10']), 15.1);
+    t.deepEqual(browserslist.coverage(['ie 9', 'ie 10']), 15.1);
 });
 
 test('returns zero coverage on empty browsers', t => {
-    t.same(browserslist.coverage([]), 0);
+    t.deepEqual(browserslist.coverage([]), 0);
 });
 
 test('returns usage in specified country', t => {
-    t.same(browserslist.coverage(['ie 10'], 'UK'), 4.4);
+    t.deepEqual(browserslist.coverage(['ie 10'], 'UK'), 4.4);
 });
 
 test('accepts country in any case', t => {
-    t.same(browserslist.coverage(['ie 10'], 'uk'), 4.4);
+    t.deepEqual(browserslist.coverage(['ie 10'], 'uk'), 4.4);
 });
 
 test('loads country usage data from Can I Use', t => {
-    t.ok(browserslist.coverage(['ie 9', 'ie 10'], 'US') > 0);
+    t.truthy(browserslist.coverage(['ie 9', 'ie 10'], 'US') > 0);
 });

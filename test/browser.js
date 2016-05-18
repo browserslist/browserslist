@@ -19,13 +19,13 @@ test.after(() => {
 });
 
 test('selects versions of browser', t => {
-    t.same(browserslist('last 2 ie versions'), ['ie 11', 'ie 10']);
+    t.deepEqual(browserslist('last 2 ie versions'), ['ie 11', 'ie 10']);
 });
 
 test('supports pluralization', t => {
-    t.same(browserslist('last 1 ie version'), ['ie 11']);
+    t.deepEqual(browserslist('last 1 ie version'), ['ie 11']);
 });
 
 test('has case insensitive aliases', t => {
-    t.same(browserslist('Last 01 Explorer Version'), ['ie 11']);
+    t.deepEqual(browserslist('Last 01 Explorer Version'), ['ie 11']);
 });

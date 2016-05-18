@@ -24,23 +24,23 @@ test.after(() => {
 });
 
 test('selects browser by more sign', t => {
-    t.same(browserslist('ie > 9'), ['ie 11', 'ie 10']);
+    t.deepEqual(browserslist('ie > 9'), ['ie 11', 'ie 10']);
 });
 
 test('selects browser by more or equal sign', t => {
-    t.same(browserslist('ie >= 10'), ['ie 11', 'ie 10']);
+    t.deepEqual(browserslist('ie >= 10'), ['ie 11', 'ie 10']);
 });
 
 test('selects browser by less sign', t => {
-    t.same(browserslist('ie < 10'), ['ie 9', 'ie 8']);
+    t.deepEqual(browserslist('ie < 10'), ['ie 9', 'ie 8']);
 });
 
 test('selects browser by less or equal sign', t => {
-    t.same(browserslist('ie <= 9'), ['ie 9', 'ie 8']);
+    t.deepEqual(browserslist('ie <= 9'), ['ie 9', 'ie 8']);
 });
 
 test('uses case insensitive aliases', t => {
-    t.same(browserslist('Explorer > 10'), ['ie 11']);
+    t.deepEqual(browserslist('Explorer > 10'), ['ie 11']);
 });
 
 test('raises on unknown browser', t => {
@@ -50,6 +50,6 @@ test('raises on unknown browser', t => {
 });
 
 test('works with joined versions from Can I Use', t => {
-    t.same(browserslist('android >= 4.2'), ['android 4.2-4.3']);
-    t.same(browserslist('android >= 4.3'), ['android 4.2-4.3']);
+    t.deepEqual(browserslist('android >= 4.2'), ['android 4.2-4.3']);
+    t.deepEqual(browserslist('android >= 4.3'), ['android 4.2-4.3']);
 });
