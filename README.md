@@ -59,7 +59,7 @@ You can specify the versions by queries (case insensitive):
 Browserslist works with separated versions of browsers.
 You should avoid queries like `Firefox > 0`.
 
-All queries are based on the [Can I use](caniuse.com) support table, e. g. `last 2 iOS versions` might select `8.4, 9.2, 9.3` (mixed major & minor), whereas `last 2 Chrome versions` might select `50, 49, 48` (major only).
+All queries are based on the [Can I use](caniuse.com) support table, e. g. `last 3 iOS versions` might select `8.4, 9.2, 9.3` (mixed major & minor), whereas `last 3 Chrome versions` might select `50, 49, 48` (major only).
 
 [two-letter country code]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 [custom usage data]:       #custom-usage-data
