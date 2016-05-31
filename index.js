@@ -407,7 +407,7 @@ browserslist.queries = {
     esr: {
         regexp: /^(firefox|ff|fx) esr$/i,
         select: function () {
-            return ['firefox 38'];
+            return ['firefox 45'];
         }
     },
 

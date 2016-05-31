@@ -3,7 +3,7 @@ import browserslist from '../';
 import test from 'ava';
 
 test('selects Firefox ESR', t => {
-    t.deepEqual(browserslist('Firefox ESR'), ['firefox 38']);
+    t.deepEqual(browserslist('Firefox ESR'), ['firefox 45']);
 });
 
 test('uses case insensitive aliases', t => {
