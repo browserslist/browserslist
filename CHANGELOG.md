@@ -1,3 +1,6 @@
+## 1.3.2
+* Update Firefox ESR.
+
 ## 1.3.1
 * Add Safari TP support.
 
