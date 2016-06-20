@@ -97,3 +97,7 @@ test('excludes queries', t => {
     t.deepEqual(browserslist(['ie >= 9', 'not ie 11', 'not ie 10', 'ie 10']),
                 ['ie 10', 'ie 9']);
 });
+
+test('clean 0 version', t => {
+    t.false(browserslist(['> 0%', '> 0% in FI']).includes('and_chr 0'));
+});

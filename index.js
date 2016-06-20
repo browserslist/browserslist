@@ -124,7 +124,19 @@ var browserslist = function (selections, opts) {
         }
     });
 
-    return uniq(result).sort(function (name1, name2) {
+    result = uniq(result);
+
+    return result.filter(function (i) {
+        var version = i.split(' ')[1];
+        if ( version === '0' ) {
+            var name = i.split(' ')[0];
+            return !result.some(function (j) {
+                return j !== i && j.split(' ')[0] === name;
+            });
+        } else {
+            return true;
+        }
+    }).sort(function (name1, name2) {
         name1 = name1.split(' ');
         name2 = name2.split(' ');
         if ( name1[0] === name2[0] ) {
