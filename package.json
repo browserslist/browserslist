@@ -8,10 +8,7 @@
   ],
   "author": "Andrey Sitnik <andrey@sitnik.ru>",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url":  "https://github.com/ai/browserslist.git"
-  },
+  "repository": "ai/browserslist",
   "dependencies": {
     "caniuse-db": "^1.0.30000484"
   },
