@@ -13,13 +13,13 @@
     "url":  "https://github.com/ai/browserslist.git"
   },
   "dependencies": {
-    "caniuse-db": "^1.0.30000471"
+    "caniuse-db": "^1.0.30000484"
   },
   "bin": "./cli.js",
   "devDependencies": {
     "eslint-config-postcss": "2.0.2",
-    "eslint":                "2.11.1",
-    "ava":                   "0.15.1"
+    "eslint":                "2.13.0",
+    "ava":                   "0.15.2"
   },
   "scripts": {
     "test": "ava && eslint *.js test/*.js"
