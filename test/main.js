@@ -99,5 +99,5 @@ test('excludes queries', t => {
 });
 
 test('clean 0 version', t => {
-    t.false(browserslist(['> 0%', '> 0% in FI']).includes('and_chr 0'));
+    t.deepEqual(browserslist(['> 0%', '> 0% in FI']).indexOf('and_chr 0'), -1);
 });
