@@ -1,3 +1,6 @@
+## 1.3.3
+* Clean `0` versions in some country-based requests.
+
 ## 1.3.2
 * Update Firefox ESR.
 
