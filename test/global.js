@@ -30,6 +30,10 @@ test('works with float', t => {
     t.deepEqual(browserslist('> 10.2%'), ['ie 11']);
 });
 
+test('works with float that has a leading dot', t => {
+    t.deepEqual(browserslist('> .2%'), ['ie 11', 'ie 10', 'ie 9']);
+});
+
 test('allows omission of the space between the > and the percentage', t => {
     t.deepEqual(browserslist('>10%'), ['ie 11', 'ie 10']);
 });

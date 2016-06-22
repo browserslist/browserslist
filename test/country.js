@@ -26,6 +26,10 @@ test('works with float', t => {
     t.deepEqual(browserslist('> 10.2% in US'), ['ie 11']);
 });
 
+test('works with float that has a leading dot', t => {
+    t.deepEqual(browserslist('> .2% in US'), ['ie 11', 'ie 10', 'ie 9']);
+});
+
 test('fixes country case', t => {
     t.deepEqual(browserslist('> 10.2% in us'), ['ie 11']);
 });

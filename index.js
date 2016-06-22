@@ -308,7 +308,7 @@ browserslist.queries = {
     },
 
     globalStatistics: {
-        regexp: /^>\s*(\d+\.?\d*)%$/,
+        regexp: /^>\s*(\d*\.?\d+)%$/,
         select: function (popularity) {
             popularity = parseFloat(popularity);
             var result = [];
@@ -324,7 +324,7 @@ browserslist.queries = {
     },
 
     customStatistics: {
-        regexp: /^>\s*(\d+\.?\d*)%\s+in\s+my\s+stats$/,
+        regexp: /^>\s*(\d*\.?\d+)%\s+in\s+my\s+stats$/,
         select: function (popularity) {
             popularity = parseFloat(popularity);
             var result = [];
@@ -345,7 +345,7 @@ browserslist.queries = {
     },
 
     countryStatistics: {
-        regexp: /^>\s*(\d+\.?\d*)%\s+in\s+(\w\w)$/,
+        regexp: /^>\s*(\d*\.?\d+)%\s+in\s+(\w\w)$/,
         select: function (popularity, country) {
             popularity = parseFloat(popularity);
             country    = country.toUpperCase();
