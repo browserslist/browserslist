@@ -53,3 +53,7 @@ test('works with joined versions from Can I Use', t => {
     t.deepEqual(browserslist('android >= 4.2'), ['android 4.2-4.3']);
     t.deepEqual(browserslist('android >= 4.3'), ['android 4.2-4.3']);
 });
+
+test('allows omission of the space around the operator', t => {
+    t.deepEqual(browserslist('ie<=9'), ['ie 9', 'ie 8']);
+});

@@ -33,3 +33,7 @@ test('fixes country case', t => {
 test('loads country from Can I Use', t => {
     t.truthy(browserslist('> 1% in RU').length > 0);
 });
+
+test('allows omission of the space between the > and the percentage', t => {
+    t.truthy(browserslist('>10% in US').length > 0);
+});
