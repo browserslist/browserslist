@@ -26,10 +26,18 @@ test('works with float', t => {
     t.deepEqual(browserslist('> 10.2% in US'), ['ie 11']);
 });
 
+test('works with float that has a leading dot', t => {
+    t.deepEqual(browserslist('> .2% in US'), ['ie 11', 'ie 10', 'ie 9']);
+});
+
 test('fixes country case', t => {
     t.deepEqual(browserslist('> 10.2% in us'), ['ie 11']);
 });
 
 test('loads country from Can I Use', t => {
     t.truthy(browserslist('> 1% in RU').length > 0);
+});
+
+test('allows omission of the space between the > and the percentage', t => {
+    t.truthy(browserslist('>10% in US').length > 0);
 });

@@ -280,7 +280,7 @@ browserslist.parseConfig = function (string) {
 browserslist.queries = {
 
     lastVersions: {
-        regexp: /^last (\d+) versions?$/i,
+        regexp: /^last\s+(\d+)\s+versions?$/i,
         select: function (versions) {
             var selected = [];
             browserslist.major.forEach(function (name) {
@@ -298,7 +298,7 @@ browserslist.queries = {
     },
 
     lastByBrowser: {
-        regexp: /^last (\d+) (\w+) versions?$/i,
+        regexp: /^last\s+(\d+)\s+(\w+)\s+versions?$/i,
         select: function (versions, name) {
             var data = browserslist.checkName(name);
             return data.released.slice(-versions).map(function (v) {
@@ -308,7 +308,7 @@ browserslist.queries = {
     },
 
     globalStatistics: {
-        regexp: /^>\s?(\d+\.?\d*)%$/,
+        regexp: /^>\s*(\d*\.?\d+)%$/,
         select: function (popularity) {
             popularity = parseFloat(popularity);
             var result = [];
@@ -324,7 +324,7 @@ browserslist.queries = {
     },
 
     customStatistics: {
-        regexp: /^>\s?(\d+\.?\d*)% in my stats$/,
+        regexp: /^>\s*(\d*\.?\d+)%\s+in\s+my\s+stats$/,
         select: function (popularity) {
             popularity = parseFloat(popularity);
             var result = [];
@@ -345,7 +345,7 @@ browserslist.queries = {
     },
 
     countryStatistics: {
-        regexp: /^> (\d+\.?\d*)% in (\w\w)$/,
+        regexp: /^>\s*(\d*\.?\d+)%\s+in\s+(\w\w)$/,
         select: function (popularity, country) {
             popularity = parseFloat(popularity);
             country    = country.toUpperCase();
@@ -365,7 +365,7 @@ browserslist.queries = {
     },
 
     range: {
-        regexp: /^(\w+) ([\d\.]+)-([\d\.]+)/i,
+        regexp: /^(\w+)\s+([\d\.]+)\s*-\s*([\d\.]+)$/i,
         select: function (name, from, to) {
             var data = browserslist.checkName(name);
             from = parseFloat(normalizeVersion(data, from) || from);
@@ -383,7 +383,7 @@ browserslist.queries = {
     },
 
     versions: {
-        regexp: /^(\w+) (>=?|<=?)\s*([\d\.]+)/,
+        regexp: /^(\w+)\s*(>=?|<=?)\s*([\d\.]+)$/,
         select: function (name, sign, version) {
             var data = browserslist.checkName(name);
             var alias = normalizeVersion(data, version);
@@ -417,14 +417,14 @@ browserslist.queries = {
     },
 
     esr: {
-        regexp: /^(firefox|ff|fx) esr$/i,
+        regexp: /^(firefox|ff|fx)\s+esr$/i,
         select: function () {
             return ['firefox 45'];
         }
     },
 
     direct: {
-        regexp: /^(\w+) (tp|[\d\.]+)$/i,
+        regexp: /^(\w+)\s+(tp|[\d\.]+)$/i,
         select: function (name, version) {
             if ( /tp/i.test(version) ) version = 'TP';
             var data  = browserslist.checkName(name);
