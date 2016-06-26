@@ -1,3 +1,6 @@
+## 1.3.4
+* Add space-less `>1%` and `>.5%` syntax support (by Andreas Lind).
+
 ## 1.3.3
 * Clean `0` versions in some country-based requests.
 
