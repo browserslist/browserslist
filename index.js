@@ -423,6 +423,13 @@ browserslist.queries = {
         }
     },
 
+    opMini: {
+        regexp: /(operamini|op_mini)\s+all/i,
+        select: function () {
+            return ['op_mini all'];
+        }
+    },
+
     direct: {
         regexp: /^(\w+)\s+(tp|[\d\.]+)$/i,
         select: function (name, version) {
