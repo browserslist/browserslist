@@ -1,3 +1,6 @@
+## 1.3.5
+* Fix Opera Mini support. Use `op_mini all`.
+
 ## 1.3.4
 * Add space-less `>1%` and `>.5%` syntax support (by Andreas Lind).
 
