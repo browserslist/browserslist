@@ -14,6 +14,8 @@ browserslist('last 1 version, > 10%');
 //    "ie 11", "ie_mob 11", "ios_saf 9.3", "opera 38", "safari 9.1"]
 ```
 
+To share browser support with users, you can use [browserl.ist](http://browserl.ist/).
+
 <a href="https://evilmartians.com/?utm_source=browserslist">
   <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
     alt="Sponsored by Evil Martians"
@@ -203,8 +205,6 @@ For non-JS environment and debug purpose you can use CLI tool:
 ```sh
 browserslist "> 1%, last 2 version"
 ```
-
-To share browser support with users, you can use [browserl.ist](http://browserl.ist/).
 
 ## Coverage
 
