@@ -204,6 +204,8 @@ For non-JS environment and debug purpose you can use CLI tool:
 browserslist "> 1%, last 2 version"
 ```
 
+To share browser support with users, you can use [browserl.ist](http://browserl.ist/).
+
 ## Coverage
 
 You can get total users coverage for selected browsers by JS API:
