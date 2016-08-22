@@ -1,3 +1,6 @@
+## 1.3.6
+* Add `UCAndroid` alias to `and_uc` (by Evilebot Tnawi).
+
 ## 1.3.5
 * Fix Opera Mini support. Use `op_mini all`.
 
