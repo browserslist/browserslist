@@ -91,6 +91,8 @@ Names are case insensitive:
 * `FirefoxAndroid` or `and_ff` for Firefox for Android.
 * `OperaMobile` or `op_mob` for Opera Mobile.
 * `OperaMini` or `op_mini` for Opera Mini.
+* `Samsung` for Samsung Internet.
+* `UCAndroid` or `and_uc` for UC Browser for Android.
 
 ## Config File
 

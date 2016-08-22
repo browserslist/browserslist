@@ -203,10 +203,11 @@ browserslist.aliases = {
     operamini:      'op_mini',
     operamobile:    'op_mob',
     chromeandroid:  'and_chr',
-    firefoxandroid: 'and_ff'
+    firefoxandroid: 'and_ff',
+    ucandroid:      'and_uc'
 };
 
-// Aliases ot work with joined versions like `ios_saf 7.0-7.1`
+// Aliases to work with joined versions like `ios_saf 7.0-7.1`
 browserslist.versionAliases = { };
 
 // Get browser data by alias or case insensitive name
