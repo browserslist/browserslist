@@ -78,8 +78,8 @@ test('sorts browsers', t => {
 
 test('has actual example in README.md', t => {
     t.deepEqual(browserslist('last 1 version, > 10%'),
-        ['and_chr 51', 'chrome 52', 'chrome 51', 'edge 14', 'firefox 48',
-         'ie 11', 'ie_mob 11', 'ios_saf 9.3', 'opera 39', 'safari 9.1']);
+        ['and_chr 51', 'chrome 53', 'chrome 52', 'edge 14', 'firefox 49',
+         'ie 11', 'ie_mob 11', 'ios_saf 10', 'opera 39', 'safari 10']);
 });
 
 test('throws custom error', t => {
