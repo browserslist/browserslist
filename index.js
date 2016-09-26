@@ -2,6 +2,8 @@ var caniuse = require('caniuse-db/data.json').agents;
 var path    = require('path');
 var fs      = require('fs');
 
+var FLOAT = /^\d+(\.\d+)?$/;
+
 function uniq(array) {
     var filtered = [];
     for ( var i = 0; i < array.length; i++ ) {
@@ -140,13 +142,17 @@ var browserslist = function (selections, opts) {
         name1 = name1.split(' ');
         name2 = name2.split(' ');
         if ( name1[0] === name2[0] ) {
-            var d = parseFloat(name2[1]) - parseFloat(name1[1]);
-            if ( d > 0 ) {
-                return 1;
-            } else if ( d < 0 ) {
-                return -1;
+            if ( FLOAT.test(name1[1]) && FLOAT.test(name2[1]) ) {
+                var d = parseFloat(name2[1]) - parseFloat(name1[1]);
+                if ( d > 0 ) {
+                    return 1;
+                } else if ( d < 0 ) {
+                    return -1;
+                } else {
+                    return 0;
+                }
             } else {
-                return 0;
+                return name2[1].localeCompare(name1[1]);
             }
         } else {
             return name1[0].localeCompare(name2[0]);
@@ -453,6 +459,13 @@ browserslist.queries = {
                 }
             }
             return [data.name + ' ' + version];
+        }
+    },
+
+    defaults: {
+        regexp: /^defaults$/i,
+        select: function () {
+            return browserslist(browserslist.defaults);
         }
     }
 
