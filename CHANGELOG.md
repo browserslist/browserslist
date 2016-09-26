@@ -1,3 +1,6 @@
+## 1.4
+* Add `defaults` keyword.
+
 ## 1.3.6
 * Add `UCAndroid` alias to `and_uc` (by Evilebot Tnawi).
 
