@@ -1,12 +1,11 @@
 # Browserslist [![Build Status][ci-img]][ci]
 
-Get browser versions that match given criteria.
-Useful for tools like [Autoprefixer].
+Get browser versions that match given criteria, useful for tools like [Autoprefixer].
 
-You can select browsers by passing a string. This library will use
-Can I Use data to return list of all matching versions.
-For example, query to select all browser versions that are the last version
-of each major browser, or have a usage of over 10% in global usage statistics:
+You can select browsers by passing a string. This library will use [Can I use]
+data to return list of all matching versions.
+For example, query to select all browser versions that are the latest version
+of each of the major browsers, or have a usage of over 10% in global usage statistics:
 
 ```js
 browserslist('last 1 version, > 10%');
@@ -30,12 +29,12 @@ To share browser support with users, you can use [browserl.ist](http://browserl.
 
 ## Queries
 
-Browserslist will use browsers criterias from:
+Browserslist will use browsers criteria from:
 
 1. First argument.
 2. `BROWSERSLIST` environment variable.
 3. `browserslist` config file in current or parent directories.
-4. If all methods will not give a result, Browserslist will use defaults:
+4. If the above methods did not produce a valid result, Browserslist will use defaults:
    `> 1%, last 2 versions, Firefox ESR`.
 
 Multiple criteria are combined as a boolean `OR`. A browser version must match
@@ -61,7 +60,7 @@ You can specify the versions by queries (case insensitive):
 Browserslist works with separated versions of browsers.
 You should avoid queries like `Firefox > 0`.
 
-All queries are based on the [Can I Use] support table, e. g. `last 3 iOS versions` might select `8.4, 9.2, 9.3` (mixed major & minor), whereas `last 3 Chrome versions` might select `50, 49, 48` (major only).
+All queries are based on the [Can I Use] support table, e.g. `last 3 iOS versions` might select `8.4, 9.2, 9.3` (mixed major & minor), whereas `last 3 Chrome versions` might select `50, 49, 48` (major only).
 
 [two-letter country code]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 [custom usage data]:       #custom-usage-data
@@ -82,7 +81,7 @@ Names are case insensitive:
 * `Safari` for desktop Safari.
 * `ExplorerMobile` or `ie_mob` for Internet Explorer Mobile.
 
-### Other
+### Others
 
 * `Android` for Android WebView.
 * `BlackBerry` or `bb` for Blackberry browser.
@@ -145,12 +144,12 @@ If you have a website, you can query against the usage statistics of your site:
 
 1. Import your Google Analytics data into [Can I Use].
    Press `Import…` button in Settings page.
-2. Open browser DevTools on [caniuse.com] add paste this snippet into Console:
+2. Open browser DevTools on [Can I Use] add paste this snippet into the browser console:
 
     ```js
    var e=document.createElement('a');e.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(JSON.stringify(JSON.parse(localStorage['usage-data-by-id'])[localStorage['config-primary_usage']])));e.setAttribute('download','stats.json');document.body.appendChild(e);e.click();document.body.removeChild(e);
     ```
-3. Save data to file in your project.
+3. Save the data to a file in your project.
 4. Give it to Browserslist by `stats` option
    or `BROWSERSLIST_STATS` environment variable:
 
