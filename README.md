@@ -204,7 +204,7 @@ relatively to it.
 For non-JS environment and debug purpose you can use CLI tool:
 
 ```sh
-browserslist "> 1%, last 2 version"
+browserslist "> 1%, last 2 versions"
 ```
 
 ## Coverage
