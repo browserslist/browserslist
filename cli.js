@@ -48,9 +48,6 @@ if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
 } else if ( isArg('--version') || isArg('-v') ) {
     process.stdout.write(pkg.name + ' ' + pkg.version + '\n');
 
-} else if ( isArg('--version') || isArg('-v') ) {
-    process.stdout.write(pkg.name + ' ' + pkg.version + '\n');
-
 } else if ( isArg('--coverage') || isArg('-c') ) {
     var browsers = args.find(function (i) {
         return i[0] !== '-';
