@@ -16,7 +16,9 @@
   "devDependencies": {
     "eslint": "^3.11.1",
     "eslint-config-postcss": "^2.0.2",
-    "jest": "^17.0.3"
+    "jest": "^17.0.3",
+    "lint-staged": "^3.2.2",
+    "pre-commit": "^1.1.3"
   },
   "eslintConfig": {
     "extends": "eslint-config-postcss/es5",
@@ -28,6 +30,13 @@
     }
   },
   "scripts": {
+    "lint-staged": "lint-staged",
     "test": "jest && eslint *.js test/*.js"
-  }
+  },
+  "lint-staged": {
+    "*.js": "eslint"
+  },
+  "pre-commit": [
+    "lint-staged"
+  ]
 }
