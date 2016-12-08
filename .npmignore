@@ -2,6 +2,8 @@
 .npmignore
 
 node_modules/
+yarn-error.log
+yarn.lock
 
 test/
 .travis.yml
