@@ -1,10 +1,10 @@
-const browserslist = require('../');
+var browserslist = require('../');
 
-const path = require('path');
+var path = require('path');
 
-const css   = path.join(__dirname, 'fixtures', 'dir', 'test.css');
-const ies   = path.join(__dirname, 'fixtures', 'explorers');
-const link  = path.join(__dirname, 'fixtures', 'symlink');
+var css  = path.join(__dirname, 'fixtures', 'dir', 'test.css');
+var ies  = path.join(__dirname, 'fixtures', 'explorers');
+var link = path.join(__dirname, 'fixtures', 'symlink');
 
 afterEach(() => {
     delete process.env.BROWSERSLIST;

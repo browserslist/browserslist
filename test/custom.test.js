@@ -1,9 +1,9 @@
-const browserslist = require('../');
+var browserslist = require('../');
 
-const path = require('path');
-const fs   = require('fs');
+var path = require('path');
+var fs   = require('fs');
 
-const usage = path.join(__dirname, 'fixtures', 'stats.json');
+var usage = path.join(__dirname, 'fixtures', 'stats.json');
 
 afterEach(() => {
     delete process.env.BROWSERSLIST_STATS;
@@ -31,7 +31,7 @@ it('accepts non-space query', () => {
 });
 
 it('take stats from usage data object', () => {
-    const data = JSON.parse(fs.readFileSync(usage));
+    var data = JSON.parse(fs.readFileSync(usage));
     expect(browserslist('> 10% in my stats', { stats: data }))
         .toEqual(['ie 11']);
 });

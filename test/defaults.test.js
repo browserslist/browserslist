@@ -1,4 +1,4 @@
-const browserslist = require('../');
+var browserslist = require('../');
 
 it('selects defaults by keywords', () => {
     expect(browserslist('defaults, ie 6'))

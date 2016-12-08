@@ -1,6 +1,6 @@
-const browserslist = require('../');
+var browserslist = require('../');
 
-const originUsage = browserslist.usage;
+var originUsage = browserslist.usage;
 
 beforeEach(() => {
     browserslist.usage = {

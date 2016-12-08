@@ -1,8 +1,8 @@
-const browserslist = require('../');
+var browserslist = require('../');
 
-const path = require('path');
+var path = require('path');
 
-const css = path.join(__dirname, 'fixtures', 'dir', 'test.css');
+var css = path.join(__dirname, 'fixtures', 'dir', 'test.css');
 
 it('parses queries', () => {
     expect(browserslist.parseConfig('ie 10\n> 1%')).toEqual(['ie 10', '> 1%']);
@@ -14,7 +14,7 @@ it('trims whitespaces', () => {
 });
 
 it('removes comments', () => {
-    const config = '# support list\nie 10#bad\n> 1%';
+    var config = '# support list\nie 10#bad\n> 1%';
     expect(browserslist.parseConfig(config)).toEqual(['ie 10', '> 1%']);
 });
 

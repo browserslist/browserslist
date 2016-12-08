@@ -1,11 +1,11 @@
-const browserslist = require('../');
+var browserslist = require('../');
 
 it('selects browser by name', () => {
     expect(browserslist('ie 10')).toEqual(['ie 10']);
 });
 
 it('uses case insensitive aliases', () => {
-    const result = browserslist('ie 10');
+    var result = browserslist('ie 10');
     expect(browserslist('Explorer 10')).toEqual(result);
     expect(browserslist('IE 10')).toEqual(result);
 });

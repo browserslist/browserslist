@@ -1,6 +1,6 @@
-const browserslist = require('../');
+var browserslist = require('../');
 
-const originData = browserslist.data;
+var originData = browserslist.data;
 
 beforeEach(() => {
     browserslist.data = {
