@@ -83,7 +83,7 @@ it('has actual example in README.md', () => {
 });
 
 it('throws custom error', () => {
-    let error;
+    var error;
     try {
         browserslist('wrong');
     } catch (e) {

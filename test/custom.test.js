@@ -37,6 +37,6 @@ it('take stats from usage data object', () => {
 });
 
 it('works alongside global usage query', () => {
-    let list = browserslist('> 10% in my stats, > 1%', { stats: usage });
+    var list = browserslist('> 10% in my stats, > 1%', { stats: usage });
     expect(list.length > 1).toBeTruthy();
 });
