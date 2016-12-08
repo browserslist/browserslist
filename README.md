@@ -9,8 +9,8 @@ of each of the major browsers, or have a usage of over 10% in global usage s
 
 ```js
 browserslist('last 1 version, > 10%');
-//=> ["and_chr 53", "chrome 54", "chrome 53", "edge 14", "firefox 49",
-//    "ie 11", "ie_mob 11", "ios_saf 10", "opera 41", "safari 10"]
+//=> ["and_chr 54", "chrome 55", "chrome 54", "edge 14", "firefox 50",
+//    "ie 11", "ie_mob 11", "ios_saf 10-10.1", "opera 41", "safari 10"]
 ```
 
 To share browser support with users, you can use [browserl.ist](http://browserl.ist/).

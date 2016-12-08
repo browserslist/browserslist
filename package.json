@@ -10,12 +10,12 @@
   "license": "MIT",
   "repository": "ai/browserslist",
   "dependencies": {
-    "caniuse-db": "^1.0.30000584"
+    "caniuse-db": "^1.0.30000592"
   },
   "bin": "./cli.js",
   "devDependencies": {
     "eslint-config-postcss": "2.0.2",
-    "eslint":                "3.10.2",
+    "eslint":                "3.11.1",
     "ava":                   "0.17.0"
   },
   "scripts": {
