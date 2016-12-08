@@ -1,6 +1,0 @@
-{
-  "extends": "eslint-config-postcss/es5",
-  "rules": {
-    "no-process-exit": 0
-  }
-}

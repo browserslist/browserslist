@@ -14,11 +14,20 @@
   },
   "bin": "./cli.js",
   "devDependencies": {
-    "eslint-config-postcss": "2.0.2",
-    "eslint":                "3.11.1",
-    "ava":                   "0.17.0"
+    "eslint": "^3.11.1",
+    "eslint-config-postcss": "^2.0.2",
+    "jest": "^17.0.3"
+  },
+  "eslintConfig": {
+    "extends": "eslint-config-postcss/es5",
+    "env": {
+      "jest": true
+    },
+    "rules": {
+      "no-process-exit": 0
+    }
   },
   "scripts": {
-    "test": "ava && eslint *.js test/*.js"
+    "test": "jest && eslint *.js test/*.js"
   }
 }

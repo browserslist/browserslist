@@ -1,10 +1,8 @@
-import browserslist from '../';
-
-import test from 'ava';
+const browserslist = require('../');
 
 const originData = browserslist.data;
 
-test.before(() => {
+beforeEach(() => {
     browserslist.data = {
         ie: {
             name:     'ie',
@@ -41,21 +39,21 @@ test.before(() => {
     };
 });
 
-test.after(() => {
+afterEach(() => {
     browserslist.data = originData;
 });
 
-test('selects versions of each major browser', t => {
-    t.deepEqual(browserslist('last 2 versions'),
-                ['chrome 39', 'chrome 38', 'edge 12', 'ie 11', 'ie 10']);
+it('selects versions of each major browser', () => {
+    expect(browserslist('last 2 versions'))
+        .toEqual(['chrome 39', 'chrome 38', 'edge 12', 'ie 11', 'ie 10']);
 });
 
-test('supports pluralization', t => {
-    t.deepEqual(browserslist('last 1 version'),
-                ['chrome 39', 'edge 12', 'ie 11']);
+it('supports pluralization', () => {
+    expect(browserslist('last 1 version'))
+        .toEqual(['chrome 39', 'edge 12', 'ie 11']);
 });
 
-test('is case insensitive', t => {
-    t.deepEqual(browserslist('Last 01 Version'),
-                ['chrome 39', 'edge 12', 'ie 11']);
+it('is case insensitive', () => {
+    expect(browserslist('Last 01 Version'))
+        .toEqual(['chrome 39', 'edge 12', 'ie 11']);
 });
