@@ -43,7 +43,7 @@ if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
         '  ' + pkg.name + ' "QUERIES"',
         '  ' + pkg.name + ' --coverage "QUERIES"',
         '  ' + pkg.name + ' --coverage=US "QUERIES"',
-        '  ' + pkg.name + ' --config=browserslist "Path to browserlist config file"'
+        '  ' + pkg.name + ' --config=browserslist "Path to browserlist file"'
     ].join('\n') + '\n');
 
 } else if ( isArg('--version') || isArg('-v') ) {
@@ -75,12 +75,9 @@ if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
 } else if (isArg('--config') || isArg('-b')) {
     var config = getArgValue('--config') || getArgValue('-b');
 
-    query(null, {
-        config: config
-    })
-        .forEach(function (browser) {
-            process.stdout.write(browser + '\n');
-        });
+    query(null, { config: config }).forEach(function (browser) {
+        process.stdout.write(browser + '\n');
+    });
 } else {
     error('Unknown arguments. Use --help to pick right one.');
 }
