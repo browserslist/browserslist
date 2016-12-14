@@ -52,9 +52,11 @@ it('throw a error on wrong path to config', () => {
     }).toThrowError(/Can't read/);
 });
 
-it('reads config by symlink', () => {
-    expect(browserslist(null, { config: link })).toEqual(['ie 9', 'ie 8']);
-});
+if (!/^win/.test(process.platform)) {
+    it('reads config by symlink', () => {
+        expect(browserslist(null, { config: link })).toEqual(['ie 9', 'ie 8']);
+    });
+}
 
 it('has default selection', () => {
     expect(browserslist.defaults.length > 0).toBeTruthy();
