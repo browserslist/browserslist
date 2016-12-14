@@ -3,6 +3,8 @@ var browserslist = require('../');
 var path = require('path');
 
 var css = path.join(__dirname, 'fixtures', 'dir', 'test.css');
+var withBoth = path.join(__dirname, 'fixtures', 'withBoth', 'test.css');
+var withPackage = path.join(__dirname, 'fixtures', 'withPackage', 'test.css');
 
 it('parses queries', () => {
     expect(browserslist.parseConfig('ie 10\n> 1%')).toEqual(['ie 10', '> 1%']);
@@ -24,4 +26,12 @@ it('returns false on no config', () => {
 
 it('reads config', () => {
     expect(browserslist.readConfig(css)).toEqual(['ie 11', 'ie 10']);
+});
+
+it('reads config from package.json', () => {
+    expect(browserslist.readConfig(withPackage)).toEqual(['ie 9', 'ie 10']);
+});
+
+it('reads from dir wich contains both browserslist and package.json', () => {
+    expect(() => browserslist.readConfig(withBoth)).toThrow();
 });
