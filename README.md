@@ -34,7 +34,8 @@ Browserslist will use browsers criteria from:
 1. First argument.
 2. `BROWSERSLIST` environment variable.
 3. `browserslist` config file in current or parent directories.
-4. If the above methods did not produce a valid result, Browserslist will use defaults:
+4. `browserslist` key in `package.json` file in current or parent directories.
+5. If the above methods did not produce a valid result, Browserslist will use defaults:
    `> 1%, last 2 versions, Firefox ESR`.
 
 Multiple criteria are combined as a boolean `OR`. A browser version must match
