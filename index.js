@@ -523,6 +523,4 @@ browserslist.queries = {
     }
 }());
 
-browserslist();
-
 module.exports = browserslist;
