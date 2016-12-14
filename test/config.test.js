@@ -33,5 +33,7 @@ it('reads config from package.json', () => {
 });
 
 it('reads from dir wich contains both browserslist and package.json', () => {
-    expect(() => browserslist.readConfig(withBoth)).toThrow();
+    expect( () => {
+        browserslist.readConfig(withBoth);
+    }).toThrowError(/contains both/);
 });

@@ -243,10 +243,10 @@ browserslist.readConfig = function (from) {
     if ( typeof from === 'undefined' ) from = '.';
 
     var dirs = path.resolve(from).split(path.sep);
-    var config, configPath, pkg, pkgConfig, pkgPath;
+    var config, pkgConfig;
     while ( dirs.length ) {
-        configPath = dirs.concat(['browserslist']).join(path.sep);
-        pkgPath = dirs.concat(['package.json']).join(path.sep);
+        var configPath = dirs.concat(['browserslist']).join(path.sep);
+        var pkgPath = dirs.concat(['package.json']).join(path.sep);
 
         if ( isFile(configPath) ) {
             config = fs.readFileSync(configPath);
@@ -254,20 +254,21 @@ browserslist.readConfig = function (from) {
 
         if ( isFile(pkgPath) ) {
             try {
-                pkg = JSON.parse( fs.readFileSync(pkgPath) );
-                pkgConfig = pkg.browserslist;
+                pkgConfig = JSON.parse(fs.readFileSync(pkgPath)).browserslist;
             } catch (e) {
-                console.warn('Could not parse ' + pkgPath);
-                console.warn(e.trace);
+                console.warn(
+                    '[Browserslist] Could not parse ' + pkgPath + '. ' +
+                    'Ignoring it.');
             }
         }
 
         if ( config && pkgConfig ) {
-            throw new Error(dirs.join(path.sep) +
-            ' contains both browserslist and package.json' +
-            ' with browserslist key, this is potentially dangerous.');
+            error(
+                dirs.join(path.sep) + ' contains ' +
+                'both browserslist and package.json with browserslist key, ' +
+                'this is potentially dangerous');
         } else if ( config ) {
-            return browserslist.parseConfig( config );
+            return browserslist.parseConfig(config);
         } else if ( pkgConfig ) {
             return pkgConfig;
         }
