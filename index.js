@@ -29,17 +29,17 @@ function error(name) {
 
 // Helpers
 
-var normalize = function (versions) {
+function normalize(versions) {
     return versions.filter(function (version) {
         return typeof version === 'string';
     });
-};
+}
 
-var fillUsage = function (result, name, data) {
+function fillUsage(result, name, data) {
     for ( var i in data ) {
         result[name + ' ' + i] = data[i];
     }
-};
+}
 
 // Return array of browsers by selection queries:
 //
