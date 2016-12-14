@@ -156,6 +156,7 @@ If you have a website, you can query against the usage statistics of your site:
     ```js
    browserslist('> 5% in my stats', { stats: 'path/to/the/stats.json' });
     ```
+5. Import statistic from 'browserslist-stats.json' in project folder
 
 Of course, you can generate usage statistics file by any other method.
 Option `stats` accepts path to file or data itself:

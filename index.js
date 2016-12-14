@@ -72,9 +72,34 @@ var browserslist = function (selections, opts) {
         selections = selections.split(/,\s*/);
     }
 
+    var statsFile, statsExist;
+
     if ( opts.stats || process.env.BROWSERSLIST_STATS ) {
+        statsExist = true;
+    } else {
+        (function searchStatsFile(startPath) {
+            if (!fs.existsSync(startPath)) {
+                return;
+            }
+
+            var files = fs.readdirSync(startPath), filename, stat, currFile;
+            for (var i = 0; i < files.length; i++ ) {
+                filename = path.join(startPath, files[i]);
+                stat = fs.lstatSync(filename);
+                currFile = path.basename(filename);
+                if (stat.isDirectory()) {
+                    searchStatsFile(filename);
+                } else if (currFile === 'browserslist-stats.json') {
+                    statsExist = true;
+                    statsFile = JSON.parse(fs.readFileSync(filename));
+                }
+            }
+        }(__dirname));
+    }
+
+    if (statsExist) {
         browserslist.usage.custom = { };
-        var stats = opts.stats || process.env.BROWSERSLIST_STATS;
+        var stats = opts.stats || process.env.BROWSERSLIST_STATS || statsFile;
         if ( typeof stats === 'string' ) {
             try {
                 stats = JSON.parse(fs.readFileSync(stats));
@@ -497,5 +522,7 @@ browserslist.queries = {
         }
     }
 }());
+
+browserslist();
 
 module.exports = browserslist;
