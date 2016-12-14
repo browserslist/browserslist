@@ -35,8 +35,8 @@ Browserslist will use browsers criteria from:
 2. `BROWSERSLIST` environment variable.
 3. `browserslist` config file in current or parent directories.
 4. `browserslist` key in `package.json` file in current or parent directories.
-5. If the above methods did not produce a valid result, Browserslist will use defaults:
-   `> 1%, last 2 versions, Firefox ESR`.
+5. If the above methods did not produce a valid result
+   Browserslist will use defaults: `> 1%, last 2 versions, Firefox ESR`.
 
 Multiple criteria are combined as a boolean `OR`. A browser version must match
 at least one of the criteria to be selected.
@@ -64,8 +64,8 @@ You should avoid queries like `Firefox > 0`.
 All queries are based on the [Can I Use] support table, e.g. `last 3 iOS versions` might select `8.4, 9.2, 9.3` (mixed major & minor), whereas `last 3 Chrome versions` might select `50, 49, 48` (major only).
 
 [two-letter country code]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
-[custom usage data]:       #custom-usage-data
-[Can I Use]:               http://caniuse.com/
+[custom usage data]:        #custom-usage-data
+[Can I Use]:                http://caniuse.com/
 
 ## Browsers
 
