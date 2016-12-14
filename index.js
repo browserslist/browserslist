@@ -41,6 +41,10 @@ function fillUsage(result, name, data) {
     }
 }
 
+function isFile(file) {
+    return fs.existsSync(file) && fs.statSync(file).isFile();
+}
+
 // Return array of browsers by selection queries:
 //
 //   browserslist('IE >= 10, IE 8') //=> ['ie 11', 'ie 10', 'ie 8']
@@ -244,11 +248,11 @@ browserslist.readConfig = function (from) {
         configPath = dirs.concat(['browserslist']).join(path.sep);
         pkgPath = dirs.concat(['package.json']).join(path.sep);
 
-        if ( fs.existsSync(configPath) && fs.statSync(configPath).isFile() ) {
+        if ( isFile(configPath) ) {
             config = fs.readFileSync(configPath);
         }
 
-        if ( fs.existsSync(pkgPath) && fs.statSync(pkgPath).isFile() ) {
+        if ( isFile(pkgPath) ) {
             try {
                 pkg = JSON.parse( fs.readFileSync(pkgPath) );
                 pkgConfig = pkg.browserslist;
