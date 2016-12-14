@@ -264,12 +264,33 @@ browserslist.readConfig = function (from) {
     if ( typeof from === 'undefined' ) from = '.';
 
     var dirs = path.resolve(from).split(path.sep);
-    var config;
+    var config, configPath, pkg, pkgConfig, pkgPath;
     while ( dirs.length ) {
-        config = dirs.concat(['browserslist']).join(path.sep);
+        configPath = dirs.concat(['browserslist']).join(path.sep);
+        pkgPath = dirs.concat(['package.json']).join(path.sep);
 
-        if ( fs.existsSync(config) && fs.statSync(config).isFile() ) {
-            return browserslist.parseConfig( fs.readFileSync(config) );
+        if ( fs.existsSync(configPath) && fs.statSync(configPath).isFile() ) {
+            config = fs.readFileSync(configPath);
+        }
+
+        if ( fs.existsSync(pkgPath) && fs.statSync(pkgPath).isFile() ) {
+            try {
+                pkg = JSON.parse( fs.readFileSync(pkgPath) );
+                pkgConfig = pkg.browserslist;
+            } catch (e) {
+                console.warn('Could not parse ' + pkgPath);
+                console.warn(e.trace);
+            }
+        }
+
+        if (config && pkgConfig) {
+            throw new Error(dirs.join(path.sep) +
+            ' contains both browserslist and package.json' +
+            ' with browserslist key, this is potentially dangerous.');
+        } else if (config) {
+            return browserslist.parseConfig( config );
+        } else if (pkgConfig) {
+            return pkgConfig;
         }
 
         dirs.pop();
