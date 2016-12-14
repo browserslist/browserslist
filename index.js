@@ -173,7 +173,7 @@ var normalizeVersion = function (data, version) {
 };
 
 var loadCountryStatistics = function (country) {
-    if (!browserslist.usage[country]) {
+    if ( !browserslist.usage[country] ) {
         var usage = { };
         var data = require(
             'caniuse-db/region-usage-json/' + country + '.json');
@@ -262,13 +262,13 @@ browserslist.readConfig = function (from) {
             }
         }
 
-        if (config && pkgConfig) {
+        if ( config && pkgConfig ) {
             throw new Error(dirs.join(path.sep) +
             ' contains both browserslist and package.json' +
             ' with browserslist key, this is potentially dangerous.');
-        } else if (config) {
+        } else if ( config ) {
             return browserslist.parseConfig( config );
-        } else if (pkgConfig) {
+        } else if ( pkgConfig ) {
             return pkgConfig;
         }
 
@@ -280,7 +280,7 @@ browserslist.readConfig = function (from) {
 
 // Return browsers market coverage
 browserslist.coverage = function (browsers, country) {
-    if (country && country !== 'global') {
+    if ( country && country !== 'global') {
         country = country.toUpperCase();
         loadCountryStatistics(country);
     } else {
@@ -289,7 +289,7 @@ browserslist.coverage = function (browsers, country) {
 
     return browsers.reduce(function (all, i) {
         var usage = browserslist.usage[country][i];
-        if (usage === undefined) {
+        if ( usage === undefined ) {
             // Sometimes, Caniuse consolidates country usage data into a single
             // "version 0" entry. This is usually when there is only 1 version.
             usage = browserslist.usage[country][i.replace(/ [\d.]+$/, ' 0')];
