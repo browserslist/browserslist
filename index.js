@@ -72,32 +72,9 @@ var browserslist = function (selections, opts) {
         selections = selections.split(/,\s*/);
     }
 
-    var statsFile, statsExist;
+    var statsFile;
 
-    if ( opts.stats || process.env.BROWSERSLIST_STATS ) {
-        statsExist = true;
-    } else {
-        (function searchStatsFile(startPath) {
-            if (!fs.existsSync(startPath)) {
-                return;
-            }
-
-            var files = fs.readdirSync(startPath), filename, stat, currFile;
-            for (var i = 0; i < files.length; i++ ) {
-                filename = path.join(startPath, files[i]);
-                stat = fs.lstatSync(filename);
-                currFile = path.basename(filename);
-                if (stat.isDirectory()) {
-                    searchStatsFile(filename);
-                } else if (currFile === 'browserslist-stats.json') {
-                    statsExist = true;
-                    statsFile = JSON.parse(fs.readFileSync(filename));
-                }
-            }
-        }(__dirname));
-    }
-
-    if (statsExist) {
+    var getStats = function () {
         browserslist.usage.custom = { };
         var stats = opts.stats || process.env.BROWSERSLIST_STATS || statsFile;
         if ( typeof stats === 'string' ) {
@@ -113,6 +90,26 @@ var browserslist = function (selections, opts) {
         }
         for ( var browser in stats ) {
             fillUsage(browserslist.usage.custom, browser, stats[browser]);
+        }
+    };
+
+    if ( opts.stats || process.env.BROWSERSLIST_STATS ) {
+        getStats();
+    } else {
+        var from = opts.path;
+        if ( typeof from === 'undefined' ) from = '.';
+        var dirs = path.resolve(from).split(path.sep);
+
+        while ( dirs.length ) {
+            statsFile = dirs.concat(['browserslist-stats.json']).join(path.sep);
+
+            if ( fs.existsSync(statsFile) && fs.statSync(statsFile).isFile() ) {
+                statsFile = JSON.parse(fs.readFileSync(statsFile));
+                getStats();
+                break;
+            }
+
+            dirs.pop();
         }
     }
 
@@ -543,5 +540,7 @@ browserslist.queries = {
         }
     }
 }());
+
+browserslist();
 
 module.exports = browserslist;
