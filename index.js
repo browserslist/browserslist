@@ -41,6 +41,32 @@ var fillUsage = function (result, name, data) {
     }
 };
 
+var getStat = function (opts) {
+    var stats = opts.stats || process.env.BROWSERSLIST_STATS;
+
+    if ( !stats ) {
+        var from = opts.path;
+        if ( typeof from === 'undefined' ) from = '.';
+        var dirs = path.resolve(from).split(path.sep);
+        var statsFile;
+        while ( dirs.length ) {
+            statsFile = dirs.concat(['browserslist-stats.json']).join(path.sep);
+
+            if ( fs.existsSync(statsFile) && fs.statSync(statsFile).isFile() ) {
+                statsFile = JSON.parse(fs.readFileSync(statsFile));
+                if (typeof statsFile === 'object') {
+                    stats = statsFile;
+                }
+                break;
+            }
+
+            dirs.pop();
+        }
+    }
+
+    return stats;
+};
+
 // Return array of browsers by selection queries:
 //
 //   browserslist('IE >= 10, IE 8') //=> ['ie 11', 'ie 10', 'ie 8']
@@ -72,11 +98,13 @@ var browserslist = function (selections, opts) {
         selections = selections.split(/,\s*/);
     }
 
-    var statsFile;
+    var stats = getStat(opts);
 
-    var getStats = function () {
+    if ( !stats ) {
+        // console.warn('Cannot find statistics data');
+    } else {
         browserslist.usage.custom = { };
-        var stats = opts.stats || process.env.BROWSERSLIST_STATS || statsFile;
+
         if ( typeof stats === 'string' ) {
             try {
                 stats = JSON.parse(fs.readFileSync(stats));
@@ -90,26 +118,6 @@ var browserslist = function (selections, opts) {
         }
         for ( var browser in stats ) {
             fillUsage(browserslist.usage.custom, browser, stats[browser]);
-        }
-    };
-
-    if ( opts.stats || process.env.BROWSERSLIST_STATS ) {
-        getStats();
-    } else {
-        var from = opts.path;
-        if ( typeof from === 'undefined' ) from = '.';
-        var dirs = path.resolve(from).split(path.sep);
-
-        while ( dirs.length ) {
-            statsFile = dirs.concat(['browserslist-stats.json']).join(path.sep);
-
-            if ( fs.existsSync(statsFile) && fs.statSync(statsFile).isFile() ) {
-                statsFile = JSON.parse(fs.readFileSync(statsFile));
-                getStats();
-                break;
-            }
-
-            dirs.pop();
         }
     }
 
@@ -540,7 +548,5 @@ browserslist.queries = {
         }
     }
 }());
-
-browserslist();
 
 module.exports = browserslist;

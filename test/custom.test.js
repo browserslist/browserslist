@@ -4,6 +4,7 @@ var path = require('path');
 var fs   = require('fs');
 
 var usage = path.join(__dirname, 'fixtures', 'stats.json');
+var stats = path.join(__dirname, 'fixtures', 'browserslist-stats.json');
 
 afterEach(() => {
     delete process.env.BROWSERSLIST_STATS;
@@ -42,5 +43,5 @@ it('works alongside global usage query', () => {
 });
 
 it('take stats from browserslist-stats.json', () => {
-    expect(browserslist('> 5% in my stats')).toEqual(['ie 8']);
+    expect(browserslist('> 5% in my stats', { path: stats })).toEqual(['ie 8']);
 });
