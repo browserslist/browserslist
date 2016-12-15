@@ -151,13 +151,15 @@ If you have a website, you can query against the usage statistics of your site:
    var e=document.createElement('a');e.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(JSON.stringify(JSON.parse(localStorage['usage-data-by-id'])[localStorage['config-primary_usage']])));e.setAttribute('download','stats.json');document.body.appendChild(e);e.click();document.body.removeChild(e);
     ```
 3. Save the data to a file in your project.
-4. Give it to Browserslist by `stats` option,
-   `BROWSERSLIST_STATS` environment variable
-   or import from `browserslist-stats.json` in project folder:
+4. Give it to Browserslist by `stats` option
 
-    ```js
-   browserslist('> 5% in my stats', { stats: 'path/to/the/stats.json' });
-    ```
+   or `BROWSERSLIST_STATS` environment variable:
+
+   ```js
+  browserslist('> 5% in my stats', { stats: 'path/to/the/stats.json' });
+   ``` 
+
+  or you can provide `browserslist-stats.json`.
 
 Of course, you can generate usage statistics file by any other method.
 Option `stats` accepts path to file or data itself:
