@@ -152,11 +152,14 @@ If you have a website, you can query against the usage statistics of your site:
     ```
 3. Save the data to a file in your project.
 4. Give it to Browserslist by `stats` option
+
    or `BROWSERSLIST_STATS` environment variable:
 
-    ```js
-   browserslist('> 5% in my stats', { stats: 'path/to/the/stats.json' });
-    ```
+   ```js
+  browserslist('> 5% in my stats', { stats: 'path/to/the/stats.json' });
+   ``` 
+
+  or you can provide `browserslist-stats.json`.
 
 Of course, you can generate usage statistics file by any other method.
 Option `stats` accepts path to file or data itself:
