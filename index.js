@@ -15,19 +15,18 @@ function uniq(array) {
 function BrowserslistError(message) {
     this.name = 'BrowserslistError';
     this.message = message || '';
+    this.browserslist = true;
     if ( Error.captureStackTrace ) {
         Error.captureStackTrace(this, BrowserslistError);
     }
 }
 BrowserslistError.prototype = Error.prototype;
 
-function error(name) {
-    var obj = new BrowserslistError(name);
-    obj.browserslist = true;
-    throw obj;
-}
-
 // Helpers
+
+function error(name) {
+    throw new BrowserslistError(name);
+}
 
 function normalize(versions) {
     return versions.filter(function (version) {
