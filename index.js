@@ -46,28 +46,21 @@ function isFile(file) {
 
 var getStat = function (opts) {
     var stats = opts.stats || process.env.BROWSERSLIST_STATS;
+    if ( stats ) return stats;
 
-    if ( !stats ) {
-        var from = opts.path;
-        if ( typeof from === 'undefined' ) from = '.';
-        var dirs = path.resolve(from).split(path.sep);
-        var statsFile;
-        while ( dirs.length ) {
-            statsFile = dirs.concat(['browserslist-stats.json']).join(path.sep);
+    if ( typeof opts.path === 'undefined' ) opts.path = '.';
+    var dirs = path.resolve(opts.path).split(path.sep);
 
-            if ( fs.existsSync(statsFile) && fs.statSync(statsFile).isFile() ) {
-                statsFile = JSON.parse(fs.readFileSync(statsFile));
-                if (typeof statsFile === 'object') {
-                    stats = statsFile;
-                }
-                break;
-            }
-
+    while ( dirs.length ) {
+        stats = dirs.concat(['browserslist-stats.json']).join(path.sep);
+        if ( isFile(stats) ) {
+            return stats;
+        } else {
             dirs.pop();
         }
     }
 
-    return stats;
+    return false;
 };
 
 // Return array of browsers by selection queries:
