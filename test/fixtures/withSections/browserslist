@@ -1,0 +1,13 @@
+# File for test
+[production]
+ie 11
+ie 10
+
+[development]
+ie 10
+ie 11
+chrome 53
+
+[custom]  # Some custom section
+chrome 51
+ff 42
