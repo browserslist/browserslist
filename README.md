@@ -114,6 +114,43 @@ So, if tool process `app/styles/main.css`, you can put config to root,
 You can specify direct path to config by `config` option
 or `BROWSERSLIST_CONFIG` environment variables.
 
+The order of browsers queries matters.
+
+Example on `Explorer`:
+```
+> 1%
+Explorer >= 9
+not IE <= 8
+```
+
+Return browser versions:
+
+```
+...
+[ 'ie', '11' ],
+[ 'ie', '10' ],
+[ 'ie', '9' ],
+...
+```
+
+But:
+```
+> 1%
+not IE <= 8
+Explorer >= 9
+```
+
+Return other browser versions:
+
+```
+...
+[ 'ie', '11' ],
+[ 'ie', '10' ],
+[ 'ie', '9' ],
+[ 'ie', '8' ],
+...
+```
+
 ## Environment Variables
 
 If some tool use Browserslist inside, you can change browsers settings
