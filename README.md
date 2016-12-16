@@ -108,7 +108,7 @@ IE 8 # sorry
 ```
 
 You can also specify different browser queries for various environments.
-Browserlist will choose query according to BROWSERSLIST_ENV or NODE_ENV
+Browserlist will choose query according to `BROWSERSLIST_ENV` or `NODE_ENV`
 variables. If none of them is declared, Browserlist will firstly look for
 development queries and then use defaults.
 
