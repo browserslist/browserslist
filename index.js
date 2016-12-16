@@ -15,30 +15,52 @@ function uniq(array) {
 function BrowserslistError(message) {
     this.name = 'BrowserslistError';
     this.message = message || '';
+    this.browserslist = true;
     if ( Error.captureStackTrace ) {
         Error.captureStackTrace(this, BrowserslistError);
     }
 }
 BrowserslistError.prototype = Error.prototype;
 
-function error(name) {
-    var obj = new BrowserslistError(name);
-    obj.browserslist = true;
-    throw obj;
-}
-
 // Helpers
 
-var normalize = function (versions) {
+function error(name) {
+    throw new BrowserslistError(name);
+}
+
+function normalize(versions) {
     return versions.filter(function (version) {
         return typeof version === 'string';
     });
-};
+}
 
-var fillUsage = function (result, name, data) {
+function fillUsage(result, name, data) {
     for ( var i in data ) {
         result[name + ' ' + i] = data[i];
     }
+}
+
+function isFile(file) {
+    return fs.existsSync(file) && fs.statSync(file).isFile();
+}
+
+var getStat = function (opts) {
+    var stats = opts.stats || process.env.BROWSERSLIST_STATS;
+    if ( stats ) return stats;
+
+    if ( typeof opts.path === 'undefined' ) opts.path = '.';
+    var dirs = path.resolve(opts.path).split(path.sep);
+
+    while ( dirs.length ) {
+        stats = dirs.concat(['browserslist-stats.json']).join(path.sep);
+        if ( isFile(stats) ) {
+            return stats;
+        } else {
+            dirs.pop();
+        }
+    }
+
+    return false;
 };
 
 // Return array of browsers by selection queries:
@@ -72,9 +94,8 @@ var browserslist = function (selections, opts) {
         selections = selections.split(/,\s*/);
     }
 
-    if ( opts.stats || process.env.BROWSERSLIST_STATS ) {
-        browserslist.usage.custom = { };
-        var stats = opts.stats || process.env.BROWSERSLIST_STATS;
+    var stats = getStat(opts);
+    if ( stats ) {
         if ( typeof stats === 'string' ) {
             try {
                 stats = JSON.parse(fs.readFileSync(stats));
@@ -83,9 +104,10 @@ var browserslist = function (selections, opts) {
             }
         }
         if ( 'dataByBrowser' in stats ) {
-            // Allow to use the data as-is from the caniuse.com website
             stats = stats.dataByBrowser;
         }
+
+        browserslist.usage.custom = { };
         for ( var browser in stats ) {
             fillUsage(browserslist.usage.custom, browser, stats[browser]);
         }
@@ -169,7 +191,7 @@ var normalizeVersion = function (data, version) {
 };
 
 var loadCountryStatistics = function (country) {
-    if (!browserslist.usage[country]) {
+    if ( !browserslist.usage[country] ) {
         var usage = { };
         var data = require(
             'caniuse-db/region-usage-json/' + country + '.json');
@@ -239,12 +261,34 @@ browserslist.readConfig = function (from) {
     if ( typeof from === 'undefined' ) from = '.';
 
     var dirs = path.resolve(from).split(path.sep);
-    var config;
+    var config, pkgConfig;
     while ( dirs.length ) {
-        config = dirs.concat(['browserslist']).join(path.sep);
+        var configPath = dirs.concat(['browserslist']).join(path.sep);
+        var pkgPath = dirs.concat(['package.json']).join(path.sep);
 
-        if ( fs.existsSync(config) && fs.statSync(config).isFile() ) {
-            return browserslist.parseConfig( fs.readFileSync(config) );
+        if ( isFile(configPath) ) {
+            config = fs.readFileSync(configPath);
+        }
+
+        if ( isFile(pkgPath) ) {
+            try {
+                pkgConfig = JSON.parse(fs.readFileSync(pkgPath)).browserslist;
+            } catch (e) {
+                console.warn(
+                    '[Browserslist] Could not parse ' + pkgPath + '. ' +
+                    'Ignoring it.');
+            }
+        }
+
+        if ( config && pkgConfig ) {
+            error(
+                dirs.join(path.sep) + ' contains ' +
+                'both browserslist and package.json with browserslist key, ' +
+                'this is potentially dangerous');
+        } else if ( config ) {
+            return browserslist.parseConfig(config);
+        } else if ( pkgConfig ) {
+            return pkgConfig;
         }
 
         dirs.pop();
@@ -255,7 +299,7 @@ browserslist.readConfig = function (from) {
 
 // Return browsers market coverage
 browserslist.coverage = function (browsers, country) {
-    if (country && country !== 'global') {
+    if ( country && country !== 'global') {
         country = country.toUpperCase();
         loadCountryStatistics(country);
     } else {
@@ -264,7 +308,7 @@ browserslist.coverage = function (browsers, country) {
 
     return browsers.reduce(function (all, i) {
         var usage = browserslist.usage[country][i];
-        if (usage === undefined) {
+        if ( usage === undefined ) {
             // Sometimes, Caniuse consolidates country usage data into a single
             // "version 0" entry. This is usually when there is only 1 version.
             usage = browserslist.usage[country][i.replace(/ [\d.]+$/, ' 0')];
