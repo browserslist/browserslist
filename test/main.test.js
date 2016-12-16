@@ -2,13 +2,16 @@ var browserslist = require('../');
 
 var path = require('path');
 
-var css  = path.join(__dirname, 'fixtures', 'dir', 'test.css');
-var ies  = path.join(__dirname, 'fixtures', 'explorers');
-var link = path.join(__dirname, 'fixtures', 'symlink');
+var css       = path.join(__dirname, 'fixtures', 'dir', 'test.css');
+var ies       = path.join(__dirname, 'fixtures', 'explorers');
+var link      = path.join(__dirname, 'fixtures', 'symlink');
+var withEnvB  = path.join(__dirname, 'fixtures', 'withEnvB', 'test.css');
+var withEnvP  = path.join(__dirname, 'fixtures', 'withEnvP', 'test.css');
 
 afterEach(() => {
     delete process.env.BROWSERSLIST;
     delete process.env.BROWSERSLIST_CONFIG;
+    delete process.env.BROWSERSLIST_ENV;
 });
 
 it('accepts array', () => {
@@ -44,6 +47,37 @@ it('reads config by direct path', () => {
 it('reads config by direct path in environment variable', () => {
     process.env.BROWSERSLIST_CONFIG = ies;
     expect(browserslist(null, { path: css })).toEqual(['ie 9', 'ie 8']);
+});
+
+it('return correct config for direct env from browserlist', () => {
+    expect(browserslist(null, { path: withEnvB, env: 'production' }))
+        .toEqual(['ie 9', 'opera 41']);
+
+    expect(browserslist(null, { path: withEnvB, env: 'development' }))
+        .toEqual(['chrome 55', 'firefox 50']);
+
+    expect(browserslist(null, { path: withEnvB, env: 'test' }))
+        .toEqual(['ie 11', 'ie 10']);
+});
+it('return correct config for direct env from package', () => {
+    expect(browserslist(null, { path: withEnvP, env: 'production' }))
+        .toEqual(['ie 9', 'opera 41']);
+
+    expect(browserslist(null, { path: withEnvP, env: 'development' }))
+        .toEqual(['chrome 55', 'firefox 50']);
+
+    expect(browserslist(null, { path: withEnvP, env: 'test' }))
+        .toEqual(browserslist(browserslist.defaults));
+});
+it('return correct config for NODE_ENV from browserlist', () => {
+    // In our case NODE_ENV = 'test'
+    expect(browserslist(null, { path: withEnvB }))
+        .toEqual(['ie 11', 'ie 10']);
+});
+it('return correct config for BROWSERSLIST_ENV from browserlist', () => {
+    process.env.BROWSERSLIST_ENV = 'development';
+    expect(browserslist(null, { path: withEnvB }))
+        .toEqual(['chrome 55', 'firefox 50']);
 });
 
 it('throw a error on wrong path to config', () => {
