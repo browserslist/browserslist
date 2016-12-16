@@ -107,12 +107,67 @@ Last 2 versions
 IE 8 # sorry
 ```
 
+Config file may have different sections for specific environments:
+
+```yaml
+[production]
+> 2%
+Last 3 versions
+
+[development]
+> 1%
+Last 2 versions
+
+[other]
+ie 11
+chrome 51
+```
+
 Browserslist will check config in every directory in `path`.
 So, if tool process `app/styles/main.css`, you can put config to root,
 `app/` or `app/styles`.
 
 You can specify direct path to config by `config` option
 or `BROWSERSLIST_CONFIG` environment variables.
+
+## Config in package.json
+
+You can add `browserslist` key in `package.json`. Examples:
+
+```json
+{
+  "browserslist": ["ie 10", "ie 11", "chrome 52"]
+}
+```
+
+You can also use different sections for specific environments:
+
+```json
+{
+  "browserslist": {
+    "development": ["> 2%", "Last 3 versions"],
+    "production": ["> 1%", "Last 1 versions"],
+    "other": ["ff 41"]
+  }
+}
+```
+
+Note: you can't use `browserslist` config file and `browserslist` key in
+`package.json` at the same time.
+
+## Using `env` option for specific environments
+
+You can add `env` option to specify current environment:
+
+```js
+browserslist(null, { env: 'production' });
+```
+
+Browserslist read environment from:
+
+1. `env` option.
+2. `BROWSERSLIST_ENV` environment variable.
+3. `NODE_ENV` environment variable.
 
 ## Environment Variables
 
@@ -137,6 +192,16 @@ by [environment variables]:
   BROWSERSLIST_STATS=./config/usage_data.json gulp css
    ```
 
+ * `BROWSERSLIST_ENV` or `NODE_ENV` with environment value for different config sections
+
+    ```sh
+  BROWSERSLIST_ENV=production
+    ```
+
+    ```sh
+  NODE_ENV=development
+    ```
+
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
 ## Custom Usage Data
@@ -157,7 +222,7 @@ If you have a website, you can query against the usage statistics of your site:
 
    ```js
   browserslist('> 5% in my stats', { stats: 'path/to/the/stats.json' });
-   ``` 
+   ```
 
   or you can provide `browserslist-stats.json`.
 

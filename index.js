@@ -46,21 +46,28 @@ function isFile(file) {
 
 var getStat = function (opts) {
     var stats = opts.stats || process.env.BROWSERSLIST_STATS;
-    if ( stats ) return stats;
 
-    if ( typeof opts.path === 'undefined' ) opts.path = '.';
-    var dirs = path.resolve(opts.path).split(path.sep);
+    if ( !stats ) {
+        var from = opts.path;
+        if ( typeof from === 'undefined' ) from = '.';
+        var dirs = path.resolve(from).split(path.sep);
+        var statsFile;
+        while ( dirs.length ) {
+            statsFile = dirs.concat(['browserslist-stats.json']).join(path.sep);
 
-    while ( dirs.length ) {
-        stats = dirs.concat(['browserslist-stats.json']).join(path.sep);
-        if ( isFile(stats) ) {
-            return stats;
-        } else {
+            if ( fs.existsSync(statsFile) && fs.statSync(statsFile).isFile() ) {
+                statsFile = JSON.parse(fs.readFileSync(statsFile));
+                if (typeof statsFile === 'object') {
+                    stats = statsFile;
+                }
+                break;
+            }
+
             dirs.pop();
         }
     }
 
-    return false;
+    return stats;
 };
 
 // Return array of browsers by selection queries:
@@ -70,18 +77,21 @@ var browserslist = function (selections, opts) {
     if ( typeof opts === 'undefined' ) opts = { };
 
     if ( typeof selections === 'undefined' || selections === null ) {
+        var env = opts.env || process.env.BROWSERSLIST_ENV ||
+                  process.env.NODE_ENV || 'development';
 
         if ( process.env.BROWSERSLIST ) {
             selections = process.env.BROWSERSLIST;
         } else if ( opts.config || process.env.BROWSERSLIST_CONFIG ) {
             var file = opts.config || process.env.BROWSERSLIST_CONFIG;
             if ( fs.existsSync(file) && fs.statSync(file).isFile() ) {
-                selections = browserslist.parseConfig( fs.readFileSync(file) );
+                selections =
+                    browserslist.parseConfig(fs.readFileSync(file), env);
             } else {
                 error('Can\'t read ' + file + ' config');
             }
         } else {
-            var config = browserslist.readConfig(opts.path);
+            var config = browserslist.readConfig(opts.path, env);
             if ( config !== false ) {
                 selections = config;
             } else {
@@ -95,7 +105,12 @@ var browserslist = function (selections, opts) {
     }
 
     var stats = getStat(opts);
-    if ( stats ) {
+
+    if ( !stats ) {
+        // console.warn('Cannot find statistics data');
+    } else {
+        browserslist.usage.custom = { };
+
         if ( typeof stats === 'string' ) {
             try {
                 stats = JSON.parse(fs.readFileSync(stats));
@@ -104,10 +119,9 @@ var browserslist = function (selections, opts) {
             }
         }
         if ( 'dataByBrowser' in stats ) {
+            // Allow to use the data as-is from the caniuse.com website
             stats = stats.dataByBrowser;
         }
-
-        browserslist.usage.custom = { };
         for ( var browser in stats ) {
             fillUsage(browserslist.usage.custom, browser, stats[browser]);
         }
@@ -255,7 +269,7 @@ browserslist.checkName = function (name) {
 };
 
 // Find config, read file and parse it
-browserslist.readConfig = function (from) {
+browserslist.readConfig = function (from, env) {
     if ( from === false )   return false;
     if ( !fs.readFileSync || !fs.existsSync || !fs.statSync ) return false;
     if ( typeof from === 'undefined' ) from = '.';
@@ -286,9 +300,13 @@ browserslist.readConfig = function (from) {
                 'both browserslist and package.json with browserslist key, ' +
                 'this is potentially dangerous');
         } else if ( config ) {
-            return browserslist.parseConfig(config);
+            return browserslist.parseConfig(config, env);
         } else if ( pkgConfig ) {
-            return pkgConfig;
+            var pkgEnvConfig = pkgConfig[env] ? pkgConfig[env] : pkgConfig;
+            if ( !Array.isArray(pkgEnvConfig) ) {
+                pkgEnvConfig = [];
+            }
+            return pkgEnvConfig;
         }
 
         dirs.pop();
@@ -317,16 +335,31 @@ browserslist.coverage = function (browsers, country) {
     }, 0);
 };
 
-// Return array of queries from config content
-browserslist.parseConfig = function (string) {
-    return string.toString()
-            .replace(/#[^\n]*/g, '')
-            .split(/\n/)
-            .map(function (i) {
-                return i.trim();
-            }).filter(function (i) {
-                return i !== '';
-            });
+// Return array of queries from config content by env section
+browserslist.parseConfig = function (string, env) {
+    var curEnv = env || 'development';
+    var sections = { defaults: [] };
+    var curSection = 'defaults';
+    var sectionRegExp = /^\s*\[(.+)\]\s*$/i;
+    string.toString()
+        .replace(/#[^\n]*/g, '')
+        .split(/\n/)
+        .map(function (line) {
+            return line.trim();
+        })
+        .filter(function (line) {
+            return line !== '';
+        })
+        .forEach(function (line) {
+            if ( sectionRegExp.test(line) ) {
+                curSection = line.match(sectionRegExp)[1];
+                return;
+            }
+            sections[curSection] = sections[curSection] || [];
+            sections[curSection].push(line);
+        });
+
+    return sections[curEnv] ? sections[curEnv] : sections.defaults;
 };
 
 browserslist.queries = {

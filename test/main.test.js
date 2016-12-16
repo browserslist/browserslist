@@ -5,10 +5,14 @@ var path = require('path');
 var css  = path.join(__dirname, 'fixtures', 'dir', 'test.css');
 var ies  = path.join(__dirname, 'fixtures', 'explorers');
 var link = path.join(__dirname, 'fixtures', 'symlink');
+var fileSections = path.join(__dirname, 'fixtures', 'withSections');
+var pckgSections = path.join(__dirname, 'fixtures', 'withPackageSections');
 
 afterEach(() => {
     delete process.env.BROWSERSLIST;
     delete process.env.BROWSERSLIST_CONFIG;
+    delete process.env.BROWSERSLIST_ENV;
+    delete process.env.NODE_ENV;
 });
 
 it('accepts array', () => {
@@ -103,4 +107,46 @@ it('excludes queries', () => {
 it('clean 0 version', () => {
     expect(browserslist(['> 0%', '> 0% in FI']).indexOf('and_chr 0'))
         .toEqual(-1);
+});
+
+it('read sections from config by env option', () => {
+    var configPaths = [fileSections, pckgSections];
+    configPaths.forEach((confPath) => {
+        expect(browserslist(null, { path: confPath, env: 'custom' }))
+            .toEqual(['chrome 51', 'firefox 42']);
+        expect(browserslist(null, { path: confPath, env: 'production' }))
+            .toEqual(['ie 11', 'ie 10']);
+        expect(browserslist(null, { path: confPath, env: 'unusedsection' }))
+            .toEqual([]);
+    });
+});
+
+it('read sections from config file by BROWSERSLIST_ENV and NODE_ENV', () => {
+    var envs = ['BROWSERSLIST_ENV', 'NODE_ENV'];
+    var configPaths = [fileSections, pckgSections];
+    configPaths.forEach((confPath) => {
+        envs.forEach((env) => {
+            envs.forEach(curEnv => delete process.env[curEnv]);
+
+            process.env[env] = 'custom';
+            expect(browserslist(null, { path: confPath }))
+                .toEqual(['chrome 51', 'firefox 42']);
+
+            process.env[env] = 'production';
+            expect(browserslist(null, { path: confPath }))
+                .toEqual(['ie 11', 'ie 10']);
+
+            process.env[env] = 'unusedsection';
+            expect(browserslist(null, { path: confPath }))
+                .toEqual([]);
+        });
+    });
+});
+
+it('read from config file development section by default', () => {
+    var configPaths = [fileSections, pckgSections];
+    configPaths.forEach((confPath) => {
+        expect(browserslist(null, { path: confPath }))
+            .toEqual(['chrome 53', 'ie 11', 'ie 10']);
+    });
 });
