@@ -95,12 +95,7 @@ var browserslist = function (selections, opts) {
     }
 
     var stats = getStat(opts);
-
-    if ( !stats ) {
-        // console.warn('Cannot find statistics data');
-    } else {
-        browserslist.usage.custom = { };
-
+    if ( stats ) {
         if ( typeof stats === 'string' ) {
             try {
                 stats = JSON.parse(fs.readFileSync(stats));
@@ -109,9 +104,10 @@ var browserslist = function (selections, opts) {
             }
         }
         if ( 'dataByBrowser' in stats ) {
-            // Allow to use the data as-is from the caniuse.com website
             stats = stats.dataByBrowser;
         }
+
+        browserslist.usage.custom = { };
         for ( var browser in stats ) {
             fillUsage(browserslist.usage.custom, browser, stats[browser]);
         }
