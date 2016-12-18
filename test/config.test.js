@@ -3,8 +3,8 @@ var browserslist = require('../');
 var path = require('path');
 
 var css = path.join(__dirname, 'fixtures', 'dir', 'test.css');
-var withBoth = path.join(__dirname, 'fixtures', 'withBoth', 'test.css');
-var withPackage = path.join(__dirname, 'fixtures', 'withPackage', 'test.css');
+var withBoth = path.join(__dirname, 'fixtures', 'both', 'test.css');
+var withPackage = path.join(__dirname, 'fixtures', 'package', 'test.css');
 
 it('parses queries', () => {
     expect(browserslist.parseConfig('ie 10\n> 1%')).toEqual(['ie 10', '> 1%']);
