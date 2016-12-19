@@ -1,0 +1,11 @@
+# File for test
+ie 11
+ie 10
+
+[development]
+ff 50
+chrome 55
+
+[production]
+ie 9
+opera 41
