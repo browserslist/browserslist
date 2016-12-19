@@ -103,12 +103,12 @@ it('excludes queries', () => {
         .toEqual(['ie 10', 'ie 9']);
 });
 
-it('clean 0 version', () => {
+it('cleans 0 version', () => {
     expect(browserslist(['> 0%', '> 0% in FI']).indexOf('and_chr 0'))
         .toEqual(-1);
 });
 
-it('return correct config for direct env from browserlist', () => {
+it('uses env options to browserlist config', () => {
     expect(browserslist(null, { path: envConfig, env: 'production' }))
         .toEqual(['ie 9', 'opera 41']);
 
@@ -119,7 +119,7 @@ it('return correct config for direct env from browserlist', () => {
         .toEqual(['ie 11', 'ie 10']);
 });
 
-it('return correct config for direct env from package', () => {
+it('uses env options to package.json', () => {
     expect(browserslist(null, { path: envPackage, env: 'production' }))
         .toEqual(['ie 9', 'opera 41']);
 
@@ -130,13 +130,13 @@ it('return correct config for direct env from package', () => {
         .toEqual(browserslist(browserslist.defaults));
 });
 
-it('return correct config for NODE_ENV from browserlist', () => {
+it('uses NODE_ENV to get environment', () => {
     // In our case NODE_ENV = 'test'
     expect(browserslist(null, { path: envConfig }))
         .toEqual(['ie 11', 'ie 10']);
 });
 
-it('return correct config for BROWSERSLIST_ENV from browserlist', () => {
+it('uses BROWSERSLIST_ENV to get environment', () => {
     process.env.BROWSERSLIST_ENV = 'development';
     expect(browserslist(null, { path: envConfig }))
          .toEqual(['chrome 55', 'firefox 50']);

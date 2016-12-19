@@ -2,34 +2,51 @@ var browserslist = require('../');
 
 var path = require('path');
 
-var css = path.join(__dirname, 'fixtures', 'dir', 'test.css');
-var withBoth = path.join(__dirname, 'fixtures', 'both', 'test.css');
+var css         = path.join(__dirname, 'fixtures', 'dir', 'test.css');
+var withBoth    = path.join(__dirname, 'fixtures', 'both', 'test.css');
 var withPackage = path.join(__dirname, 'fixtures', 'package', 'test.css');
 
 it('parses queries', () => {
-    expect(browserslist.parseConfig('ie 10\n> 1%')).toEqual(['ie 10', '> 1%']);
-});
-
-it('trims whitespaces', () => {
-    expect(browserslist.parseConfig('ie 10 \n \n  > 1%\n'))
-        .toEqual(['ie 10', '> 1%']);
+    expect(browserslist.parseConfig('ie 10\n> 1%')).toEqual({
+        defaults: ['ie 10', '> 1%']
+    });
 });
 
 it('removes comments', () => {
     var config = '# support list\nie 10#bad\n> 1%';
-    expect(browserslist.parseConfig(config)).toEqual(['ie 10', '> 1%']);
+    expect(browserslist.parseConfig(config)).toEqual({
+        defaults: ['ie 10', '> 1%']
+    });
 });
 
-it('returns false on no config', () => {
-    expect(browserslist.readConfig(__dirname)).toEqual(false);
+it('supports sections', () => {
+    expect(browserslist.parseConfig('ie 10\n[test]\nie 11')).toEqual({
+        defaults: ['ie 10'],
+        test: ['ie 11']
+    });
+});
+
+it('trims whitespaces', () => {
+    expect(browserslist.parseConfig('ie 9\n\n [ test] \n \n  > 1%\n')).toEqual({
+        defaults: ['ie 9'],
+        test:     ['> 1%']
+    });
+});
+
+it('returns undefined on no config', () => {
+    expect(browserslist.readConfig(__dirname)).not.toBeDefined();
 });
 
 it('reads config', () => {
-    expect(browserslist.readConfig(css)).toEqual(['ie 11', 'ie 10']);
+    expect(browserslist.readConfig(css)).toEqual({
+        defaults: ['ie 11', 'ie 10']
+    });
 });
 
 it('reads config from package.json', () => {
-    expect(browserslist.readConfig(withPackage)).toEqual(['ie 9', 'ie 10']);
+    expect(browserslist.readConfig(withPackage)).toEqual({
+        defaults: ['ie 9', 'ie 10']
+    });
 });
 
 it('reads from dir wich contains both browserslist and package.json', () => {
