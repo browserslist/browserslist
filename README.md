@@ -114,6 +114,26 @@ So, if tool process `app/styles/main.css`, you can put config to root,
 You can specify direct path to config by `config` option
 or `BROWSERSLIST_CONFIG` environment variables.
 
+You can also specify different browser queries for various environments.
+Browserlist will choose query according to `BROWSERSLIST_ENV` or `NODE_ENV`
+variables. If none of them is declared, Browserlist will firstly look for
+`development` queries and then use defaults.
+
+```yaml
+# Browsers that we support
+last 4 version
+
+[production]
+last 2 version
+ie 9
+
+[development]
+last 1 version
+```
+
+Queries without environment will be treated as defaults
+(in example above it is `last 4 version`).
+
 ## Environment Variables
 
 If some tool use Browserslist inside, you can change browsers settings
@@ -129,6 +149,12 @@ by [environment variables]:
 
    ```sh
   BROWSERSLIST_CONFIG=./config/browserslist gulp css
+   ```
+
+* `BROWSERSLIST_ENV` with enviorments string.
+
+   ```sh
+  BROWSERSLIST_ENV="development"
    ```
 
 * `BROWSERSLIST_STATS` with path to the custom usage data.
@@ -157,7 +183,7 @@ If you have a website, you can query against the usage statistics of your site:
 
    ```js
   browserslist('> 5% in my stats', { stats: 'path/to/the/stats.json' });
-   ``` 
+   ```
 
   or you can provide `browserslist-stats.json`.
 
