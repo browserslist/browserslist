@@ -3,6 +3,9 @@ var path    = require('path');
 var fs      = require('fs');
 
 var FLOAT = /^\d+(\.\d+)?$/;
+var env = 'development';
+// console.log(process.env.BROWSERSLIST_ENV, process.env.NODE_ENV, env);
+// console.log('test', process.env.BROWSERSLIST);
 
 function uniq(array) {
     var filtered = [];
@@ -63,11 +66,32 @@ var getStat = function (opts) {
     return false;
 };
 
+// Return config for given environment or defaults
+var configForEnv = function (configs, e) {
+    if (Array.isArray(configs)) {
+        return configs;
+    } else if (typeof configs === 'object') {
+        if (typeof e === 'string' && typeof configs[e] !== 'undefined') {
+            return configs[e];
+        } else if ( typeof configs.defaults !== 'undefined') {
+            return configs.defaults;
+        }
+    }
+    return false;
+};
+
 // Return array of browsers by selection queries:
 //
 //   browserslist('IE >= 10, IE 8') //=> ['ie 11', 'ie 10', 'ie 8']
 var browserslist = function (selections, opts) {
     if ( typeof opts === 'undefined' ) opts = { };
+    if ( typeof opts.env === 'string' ) {
+        env = opts.env;
+    } else if (typeof process.env.BROWSERSLIST_ENV === 'string') {
+        env = process.env.BROWSERSLIST_ENV;
+    } else if (typeof process.env.NODE_ENV === 'string') {
+        env = process.env.NODE_ENV;
+    }
 
     if ( typeof selections === 'undefined' || selections === null ) {
 
@@ -76,14 +100,21 @@ var browserslist = function (selections, opts) {
         } else if ( opts.config || process.env.BROWSERSLIST_CONFIG ) {
             var file = opts.config || process.env.BROWSERSLIST_CONFIG;
             if ( fs.existsSync(file) && fs.statSync(file).isFile() ) {
-                selections = browserslist.parseConfig( fs.readFileSync(file) );
+                var conf = browserslist.parseConfig( fs.readFileSync(file) );
+                var envConf = configForEnv(conf, env);
+                if ( envConf !== false ) {
+                    selections = envConf;
+                } else {
+                    selections = browserslist.defaults;
+                }
             } else {
                 error('Can\'t read ' + file + ' config');
             }
         } else {
             var config = browserslist.readConfig(opts.path);
-            if ( config !== false ) {
-                selections = config;
+            var envConfig = configForEnv(config, env);
+            if ( envConfig !== false ) {
+                selections = envConfig;
             } else {
                 selections = browserslist.defaults;
             }
@@ -317,16 +348,25 @@ browserslist.coverage = function (browsers, country) {
     }, 0);
 };
 
-// Return array of queries from config content
+// Return object with arrays of queries for different enviorments
+// from config content
 browserslist.parseConfig = function (string) {
     return string.toString()
             .replace(/#[^\n]*/g, '')
-            .split(/\n/)
-            .map(function (i) {
-                return i.trim();
-            }).filter(function (i) {
-                return i !== '';
-            });
+            .split('[')
+            .reduce(function (c, ch) {
+                var chapter = ch.split(']');
+                var name = chapter.length > 1 ? chapter[0] : 'defaults';
+                var config = chapter.length > 1 ? chapter[1] : chapter[0];
+                c[name] = config
+                            .split(/\n/)
+                            .map(function (i) {
+                                return i.trim();
+                            }).filter(function (i) {
+                                return i !== '';
+                            });
+                return c;
+            }, {});
 };
 
 browserslist.queries = {

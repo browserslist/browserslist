@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "browserslist": {
+    "development": ["chrome 55", "firefox 50"],
+    "production": ["ie 9", "opera 41"]
+  }
+}

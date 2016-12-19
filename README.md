@@ -107,6 +107,28 @@ Last 2 versions
 IE 8 # sorry
 ```
 
+You can also specify different browser queries for various environments.
+Browserlist will choose query according to `BROWSERSLIST_ENV` or `NODE_ENV`
+variables. If none of them is declared, Browserlist will firstly look for
+development queries and then use defaults.
+
+```yaml
+# Browsers that we support
+last 4 version
+
+[production]
+last 2 version
+# because of X client
+ie 9
+
+[development]
+node >= 4
+```
+
+Queries without environment (in example above it is `last 4 version`) will be
+treated as defaults.
+
+
 Browserslist will check config in every directory in `path`.
 So, if tool process `app/styles/main.css`, you can put config to root,
 `app/` or `app/styles`.
@@ -137,6 +159,12 @@ by [environment variables]:
   BROWSERSLIST_STATS=./config/usage_data.json gulp css
    ```
 
+* `BROWSERSLIST_ENV` with enviorments string.
+
+   ```sh
+  BROWSERSLIST_ENV="development"
+   ```
+
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
 ## Custom Usage Data
@@ -157,7 +185,7 @@ If you have a website, you can query against the usage statistics of your site:
 
    ```js
   browserslist('> 5% in my stats', { stats: 'path/to/the/stats.json' });
-   ``` 
+   ```
 
   or you can provide `browserslist-stats.json`.
 

@@ -7,25 +7,37 @@ var withBoth = path.join(__dirname, 'fixtures', 'both', 'test.css');
 var withPackage = path.join(__dirname, 'fixtures', 'package', 'test.css');
 
 it('parses queries', () => {
-    expect(browserslist.parseConfig('ie 10\n> 1%')).toEqual(['ie 10', '> 1%']);
+    expect(browserslist.parseConfig('ie 10\n> 1%')).toEqual({
+        defaults: ['ie 10', '> 1%']
+    });
+});
+
+it('parses chapters queries', () => {
+    var config =
+        '\nie 10\n> 1%\n[development]\nie 10\n> 1%\n[production]\nie 10\n> 1%';
+    expect(browserslist.parseConfig(config)).toEqual({
+        defaults: ['ie 10', '> 1%'],
+        development: ['ie 10', '> 1%'],
+        production: ['ie 10', '> 1%']
+    });
 });
 
 it('trims whitespaces', () => {
     expect(browserslist.parseConfig('ie 10 \n \n  > 1%\n'))
-        .toEqual(['ie 10', '> 1%']);
+        .toEqual({ defaults: ['ie 10', '> 1%'] });
 });
 
 it('removes comments', () => {
     var config = '# support list\nie 10#bad\n> 1%';
-    expect(browserslist.parseConfig(config)).toEqual(['ie 10', '> 1%']);
-});
-
-it('returns false on no config', () => {
-    expect(browserslist.readConfig(__dirname)).toEqual(false);
+    expect(browserslist.parseConfig(config)).toEqual({
+        defaults: ['ie 10', '> 1%']
+    });
 });
 
 it('reads config', () => {
-    expect(browserslist.readConfig(css)).toEqual(['ie 11', 'ie 10']);
+    expect(browserslist.readConfig(css)).toEqual({
+        defaults: ['ie 11', 'ie 10']
+    });
 });
 
 it('reads config from package.json', () => {
