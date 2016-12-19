@@ -34,23 +34,23 @@ it('trims whitespaces', () => {
 });
 
 it('returns undefined on no config', () => {
-    expect(browserslist.readConfig(__dirname)).not.toBeDefined();
+    expect(browserslist.findConfig(__dirname)).not.toBeDefined();
 });
 
 it('reads config', () => {
-    expect(browserslist.readConfig(css)).toEqual({
+    expect(browserslist.findConfig(css)).toEqual({
         defaults: ['ie 11', 'ie 10']
     });
 });
 
 it('reads config from package.json', () => {
-    expect(browserslist.readConfig(withPackage)).toEqual({
+    expect(browserslist.findConfig(withPackage)).toEqual({
         defaults: ['ie 9', 'ie 10']
     });
 });
 
 it('reads from dir wich contains both browserslist and package.json', () => {
     expect( () => {
-        browserslist.readConfig(withBoth);
+        browserslist.findConfig(withBoth);
     }).toThrowError(/contains both/);
 });

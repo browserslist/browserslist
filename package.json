@@ -26,6 +26,7 @@
       "jest": true
     },
     "rules": {
+      "consistent-return": 0,
       "no-process-exit": 0
     }
   },

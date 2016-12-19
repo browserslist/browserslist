@@ -45,30 +45,27 @@ function isFile(file) {
     return fs.existsSync(file) && fs.statSync(file).isFile();
 }
 
-var getStat = function (opts) {
+function eachParent(file, callback) {
+    var dirs = path.resolve(file).split(path.sep);
+    while ( dirs.length ) {
+        var result = callback(dirs.join(path.sep));
+        if (typeof result !== 'undefined') return result;
+        dirs.pop();
+    }
+    return undefined;
+}
+
+function getStat(opts) {
     var stats = opts.stats || process.env.BROWSERSLIST_STATS;
     if ( stats ) return stats;
 
     if ( typeof opts.path === 'undefined' ) opts.path = '.';
-    var dirs = path.resolve(opts.path).split(path.sep);
-
-    while ( dirs.length ) {
-        stats = dirs.concat(['browserslist-stats.json']).join(path.sep);
+    return eachParent(opts.path, function (dir) {
+        stats = path.join(dir, 'browserslist-stats.json');
         if ( isFile(stats) ) {
             return stats;
-        } else {
-            dirs.pop();
         }
-    }
-
-    return false;
-};
-
-function readFile(file) {
-    if ( !fs.existsSync(file) || !fs.statSync(file).isFile() ) {
-        error('Can\'t read ' + file + ' config');
-    }
-    return fs.readFileSync(file);
+    });
 }
 
 function parsePackage(file) {
@@ -107,9 +104,9 @@ var browserslist = function (queries, opts) {
             queries = process.env.BROWSERSLIST;
         } else if ( opts.config || process.env.BROWSERSLIST_CONFIG ) {
             var file = opts.config || process.env.BROWSERSLIST_CONFIG;
-            queries = pickEnv(browserslist.parseConfig(readFile(file)), opts);
+            queries = pickEnv(browserslist.readConfig(file), opts);
         } else {
-            queries = pickEnv(browserslist.readConfig(opts.path), opts);
+            queries = pickEnv(browserslist.findConfig(opts.path), opts);
         }
     }
 
@@ -281,47 +278,40 @@ browserslist.checkName = function (name) {
     return data;
 };
 
+// Read and parse config
+browserslist.readConfig = function (file) {
+    if ( !fs.existsSync(file) || !fs.statSync(file).isFile() ) {
+        error('Can\'t read ' + file + ' config');
+    }
+    return browserslist.parseConfig(fs.readFileSync(file));
+};
+
 // Find config, read file and parse it
-browserslist.readConfig = function (from) {
+browserslist.findConfig = function (from) {
     if ( from === false )   return false;
     if ( !fs.readFileSync || !fs.existsSync || !fs.statSync ) return false;
     if ( typeof from === 'undefined' ) from = '.';
 
-    var dirs = path.resolve(from).split(path.sep);
-    var config, pkgConfig;
-    while ( dirs.length ) {
-        var configPath = dirs.concat(['browserslist']).join(path.sep);
-        var pkgPath = dirs.concat(['package.json']).join(path.sep);
+    return eachParent(from, function (dir) {
+        var config = path.join(dir, 'browserslist');
+        var pkg = path.join(dir, 'package.json');
 
-        if ( isFile(configPath) ) {
-            config = fs.readFileSync(configPath);
-        }
-
-        if ( isFile(pkgPath) ) {
+        if ( isFile(config) && isFile(pkg) ) {
+            error(
+                dir + ' contains both browserslist ' +
+                'and package.json with browsers');
+        } else if ( isFile(config) ) {
+            return browserslist.readConfig(config);
+        } else if ( isFile(pkg) ) {
             try {
-                pkgConfig = parsePackage(pkgPath);
+                return parsePackage(pkg);
             } catch (e) {
                 console.warn(
-                    '[Browserslist] Could not parse ' + pkgPath + '. ' +
+                    '[Browserslist] Could not parse ' + pkg + '. ' +
                     'Ignoring it.');
             }
         }
-
-        if ( config && pkgConfig ) {
-            error(
-                dirs.join(path.sep) + ' contains ' +
-                'both browserslist and package.json with browserslist key, ' +
-                'this is potentially dangerous');
-        } else if ( config ) {
-            return browserslist.parseConfig(config);
-        } else if ( pkgConfig ) {
-            return pkgConfig;
-        }
-
-        dirs.pop();
-    }
-
-    return undefined;
+    });
 };
 
 // Return browsers market coverage
