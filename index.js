@@ -3,6 +3,7 @@ var path    = require('path');
 var fs      = require('fs');
 
 var FLOAT = /^\d+(\.\d+)?$/;
+var IS_SECTION = /^\s*\[(.+)\]\s*$/;
 
 function uniq(array) {
     var filtered = [];
@@ -63,35 +64,61 @@ var getStat = function (opts) {
     return false;
 };
 
+function readFile(file) {
+    if ( !fs.existsSync(file) || !fs.statSync(file).isFile() ) {
+        error('Can\'t read ' + file + ' config');
+    }
+    return fs.readFileSync(file);
+}
+
+function parsePackage(file) {
+    var config = JSON.parse(fs.readFileSync(file)).browserslist;
+    if ( typeof config === 'object' && config.length ) {
+        config = { defaults: config };
+    }
+    return config;
+}
+
+function pickEnv(config, opts) {
+    if ( typeof config !== 'object' ) return config;
+
+    var env;
+    if ( typeof opts.env === 'string' ) {
+        env = opts.env;
+    } else if ( typeof process.env.BROWSERSLIST_ENV === 'string' ) {
+        env = process.env.BROWSERSLIST_ENV;
+    } else if ( typeof process.env.NODE_ENV === 'string' ) {
+        env = process.env.NODE_ENV;
+    } else {
+        env = 'development';
+    }
+
+    return config[env] || config.defaults;
+}
+
 // Return array of browsers by selection queries:
 //
 //   browserslist('IE >= 10, IE 8') //=> ['ie 11', 'ie 10', 'ie 8']
-var browserslist = function (selections, opts) {
+var browserslist = function (queries, opts) {
     if ( typeof opts === 'undefined' ) opts = { };
 
-    if ( typeof selections === 'undefined' || selections === null ) {
-
+    if ( typeof queries === 'undefined' || queries === null ) {
         if ( process.env.BROWSERSLIST ) {
-            selections = process.env.BROWSERSLIST;
+            queries = process.env.BROWSERSLIST;
         } else if ( opts.config || process.env.BROWSERSLIST_CONFIG ) {
             var file = opts.config || process.env.BROWSERSLIST_CONFIG;
-            if ( fs.existsSync(file) && fs.statSync(file).isFile() ) {
-                selections = browserslist.parseConfig( fs.readFileSync(file) );
-            } else {
-                error('Can\'t read ' + file + ' config');
-            }
+            queries = pickEnv(browserslist.parseConfig(readFile(file)), opts);
         } else {
-            var config = browserslist.readConfig(opts.path);
-            if ( config !== false ) {
-                selections = config;
-            } else {
-                selections = browserslist.defaults;
-            }
+            queries = pickEnv(browserslist.readConfig(opts.path), opts);
         }
     }
 
-    if ( typeof selections === 'string' ) {
-        selections = selections.split(/,\s*/);
+    if ( typeof queries === 'undefined' || queries === null ) {
+        queries = browserslist.defaults;
+    }
+
+    if ( typeof queries === 'string' ) {
+        queries = queries.split(/,\s*/);
     }
 
     var stats = getStat(opts);
@@ -116,7 +143,7 @@ var browserslist = function (selections, opts) {
     var result = [];
 
     var exclude, query, match, array, used;
-    selections.forEach(function (selection) {
+    queries.forEach(function (selection) {
         if ( selection.trim() === '' ) return;
         exclude = false;
         used    = false;
@@ -272,7 +299,7 @@ browserslist.readConfig = function (from) {
 
         if ( isFile(pkgPath) ) {
             try {
-                pkgConfig = JSON.parse(fs.readFileSync(pkgPath)).browserslist;
+                pkgConfig = parsePackage(pkgPath);
             } catch (e) {
                 console.warn(
                     '[Browserslist] Could not parse ' + pkgPath + '. ' +
@@ -294,7 +321,7 @@ browserslist.readConfig = function (from) {
         dirs.pop();
     }
 
-    return false;
+    return undefined;
 };
 
 // Return browsers market coverage
@@ -319,14 +346,28 @@ browserslist.coverage = function (browsers, country) {
 
 // Return array of queries from config content
 browserslist.parseConfig = function (string) {
-    return string.toString()
-            .replace(/#[^\n]*/g, '')
-            .split(/\n/)
-            .map(function (i) {
-                return i.trim();
-            }).filter(function (i) {
-                return i !== '';
-            });
+    var result = { defaults: [] };
+    var section = 'defaults';
+
+    string.toString()
+        .replace(/#[^\n]*/g, '')
+        .split(/\n/)
+        .map(function (line) {
+            return line.trim();
+        })
+        .filter(function (line) {
+            return line !== '';
+        })
+        .forEach(function (line) {
+            if ( IS_SECTION.test(line) ) {
+                section = line.match(IS_SECTION)[1].trim();
+                result[section] = result[section] || [];
+            } else {
+                result[section].push(line);
+            }
+        });
+
+    return result;
 };
 
 browserslist.queries = {
