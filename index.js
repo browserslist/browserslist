@@ -46,8 +46,12 @@ function isFile(file) {
 }
 
 function eachParent(file, callback) {
+    if ( !fs.readFileSync || !fs.existsSync || !fs.statSync ) {
+        /* istanbul ignore next */
+        return undefined;
+    }
+
     if ( file === false ) return undefined;
-    if ( !fs.readFileSync || !fs.existsSync || !fs.statSync ) return undefined;
     if ( typeof file === 'undefined' ) file = '.';
 
     var dirs = path.resolve(file).split(path.sep);

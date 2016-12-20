@@ -34,7 +34,7 @@
   "jest": {
     "coverageThreshold": {
       "global": {
-        "statements": 98
+        "statements": 99
       }
     }
   },

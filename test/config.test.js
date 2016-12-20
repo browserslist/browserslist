@@ -6,6 +6,11 @@ var css         = path.join(__dirname, 'fixtures', 'dir', 'test.css');
 var withBoth    = path.join(__dirname, 'fixtures', 'both', 'test.css');
 var withPackage = path.join(__dirname, 'fixtures', 'package', 'test.css');
 
+var origin = process.cwd();
+afterEach(function () {
+    process.chdir(origin);
+});
+
 it('parses queries', () => {
     expect(browserslist.parseConfig('ie 10\n> 1%')).toEqual({
         defaults: ['ie 10', '> 1%']
@@ -41,6 +46,18 @@ it('reads config', () => {
     expect(browserslist.findConfig(css)).toEqual({
         defaults: ['ie 11', 'ie 10']
     });
+});
+
+it('reads config from working directory', () => {
+    process.chdir(path.dirname(css));
+    expect(browserslist.findConfig()).toEqual({
+        defaults: ['ie 11', 'ie 10']
+    });
+});
+
+it('ignore working directory on false', () => {
+    process.chdir(path.dirname(css));
+    expect(browserslist.findConfig(false)).not.toBeDefined();
 });
 
 it('reads config from package.json', () => {
