@@ -189,14 +189,7 @@ var browserslist = function (queries, opts) {
         name2 = name2.split(' ');
         if ( name1[0] === name2[0] ) {
             if ( FLOAT.test(name1[1]) && FLOAT.test(name2[1]) ) {
-                var d = parseFloat(name2[1]) - parseFloat(name1[1]);
-                if ( d > 0 ) {
-                    return 1;
-                } else if ( d < 0 ) {
-                    return -1;
-                } else {
-                    return 0;
-                }
+                return parseFloat(name2[1]) - parseFloat(name1[1]);
             } else {
                 return name2[1].localeCompare(name1[1]);
             }
