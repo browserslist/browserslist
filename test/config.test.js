@@ -3,6 +3,7 @@ var browserslist = require('../');
 var path = require('path');
 
 var css         = path.join(__dirname, 'fixtures', 'dir', 'test.css');
+var broken      = path.join(__dirname, 'fixtures', 'broken', 'test.css');
 var withBoth    = path.join(__dirname, 'fixtures', 'both', 'test.css');
 var withPackage = path.join(__dirname, 'fixtures', 'package', 'test.css');
 
@@ -64,6 +65,14 @@ it('reads config from package.json', () => {
     expect(browserslist.findConfig(withPackage)).toEqual({
         defaults: ['ie 9', 'ie 10']
     });
+});
+
+it('shows warning on broken package.json', () => {
+    console.warn = jest.fn();
+    expect(browserslist.findConfig(broken)).toEqual({
+        defaults: ['ie 11', 'ie 10']
+    });
+    expect(console.warn).toBeCalled();
 });
 
 it('reads from dir wich contains both browserslist and package.json', () => {
