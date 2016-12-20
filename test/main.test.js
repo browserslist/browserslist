@@ -2,11 +2,11 @@ var browserslist = require('../');
 
 var path = require('path');
 
-var css        = path.join(__dirname, 'fixtures', 'dir', 'test.css');
-var ies        = path.join(__dirname, 'fixtures', 'explorers');
-var link       = path.join(__dirname, 'fixtures', 'symlink');
-var envConfig  = path.join(__dirname, 'fixtures', 'env-config', 'test.css');
-var envPackage = path.join(__dirname, 'fixtures', 'env-package', 'test.css');
+var IE      = path.join(__dirname, 'fixtures', 'explorers');
+var FILE    = path.join(__dirname, 'fixtures', 'dir', 'test.css');
+var LINK    = path.join(__dirname, 'fixtures', 'symlink');
+var CONFIG  = path.join(__dirname, 'fixtures', 'env-config', 'test.css');
+var PACKAGE = path.join(__dirname, 'fixtures', 'env-package', 'test.css');
 
 afterEach(() => {
     process.env.NODE_ENV = 'test';
@@ -34,31 +34,31 @@ it('returns empty result', () => {
 
 it('uses environment variable on empty request', () => {
     process.env.BROWSERSLIST = 'ie 10';
-    expect(browserslist(null, { path: css })).toEqual(['ie 10']);
+    expect(browserslist(null, { path: FILE })).toEqual(['ie 10']);
 });
 
 it('reads config on no variable', () => {
-    expect(browserslist(null, { path: css })).toEqual(['ie 11', 'ie 10']);
+    expect(browserslist(null, { path: FILE })).toEqual(['ie 11', 'ie 10']);
 });
 
 it('reads config by direct path', () => {
-    expect(browserslist(null, { config: ies })).toEqual(['ie 9', 'ie 8']);
+    expect(browserslist(null, { config: IE })).toEqual(['ie 9', 'ie 8']);
 });
 
 it('reads config by direct path in environment variable', () => {
-    process.env.BROWSERSLIST_CONFIG = ies;
-    expect(browserslist(null, { path: css })).toEqual(['ie 9', 'ie 8']);
+    process.env.BROWSERSLIST_CONFIG = IE;
+    expect(browserslist(null, { path: FILE })).toEqual(['ie 9', 'ie 8']);
 });
 
 it('throw a error on wrong path to config', () => {
     expect(() => {
-        browserslist(null, { config: ies + '2' });
+        browserslist(null, { config: IE + '2' });
     }).toThrowError(/Can't read/);
 });
 
 if (!/^win/.test(process.platform)) {
     it('reads config by symlink', () => {
-        expect(browserslist(null, { config: link })).toEqual(['ie 9', 'ie 8']);
+        expect(browserslist(null, { config: LINK })).toEqual(['ie 9', 'ie 8']);
     });
 }
 
@@ -110,41 +110,41 @@ it('cleans 0 version', () => {
 });
 
 it('uses env options to browserlist config', () => {
-    expect(browserslist(null, { path: envConfig, env: 'production' }))
+    expect(browserslist(null, { path: CONFIG, env: 'production' }))
         .toEqual(['ie 9', 'opera 41']);
 
-    expect(browserslist(null, { path: envConfig, env: 'development' }))
+    expect(browserslist(null, { path: CONFIG, env: 'development' }))
         .toEqual(['chrome 55', 'firefox 50']);
 
-    expect(browserslist(null, { path: envConfig, env: 'test' }))
+    expect(browserslist(null, { path: CONFIG, env: 'test' }))
         .toEqual(['ie 11', 'ie 10']);
 });
 
 it('uses env options to package.json', () => {
-    expect(browserslist(null, { path: envPackage, env: 'production' }))
+    expect(browserslist(null, { path: PACKAGE, env: 'production' }))
         .toEqual(['ie 9', 'opera 41']);
 
-    expect(browserslist(null, { path: envPackage, env: 'development' }))
+    expect(browserslist(null, { path: PACKAGE, env: 'development' }))
         .toEqual(['chrome 55', 'firefox 50']);
 
-    expect(browserslist(null, { path: envPackage, env: 'test' }))
+    expect(browserslist(null, { path: PACKAGE, env: 'test' }))
         .toEqual(browserslist(browserslist.defaults));
 });
 
 it('uses NODE_ENV to get environment', () => {
     process.env.NODE_ENV = 'test';
-    expect(browserslist(null, { path: envConfig }))
+    expect(browserslist(null, { path: CONFIG }))
         .toEqual(['ie 11', 'ie 10']);
 });
 
 it('uses BROWSERSLIST_ENV to get environment', () => {
     process.env.BROWSERSLIST_ENV = 'development';
-    expect(browserslist(null, { path: envConfig }))
+    expect(browserslist(null, { path: CONFIG }))
          .toEqual(['chrome 55', 'firefox 50']);
 });
 
 it('uses development environment by default', () => {
     delete process.env.NODE_ENV;
-    expect(browserslist(null, { path: envConfig }))
+    expect(browserslist(null, { path: CONFIG }))
         .toEqual(['chrome 55', 'firefox 50']);
 });

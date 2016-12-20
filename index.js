@@ -329,7 +329,7 @@ browserslist.coverage = function (browsers, country) {
         country = country.toUpperCase();
         loadCountryStatistics(country);
     } else {
-        country = 'global'; // Default value
+        country = 'global';
     }
 
     return browsers.reduce(function (all, i) {

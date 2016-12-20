@@ -2,10 +2,10 @@ var browserslist = require('../');
 
 var path = require('path');
 
-var css         = path.join(__dirname, 'fixtures', 'dir', 'test.css');
-var broken      = path.join(__dirname, 'fixtures', 'broken', 'test.css');
-var withBoth    = path.join(__dirname, 'fixtures', 'both', 'test.css');
-var withPackage = path.join(__dirname, 'fixtures', 'package', 'test.css');
+var FILE    = path.join(__dirname, 'fixtures', 'dir', 'test.css');
+var BOTH    = path.join(__dirname, 'fixtures', 'both', 'test.css');
+var BROKEN  = path.join(__dirname, 'fixtures', 'broken', 'test.css');
+var PACKAGE = path.join(__dirname, 'fixtures', 'package', 'test.css');
 
 var origin = process.cwd();
 afterEach(function () {
@@ -44,32 +44,32 @@ it('returns undefined on no config', () => {
 });
 
 it('reads config', () => {
-    expect(browserslist.findConfig(css)).toEqual({
+    expect(browserslist.findConfig(FILE)).toEqual({
         defaults: ['ie 11', 'ie 10']
     });
 });
 
 it('reads config from working directory', () => {
-    process.chdir(path.dirname(css));
+    process.chdir(path.dirname(FILE));
     expect(browserslist.findConfig()).toEqual({
         defaults: ['ie 11', 'ie 10']
     });
 });
 
 it('ignore working directory on false', () => {
-    process.chdir(path.dirname(css));
+    process.chdir(path.dirname(FILE));
     expect(browserslist.findConfig(false)).not.toBeDefined();
 });
 
 it('reads config from package.json', () => {
-    expect(browserslist.findConfig(withPackage)).toEqual({
+    expect(browserslist.findConfig(PACKAGE)).toEqual({
         defaults: ['ie 9', 'ie 10']
     });
 });
 
 it('shows warning on broken package.json', () => {
     console.warn = jest.fn();
-    expect(browserslist.findConfig(broken)).toEqual({
+    expect(browserslist.findConfig(BROKEN)).toEqual({
         defaults: ['ie 11', 'ie 10']
     });
     expect(console.warn).toBeCalled();
@@ -77,6 +77,6 @@ it('shows warning on broken package.json', () => {
 
 it('reads from dir wich contains both browserslist and package.json', () => {
     expect( () => {
-        browserslist.findConfig(withBoth);
+        browserslist.findConfig(BOTH);
     }).toThrowError(/contains both/);
 });
