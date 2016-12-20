@@ -1,0 +1,33 @@
+{
+  "lang": "en",
+  "ignoreCapitalization": true,
+  "dictionary": [
+    "WebView",
+    "UC",
+    "Browserslist",
+    "DevTools",
+    "CLI",
+    "Autoprefixer",
+    "ESR",
+    "iOS",
+    "JS",
+    "TP",
+    "jspm",
+    "npm",
+    "symlink",
+    "Evilebot",
+    "Tnawi",
+    "Lind",
+    "Rey",
+    "Rouven",
+    "Weßling",
+    "Polischuk",
+    "Horvat",
+    "Briggs",
+    "Howes",
+    "Oliveira",
+    "Müller",
+    "Maxime",
+    "Thirouin"
+  ]
+}

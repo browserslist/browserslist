@@ -13,7 +13,7 @@ browserslist('last 1 version, > 10%');
 //    "ie 11", "ie_mob 11", "ios_saf 10-10.1", "opera 41", "safari 10"]
 ```
 
-To share browser support with users, you can use [browserl.ist](http://browserl.ist/).
+To share browser support with users, you can use [`browserl.ist`].
 
 <a href="https://evilmartians.com/?utm_source=browserslist">
   <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
@@ -23,9 +23,10 @@ To share browser support with users, you can use [browserl.ist](http://browserl.
   \>
 </a>
 
-[Autoprefixer]: https://github.com/postcss/autoprefixer
-[ci-img]:       https://travis-ci.org/ai/browserslist.svg
-[ci]:           https://travis-ci.org/ai/browserslist
+[`browserl.ist`]: http://browserl.ist/
+[Autoprefixer]:   https://github.com/postcss/autoprefixer
+[ci-img]:         https://travis-ci.org/ai/browserslist.svg
+[ci]:             https://travis-ci.org/ai/browserslist
 
 ## Queries
 
@@ -151,7 +152,7 @@ by [environment variables]:
   BROWSERSLIST_CONFIG=./config/browserslist gulp css
    ```
 
-* `BROWSERSLIST_ENV` with enviorments string.
+* `BROWSERSLIST_ENV` with environments string.
 
    ```sh
   BROWSERSLIST_ENV="development"
