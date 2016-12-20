@@ -108,9 +108,9 @@ function pickEnv(config, opts) {
  *
  * @param {string[]} queries Browser queries.
  * @param {object} opts Options.
- * @param {string} [opts.path='.'] Path to processed file.
+ * @param {string} [opts.path="."] Path to processed file.
  *                                 It will be used to find config files.
- * @param {string} [opts.env='development'] Processing environment.
+ * @param {string} [opts.env="development"] Processing environment.
  *                                          It will be used to take right
  *                                          queries from config file.
  * @param {string} [opts.config] Path to config file with queries.
@@ -323,7 +323,17 @@ browserslist.findConfig = function (from) {
     });
 };
 
-// Return browsers market coverage
+/**
+ * Return browsers market coverage.
+ *
+ * @param {string[]} browsers Browsers names in Can I Use.
+ * @param {string} [country="global"] Which country statistics should be used.
+ *
+ * @return {number} Total market coverage for all selected browsers.
+ *
+ * @example
+ * browserslist.coverage(browserslist('> 1% in US'), 'US') //=> 83.1
+ */
 browserslist.coverage = function (browsers, country) {
     if ( country && country !== 'global') {
         country = country.toUpperCase();
