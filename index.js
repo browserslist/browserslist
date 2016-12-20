@@ -46,6 +46,10 @@ function isFile(file) {
 }
 
 function eachParent(file, callback) {
+    if ( file === false ) return undefined;
+    if ( !fs.readFileSync || !fs.existsSync || !fs.statSync ) return undefined;
+    if ( typeof file === 'undefined' ) file = '.';
+
     var dirs = path.resolve(file).split(path.sep);
     while ( dirs.length ) {
         var result = callback(dirs.join(path.sep));
@@ -60,15 +64,13 @@ function getStat(opts) {
         return opts.stats;
     } else if ( process.env.BROWSERSLIST_STATS ) {
         return process.env.BROWSERSLIST_STATS;
-    } else if ( opts.path ) {
+    } else {
         return eachParent(opts.path, function (dir) {
             var file = path.join(dir, 'browserslist-stats.json');
             if ( isFile(file) ) {
                 return file;
             }
         });
-    } else {
-        return false;
     }
 }
 
@@ -295,10 +297,6 @@ browserslist.readConfig = function (file) {
 
 // Find config, read file and parse it
 browserslist.findConfig = function (from) {
-    if ( from === false ) return false;
-    if ( !fs.readFileSync || !fs.existsSync || !fs.statSync ) return false;
-    if ( typeof from === 'undefined' ) from = '.';
-
     return eachParent(from, function (dir) {
         var config = path.join(dir, 'browserslist');
         var pkg = path.join(dir, 'package.json');
