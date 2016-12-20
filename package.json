@@ -26,8 +26,9 @@
       "jest": true
     },
     "rules": {
-      "consistent-return": 0,
-      "no-process-exit": 0
+      "consistent-return": "off",
+      "no-process-exit": "off",
+      "valid-jsdoc": "error"
     }
   },
   "jest": {

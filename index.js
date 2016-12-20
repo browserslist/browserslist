@@ -97,9 +97,24 @@ function pickEnv(config, opts) {
     return config[env] || config.defaults;
 }
 
-// Return array of browsers by selection queries:
-//
-//   browserslist('IE >= 10, IE 8') //=> ['ie 11', 'ie 10', 'ie 8']
+/**
+ * Return array of browsers by selection queries.
+ *
+ * @param {string[]} queries Browser queries.
+ * @param {object} opts Options.
+ * @param {string} [opts.path='.'] Path to processed file.
+ *                                 It will be used to find config files.
+ * @param {string} [opts.env='development'] Processing environment.
+ *                                          It will be used to take right
+ *                                          queries from config file.
+ * @param {string} [opts.config] Path to config file with queries.
+ * @param {object} [opts.stats] Custom browser usage statistics
+ *                              for "> 1% in my stats" query.
+ * @return {string[]} Array with browser names in Can I Use.
+ *
+ * @example
+ * browserslist('IE >= 10, IE 8') //=> ['ie 11', 'ie 10', 'ie 8']
+ */
 var browserslist = function (queries, opts) {
     if ( typeof opts === 'undefined' ) opts = { };
 
@@ -280,7 +295,7 @@ browserslist.readConfig = function (file) {
 
 // Find config, read file and parse it
 browserslist.findConfig = function (from) {
-    if ( from === false )   return false;
+    if ( from === false ) return false;
     if ( !fs.readFileSync || !fs.existsSync || !fs.statSync ) return false;
     if ( typeof from === 'undefined' ) from = '.';
 
