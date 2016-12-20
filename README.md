@@ -1,19 +1,25 @@
-# Browserslist [![Build Status][ci-img]][ci]
+# Browserslist
 
-Get browser versions that match given criteria, useful for tools like [Autoprefixer].
+Library to share supported browsers list between different front-end tools,
+like [Autoprefixer], [Stylelint] and [babel-env-preset].
 
-You can select browsers by passing a string. This library will use [Can I use]
-data to return list of all matching versions.
-For example, query to select all browser versions that are the latest version
-of each of the major browsers, or have a usage of over 10% in global usage statistics:
+```yaml
+# Browsers that we support
 
-```js
-browserslist('last 1 version, > 10%');
-//=> ["and_chr 54", "chrome 55", "chrome 54", "edge 14", "firefox 50",
-//    "ie 11", "ie_mob 11", "ios_saf 10-10.1", "opera 41", "safari 10"]
+> 1%
+Last 2 versions
+IE 10 # sorry
 ```
 
-To share browser support with users, you can use [`browserl.ist`].
+Developers set browsers list in queries like `last 2 version`
+to be free from updating browser versions manually.
+Browserslist will use [Can i Use] data for this queries.
+
+Browserslist will take browsers queries from tool option,
+`browserslist` config, `browserslist` section in `package.json`
+or environment variables.
+
+You can test Browserslist queries in [online demo].
 
 <a href="https://evilmartians.com/?utm_source=browserslist">
   <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
@@ -23,24 +29,24 @@ To share browser support with users, you can use [`browserl.ist`].
   \>
 </a>
 
-[`browserl.ist`]: http://browserl.ist/
-[Autoprefixer]:   https://github.com/postcss/autoprefixer
-[ci-img]:         https://travis-ci.org/ai/browserslist.svg
-[ci]:             https://travis-ci.org/ai/browserslist
+[babel-env-preset]: https://github.com/babel/babel-preset-env
+[Autoprefixer]:     https://github.com/postcss/autoprefixer
+[oneline demo]:     http://browserl.ist/
+[Stylelint]:        http://stylelint.io/
+[Can I Use]:        http://caniuse.com/
 
 ## Queries
 
-Browserslist will use browsers criteria from:
+Browserslist will use browsers query from one of this sources:
 
-1. First argument.
+1. Tool options. For example `browsers` option in Autoprefixer.
 2. `BROWSERSLIST` environment variable.
 3. `browserslist` config file in current or parent directories.
 4. `browserslist` key in `package.json` file in current or parent directories.
 5. If the above methods did not produce a valid result
    Browserslist will use defaults: `> 1%, last 2 versions, Firefox ESR`.
 
-Multiple criteria are combined as a boolean `OR`. A browser version must match
-at least one of the criteria to be selected.
+We recommends to write queries in `browserslist` config or `package.json`.
 
 You can specify the versions by queries (case insensitive):
 
@@ -62,7 +68,12 @@ You can specify the versions by queries (case insensitive):
 Browserslist works with separated versions of browsers.
 You should avoid queries like `Firefox > 0`.
 
-All queries are based on the [Can I Use] support table, e.g. `last 3 iOS versions` might select `8.4, 9.2, 9.3` (mixed major & minor), whereas `last 3 Chrome versions` might select `50, 49, 48` (major only).
+Multiple criteria are combined as a boolean `OR`. A browser version must match
+at least one of the criteria to be selected.
+
+All queries are based on the [Can I Use] support table,
+e.g. `last 3 iOS versions` might select `8.4, 9.2, 9.3` (mixed major & minor),
+whereas `last 3 Chrome versions` might select `50, 49, 48` (major only).
 
 [two-letter country code]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 [custom usage data]:        #custom-usage-data
@@ -97,7 +108,7 @@ Names are case insensitive:
 
 ## Config File
 
-Browserslist’s config should be named `browserslist` and have browsers queries
+Browserslist config should be named `browserslist` and have browsers queries
 split by a new line. Comments starts with `#` symbol:
 
 ```yaml
@@ -112,18 +123,36 @@ Browserslist will check config in every directory in `path`.
 So, if tool process `app/styles/main.css`, you can put config to root,
 `app/` or `app/styles`.
 
-You can specify direct path to config by `config` option
-or `BROWSERSLIST_CONFIG` environment variables.
+You can specify direct path in `BROWSERSLIST_CONFIG` environment variables.
+
+## `package.json`
+
+If you want to reduce config files in project root, you can specify
+browsers in `package.json` with `browserslist` key:
+
+```js
+{
+  "private": true,
+  "dependencies": {
+    "autoprefixer": "^6.5.4"
+  },
+  "browserslist": {
+    "> 1%",
+    "last 2 versions"
+  }
+}
+```
+
+## Environments
 
 You can also specify different browser queries for various environments.
 Browserslist will choose query according to `BROWSERSLIST_ENV` or `NODE_ENV`
 variables. If none of them is declared, Browserslist will firstly look
 for `development` queries and then use defaults.
 
-```yaml
-# Browsers that we support
-last 4 version
+In `browserslist` config:
 
+```yaml
 [production]
 last 2 version
 ie 9
@@ -132,8 +161,22 @@ ie 9
 last 1 version
 ```
 
-Queries without environment will be treated as defaults
-(in example above it is `last 4 version`).
+In `package.json`:
+
+```js
+{
+  …
+  "browserslist": {
+    "production": {
+      "last 2 version",
+      "ie 9"
+    },
+    "development": {
+      "last 1 version"
+    }
+  }
+}
+```
 
 ## Environment Variables
 
@@ -155,10 +198,11 @@ by [environment variables]:
 * `BROWSERSLIST_ENV` with environments string.
 
    ```sh
-  BROWSERSLIST_ENV="development"
+  BROWSERSLIST_ENV="development" gulp css
    ```
 
-* `BROWSERSLIST_STATS` with path to the custom usage data.
+* `BROWSERSLIST_STATS` with path to the custom usage data
+  for `> 1% in my stats` query.
 
    ```sh
   BROWSERSLIST_STATS=./config/usage_data.json gulp css
@@ -172,55 +216,49 @@ If you have a website, you can query against the usage statistics of your site:
 
 1. Import your Google Analytics data into [Can I Use].
    Press `Import…` button in Settings page.
-2. Open browser DevTools on [Can I Use] add paste this snippet into the browser console:
+2. Open browser DevTools on [Can I Use] add paste this snippet
+   into the browser console:
 
     ```js
    var e=document.createElement('a');e.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(JSON.stringify(JSON.parse(localStorage['usage-data-by-id'])[localStorage['config-primary_usage']])));e.setAttribute('download','stats.json');document.body.appendChild(e);e.click();document.body.removeChild(e);
     ```
-3. Save the data to a file in your project.
-4. Give it to Browserslist by `stats` option
-
-   or `BROWSERSLIST_STATS` environment variable:
-
-   ```js
-  browserslist('> 5% in my stats', { stats: 'path/to/the/stats.json' });
-   ```
-
-  or you can provide `browserslist-stats.json`.
+3. Save the data to a `browserslist-stats.json` file in your project.
 
 Of course, you can generate usage statistics file by any other method.
-Option `stats` accepts path to file or data itself:
+File format should be like:
 
 ```js
-var custom = {
-    ie: {
-        6: 0.01,
-        7: 0.4,
-        8: 1.5
-    },
-    chrome: {
-        …
-    },
+{
+  "ie": {
+    "6": 0.01,
+    "7": 0.4,
+    "8": 1.5
+  },
+  "chrome": {
     …
-};
-
-browserslist('> 5% in my stats', { stats: custom });
+  },
+  …
+}
 ```
 
-Note that you can query against your custom usage data while also querying
-against global or regional data. For example, the query
-`> 5% in my stats, > 1%, > 10% in US` is permitted.
+Note that you can query against your custom usage data
+while also querying against global or regional data.
+For example, the query `> 1% in my stats, > 5% in US, 10%` is permitted.
 
 [Can I Use]: http://caniuse.com/
 
-## Usage
+## JS API
 
 ```js
 var browserslist = require('browserslist');
 
 // Your CSS/JS build tool code
-var process = function (css, opts) {
-    var browsers = browserslist(opts.browsers, { path: opts.file });
+var process = function (source, opts) {
+    var browsers = browserslist(opts.browsers, {
+        stats: opts.stats,
+        path:  opts.file,
+        env:   opts.env
+    });
     // Your code to add features for selected browsers
 }
 ```

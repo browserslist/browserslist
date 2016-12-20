@@ -81,13 +81,6 @@ it('sorts browsers', () => {
         .toEqual(['firefox 10', 'firefox 9', 'ie 11', 'ie 10', 'ie 6']);
 });
 
-it('has actual example in README.md', () => {
-    expect(browserslist('last 1 version, > 10%')).toEqual([
-        'and_chr 54', 'chrome 55', 'chrome 54', 'edge 14', 'firefox 50',
-        'ie 11', 'ie_mob 11', 'ios_saf 10-10.1', 'opera 41', 'safari 10'
-    ]);
-});
-
 it('throws custom error', () => {
     var error;
     try {
