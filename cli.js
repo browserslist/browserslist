@@ -43,7 +43,7 @@ if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
         '  ' + pkg.name + ' "QUERIES"',
         '  ' + pkg.name + ' --coverage "QUERIES"',
         '  ' + pkg.name + ' --coverage=US "QUERIES"',
-        '  ' + pkg.name + ' --config=browserslist "Path to browserlist file"'
+        '  ' + pkg.name + ' --config=browserslist "path/to/browserlist/file"'
     ].join('\n') + '\n');
 
 } else if ( isArg('--version') || isArg('-v') ) {
