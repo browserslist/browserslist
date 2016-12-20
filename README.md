@@ -13,11 +13,11 @@ IE 10 # sorry
 
 Developers set browsers list in queries like `last 2 version`
 to be free from updating browser versions manually.
-Browserslist will use [Can i Use] data for this queries.
+Browserslist will use [Can i Use] data for this queries.
 
 Browserslist will take browsers queries from tool option,
 `browserslist` config, `browserslist` section in `package.json`
-or environment variables.
+or environment variables.
 
 You can test Browserslist queries in [online demo].
 
@@ -31,7 +31,7 @@ You can test Browserslist queries in [online demo].
 
 [babel-env-preset]: https://github.com/babel/babel-preset-env
 [Autoprefixer]:     https://github.com/postcss/autoprefixer
-[oneline demo]:     http://browserl.ist/
+[online demo]:      http://browserl.ist/
 [Stylelint]:        http://stylelint.io/
 [Can I Use]:        http://caniuse.com/
 
@@ -72,7 +72,7 @@ Multiple criteria are combined as a boolean `OR`. A browser version must match
 at least one of the criteria to be selected.
 
 All queries are based on the [Can I Use] support table,
-e.g. `last 3 iOS versions` might select `8.4, 9.2, 9.3` (mixed major & minor),
+e.g. `last 3 iOS versions` might select `8.4, 9.2, 9.3` (mixed major and minor),
 whereas `last 3 Chrome versions` might select `50, 49, 48` (major only).
 
 [two-letter country code]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
@@ -146,7 +146,7 @@ browsers in `package.json` with `browserslist` key:
 ## Environments
 
 You can also specify different browser queries for various environments.
-Browserslist will choose query according to `BROWSERSLIST_ENV` or `NODE_ENV`
+Browserslist will choose query according to `BROWSERSLIST_ENV` or `NODE_ENV`
 variables. If none of them is declared, Browserslist will firstly look
 for `development` queries and then use defaults.
 
@@ -267,7 +267,7 @@ Queries can be a string `"> 5%, last 1 version"`
 or an array `['> 5%', 'last 1 version']`.
 
 If a query is missing, Browserslist will look for a config file.
-You can provide a `path` option (that can be a file) to find the config file
+You can provide a `path` option (that can be a file) to find the config file
 relatively to it.
 
 For non-JS environment and debug purpose you can use CLI tool:
