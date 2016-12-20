@@ -216,7 +216,7 @@ If you have a website, you can query against the usage statistics of your site:
 
 1. Import your Google Analytics data into [Can I Use].
    Press `Import…` button in Settings page.
-2. Open browser DevTools on [Can I Use] add paste this snippet
+2. Open browser DevTools on [Can I Use] and paste this snippet
    into the browser console:
 
     ```js
