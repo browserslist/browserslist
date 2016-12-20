@@ -345,8 +345,6 @@ browserslist.coverage = function (browsers, country) {
     return browsers.reduce(function (all, i) {
         var usage = browserslist.usage[country][i];
         if ( usage === undefined ) {
-            // Sometimes, Caniuse consolidates country usage data into a single
-            // "version 0" entry. This is usually when there is only 1 version.
             usage = browserslist.usage[country][i.replace(/ [\d.]+$/, ' 0')];
         }
         return all + (usage || 0);
