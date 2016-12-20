@@ -30,9 +30,16 @@
       "no-process-exit": 0
     }
   },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "statements": 97
+      }
+    }
+  },
   "scripts": {
     "lint-staged": "lint-staged",
-    "test": "jest && eslint *.js test/*.js"
+    "test": "jest --coverage && eslint *.js test/*.js"
   },
   "lint-staged": {
     "*.js": "eslint"
