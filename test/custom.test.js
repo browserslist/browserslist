@@ -45,3 +45,9 @@ it('works alongside global usage query', () => {
 it('take stats from browserslist-stats.json', () => {
     expect(browserslist('> 5% in my stats', { path: stats })).toEqual(['ie 8']);
 });
+
+it('throws error on no stats', () => {
+    expect(function () {
+        browserslist('> 5% in my stats');
+    }).toThrowError(/statistics was not provided/);
+});

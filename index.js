@@ -56,16 +56,20 @@ function eachParent(file, callback) {
 }
 
 function getStat(opts) {
-    var stats = opts.stats || process.env.BROWSERSLIST_STATS;
-    if ( stats ) return stats;
-
-    if ( typeof opts.path === 'undefined' ) opts.path = '.';
-    return eachParent(opts.path, function (dir) {
-        stats = path.join(dir, 'browserslist-stats.json');
-        if ( isFile(stats) ) {
-            return stats;
-        }
-    });
+    if ( opts.stats ) {
+        return opts.stats;
+    } else if ( process.env.BROWSERSLIST_STATS ) {
+        return process.env.BROWSERSLIST_STATS;
+    } else if ( opts.path ) {
+        return eachParent(opts.path, function (dir) {
+            var file = path.join(dir, 'browserslist-stats.json');
+            if ( isFile(file) ) {
+                return file;
+            }
+        });
+    } else {
+        return false;
+    }
 }
 
 function parsePackage(file) {
@@ -118,6 +122,8 @@ var browserslist = function (queries, opts) {
         queries = queries.split(/,\s*/);
     }
 
+    var context = { };
+
     var stats = getStat(opts);
     if ( stats ) {
         if ( typeof stats === 'string' ) {
@@ -131,30 +137,26 @@ var browserslist = function (queries, opts) {
             stats = stats.dataByBrowser;
         }
 
-        browserslist.usage.custom = { };
+        context.customUsage = { };
         for ( var browser in stats ) {
-            fillUsage(browserslist.usage.custom, browser, stats[browser]);
+            fillUsage(context.customUsage, browser, stats[browser]);
         }
     }
 
     var result = [];
 
-    var exclude, query, match, array, used;
     queries.forEach(function (selection) {
         if ( selection.trim() === '' ) return;
-        exclude = false;
-        used    = false;
 
-        if ( selection.indexOf('not ') === 0 ) {
-            selection = selection.slice(4);
-            exclude   = true;
-        }
+        var exclude = selection.indexOf('not ') === 0;
+        if ( exclude ) selection = selection.slice(4);
 
         for ( var i in browserslist.queries ) {
-            query = browserslist.queries[i];
-            match = selection.match(query.regexp);
+            var type  = browserslist.queries[i];
+            var match = selection.match(type.regexp);
             if ( match ) {
-                array = query.select.apply(browserslist, match.slice(1));
+                var args = [context].concat(match.slice(1));
+                var array = type.select.apply(browserslist, args);
                 if ( exclude ) {
                     result = result.filter(function (j) {
                         return array.indexOf(j) === -1;
@@ -162,14 +164,11 @@ var browserslist = function (queries, opts) {
                 } else {
                     result = result.concat(array);
                 }
-                used   = true;
-                break;
+                return;
             }
         }
 
-        if ( !used ) {
-            error('Unknown browser query `' + selection + '`');
-        }
+        error('Unknown browser query `' + selection + '`');
     });
 
     result = uniq(result);
@@ -357,7 +356,7 @@ browserslist.queries = {
 
     lastVersions: {
         regexp: /^last\s+(\d+)\s+versions?$/i,
-        select: function (versions) {
+        select: function (context, versions) {
             var selected = [];
             browserslist.major.forEach(function (name) {
                 var data  = browserslist.byName(name);
@@ -375,7 +374,7 @@ browserslist.queries = {
 
     lastByBrowser: {
         regexp: /^last\s+(\d+)\s+(\w+)\s+versions?$/i,
-        select: function (versions, name) {
+        select: function (context, versions, name) {
             var data = browserslist.checkName(name);
             return data.released.slice(-versions).map(function (v) {
                 return data.name + ' ' + v;
@@ -385,7 +384,7 @@ browserslist.queries = {
 
     globalStatistics: {
         regexp: /^>\s*(\d*\.?\d+)%$/,
-        select: function (popularity) {
+        select: function (context, popularity) {
             popularity = parseFloat(popularity);
             var result = [];
 
@@ -401,17 +400,16 @@ browserslist.queries = {
 
     customStatistics: {
         regexp: /^>\s*(\d*\.?\d+)%\s+in\s+my\s+stats$/,
-        select: function (popularity) {
+        select: function (context, popularity) {
             popularity = parseFloat(popularity);
             var result = [];
 
-            var usage = browserslist.usage.custom;
-            if ( !usage ) {
+            if ( !context.customUsage ) {
                 error('Custom usage statistics was not provided');
             }
 
-            for ( var version in usage ) {
-                if ( usage[version] > popularity ) {
+            for ( var version in context.customUsage ) {
+                if ( context.customUsage[version] > popularity ) {
                     result.push(version);
                 }
             }
@@ -422,7 +420,7 @@ browserslist.queries = {
 
     countryStatistics: {
         regexp: /^>\s*(\d*\.?\d+)%\s+in\s+(\w\w)$/,
-        select: function (popularity, country) {
+        select: function (context, popularity, country) {
             popularity = parseFloat(popularity);
             country    = country.toUpperCase();
             var result = [];
@@ -442,7 +440,7 @@ browserslist.queries = {
 
     range: {
         regexp: /^(\w+)\s+([\d\.]+)\s*-\s*([\d\.]+)$/i,
-        select: function (name, from, to) {
+        select: function (context, name, from, to) {
             var data = browserslist.checkName(name);
             from = parseFloat(normalizeVersion(data, from) || from);
             to = parseFloat(normalizeVersion(data, to) || to);
@@ -460,7 +458,7 @@ browserslist.queries = {
 
     versions: {
         regexp: /^(\w+)\s*(>=?|<=?)\s*([\d\.]+)$/,
-        select: function (name, sign, version) {
+        select: function (context, name, sign, version) {
             var data = browserslist.checkName(name);
             var alias = normalizeVersion(data, version);
             if ( alias ) {
@@ -508,7 +506,7 @@ browserslist.queries = {
 
     direct: {
         regexp: /^(\w+)\s+(tp|[\d\.]+)$/i,
-        select: function (name, version) {
+        select: function (context, name, version) {
             if ( /tp/i.test(version) ) version = 'TP';
             var data  = browserslist.checkName(name);
             var alias = normalizeVersion(data, version);
