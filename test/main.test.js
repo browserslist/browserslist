@@ -9,6 +9,7 @@ var envConfig  = path.join(__dirname, 'fixtures', 'env-config', 'test.css');
 var envPackage = path.join(__dirname, 'fixtures', 'env-package', 'test.css');
 
 afterEach(() => {
+    process.env.NODE_ENV = 'test';
     delete process.env.BROWSERSLIST;
     delete process.env.BROWSERSLIST_CONFIG;
     delete process.env.BROWSERSLIST_ENV;
@@ -131,7 +132,7 @@ it('uses env options to package.json', () => {
 });
 
 it('uses NODE_ENV to get environment', () => {
-    // In our case NODE_ENV = 'test'
+    process.env.NODE_ENV = 'test';
     expect(browserslist(null, { path: envConfig }))
         .toEqual(['ie 11', 'ie 10']);
 });
@@ -140,4 +141,10 @@ it('uses BROWSERSLIST_ENV to get environment', () => {
     process.env.BROWSERSLIST_ENV = 'development';
     expect(browserslist(null, { path: envConfig }))
          .toEqual(['chrome 55', 'firefox 50']);
+});
+
+it('uses development environment by default', () => {
+    delete process.env.NODE_ENV;
+    expect(browserslist(null, { path: envConfig }))
+        .toEqual(['chrome 55', 'firefox 50']);
 });
