@@ -1,3 +1,12 @@
+## 1.5
+* Add `package.json` support (by Stepan Kuzmin).
+* Add environments support (by Maksim Semenov and openlibser).
+* Add `browserslist-stats.json` file support (by Oleh Aloshkin).
+* Add `config` option to CLI (by Evilebot Tnawi).
+* Add JSDoc.
+* Fix tests on Windows (by Anna Stoliar).
+* Don’t set custom usage statistics globally.
+
 ## 1.4
 * Add `defaults` keyword.
 
