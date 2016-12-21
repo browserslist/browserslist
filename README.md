@@ -136,10 +136,10 @@ browsers in `package.json` with `browserslist` key:
   "dependencies": {
     "autoprefixer": "^6.5.4"
   },
-  "browserslist": {
+  "browserslist": [
     "> 1%",
     "last 2 versions"
-  }
+  ]
 }
 ```
 
@@ -167,13 +167,13 @@ In `package.json`:
 {
   …
   "browserslist": {
-    "production": {
+    "production": [
       "last 2 version",
       "ie 9"
-    },
-    "development": {
+    ],
+    "development": [
       "last 1 version"
-    }
+    ]
   }
 }
 ```
