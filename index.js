@@ -305,20 +305,25 @@ browserslist.findConfig = function (from) {
         var config = path.join(dir, 'browserslist');
         var pkg = path.join(dir, 'package.json');
 
-        if ( isFile(config) && isFile(pkg) ) {
-            error(
-                dir + ' contains both browserslist ' +
-                'and package.json with browsers');
-        } else if ( isFile(config) ) {
-            return browserslist.readConfig(config);
-        } else if ( isFile(pkg) ) {
+        var pkgBrowserslist;
+        if ( isFile(pkg) ) {
             try {
-                return parsePackage(pkg);
+                pkgBrowserslist = parsePackage(pkg);
             } catch (e) {
                 console.warn(
                     '[Browserslist] Could not parse ' + pkg + '. ' +
                     'Ignoring it.');
             }
+        }
+
+        if ( isFile(config) && pkgBrowserslist ) {
+            error(
+                dir + ' contains both browserslist ' +
+                'and package.json with browsers');
+        } else if ( isFile(config) ) {
+            return browserslist.readConfig(config);
+        } else if ( pkgBrowserslist ) {
+            return pkgBrowserslist;
         }
     });
 };
