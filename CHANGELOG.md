@@ -1,3 +1,6 @@
+## 1.5.1
+* Fix error on `package.json` and `browserslist` in same directory.
+
 ## 1.5
 * Add `package.json` support (by Stepan Kuzmin).
 * Add environments support (by Maksim Semenov and openlibser).
