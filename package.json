@@ -44,6 +44,7 @@
     "test": "jest --coverage && eslint *.js test/*.js && yaspeller *.md"
   },
   "lint-staged": {
+    "*.md": "yaspeller",
     "*.js": "eslint"
   },
   "pre-commit": [
