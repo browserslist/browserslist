@@ -3,17 +3,7 @@
 Library to share supported browsers list between different front-end tools,
 like [Autoprefixer], [Stylelint] and [babel-env-preset].
 
-In `browserslist` config:
-
-```yaml
-# Browsers that we support
-
-> 1%
-Last 2 versions
-IE 10 # sorry
-```
-
-Or in `package.json`:
+In `package.json`:
 
 ```json
 {
@@ -26,6 +16,16 @@ Or in `package.json`:
     "last 2 versions"
   ]
 }
+```
+
+Or in `browserslist` config:
+
+```yaml
+# Browsers that we support
+
+> 1%
+Last 2 versions
+IE 10 # sorry
 ```
 
 Developers set browsers list in queries like `last 2 version`
@@ -167,17 +167,6 @@ Browserslist will choose query according to `BROWSERSLIST_ENV` or `NODE_ENV`
 variables. If none of them is declared, Browserslist will firstly look
 for `development` queries and then use defaults.
 
-In `browserslist` config:
-
-```ini
-[production]
-last 2 version
-ie 9
-
-[development]
-last 1 version
-```
-
 In `package.json`:
 
 ```js
@@ -193,6 +182,17 @@ In `package.json`:
     ]
   }
 }
+```
+
+In `browserslist` config:
+
+```ini
+[production]
+last 2 version
+ie 9
+
+[development]
+last 1 version
 ```
 
 ## Environment Variables
