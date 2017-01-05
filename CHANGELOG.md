@@ -1,3 +1,6 @@
+## 1.5.2
+* Fix browser versions ordering (by Marco Massarotto).
+
 ## 1.5.1
 * Fix error on `package.json` and `browserslist` in same directory.
 
