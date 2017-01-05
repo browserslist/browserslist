@@ -2,7 +2,7 @@ var caniuse = require('caniuse-db/data.json').agents;
 var path    = require('path');
 var fs      = require('fs');
 
-var FLOAT = /^\d+(\.\d+)?$/;
+var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/;
 var IS_SECTION = /^\s*\[(.+)\]\s*$/;
 
 function uniq(array) {
@@ -208,7 +208,7 @@ var browserslist = function (queries, opts) {
         name1 = name1.split(' ');
         name2 = name2.split(' ');
         if ( name1[0] === name2[0] ) {
-            if ( FLOAT.test(name1[1]) && FLOAT.test(name2[1]) ) {
+            if ( FLOAT_RANGE.test(name1[1]) && FLOAT_RANGE.test(name2[1]) ) {
                 return parseFloat(name2[1]) - parseFloat(name1[1]);
             } else {
                 return name2[1].localeCompare(name1[1]);
