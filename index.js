@@ -1,4 +1,4 @@
-var caniuse = require('caniuse-db/data.json').agents;
+var caniuse = require('./agents');
 var path    = require('path');
 var fs      = require('fs');
 
@@ -27,12 +27,6 @@ BrowserslistError.prototype = Error.prototype;
 
 function error(name) {
     throw new BrowserslistError(name);
-}
-
-function normalize(versions) {
-    return versions.filter(function (version) {
-        return typeof version === 'string';
-    });
 }
 
 function fillUsage(result, name, data) {
@@ -572,17 +566,17 @@ browserslist.queries = {
 
 (function () {
     for ( var name in caniuse ) {
+        var browser = caniuse[name];
         browserslist.data[name] = {
             name:     name,
-            versions: normalize(caniuse[name].versions),
-            released: normalize(caniuse[name].versions.slice(0, -3))
+            versions: browser.versions,
+            released: browser.versions
         };
-        fillUsage(browserslist.usage.global, name, caniuse[name].usage_global);
+        fillUsage(browserslist.usage.global, name, browser.usage_global);
 
         browserslist.versionAliases[name] = { };
-        for ( var i = 0; i < caniuse[name].versions.length; i++ ) {
-            if ( !caniuse[name].versions[i] ) continue;
-            var full = caniuse[name].versions[i];
+        for ( var i = 0; i < browser.versions.length; i++ ) {
+            var full = browser.versions[i];
 
             if ( full.indexOf('-') !== -1 ) {
                 var interval = full.split('-');
