@@ -124,11 +124,11 @@ Names are case insensitive:
 * `UCAndroid` or `and_uc` for UC Browser for Android.
 
 #### Electron
-The npm package [`electron-to-chromium`](https://www.npmjs.com/package/electron-to-chromium) exposes an electronToBrowserlist API that you can use to get a compatible BrowserList query for your (major) Electron version:
+The npm package [`electron-to-chromium`](https://www.npmjs.com/package/electron-to-chromium) exposes an `electronToBrowserList` API that you can use to get a compatible Browserslist query for your (major) Electron version:
 
 ```js
     var e2c = require('electron-to-chromium');
-    var browserlistQuery - e2c.electronToBrowserlist('1.4');
+    var browserlistQuery - e2c.electronToBrowserList('1.4');
     // browserlistQuery is 'Chrome >= 53'
 ```
     
