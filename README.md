@@ -127,9 +127,9 @@ Names are case insensitive:
 The npm package [`electron-to-chromium`](https://www.npmjs.com/package/electron-to-chromium) exposes an `electronToBrowserList` API that you can use to get a compatible Browserslist query for your (major) Electron version:
 
 ```js
-    var e2c = require('electron-to-chromium');
-    var browserlistQuery - e2c.electronToBrowserList('1.4');
-    // browserlistQuery is 'Chrome >= 53'
+var e2c = require('electron-to-chromium');
+var browserlistQuery - e2c.electronToBrowserList('1.4');
+// browserlistQuery is 'Chrome >= 53'
 ```
     
 ## Config File
