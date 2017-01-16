@@ -123,6 +123,15 @@ Names are case insensitive:
 * `Samsung` for Samsung Internet.
 * `UCAndroid` or `and_uc` for UC Browser for Android.
 
+#### Electron
+The npm package [`electron-to-chromium`](https://www.npmjs.com/package/electron-to-chromium) exposes an `electronToBrowserList` API that you can use to get a compatible Browserslist query for your (major) Electron version:
+
+```js
+var e2c = require('electron-to-chromium');
+var browserlistQuery - e2c.electronToBrowserList('1.4');
+// browserlistQuery is 'Chrome >= 53'
+```
+    
 ## Config File
 
 Browserslist config should be named `browserslist` and have browsers queries
