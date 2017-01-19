@@ -1,7 +1,8 @@
-var caniuse = require('./agents');
 var path    = require('path');
 var e2c     = require('electron-to-chromium');
 var fs      = require('fs');
+
+var caniuse = require('./agents');
 
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/;
 var IS_SECTION = /^\s*\[(.+)\]\s*$/;
