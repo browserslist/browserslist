@@ -83,7 +83,7 @@ it('sorts browsers', () => {
 
 it('sorts browsers with version ranges', () => {
     expect(browserslist(['ios_saf 7', 'ie 11', 'ie 6', 'ios_saf 10']))
-        .toEqual(['ie 11', 'ie 6', 'ios_saf 10-10.1', 'ios_saf 7.0-7.1']);
+        .toEqual(['ie 11', 'ie 6', 'ios_saf 10.0-10.2', 'ios_saf 7.0-7.1']);
 });
 
 it('throws custom error', () => {
