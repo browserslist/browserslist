@@ -1,5 +1,6 @@
 var caniuse = require('./agents');
 var path    = require('path');
+var e2c     = require('electron-to-chromium');
 var fs      = require('fs');
 
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/;
@@ -95,6 +96,27 @@ function pickEnv(config, opts) {
     }
 
     return config[env] || config.defaults;
+}
+
+function generateFilter(sign, version) {
+    version = parseFloat(version);
+    if ( sign === '>' ) {
+        return function (v) {
+            return parseFloat(v) > version;
+        };
+    } else if ( sign === '>=' ) {
+        return function (v) {
+            return parseFloat(v) >= version;
+        };
+    } else if ( sign === '<' ) {
+        return function (v) {
+            return parseFloat(v) < version;
+        };
+    } else if ( sign === '<=' ) {
+        return function (v) {
+            return parseFloat(v) <= version;
+        };
+    }
 }
 
 /**
@@ -462,6 +484,26 @@ browserslist.queries = {
         }
     },
 
+    electronRange: {
+        regexp: /^electron\s+([\d\.]+)\s*-\s*([\d\.]+)$/i,
+        select: function (context, from, to) {
+            if ( !e2c.versions[from] ) {
+                error('Unknown version ' + from + ' of electron');
+            }
+            if ( !e2c.versions[to] ) {
+                error('Unknown version ' + to   + ' of electron');
+            }
+            from = parseFloat(from);
+            to = parseFloat(to);
+            return Object.keys(e2c.versions).filter(function (i) {
+                var parsed = parseFloat(i);
+                return parsed >= from && parsed <= to;
+            }).map(function (i) {
+                return 'chrome ' + e2c.versions[i];
+            });
+        }
+    },
+
     range: {
         regexp: /^(\w+)\s+([\d\.]+)\s*-\s*([\d\.]+)$/i,
         select: function (context, name, from, to) {
@@ -480,6 +522,17 @@ browserslist.queries = {
         }
     },
 
+    electronVersions: {
+        regexp: /^electron\s*(>=?|<=?)\s*([\d\.]+)$/i,
+        select: function (context, sign, version) {
+            return Object.keys(e2c.versions)
+                .filter(generateFilter(sign, version))
+                .map(function (i) {
+                    return 'chrome ' + e2c.versions[i];
+                });
+        }
+    },
+
     versions: {
         regexp: /^(\w+)\s*(>=?|<=?)\s*([\d\.]+)$/,
         select: function (context, name, sign, version) {
@@ -488,29 +541,11 @@ browserslist.queries = {
             if ( alias ) {
                 version = alias;
             }
-            version = parseFloat(version);
-
-            var filter;
-            if ( sign === '>' ) {
-                filter = function (v) {
-                    return parseFloat(v) > version;
-                };
-            } else if ( sign === '>=' ) {
-                filter = function (v) {
-                    return parseFloat(v) >= version;
-                };
-            } else if ( sign === '<' ) {
-                filter = function (v) {
-                    return parseFloat(v) < version;
-                };
-            } else if ( sign === '<=' ) {
-                filter = function (v) {
-                    return parseFloat(v) <= version;
-                };
-            }
-            return data.released.filter(filter).map(function (v) {
-                return data.name + ' ' + v;
-            });
+            return data.released
+                .filter(generateFilter(sign, version))
+                .map(function (v) {
+                    return data.name + ' ' + v;
+                });
         }
     },
 
@@ -525,6 +560,15 @@ browserslist.queries = {
         regexp: /(operamini|op_mini)\s+all/i,
         select: function () {
             return ['op_mini all'];
+        }
+    },
+
+    electron: {
+        regexp: /^electron\s+([\d\.]+)$/i,
+        select: function (context, version) {
+            var chrome = e2c.versions[version];
+            if ( !chrome ) error('Unknown version ' + version + ' of electron');
+            return ['chrome ' + chrome];
         }
     },
 

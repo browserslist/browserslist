@@ -122,6 +122,7 @@ Names are case insensitive:
 * `OperaMini` or `op_mini` for Opera Mini.
 * `Samsung` for Samsung Internet.
 * `UCAndroid` or `and_uc` for UC Browser for Android.
+* `Electron` for Electron framework. It will be converted to Chrome version.
 
 ### Electron
 
