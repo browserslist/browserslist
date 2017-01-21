@@ -1,4 +1,4 @@
-const agents = require('caniuse-db/data.json').agents;
+var agents = require('caniuse-db/data.json').agents;
 
 Object.keys(agents).forEach(function (key) {
     var browser = agents[key];
