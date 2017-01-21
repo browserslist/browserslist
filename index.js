@@ -2,7 +2,10 @@ var path = require('path');
 var e2c  = require('electron-to-chromium/versions');
 var fs   = require('fs');
 
-var caniuse = require('./agents');
+var caniuse = require('caniuse-db/data.json').agents;
+Object.keys(caniuse).forEach(function (key) {
+    caniuse[key].versions = caniuse[key].versions.filter(Boolean);
+});
 
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/;
 var IS_SECTION = /^\s*\[(.+)\]\s*$/;
