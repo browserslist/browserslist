@@ -209,17 +209,14 @@ var browserslist = function (queries, opts) {
         error('Unknown browser query `' + selection + '`');
     });
 
-    result = uniq(result);
-
-    return result.filter(function (i) {
-        var version = i.split(' ')[1];
+    result = result.map(function (i) {
+        var parts = i.split(' ');
+        var name = parts[0];
+        var version = parts[1];
         if ( version === '0' ) {
-            var name = i.split(' ')[0];
-            return !result.some(function (j) {
-                return j !== i && j.split(' ')[0] === name;
-            });
+            return name + ' ' + browserslist.byName(name).versions[0];
         } else {
-            return true;
+            return i;
         }
     }).sort(function (name1, name2) {
         name1 = name1.split(' ');
@@ -234,6 +231,8 @@ var browserslist = function (queries, opts) {
             return name1[0].localeCompare(name2[0]);
         }
     });
+
+    return uniq(result);
 };
 
 var normalizeVersion = function (data, version) {
