@@ -1,3 +1,7 @@
+## 1.6
+* Convert Electron version to Chrome (by Kilian Valkhof).
+* Fix `0` version mistake in Can I Use data.
+
 ## 1.5.2
 * Fix browser versions ordering (by Marco Massarotto).
 
