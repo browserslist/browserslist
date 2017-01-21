@@ -11,11 +11,11 @@
   "repository": "ai/browserslist",
   "dependencies": {
     "caniuse-db": "^1.0.30000613",
-    "electron-to-chromium": "^1.1.0"
+    "electron-to-chromium": "^1.2.0"
   },
   "bin": "./cli.js",
   "devDependencies": {
-    "eslint": "^3.13.1",
+    "eslint": "^3.14.0",
     "eslint-config-postcss": "^2.0.2",
     "jest": "^18.1.0",
     "lint-staged": "^3.2.7",

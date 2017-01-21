@@ -1,6 +1,6 @@
-var path    = require('path');
-var e2c     = require('electron-to-chromium');
-var fs      = require('fs');
+var path = require('path');
+var e2c  = require('electron-to-chromium/versions');
+var fs   = require('fs');
 
 var caniuse = require('./agents');
 
@@ -488,19 +488,17 @@ browserslist.queries = {
     electronRange: {
         regexp: /^electron\s+([\d\.]+)\s*-\s*([\d\.]+)$/i,
         select: function (context, from, to) {
-            if ( !e2c.versions[from] ) {
-                error('Unknown version ' + from + ' of electron');
-            }
-            if ( !e2c.versions[to] ) {
-                error('Unknown version ' + to   + ' of electron');
-            }
+            if ( !e2c[from] ) error('Unknown version ' + from + ' of electron');
+            if ( !e2c[to] ) error('Unknown version ' + to   + ' of electron');
+
             from = parseFloat(from);
             to = parseFloat(to);
-            return Object.keys(e2c.versions).filter(function (i) {
+
+            return Object.keys(e2c).filter(function (i) {
                 var parsed = parseFloat(i);
                 return parsed >= from && parsed <= to;
             }).map(function (i) {
-                return 'chrome ' + e2c.versions[i];
+                return 'chrome ' + e2c[i];
             });
         }
     },
@@ -526,10 +524,10 @@ browserslist.queries = {
     electronVersions: {
         regexp: /^electron\s*(>=?|<=?)\s*([\d\.]+)$/i,
         select: function (context, sign, version) {
-            return Object.keys(e2c.versions)
+            return Object.keys(e2c)
                 .filter(generateFilter(sign, version))
                 .map(function (i) {
-                    return 'chrome ' + e2c.versions[i];
+                    return 'chrome ' + e2c[i];
                 });
         }
     },
@@ -567,7 +565,7 @@ browserslist.queries = {
     electron: {
         regexp: /^electron\s+([\d\.]+)$/i,
         select: function (context, version) {
-            var chrome = e2c.versions[version];
+            var chrome = e2c[version];
             if ( !chrome ) error('Unknown version ' + version + ' of electron');
             return ['chrome ' + chrome];
         }
