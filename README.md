@@ -9,7 +9,6 @@ when you add the following to `package.json`:
 
 ```json
 {
-  …
   "browserslist": [
     "> 1%",
     "last 2 versions"
