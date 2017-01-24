@@ -9,10 +9,7 @@ when you add the following to `package.json`:
 
 ```json
 {
-  "private": true,
-  "dependencies": {
-    "autoprefixer": "^6.5.4"
-  },
+  …
   "browserslist": [
     "> 1%",
     "last 2 versions"
