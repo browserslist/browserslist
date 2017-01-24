@@ -1,9 +1,11 @@
 # Browserslist
 
-Library to share supported browsers list between different front-end tools,
-like [Autoprefixer], [Stylelint] and [babel-env-preset].
+Library to share supported browsers list between different front-end tools.
+It is used in [Autoprefixer], [Stylelint], [eslint-plugin-compat]
+and [babel-env-preset].
 
-In `package.json`:
+All tools that rely on Browserslist will find its config automatically,
+when you add the following to `package.json`:
 
 ```json
 {
@@ -46,11 +48,12 @@ You can test Browserslist queries in [online demo].
   \>
 </a>
 
-[babel-env-preset]: https://github.com/babel/babel-preset-env
-[Autoprefixer]:     https://github.com/postcss/autoprefixer
-[online demo]:      http://browserl.ist/
-[Stylelint]:        http://stylelint.io/
-[Can I Use]:        http://caniuse.com/
+[eslint-plugin-compat]: https://github.com/amilajack/eslint-plugin-compat
+[babel-env-preset]:     https://github.com/babel/babel-preset-env
+[Autoprefixer]:         https://github.com/postcss/autoprefixer
+[online demo]:          http://browserl.ist/
+[Stylelint]:            http://stylelint.io/
+[Can I Use]:            http://caniuse.com/
 
 ## Queries
 
