@@ -43,7 +43,9 @@ if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
         '  ' + pkg.name + ' "QUERIES"',
         '  ' + pkg.name + ' --coverage "QUERIES"',
         '  ' + pkg.name + ' --coverage=US "QUERIES"',
-        '  ' + pkg.name + ' --config=browserslist "path/to/browserlist/file"'
+        '  ' + pkg.name + ' --config=browserslist "path/to/browserlist/file"',
+        '  ' + pkg.name + ' --env="environment name defined in config"',
+        '  ' + pkg.name + ' --stats="path/to/browserlist/stats/file"'
     ].join('\n') + '\n');
 
 } else if ( isArg('--version') || isArg('-v') ) {
@@ -73,9 +75,19 @@ if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
     });
 
 } else if (isArg('--config') || isArg('-b')) {
-    var config = getArgValue('--config') || getArgValue('-b');
+    var opts = {
+        config: getArgValue('--config') || getArgValue('-b')
+    };
 
-    query(null, { config: config }).forEach(function (browser) {
+    if (isArg('--env') || isArg('-e')) {
+        opts.config = getArgValue('--env') || getArgValue('-e');
+    }
+
+    if (isArg('--stats') || isArg('-s')) {
+        opts.stats = getArgValue('--stats') || getArgValue('-s');
+    }
+
+    query(null, opts).forEach(function (browser) {
         process.stdout.write(browser + '\n');
     });
 } else {
