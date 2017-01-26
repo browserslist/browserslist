@@ -1,3 +1,6 @@
+## 1.7
+* Add `--config` and `--env` arguments to CLI (by Jarek Rencz).
+
 ## 1.6
 * Convert Electron version to Chrome (by Kilian Valkhof).
 * Fix `0` version mistake in Can I Use data.
