@@ -1,3 +1,6 @@
+## 1.7.1
+* Fix unreleased browsers version detection.
+
 ## 1.7
 * Add `--config` and `--env` arguments to CLI (by Jarek Rencz).
 
