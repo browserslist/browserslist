@@ -3,9 +3,12 @@ var e2c  = require('electron-to-chromium/versions');
 var fs   = require('fs');
 
 var caniuse = require('caniuse-db/data.json').agents;
-Object.keys(caniuse).forEach(function (key) {
-    caniuse[key].versions = caniuse[key].versions.filter(Boolean);
-});
+
+function normalize(versions) {
+    return versions.filter(function (version) {
+        return typeof version === 'string';
+    });
+}
 
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/;
 var IS_SECTION = /^\s*\[(.+)\]\s*$/;
@@ -614,14 +617,15 @@ browserslist.queries = {
         var browser = caniuse[name];
         browserslist.data[name] = {
             name:     name,
-            versions: browser.versions,
-            released: browser.versions
+            versions: normalize(caniuse[name].versions),
+            released: normalize(caniuse[name].versions.slice(0, -3))
         };
         fillUsage(browserslist.usage.global, name, browser.usage_global);
 
         browserslist.versionAliases[name] = { };
         for ( var i = 0; i < browser.versions.length; i++ ) {
             var full = browser.versions[i];
+            if (!full) continue;
 
             if ( full.indexOf('-') !== -1 ) {
                 var interval = full.split('-');
