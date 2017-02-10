@@ -43,8 +43,21 @@ function fillUsage(result, name, data) {
     }
 }
 
+var cacheEnabled = !(
+    process && process.env && process.env.BROWSERSLIST_DISABLE_CACHE
+);
+var _filenessCache = {};
+var _configCache = {};
+
 function isFile(file) {
-    return fs.existsSync(file) && fs.statSync(file).isFile();
+    if (file in _filenessCache) {
+        return _filenessCache[file];
+    }
+    var result = fs.existsSync(file) && fs.statSync(file).isFile();
+    if (cacheEnabled) {
+        _filenessCache[file] = result;
+    }
+    return result;
 }
 
 /**
@@ -325,7 +338,7 @@ browserslist.checkName = function (name) {
 
 // Read and parse config
 browserslist.readConfig = function (file) {
-    if ( !fs.existsSync(file) || !fs.statSync(file).isFile() ) {
+    if ( !isFile(file) ) {
         error('Can\'t read ' + file + ' config');
     }
     return browserslist.parseConfig(fs.readFileSync(file));
@@ -337,7 +350,13 @@ browserslist.findConfig = function (from) {
         // istanbul ignore next
         error('findConfig requires a string path');
     }
-    return eachParent(from, function (dir) {
+    from = path.resolve(from);
+    // If the `from` path is a file, use its directory as the cache key
+    var cacheKey = isFile(from) ? path.dirname(from) : from;
+    if (cacheKey in _configCache) {
+        return _configCache[cacheKey];
+    }
+    var resolved = eachParent(from, function (dir) {
         var config = path.join(dir, 'browserslist');
         var pkg = path.join(dir, 'package.json');
 
@@ -362,6 +381,10 @@ browserslist.findConfig = function (from) {
             return pkgBrowserslist;
         }
     });
+    if (cacheEnabled) {
+        _configCache[cacheKey] = resolved;
+    }
+    return resolved;
 };
 
 /**
@@ -416,6 +439,12 @@ browserslist.parseConfig = function (string) {
         });
 
     return result;
+};
+
+// Clear internal caches
+browserslist.clearCaches = function () {
+    _filenessCache = {};
+    _configCache = {};
 };
 
 browserslist.queries = {
