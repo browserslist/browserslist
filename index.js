@@ -55,12 +55,10 @@ function eachParent(file, callback) {
 
     if ( file === false ) return undefined;
     if ( typeof file === 'undefined' ) file = '.';
-
-    var dirs = path.resolve(file).split(path.sep);
-    while ( dirs.length ) {
-        var result = callback(dirs.join(path.sep));
+    var loc = path.resolve(file);
+    while (loc !== (loc = path.dirname(loc))) {
+        var result = callback(loc);
         if (typeof result !== 'undefined') return result;
-        dirs.pop();
     }
     return undefined;
 }
