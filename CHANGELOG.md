@@ -1,3 +1,6 @@
+## 1.7.2
+* Fix config finding algorithm (by Aarni Koskela).
+
 ## 1.7.1
 * Fix unreleased browsers version detection.
 
