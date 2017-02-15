@@ -56,10 +56,10 @@ function eachParent(file, callback) {
     if ( file === false ) return undefined;
     if ( typeof file === 'undefined' ) file = '.';
     var loc = path.resolve(file);
-    while (loc !== (loc = path.dirname(loc))) {
+    do {
         var result = callback(loc);
         if (typeof result !== 'undefined') return result;
-    }
+    } while (loc !== (loc = path.dirname(loc)));
     return undefined;
 }
 
