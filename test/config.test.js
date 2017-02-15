@@ -49,18 +49,6 @@ it('reads config', () => {
     });
 });
 
-it('reads config from working directory', () => {
-    process.chdir(path.dirname(FILE));
-    expect(browserslist.findConfig()).toEqual({
-        defaults: ['ie 11', 'ie 10']
-    });
-});
-
-it('ignore working directory on false', () => {
-    process.chdir(path.dirname(FILE));
-    expect(browserslist.findConfig(false)).not.toBeDefined();
-});
-
 it('reads config from package.json', () => {
     expect(browserslist.findConfig(PACKAGE)).toEqual({
         defaults: ['ie 9', 'ie 10']

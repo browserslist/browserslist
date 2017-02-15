@@ -47,14 +47,22 @@ function isFile(file) {
     return fs.existsSync(file) && fs.statSync(file).isFile();
 }
 
+/**
+ * Call `callback` for the given `file` path and its parents.
+ *
+ * I.e. for `/foo/bar`, `callback` is called with `/foo/bar`, `/foo` and `/`.
+ *
+ * If any call of the callback returns a defined value, it is returned.
+ *
+ * @param {string} file Path string
+ * @param {function} callback Function to call with each part of the path.
+ * @returns {*} The first defined value returned by the `callback`.
+ */
 function eachParent(file, callback) {
-    if ( !fs.readFileSync || !fs.existsSync || !fs.statSync ) {
-        /* istanbul ignore next */
-        return undefined;
+    if (typeof file !== 'string') {
+        // istanbul ignore next
+        error('eachParent requires a string path (not ' + file + ')');
     }
-
-    if ( file === false ) return undefined;
-    if ( typeof file === 'undefined' ) file = '.';
     var loc = path.resolve(file);
     do {
         var result = callback(loc);
@@ -68,7 +76,7 @@ function getStat(opts) {
         return opts.stats;
     } else if ( process.env.BROWSERSLIST_STATS ) {
         return process.env.BROWSERSLIST_STATS;
-    } else {
+    } else if ( opts.path ) {
         return eachParent(opts.path, function (dir) {
             var file = path.join(dir, 'browserslist-stats.json');
             if ( isFile(file) ) {
@@ -145,13 +153,17 @@ function generateFilter(sign, version) {
 var browserslist = function (queries, opts) {
     if ( typeof opts === 'undefined' ) opts = { };
 
+    if ( !opts.hasOwnProperty('path') ) {
+        opts.path = path.resolve('.');
+    }
+
     if ( typeof queries === 'undefined' || queries === null ) {
         if ( process.env.BROWSERSLIST ) {
             queries = process.env.BROWSERSLIST;
         } else if ( opts.config || process.env.BROWSERSLIST_CONFIG ) {
             var file = opts.config || process.env.BROWSERSLIST_CONFIG;
             queries = pickEnv(browserslist.readConfig(file), opts);
-        } else {
+        } else if (opts.path) {
             queries = pickEnv(browserslist.findConfig(opts.path), opts);
         }
     }
@@ -321,6 +333,10 @@ browserslist.readConfig = function (file) {
 
 // Find config, read file and parse it
 browserslist.findConfig = function (from) {
+    if (typeof from !== 'string') {
+        // istanbul ignore next
+        error('findConfig requires a string path');
+    }
     return eachParent(from, function (dir) {
         var config = path.join(dir, 'browserslist');
         var pkg = path.join(dir, 'package.json');
