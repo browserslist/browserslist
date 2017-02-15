@@ -1,3 +1,6 @@
+## 1.7.3
+* Fix config finding when directory was passed to `path` (by Aarni Koskela).
+
 ## 1.7.2
 * Fix config finding algorithm (by Aarni Koskela).
 
