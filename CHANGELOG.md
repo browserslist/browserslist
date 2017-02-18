@@ -1,3 +1,6 @@
+## 1.7.4
+* Speed up browser sorting (by Aarni Koskela).
+
 ## 1.7.3
 * Fix config finding when directory was passed to `path` (by Aarni Koskela).
 
