@@ -124,6 +124,12 @@ function generateFilter(sign, version) {
     }
 }
 
+function compareStrings(a, b) {
+    if (a < b) return -1;
+    if (a > b) return +1;
+    return 0;
+}
+
 /**
  * Return array of browsers by selection queries.
  *
@@ -212,7 +218,6 @@ var browserslist = function (queries, opts) {
 
         error('Unknown browser query `' + selection + '`');
     });
-
     result = result.map(function (i) {
         var parts = i.split(' ');
         var name = parts[0];
@@ -229,10 +234,10 @@ var browserslist = function (queries, opts) {
             if ( FLOAT_RANGE.test(name1[1]) && FLOAT_RANGE.test(name2[1]) ) {
                 return parseFloat(name2[1]) - parseFloat(name1[1]);
             } else {
-                return name2[1].localeCompare(name1[1]);
+                return compareStrings(name2[1], name1[1]);
             }
         } else {
-            return name1[0].localeCompare(name2[0]);
+            return compareStrings(name1[0], name2[0]);
         }
     });
 
