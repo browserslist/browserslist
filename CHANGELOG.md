@@ -1,3 +1,7 @@
+## 1.7.5
+* Fix combining `not` query with country based statistics.
+* Fix `--env` argument in CLI (by Tuure Savuoja).
+
 ## 1.7.4
 * Speed up browser sorting (by Aarni Koskela).
 
