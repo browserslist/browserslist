@@ -80,7 +80,7 @@ if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
     };
 
     if (isArg('--env') || isArg('-e')) {
-        opts.config = getArgValue('--env') || getArgValue('-e');
+        opts.env = getArgValue('--env') || getArgValue('-e');
     }
 
     if (isArg('--stats') || isArg('-s')) {
