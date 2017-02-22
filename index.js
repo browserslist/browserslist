@@ -206,6 +206,9 @@ var browserslist = function (queries, opts) {
                 var args = [context].concat(match.slice(1));
                 var array = type.select.apply(browserslist, args);
                 if ( exclude ) {
+                    array = array.concat(array.map(function (j) {
+                        return j.replace(/\s\d+/, ' 0');
+                    }));
                     result = result.filter(function (j) {
                         return array.indexOf(j) === -1;
                     });

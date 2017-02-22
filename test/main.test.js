@@ -102,6 +102,12 @@ it('excludes queries', () => {
         .toEqual(['ie 10', 'ie 9']);
 });
 
+it('excludes queries for 0 version', () => {
+    var browsers = browserslist(['> 1% in US', 'not last 2 and_chr versions']);
+    var android = browsers.filter(i => i.indexOf('and_chr ') !== -1);
+    expect(android.length).toBe(0);
+});
+
 it('cleans 0 version', () => {
     expect(browserslist(['> 0%', '> 0% in FI']).indexOf('and_chr 0'))
         .toEqual(-1);
