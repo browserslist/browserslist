@@ -62,7 +62,7 @@ Browserslist will use browsers query from one of this sources:
 5. If the above methods did not produce a valid result
    Browserslist will use defaults: `> 1%, last 2 versions, Firefox ESR`.
 
-We recommends to write queries in `browserslist` config or `package.json`.
+We recommend to write queries in `browserslist` config or `package.json`.
 
 You can specify the versions by queries (case insensitive):
 
