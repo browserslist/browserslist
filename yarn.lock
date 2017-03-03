@@ -2792,6 +2792,12 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
+yaspeller-ci@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/yaspeller-ci/-/yaspeller-ci-0.1.0.tgz#2f1e71e5919b91be1eb0c6c113d676d2c6ec123d"
+  dependencies:
+    yaspeller "^3.0.0"
+
 yaspeller@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/yaspeller/-/yaspeller-3.0.0.tgz#0c3025c9b4982fd62f079fa2712a8857fda4c0e9"
