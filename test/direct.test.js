@@ -36,3 +36,7 @@ it('supports Safari TP', () => {
     expect(browserslist('safari tp')).toEqual(['safari TP']);
     expect(browserslist('Safari TP')).toEqual(['safari TP']);
 });
+
+it('supports Can I Use cutted versions', () => {
+    expect(browserslist('and_chr 55').length).toEqual(1);
+});

@@ -250,8 +250,10 @@ var browserslist = function (queries, opts) {
 var normalizeVersion = function (data, version) {
     if ( data.versions.indexOf(version) !== -1 ) {
         return version;
-    } else {
+    } else if ( browserslist.versionAliases[data.name][version] ) {
         return browserslist.versionAliases[data.name][version];
+    } else if ( data.versions.length === 1 ) {
+        return data.versions[0];
     }
 };
 
