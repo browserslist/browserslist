@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.7.6
+* Fix Android Chrome selection.
+
 ## 1.7.5
 * Fix combining `not` query with country based statistics.
 * Fix `--env` argument in CLI (by Tuure Savuoja).
