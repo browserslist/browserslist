@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 1.7.7
+* Update Firefox ESR.
+
 ## 1.7.6
 * Fix Android Chrome selection.
 
