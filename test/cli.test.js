@@ -2,13 +2,19 @@ const pkg = require('../package.json');
 const CLI_PATH = '../cli';
 
 let write;
+let browsersListMock;
 const originalArgs = process.argv;
 const originalStdOutWrite = process.stdout.write;
 
 beforeEach(() => {
-    let browsersListMock = jest.fn();
+    browsersListMock = jest.fn(
+        (...args) => `broweserlist called with ${JSON.stringify(args)}`
+    );
+    browsersListMock.coverage = jest.fn(
+        (...args) => `broweserlist.coverage called with ${JSON.stringify(args)}`
+    );
     process.stdout.write = write = jest.fn();
-    jest.setMock('../', browsersListMock.mock);
+    jest.setMock('../', browsersListMock);
     browsersListMock.usage = {
         US: {
             'ie 9': 5,
@@ -45,4 +51,23 @@ it('should display usage help', () => [
         write.mock.calls.join('\n'),
         `should work with params: ${JSON.stringify(params)}`
     ).toContain('Usage:');
+}));
+
+it('should display coverage', () => [
+    ['', '', '--coverage', 'xIE']
+].forEach((params) => {
+    process.argv = params;
+    require(CLI_PATH);
+    expect(browsersListMock.coverage.mock.calls)
+        .toEqual([
+            ['broweserlist called with ["xIE",null]', undefined]
+        ]);
+    expect(browsersListMock.mock.calls)
+        .toEqual([
+            ['xIE', undefined]
+        ]);
+    expect(
+        write.mock.calls.join('\n'),
+        `should work with params: ${JSON.stringify(params)}`
+    ).toContain('These browsers account for');
 }));
