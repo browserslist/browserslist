@@ -4,7 +4,6 @@ var browserslist = require('./');
 var pkg          = require('./package.json');
 var args         = process.argv.slice(2);
 
-
 function isArg(arg) {
     return args.some(function (str) {
         return str === arg || str.indexOf(arg + '=') === 0;

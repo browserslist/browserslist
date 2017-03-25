@@ -1,10 +1,10 @@
-const pkg = require('../package.json');
-const CLI_PATH = '../cli';
+var pkg = require('../package.json');
+var CLI_PATH = '../cli';
 
-let write;
-let browsersListMock;
-const originalArgs = process.argv;
-const originalStdOutWrite = process.stdout.write;
+var write;
+var browsersListMock;
+var originalArgs = process.argv;
+var originalStdOutWrite = process.stdout.write;
 
 beforeEach(() => {
     browsersListMock = jest.fn(
