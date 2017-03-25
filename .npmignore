@@ -8,6 +8,7 @@ yarn.lock
 
 coverage/
 test/
+appveyor.yml
 .travis.yml
 
 .editorconfig
