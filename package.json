@@ -43,7 +43,8 @@
   },
   "scripts": {
     "lint-staged": "lint-staged",
-    "test": "jest --coverage && eslint *.js test/*.js && yaspeller-ci *.md"
+    "spellcheck": "yaspeller-ci README.md CHANGELOG.md",
+    "test": "jest --coverage && eslint *.js test/*.js && yarn run spellcheck"
   },
   "lint-staged": {
     "*.md": "yaspeller-ci",
