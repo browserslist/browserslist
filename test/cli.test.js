@@ -1,5 +1,4 @@
-var spawn = require('child_process').spawn;
-
+var spawn = require('cross-spawn');
 var path = require('path');
 
 var browserslist = require('../');
