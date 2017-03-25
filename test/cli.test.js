@@ -6,133 +6,108 @@ var browserslist = require('../');
 var pkg = require('../package.json');
 
 var CONF = path.join(__dirname, 'fixtures', 'env-config', 'browserslist');
-// var STATS = path.join(__dirname, 'fixtures', 'browserslist-stats.json');
 
-var prepareData = (data) => {
+function toArray(data) {
     return data.toString().split('\n').filter(Boolean);
-};
+}
+
+function run() {
+    var cli = spawn('./cli.js', Array.prototype.slice.call(arguments, 0));
+    return new Promise(resolve => {
+        var out = '';
+        cli.stdout.on('data', data => {
+            out += data.toString();
+        });
+        cli.stderr.on('data', data => {
+            out += data.toString();
+        });
+        cli.on('close', () => {
+            resolve(out);
+        });
+    });
+}
 
 it('returns help', () => {
-    var help = spawn('./cli.js', ['--help']);
-    help.stdout.on('data', (data) => {
-        expect(data.toString()).toBeDefined();
-    });
-
-    var h = spawn('./cli.js', ['-h']);
-    h.stdout.on('data', (data) => {
-        expect(data.toString()).toBeDefined();
+    return run('--help').then(out => {
+        expect(out).toContain('Usage:');
+    }).then(() => {
+        return run('-h');
+    }).then(out => {
+        expect(out).toContain('Usage:');
     });
 });
 
 it('returns version', () => {
     var result = pkg.name + ' ' + pkg.version + '\n';
-
-    var version = spawn('./cli.js', ['--version']);
-    version.stdout.on('data', (data) => {
-        expect(data.toString()).toEqual(result);
-    });
-
-    var v = spawn('./cli.js', ['-v']);
-    v.stdout.on('data', (data) => {
-        expect(data.toString()).toEqual(result);
+    return run('--version').then(out => {
+        expect(out).toEqual(result);
+    }).then(() => {
+        return run('-v');
+    }).then(out => {
+        expect(out).toEqual(result);
     });
 });
 
 it('returns error: `unknown arguments`', () => {
-    var cli = spawn('./cli.js', ['-i']);
-    cli.stderr.on('data', (data) => {
-        expect(data.toString())
-        .toContain('Unknown arguments. Use --help to pick right one.');
+    return run('--unknown').then(out => {
+        expect(out).toContain('Unknown arguments');
     });
 });
 
 it('selects last 2 versions', () => {
     var query = 'last 2 versions';
-    var cli = spawn('./cli.js', [query]);
-
-    cli.stdout.on('data', (data) => {
-        expect(prepareData(data)).toEqual(browserslist([query]));
+    return run(query).then(out => {
+        expect(toArray(out)).toEqual(browserslist([query]));
     });
 });
 
 it('uses case insensitive aliases', () => {
     var query = 'Explorer > 10';
-    var cli = spawn('./cli.js', [query]);
-
-    cli.stdout.on('data', (data) => {
-        expect(prepareData(data)).toEqual(browserslist([query]));
+    return run(query).then(out => {
+        expect(toArray(out)).toEqual(browserslist([query]));
     });
 });
 
 it('returns error `unknown browser query`', () => {
-    var cli = spawn('./cli.js', ['unknow']);
-
-    cli.stderr.on('data', (data) => {
-        expect(data.toString())
-        .toContain('Unknown browser query `unknow`');
+    return run('unknow').then(out => {
+        expect(out).toContain('Unknown browser query `unknow`');
     });
 });
 
 it('returns usage in specified country', () => {
-    browserslist.usage = {
-        global: {
-            'ie 8': 5
-        },
-        UK: {
-            'ie 8': 2
-        }
-    };
-    var cli = spawn('./cli.js', ['--coverage=US', 'ie 8']);
-
-    var result  = browserslist.coverage(['ie 8'], 'US');
-    var round   = Math.round(result * 100) / 100.0;
-
-    cli.stdout.on('data', (data) => {
-        expect(data.toString()).toContain(round + '%');
+    return run('--coverage=US', 'ie 8').then(out => {
+        var result = browserslist.coverage(['ie 8'], 'US');
+        var round  = Math.round(result * 100) / 100.0;
+        expect(out).toContain(round + '%');
     });
 });
 
 it('returns error: `define a browsers query to get coverage`', () => {
-    var cli = spawn('./cli.js', ['--coverage', '']);
-
-    cli.stderr.on('data', (data) => {
-        expect(data.toString())
-        .toContain('Define a browsers query to get coverage');
+    return run('--coverage').then(out => {
+        expect(out).toContain('Define a browsers query to get coverage');
     });
 });
 
 it('returns error: `unknown browser query to get coverage`', () => {
-    var cli = spawn('./cli.js', ['--coverage=UK', 'ie8']);
-
-    cli.stderr.on('data', (data) => {
-        expect(data.toString())
-        .toContain('Unknown browser query `ie8`');
+    return run('--coverage=UK', 'ie8').then(out => {
+        expect(out).toContain('Unknown browser query `ie8`');
     });
 });
 
 it('reads browserslist config', () => {
-    var cli = spawn('./cli.js', ['--config=' + CONF]);
-
-    cli.stdout.on('data', (data) => {
-        expect(prepareData(data)).toEqual(['ie 11', 'ie 10']);
+    return run('--config=' + CONF).then(out => {
+        expect(toArray(out)).toEqual(['ie 11', 'ie 10']);
     });
 });
 
 it('returns error browserslist config', () => {
-    var config = '--config="./unknown_path"';
-    var cli = spawn('./cli.js', [config]);
-
-    cli.stderr.on('data', (data) => {
-        expect(data.toString()).toContain('Can\'t read ./unknown_path config');
+    return run('--config="./unknown_path"').then(out => {
+        expect(out).toContain('Can\'t read ./unknown_path config');
     });
 });
 
 it('reads browserslist config: env production', () => {
-    var config = '--config=' + CONF;
-    var env = '--env="production"';
-    var cli = spawn('./cli.js', [config, env]);
-
-    cli.stdout.on('data', (data) => {
-        expect(prepareData(data)).toEqual(['ie 9', 'opera 41']);
+    return run('--config=' + CONF, '--env="production"').then(out => {
+        expect(toArray(out)).toEqual(['ie 9', 'opera 41']);
     });
 });
