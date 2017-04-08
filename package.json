@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": "ai/browserslist",
   "dependencies": {
-    "caniuse-db": "^1.0.30000640",
+    "caniuse-lite": "^0.2.0",
     "electron-to-chromium": "^1.2.8"
   },
   "bin": "./cli.js",
