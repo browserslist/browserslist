@@ -321,7 +321,8 @@ browserslist.aliases = {
     operamobile:    'op_mob',
     chromeandroid:  'and_chr',
     firefoxandroid: 'and_ff',
-    ucandroid:      'and_uc'
+    ucandroid:      'and_uc',
+    qqandroid:      'and_qq'
 };
 
 // Aliases to work with joined versions like `ios_saf 7.0-7.1`

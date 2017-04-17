@@ -113,6 +113,7 @@ Names are case insensitive:
 * `Opera` for Opera.
 * `OperaMini` or `op_mini` for Opera Mini.
 * `OperaMobile` or `op_mob` for Opera Mobile.
+* `QQAndroid` or `and_qq` for QQ Browser for Android.
 * `Safari` for desktop Safari.
 * `Samsung` for Samsung Internet.
 * `UCAndroid` or `and_uc` for UC Browser for Android.
