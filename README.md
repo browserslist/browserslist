@@ -66,7 +66,7 @@ We recommend to write queries in `browserslist` config or `package.json`.
 
 You can specify the versions by queries (case insensitive):
 
-* `last 2 versions`: the last 2 versions for each major browser.
+* `last 2 versions`: the last 2 versions for each browser.
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
 * `> 5%`: versions selected by global usage statistics.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
@@ -99,35 +99,28 @@ whereas `last 3 Chrome versions` might select `50, 49, 48` (major only).
 
 Names are case insensitive:
 
-### Major Browsers
-
-* `Chrome` for Google Chrome.
-* `Firefox` or `ff` for Mozilla Firefox.
-* `Explorer` or `ie` for Internet Explorer.
-* `Edge` for Microsoft Edge.
-* `iOS` or `ios_saf` for iOS Safari.
-* `Opera` for Opera.
-* `Safari` for desktop Safari.
-* `ExplorerMobile` or `ie_mob` for Internet Explorer Mobile.
-
-### Others
-
 * `Android` for Android WebView.
 * `BlackBerry` or `bb` for Blackberry browser.
+* `Chrome` for Google Chrome.
 * `ChromeAndroid` or `and_chr` for Chrome for Android
-  (in Other section, because mostly same as common `Chrome`).
+* `Edge` for Microsoft Edge.
+* `Electron` for Electron framework. It will be converted to Chrome version.
+* `Explorer` or `ie` for Internet Explorer.
+* `ExplorerMobile` or `ie_mob` for Internet Explorer Mobile.
+* `Firefox` or `ff` for Mozilla Firefox.
 * `FirefoxAndroid` or `and_ff` for Firefox for Android.
-* `OperaMobile` or `op_mob` for Opera Mobile.
+* `iOS` or `ios_saf` for iOS Safari.
+* `Opera` for Opera.
 * `OperaMini` or `op_mini` for Opera Mini.
+* `OperaMobile` or `op_mob` for Opera Mobile.
+* `Safari` for desktop Safari.
 * `Samsung` for Samsung Internet.
 * `UCAndroid` or `and_uc` for UC Browser for Android.
-* `Electron` for Electron framework. It will be converted to Chrome version.
 
 ### Electron
 
 [`electron-to-chromium`](https://www.npmjs.com/package/electron-to-chromium)
-could return a compatible Browserslist query
-for your (major) Electron version:
+could return a compatible Browserslist query for your (major) Electron version:
 
 ```js
 const e2c = require('electron-to-chromium')

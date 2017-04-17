@@ -309,11 +309,6 @@ browserslist.defaults = [
     'Firefox ESR'
 ];
 
-// What browsers will be used in `last n version` query
-browserslist.major = [
-    'safari', 'opera', 'ios_saf', 'ie_mob', 'ie', 'edge', 'firefox', 'chrome'
-];
-
 // Browser names aliases
 browserslist.aliases = {
     fx:             'firefox',
@@ -464,7 +459,7 @@ browserslist.queries = {
         regexp: /^last\s+(\d+)\s+versions?$/i,
         select: function (context, versions) {
             var selected = [];
-            browserslist.major.forEach(function (name) {
+            Object.keys(caniuse).forEach(function (name) {
                 var data  = browserslist.byName(name);
                 if ( !data ) return;
                 var array = data.released.slice(-versions);

@@ -19,10 +19,10 @@ beforeEach(() => {
             released: ['37', '38', '39'],
             versions: ['37', '38', '39', '40']
         },
-        blackberry: {
-            name:     'blackberry',
+        bb: {
+            name:     'bb',
             released: ['8'],
-            versions: []
+            versions: ['8']
         },
         firefox: {
             released: []
@@ -43,17 +43,18 @@ afterEach(() => {
     browserslist.data = originData;
 });
 
-it('selects versions of each major browser', () => {
-    expect(browserslist('last 2 versions'))
-        .toEqual(['chrome 39', 'chrome 38', 'edge 12', 'ie 11', 'ie 10']);
+it('selects versions of each browser', () => {
+    expect(browserslist('last 2 versions')).toEqual([
+        'bb 8', 'chrome 39', 'chrome 38', 'edge 12', 'ie 11', 'ie 10'
+    ]);
 });
 
 it('supports pluralization', () => {
     expect(browserslist('last 1 version'))
-        .toEqual(['chrome 39', 'edge 12', 'ie 11']);
+        .toEqual(['bb 8', 'chrome 39', 'edge 12', 'ie 11']);
 });
 
 it('is case insensitive', () => {
     expect(browserslist('Last 01 Version'))
-        .toEqual(['chrome 39', 'edge 12', 'ie 11']);
+        .toEqual(['bb 8', 'chrome 39', 'edge 12', 'ie 11']);
 });
