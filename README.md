@@ -329,3 +329,18 @@ These browsers account for 81.4% of all users globally
 $ browserslist --coverage=US "> 1% in US"
 These browsers account for 83.1% of all users in the US
 ```
+
+## Internal caches
+
+Browserslist caches the configuration it reads from `package.json` and
+`browserslist` files, as well as knowledge about the existence of files,
+for the duration of the hosting process.
+
+To clear these caches, use:
+
+```js
+browserslist.clearCaches();
+```
+
+To disable the caching altogether, set the `BROWSERSLIST_DISABLE_CACHE` environment
+variable.
