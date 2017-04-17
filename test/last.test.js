@@ -26,15 +26,6 @@ beforeEach(() => {
         },
         firefox: {
             released: []
-        },
-        safari: {
-            released: []
-        },
-        opera: {
-            released: []
-        },
-        android: {
-            released: []
         }
     };
 });
