@@ -238,6 +238,12 @@ by [environment variables]:
   BROWSERSLIST_STATS=./config/usage_data.json gulp css
    ```
 
+* `BROWSERSLIST_DISABLE_CACHE` if you want to disable config reading cache.
+
+   ```sh
+  BROWSERSLIST_DISABLE_CACHE=1 gulp css
+   ```
+
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
 ## Custom Usage Data
@@ -342,5 +348,5 @@ To clear these caches, use:
 browserslist.clearCaches();
 ```
 
-To disable the caching altogether, set the `BROWSERSLIST_DISABLE_CACHE` environment
-variable.
+To disable the caching altogether, set the `BROWSERSLIST_DISABLE_CACHE`
+environment variable.
