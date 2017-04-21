@@ -1,6 +1,14 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.0
+* `last n versions` returns versions for all browsers, not only main browsers.
+* Cache file system operations (by Aarni Koskela).
+* Use `caniuse-lite` 1 MB instead of `caniuse-db` 7 MB (by Ben Briggs).
+* Add `.browserslistrc` config support.
+* Add QQ Browser for Android support.
+* Add tests for CLI (by Zhulduz Zhankenova).
+
 ## 1.7.7
 * Update Firefox ESR.
 
