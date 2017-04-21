@@ -2,8 +2,11 @@ var browserslist = require('../');
 
 var path = require('path');
 
+var RC      = path.join(__dirname, 'fixtures', 'rc', 'test.css');
 var FILE    = path.join(__dirname, 'fixtures', 'dir', 'test.css');
-var BOTH    = path.join(__dirname, 'fixtures', 'both', 'test.css');
+var BOTH1   = path.join(__dirname, 'fixtures', 'both1', 'test.css');
+var BOTH2   = path.join(__dirname, 'fixtures', 'both2', 'test.css');
+var BOTH3   = path.join(__dirname, 'fixtures', 'both3', 'test.css');
 var BROKEN  = path.join(__dirname, 'fixtures', 'broken', 'test.css');
 var PACKAGE = path.join(__dirname, 'fixtures', 'package', 'test.css');
 
@@ -49,6 +52,12 @@ it('reads config', () => {
     });
 });
 
+it('reads .browserslistrc config', () => {
+    expect(browserslist.findConfig(RC)).toEqual({
+        defaults: ['ie 11']
+    });
+});
+
 it('reads config from package.json', () => {
     expect(browserslist.findConfig(PACKAGE)).toEqual({
         defaults: ['ie 9', 'ie 10']
@@ -65,6 +74,18 @@ it('shows warning on broken package.json', () => {
 
 it('reads from dir wich contains both browserslist and package.json', () => {
     expect( () => {
-        browserslist.findConfig(BOTH);
-    }).toThrowError(/contains both/);
+        browserslist.findConfig(BOTH1);
+    }).toThrowError(/contains both browserslist and package\.json/);
+});
+
+it('reads from dir wich contains both .browserslistrc and package.json', () => {
+    expect( () => {
+        browserslist.findConfig(BOTH2);
+    }).toThrowError(/contains both .browserslistrc and package\.json/);
+});
+
+it('reads from dir wich contains both .browserslistrc and browserslist', () => {
+    expect( () => {
+        browserslist.findConfig(BOTH3);
+    }).toThrowError(/contains both .browserslistrc and browserslist/);
 });

@@ -366,6 +366,7 @@ browserslist.findConfig = function (from) {
     var resolved = eachParent(from, function (dir) {
         var config = path.join(dir, 'browserslist');
         var pkg = path.join(dir, 'package.json');
+        var rc = path.join(dir, '.browserslistrc');
 
         var pkgBrowserslist;
         if ( isFile(pkg) ) {
@@ -382,8 +383,16 @@ browserslist.findConfig = function (from) {
             error(
                 dir + ' contains both browserslist ' +
                 'and package.json with browsers');
+        } else if ( isFile(rc) && pkgBrowserslist ) {
+            error(
+                dir + ' contains both .browserslistrc ' +
+                'and package.json with browsers');
+        } else if ( isFile(config) && isFile(rc) ) {
+            error(dir + ' contains both .browserslistrc and browserslist');
         } else if ( isFile(config) ) {
             return browserslist.readConfig(config);
+        } else if ( isFile(rc) ) {
+            return browserslist.readConfig(rc);
         } else if ( pkgBrowserslist ) {
             return pkgBrowserslist;
         }

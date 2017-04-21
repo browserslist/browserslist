@@ -16,7 +16,7 @@ when you add the following to `package.json`:
 }
 ```
 
-Or in `browserslist` config:
+Or in `.browserslistrc` config:
 
 ```yaml
 # Browsers that we support
@@ -31,8 +31,8 @@ to be free from updating browser versions manually.
 Browserslist will use [Can i Use] data for this queries.
 
 Browserslist will take browsers queries from tool option,
-`browserslist` config, `browserslist` section in `package.json`
-or environment variables.
+`browserslist` config, `.browserslistrc` config,
+`browserslist` section in `package.json` or environment variables.
 
 You can test Browserslist queries in [online demo].
 
@@ -58,11 +58,12 @@ Browserslist will use browsers query from one of this sources:
 1. Tool options. For example `browsers` option in Autoprefixer.
 2. `BROWSERSLIST` environment variable.
 3. `browserslist` config file in current or parent directories.
+3. `.browserslistrc` config file in current or parent directories.
 4. `browserslist` key in `package.json` file in current or parent directories.
 5. If the above methods did not produce a valid result
    Browserslist will use defaults: `> 1%, last 2 versions, Firefox ESR`.
 
-We recommend to write queries in `browserslist` config or `package.json`.
+We recommend to write queries in `package.json`.
 
 You can specify the versions by queries (case insensitive):
 
@@ -130,25 +131,6 @@ autoprefixer({
 })
 ```
 
-## Config File
-
-Browserslist config should be named `browserslist` and have browsers queries
-split by a new line. Comments starts with `#` symbol:
-
-```yaml
-# Browsers that we support
-
-> 1%
-Last 2 versions
-IE 8 # sorry
-```
-
-Browserslist will check config in every directory in `path`.
-So, if tool process `app/styles/main.css`, you can put config to root,
-`app/` or `app/styles`.
-
-You can specify direct path in `BROWSERSLIST_CONFIG` environment variables.
-
 ## `package.json`
 
 If you want to reduce config files in project root, you can specify
@@ -166,6 +148,25 @@ browsers in `package.json` with `browserslist` key:
   ]
 }
 ```
+
+## Config File
+
+Browserslist config should be named `.browserslistrc` or `browserslist`
+and have browsers queries split by a new line. Comments starts with `#` symbol:
+
+```yaml
+# Browsers that we support
+
+> 1%
+Last 2 versions
+IE 8 # sorry
+```
+
+Browserslist will check config in every directory in `path`.
+So, if tool process `app/styles/main.css`, you can put config to root,
+`app/` or `app/styles`.
+
+You can specify direct path in `BROWSERSLIST_CONFIG` environment variables.
 
 ## Environments
 
@@ -191,7 +192,7 @@ In `package.json`:
 }
 ```
 
-In `browserslist` config:
+In `.browserslistrc` config:
 
 ```ini
 [production]
