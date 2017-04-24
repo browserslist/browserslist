@@ -1,21 +1,23 @@
+#!/usr/bin/env node
+
 var browserslist = require('..');
 var fs = require('fs');
 var path = require('path');
 
 var cases = [
     {
-        file: path.join(__dirname, '/perf/one/app/css/hello.css'),
-        n: 3000,
+        file: path.join(__dirname, 'one/app/css/hello.css'),
+        n: 5000,
         exists: true
     },
     {
-        file: path.join(__dirname, '/perf/two/app/js/hello.js'),
-        n: 3000,
+        file: path.join(__dirname, 'two/app/js/hello.js'),
+        n: 5000,
         exists: true
     },
     {
-        file: path.join(__dirname, '/perf/three/app/js/hello.js'),
-        n: 3000,
+        file: path.join(__dirname, 'three/app/js/hello.js'),
+        n: 5000,
         exists: false
     }
 ];
