@@ -61,22 +61,7 @@ function isFile(file) {
     return result;
 }
 
-/**
- * Call `callback` for the given `file` path and its parents.
- *
- * I.e. for `/foo/bar`, `callback` is called with `/foo/bar`, `/foo` and `/`.
- *
- * If any call of the callback returns a defined value, it is returned.
- *
- * @param {string} file Path string
- * @param {function} callback Function to call with each part of the path.
- * @returns {*} The first defined value returned by the `callback`.
- */
 function eachParent(file, callback) {
-    if (typeof file !== 'string') {
-        // istanbul ignore next
-        error('eachParent requires a string path (not ' + file + ')');
-    }
     var loc = path.resolve(file);
     do {
         var result = callback(loc);
