@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.1
+* Add `>= 5%`, `>= 5% in US` and `>= 5% in my stats` queries.
+
 ## 2.0
 * `last n versions` returns versions for all browsers, not only main browsers.
 * Cache file system operations (by Aarni Koskela).
