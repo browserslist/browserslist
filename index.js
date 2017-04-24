@@ -47,16 +47,16 @@ function fillUsage(result, name, data) {
 var cacheEnabled = !(
     process && process.env && process.env.BROWSERSLIST_DISABLE_CACHE
 );
-var _filenessCache = {};
-var _configCache = {};
+var filenessCache = {};
+var configCache = {};
 
 function isFile(file) {
-    if (file in _filenessCache) {
-        return _filenessCache[file];
+    if ( file in filenessCache ) {
+        return filenessCache[file];
     }
     var result = fs.existsSync(file) && fs.statSync(file).isFile();
-    if (cacheEnabled) {
-        _filenessCache[file] = result;
+    if ( cacheEnabled ) {
+        filenessCache[file] = result;
     }
     return result;
 }
@@ -65,7 +65,7 @@ function eachParent(file, callback) {
     var loc = path.resolve(file);
     do {
         var result = callback(loc);
-        if (typeof result !== 'undefined') return result;
+        if ( typeof result !== 'undefined' ) return result;
     } while (loc !== (loc = path.dirname(loc)));
     return undefined;
 }
@@ -132,8 +132,8 @@ function generateFilter(sign, version) {
 }
 
 function compareStrings(a, b) {
-    if (a < b) return -1;
-    if (a > b) return +1;
+    if ( a < b ) return -1;
+    if ( a > b ) return +1;
     return 0;
 }
 
@@ -168,7 +168,7 @@ var browserslist = function (queries, opts) {
         } else if ( opts.config || process.env.BROWSERSLIST_CONFIG ) {
             var file = opts.config || process.env.BROWSERSLIST_CONFIG;
             queries = pickEnv(browserslist.readConfig(file), opts);
-        } else if (opts.path) {
+        } else if ( opts.path ) {
             queries = pickEnv(browserslist.findConfig(opts.path), opts);
         }
     }
@@ -338,16 +338,13 @@ browserslist.readConfig = function (file) {
 
 // Find config, read file and parse it
 browserslist.findConfig = function (from) {
-    if (typeof from !== 'string') {
-        // istanbul ignore next
-        error('findConfig requires a string path');
-    }
     from = path.resolve(from);
-    // If the `from` path is a file, use its directory as the cache key
+
     var cacheKey = isFile(from) ? path.dirname(from) : from;
-    if (cacheKey in _configCache) {
-        return _configCache[cacheKey];
+    if ( cacheKey in configCache ) {
+        return configCache[cacheKey];
     }
+
     var resolved = eachParent(from, function (dir) {
         var config = path.join(dir, 'browserslist');
         var pkg = path.join(dir, 'package.json');
@@ -382,8 +379,8 @@ browserslist.findConfig = function (from) {
             return pkgBrowserslist;
         }
     });
-    if (cacheEnabled) {
-        _configCache[cacheKey] = resolved;
+    if ( cacheEnabled ) {
+        configCache[cacheKey] = resolved;
     }
     return resolved;
 };
@@ -400,7 +397,7 @@ browserslist.findConfig = function (from) {
  * browserslist.coverage(browserslist('> 1% in US'), 'US') //=> 83.1
  */
 browserslist.coverage = function (browsers, country) {
-    if ( country && country !== 'global') {
+    if ( country && country !== 'global' ) {
         country = country.toUpperCase();
         loadCountryStatistics(country);
     } else {
@@ -444,8 +441,8 @@ browserslist.parseConfig = function (string) {
 
 // Clear internal caches
 browserslist.clearCaches = function () {
-    _filenessCache = {};
-    _configCache = {};
+    filenessCache = {};
+    configCache = {};
 };
 
 browserslist.queries = {
