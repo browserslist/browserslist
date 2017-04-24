@@ -20,6 +20,10 @@ it('selects browsers by popularity', () => {
     expect(browserslist('> 10%')).toEqual(['ie 11', 'ie 10']);
 });
 
+it('selects popularity by more or equal', () => {
+    expect(browserslist('>= 5%')).toEqual(['ie 11', 'ie 10', 'ie 9']);
+});
+
 it('accepts non-space query', () => {
     expect(browserslist('>10%')).toEqual(['ie 11', 'ie 10']);
 });

@@ -476,13 +476,17 @@ browserslist.queries = {
     },
 
     globalStatistics: {
-        regexp: /^>\s*(\d*\.?\d+)%$/,
-        select: function (context, popularity) {
+        regexp: /^(>=?)\s*(\d*\.?\d+)%$/,
+        select: function (context, sign, popularity) {
             popularity = parseFloat(popularity);
             var result = [];
 
             for ( var version in browserslist.usage.global ) {
-                if ( browserslist.usage.global[version] > popularity ) {
+                if ( sign === '>' ) {
+                    if ( browserslist.usage.global[version] > popularity ) {
+                        result.push(version);
+                    }
+                } else if ( browserslist.usage.global[version] >= popularity ) {
                     result.push(version);
                 }
             }
@@ -492,8 +496,8 @@ browserslist.queries = {
     },
 
     customStatistics: {
-        regexp: /^>\s*(\d*\.?\d+)%\s+in\s+my\s+stats$/,
-        select: function (context, popularity) {
+        regexp: /^(>=?)\s*(\d*\.?\d+)%\s+in\s+my\s+stats$/,
+        select: function (context, sign, popularity) {
             popularity = parseFloat(popularity);
             var result = [];
 
@@ -502,7 +506,11 @@ browserslist.queries = {
             }
 
             for ( var version in context.customUsage ) {
-                if ( context.customUsage[version] > popularity ) {
+                if ( sign === '>' ) {
+                    if ( context.customUsage[version] > popularity ) {
+                        result.push(version);
+                    }
+                } else if ( context.customUsage[version] >= popularity ) {
                     result.push(version);
                 }
             }
@@ -512,8 +520,8 @@ browserslist.queries = {
     },
 
     countryStatistics: {
-        regexp: /^>\s*(\d*\.?\d+)%\s+in\s+(\w\w)$/,
-        select: function (context, popularity, country) {
+        regexp: /^(>=?)\s*(\d*\.?\d+)%\s+in\s+(\w\w)$/,
+        select: function (context, sign, popularity, country) {
             popularity = parseFloat(popularity);
             country    = country.toUpperCase();
             var result = [];
@@ -522,7 +530,11 @@ browserslist.queries = {
             var usage = browserslist.usage[country];
 
             for ( var version in usage ) {
-                if ( usage[version] > popularity ) {
+                if ( sign === '>' ) {
+                    if ( usage[version] > popularity ) {
+                        result.push(version);
+                    }
+                } else if ( usage[version] >= popularity ) {
                     result.push(version);
                 }
             }

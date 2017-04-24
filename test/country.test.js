@@ -20,6 +20,10 @@ it('selects browsers by popularity', () => {
     expect(browserslist('> 10% in US')).toEqual(['ie 11', 'ie 10']);
 });
 
+it('selects popularity by more or equal', () => {
+    expect(browserslist('>= 5% in US')).toEqual(['ie 11', 'ie 10', 'ie 9']);
+});
+
 it('works with float', () => {
     expect(browserslist('> 10.2% in US')).toEqual(['ie 11']);
 });

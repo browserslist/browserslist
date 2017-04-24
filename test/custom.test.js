@@ -26,6 +26,11 @@ it('takes stats by path', () => {
         .toEqual(['ie 11']);
 });
 
+it('selects popularity by more or equal', () => {
+    expect(browserslist('>= 5.3% in my stats', { stats: CUSTOM_STATS }))
+        .toEqual(['ie 11', 'ie 10']);
+});
+
 it('accepts non-space query', () => {
     expect(browserslist('>10% in my stats', { stats: CUSTOM_STATS }))
         .toEqual(['ie 11']);
