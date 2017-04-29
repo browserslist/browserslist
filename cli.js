@@ -43,7 +43,7 @@ if ( args.length === 0 || isArg('--help') || isArg('-h') ) {
         '  ' + pkg.name + ' "QUERIES"',
         '  ' + pkg.name + ' --coverage "QUERIES"',
         '  ' + pkg.name + ' --coverage=US "QUERIES"',
-        '  ' + pkg.name + ' --config=browserslist "path/to/browserlist/file"',
+        '  ' + pkg.name + ' --config="path/to/browserlist/file"',
         '  ' + pkg.name + ' --env="environment name defined in config"',
         '  ' + pkg.name + ' --stats="path/to/browserlist/stats/file"'
     ].join('\n') + '\n');
