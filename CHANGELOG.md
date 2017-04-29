@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.1.1
+* Fix CLI arguments parsing.
+
 ## 2.1
 * Add `>= 5%`, `>= 5% in US` and `>= 5% in my stats` queries.
 
