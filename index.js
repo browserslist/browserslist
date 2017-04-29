@@ -167,7 +167,11 @@ var browserslist = function (queries, opts) {
             queries = process.env.BROWSERSLIST;
         } else if ( opts.config || process.env.BROWSERSLIST_CONFIG ) {
             var file = opts.config || process.env.BROWSERSLIST_CONFIG;
-            queries = pickEnv(browserslist.readConfig(file), opts);
+            if ( path.basename(file) === 'package.json' ) {
+                queries = pickEnv(parsePackage(file), opts);
+            } else {
+                queries = pickEnv(browserslist.readConfig(file), opts);
+            }
         } else if ( opts.path ) {
             queries = pickEnv(browserslist.findConfig(opts.path), opts);
         }

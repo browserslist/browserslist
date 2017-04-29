@@ -6,7 +6,7 @@ var IE      = path.join(__dirname, 'fixtures', 'explorers');
 var FILE    = path.join(__dirname, 'fixtures', 'dir', 'test.css');
 var LINK    = path.join(__dirname, 'fixtures', 'symlink');
 var CONFIG  = path.join(__dirname, 'fixtures', 'env-config', 'test.css');
-var PACKAGE = path.join(__dirname, 'fixtures', 'env-package', 'test.css');
+var PACKAGE = path.join(__dirname, 'fixtures', 'env-package', 'package.json');
 
 afterEach(() => {
     process.env.NODE_ENV = 'test';
@@ -43,6 +43,11 @@ it('reads config on no variable', () => {
 
 it('reads config by direct path', () => {
     expect(browserslist(null, { config: IE })).toEqual(['ie 9', 'ie 8']);
+});
+
+it('reads package.json config by direct path', () => {
+    expect(browserslist(null, { config: PACKAGE, env: 'development' }))
+        .toEqual(['chrome 55', 'firefox 50']);
 });
 
 it('reads config by direct path in environment variable', () => {
