@@ -15,3 +15,5 @@ appveyor.yml
 .editorconfig
 .eslintrc
 .yaspellerrc
+
+logo.svg
