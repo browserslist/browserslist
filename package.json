@@ -50,6 +50,9 @@
     "*.md": "yaspeller-ci",
     "*.js": "eslint"
   },
+  "browser": {
+    "fs": false
+  },
   "pre-commit": [
     "lint-staged"
   ]

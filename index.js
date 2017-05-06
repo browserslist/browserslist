@@ -51,6 +51,9 @@ var filenessCache = {};
 var configCache = {};
 
 function isFile(file) {
+    if ( !fs.existsSync ) {
+        return false;
+    }
     if ( file in filenessCache ) {
         return filenessCache[file];
     }
