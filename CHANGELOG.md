@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.1.2
+* Fix non-Node.js environments support.
+
 ## 2.1.1
 * Fix CLI arguments parsing.
 
