@@ -113,6 +113,13 @@ it('excludes queries for 0 version', () => {
     expect(android.length).toBe(0);
 });
 
+it('throws error on first exclude query', () => {
+    expect(() => {
+        browserslist(['not ie 11']);
+    }).toThrowError('Write any browsers query (for instance, `defaults`) ' +
+                    'before `not ie 11`');
+});
+
 it('cleans 0 version', () => {
     expect(browserslist(['> 0%', '> 0% in FI']).indexOf('and_chr 0'))
         .toEqual(-1);

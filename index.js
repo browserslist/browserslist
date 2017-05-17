@@ -211,11 +211,17 @@ var browserslist = function (queries, opts) {
 
     var result = [];
 
-    queries.forEach(function (selection) {
+    queries.forEach(function (selection, index) {
         if ( selection.trim() === '' ) return;
 
         var exclude = selection.indexOf('not ') === 0;
-        if ( exclude ) selection = selection.slice(4);
+        if ( exclude ) {
+            if ( index === 0 ) {
+                error('Write any browsers query (for instance, `defaults`) ' +
+                      'before `' + selection + '`');
+            }
+            selection = selection.slice(4);
+        }
 
         for ( var i in browserslist.queries ) {
             var type  = browserslist.queries[i];
