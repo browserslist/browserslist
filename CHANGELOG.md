@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.1.4
+* Use both ESR versions when they actual.
+
 ## 2.1.3
 * Add warning on first exclude query.
 
