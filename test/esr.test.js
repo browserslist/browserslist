@@ -1,7 +1,7 @@
 var browserslist = require('../');
 
 it('selects Firefox ESR', () => {
-    expect(browserslist('Firefox ESR')).toEqual(['firefox 52']);
+    expect(browserslist('Firefox ESR')).toEqual(['firefox 52', 'firefox 45']);
 });
 
 it('uses case insensitive aliases', () => {
