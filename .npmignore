@@ -17,4 +17,4 @@ appveyor.yml
 .eslintrc
 .yaspellerrc
 
-logo.svg
+*.svg
