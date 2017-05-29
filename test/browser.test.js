@@ -4,6 +4,11 @@ var originData = browserslist.data;
 
 beforeEach(() => {
     browserslist.data = {
+        edge: {
+            name:     'edge',
+            released: ['12', '13', '14', '15'],
+            versions: ['12', '13', '14', '15']
+        },
         ie: {
             name:     'ie',
             released: ['9', '10', '11'],
@@ -14,6 +19,16 @@ beforeEach(() => {
 
 afterEach(() => {
     browserslist.data = originData;
+});
+
+it('selects all versions of browser', () => {
+    expect(browserslist('all ie')).toEqual(['ie 11', 'ie 10', 'ie 9']);
+});
+
+it('selects all versions of all browsers', () => {
+    expect(browserslist('all')).toEqual([
+        'edge 15', 'edge 14', 'edge 13', 'edge 12', 'ie 11', 'ie 10', 'ie 9'
+    ]);
 });
 
 it('selects versions of browser', () => {

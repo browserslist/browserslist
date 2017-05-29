@@ -619,6 +619,27 @@ browserslist.queries = {
         }
     },
 
+    all: {
+        regexp: /^all(?:\s+(\w+)\s*)?$/i,
+        select: function (context, name) {
+            if (name) {
+                var optdata = browserslist.checkName(name);
+
+                return optdata.released.map(function (v) {
+                    return optdata.name + ' ' + v;
+                });
+            } else {
+                return Object.keys(caniuse).reduce(function (all, eachname) {
+                    var eachdata = browserslist.byName(eachname);
+                    if ( !eachdata ) return all;
+                    return all.concat(eachdata.released.map(function (v) {
+                        return eachdata.name + ' ' + v;
+                    }));
+                }, []);
+            }
+        }
+    },
+
     esr: {
         regexp: /^(firefox|ff|fx)\s+esr$/i,
         select: function () {
