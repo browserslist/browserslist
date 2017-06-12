@@ -156,7 +156,7 @@ it('uses NODE_ENV to get environment', () => {
 it('uses BROWSERSLIST_ENV to get environment', () => {
     process.env.BROWSERSLIST_ENV = 'development';
     expect(browserslist(null, { path: CONFIG }))
-         .toEqual(['chrome 55', 'firefox 50']);
+        .toEqual(['chrome 55', 'firefox 50']);
 });
 
 it('uses development environment by default', () => {
