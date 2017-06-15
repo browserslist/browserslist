@@ -37,7 +37,7 @@ IE 10 # sorry
 
 Developers set browsers list in queries like `last 2 version`
 to be free from updating browser versions manually.
-Browserslist will use [Can i Use] data for this queries.
+Browserslist will use [Can I Use] data for this queries.
 
 Browserslist will take browsers queries from tool option,
 `browserslist` config, `.browserslistrc` config,
