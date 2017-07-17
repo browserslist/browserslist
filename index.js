@@ -411,7 +411,11 @@ browserslist.findConfig = function (from) {
  */
 browserslist.coverage = function (browsers, country) {
     if ( country && country !== 'global' ) {
-        country = country.toUpperCase();
+        if(country.length > 2) {
+            country = country.toLowerCase();
+        } else {
+            country = country.toUpperCase();
+        }
         loadCountryStatistics(country);
     } else {
         country = 'global';
