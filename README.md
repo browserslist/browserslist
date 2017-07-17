@@ -81,6 +81,8 @@ You can specify the versions by queries (case insensitive):
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
 * `> 5%` or `>= 5%`: versions selected by global usage statistics.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
+* `> 5% in alt-AS`: uses Asia region usage statistics. List of all region codes
+  can be found at [`caniuse-lite/data/regions`].
 * `> 5% in my stats`: uses [custom usage data].
 * `ie 6-8`: selects an inclusive range of versions.
 * `Firefox > 20`: versions of Firefox newer than 20.
@@ -102,9 +104,10 @@ All queries are based on the [Can I Use] support table,
 e.g. `last 3 iOS versions` might select `8.4, 9.2, 9.3` (mixed major and minor),
 whereas `last 3 Chrome versions` might select `50, 49, 48` (major only).
 
-[two-letter country code]: http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
-[custom usage data]:        #custom-usage-data
-[Can I Use]:                http://caniuse.com/
+[`caniuse-lite/data/regions`]: https://github.com/ben-eb/caniuse-lite/tree/master/data/regions
+[two-letter country code]:     http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
+[custom usage data]:           #custom-usage-data
+[Can I Use]:                   http://caniuse.com/
 
 ## Browsers
 
