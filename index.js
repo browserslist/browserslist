@@ -411,7 +411,7 @@ browserslist.findConfig = function (from) {
  */
 browserslist.coverage = function (browsers, country) {
     if ( country && country !== 'global' ) {
-        if(country.length > 2) {
+        if ( country.length > 2 ) {
             country = country.toLowerCase();
         } else {
             country = country.toUpperCase();
@@ -537,14 +537,19 @@ browserslist.queries = {
     },
 
     countryStatistics: {
-        regexp: /^(>=?)\s*(\d*\.?\d+)%\s+in\s+(\w\w)$/,
-        select: function (context, sign, popularity, country) {
+        regexp: /^(>=?)\s*(\d*\.?\d+)%\s+in\s+((alt-)?\w\w)$/,
+        select: function (context, sign, popularity, place) {
             popularity = parseFloat(popularity);
-            country    = country.toUpperCase();
             var result = [];
 
-            loadCountryStatistics(country);
-            var usage = browserslist.usage[country];
+            if ( place.length === 2 ) {
+                place = place.toUpperCase();
+            } else {
+                place = place.toLowerCase();
+            }
+
+            loadCountryStatistics(place);
+            var usage = browserslist.usage[place];
 
             for ( var version in usage ) {
                 if ( sign === '>' ) {

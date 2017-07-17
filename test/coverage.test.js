@@ -42,6 +42,10 @@ it('loads country usage data from Can I Use', () => {
     expect(browserslist.coverage(['ie 8', 'ie 9'], 'US') > 0).toBeTruthy();
 });
 
+it('loads continents usage data from Can I Use', () => {
+    expect(browserslist.coverage(['ie 8', 'ie 9'], 'alt-AS') > 0).toBeTruthy();
+});
+
 it('fixes statistics of 0 version', () => {
     expect(browserslist.coverage(['ie 9'], 'RU')).toEqual(2);
 });
