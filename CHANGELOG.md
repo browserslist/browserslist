@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.2.1
+* Fix security issue with regions dynamic `require`.
+
 ## 2.2
 * Add region usage statistics support (by Clément P).
 
