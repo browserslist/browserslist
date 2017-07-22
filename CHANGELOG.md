@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.2.2
+* Fix `Path must be a string` error (by Pieter Beulque).
+
 ## 2.2.1
 * Fix security issue with regions dynamic `require`.
 
