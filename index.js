@@ -75,12 +75,14 @@ function getStat (opts) {
     return opts.stats
   } else if (process.env.BROWSERSLIST_STATS) {
     return process.env.BROWSERSLIST_STATS
-  } else {
+  } else if (opts.path) {
     return eachParent(opts.path, function (dir) {
       var file = path.join(dir, 'browserslist-stats.json')
       return isFile(file) ? file : undefined
     })
   }
+
+  return undefined
 }
 
 function parsePackage (file) {

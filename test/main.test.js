@@ -55,6 +55,11 @@ it('reads config by direct path in environment variable', () => {
   expect(browserslist(null, { path: FILE })).toEqual(['ie 9', 'ie 8'])
 })
 
+it('handles undefined stats and path correctly', () => {
+  var config = { stats: undefined, path: undefined }
+  expect(browserslist([], config)).toEqual([])
+})
+
 it('throw a error on wrong path to config', () => {
   expect(() => {
     browserslist(null, { config: IE + '2' })
