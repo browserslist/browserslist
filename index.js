@@ -76,7 +76,7 @@ function getStat (opts) {
   } else if (process.env.BROWSERSLIST_STATS) {
     return process.env.BROWSERSLIST_STATS
   } else {
-    return eachParent(opts.path, function (dir) {
+    return opts.path && eachParent(opts.path, function (dir) {
       var file = path.join(dir, 'browserslist-stats.json')
       return isFile(file) ? file : undefined
     })
