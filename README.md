@@ -91,6 +91,8 @@ You can specify the versions by queries (case insensitive):
 * `Firefox <= 20`: versions of Firefox less than or equal to 20.
 * `Firefox ESR`: the latest [Firefox ESR] version.
 * `iOS 7`: the iOS browser version 7 directly.
+* `unreleased versions`: alpha and beta versions of each browser.
+* `unreleased Chrome versions`: alpha and beta versions of Chrome browser.
 * `not ie <= 8`: exclude browsers selected before by previous queries.
   You can add `not ` to any query.
 

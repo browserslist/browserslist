@@ -492,6 +492,38 @@ browserslist.queries = {
     }
   },
 
+  unreleased: {
+    regexp: /^unreleased\s+versions$/i,
+    select: function () {
+      var selected = []
+      Object.keys(caniuse).forEach(function (name) {
+        var data = browserslist.byName(name)
+        if (!data) return
+        var array = data.versions.filter(function (v) {
+          return data.released.indexOf(v) === -1
+        })
+
+        array = array.map(function (v) {
+          return data.name + ' ' + v
+        })
+        selected = selected.concat(array)
+      })
+      return selected
+    }
+  },
+
+  unreleasedByBrowser: {
+    regexp: /^unreleased\s+(\w+)\s+versions?$/i,
+    select: function (context, name) {
+      var data = browserslist.checkName(name)
+      return data.versions.filter(function (v) {
+        return data.released.indexOf(v) === -1
+      }).map(function (v) {
+        return data.name + ' ' + v
+      })
+    }
+  },
+
   globalStatistics: {
     regexp: /^(>=?)\s*(\d*\.?\d+)%$/,
     select: function (context, sign, popularity) {
