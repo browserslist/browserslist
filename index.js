@@ -371,8 +371,7 @@ browserslist.findConfig = function (from) {
         pkgBrowserslist = parsePackage(pkg)
       } catch (e) {
         console.warn(
-          '[Browserslist] Could not parse ' + pkg + '. ' +
-                    'Ignoring it.')
+          '[Browserslist] Could not parse ' + pkg + '. Ignoring it.')
       }
     }
 
