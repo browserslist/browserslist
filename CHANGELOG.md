@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.3
+* Add `unreleased versions` and `unreleased Chrome versions` queries.
+
 ## 2.2.2
 * Fix `Path must be a string` error (by Pieter Beulque).
 

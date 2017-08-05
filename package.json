@@ -1,6 +1,6 @@
 {
   "name": "browserslist",
-  "version": "2.2.2",
+  "version": "2.3.0",
   "description": "Share browsers list between different front-end tools, like Autoprefixer, Stylelint and babel-env-preset",
   "keywords": [
     "caniuse",
