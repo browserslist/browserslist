@@ -2,7 +2,7 @@ var path = require('path')
 var e2c = require('electron-to-chromium/versions')
 var fs = require('fs')
 
-var caniuse = require('caniuse-lite').agents
+var agents = require('caniuse-lite').agents
 var region = require('caniuse-lite').region
 
 function normalize (versions) {
@@ -468,7 +468,7 @@ browserslist.queries = {
     regexp: /^last\s+(\d+)\s+versions?$/i,
     select: function (context, versions) {
       var selected = []
-      Object.keys(caniuse).forEach(function (name) {
+      Object.keys(agents).forEach(function (name) {
         var data = browserslist.byName(name)
         if (!data) return
         var array = data.released.slice(-versions)
@@ -496,7 +496,7 @@ browserslist.queries = {
     regexp: /^unreleased\s+versions$/i,
     select: function () {
       var selected = []
-      Object.keys(caniuse).forEach(function (name) {
+      Object.keys(agents).forEach(function (name) {
         var data = browserslist.byName(name)
         if (!data) return
         var array = data.versions.filter(function (v) {
@@ -728,12 +728,12 @@ browserslist.queries = {
 // Get and convert Can I Use data
 
 (function () {
-  for (var name in caniuse) {
-    var browser = caniuse[name]
+  for (var name in agents) {
+    var browser = agents[name]
     browserslist.data[name] = {
       name: name,
-      versions: normalize(caniuse[name].versions),
-      released: normalize(caniuse[name].versions.slice(0, -3))
+      versions: normalize(agents[name].versions),
+      released: normalize(agents[name].versions.slice(0, -3))
     }
     fillUsage(browserslist.usage.global, name, browser.usage_global)
 
