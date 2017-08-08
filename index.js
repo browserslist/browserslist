@@ -2,8 +2,8 @@ var path = require('path')
 var e2c = require('electron-to-chromium/versions')
 var fs = require('fs')
 
-var agents = require('caniuse-lite').agents
-var region = require('caniuse-lite').region
+var agents = require('caniuse-lite/dist/unpacker/agents').agents
+var region = require('caniuse-lite/dist/unpacker/region').default
 
 function normalize (versions) {
   return versions.filter(function (version) {
@@ -221,8 +221,8 @@ function browserslist (queries, opts) {
       selection = selection.slice(4)
     }
 
-    for (var i in browserslist.queries) {
-      var type = browserslist.queries[i]
+    for (var i = 0; i < QUERIES.length; i++) {
+      var type = QUERIES[i]
       var match = selection.match(type.regexp)
       if (match) {
         var args = [context].concat(match.slice(1))
@@ -248,7 +248,7 @@ function browserslist (queries, opts) {
     var name = parts[0]
     var version = parts[1]
     if (version === '0') {
-      return name + ' ' + browserslist.byName(name).versions[0]
+      return name + ' ' + byName(name).versions[0]
     } else {
       return i
     }
@@ -329,7 +329,7 @@ browserslist.aliases = {
 browserslist.versionAliases = { }
 
 // Get browser data by alias or case insensitive name
-browserslist.byName = function (name) {
+function byName (name) {
   name = name.toLowerCase()
   name = browserslist.aliases[name] || name
   return browserslist.data[name]
@@ -337,8 +337,8 @@ browserslist.byName = function (name) {
 
 // Get browser data by alias or case insensitive name and throw error
 // on unknown browser
-browserslist.checkName = function (name) {
-  var data = browserslist.byName(name)
+function checkName (name) {
+  var data = byName(name)
   if (!data) throw new BrowserslistError('Unknown browser ' + name)
   return data
 }
@@ -462,14 +462,13 @@ browserslist.clearCaches = function () {
   configCache = {}
 }
 
-browserslist.queries = {
-
-  lastVersions: {
+var QUERIES = [
+  {
     regexp: /^last\s+(\d+)\s+versions?$/i,
     select: function (context, versions) {
       var selected = []
       Object.keys(agents).forEach(function (name) {
-        var data = browserslist.byName(name)
+        var data = byName(name)
         if (!data) return
         var array = data.released.slice(-versions)
 
@@ -481,23 +480,21 @@ browserslist.queries = {
       return selected
     }
   },
-
-  lastByBrowser: {
+  {
     regexp: /^last\s+(\d+)\s+(\w+)\s+versions?$/i,
     select: function (context, versions, name) {
-      var data = browserslist.checkName(name)
+      var data = checkName(name)
       return data.released.slice(-versions).map(function (v) {
         return data.name + ' ' + v
       })
     }
   },
-
-  unreleased: {
+  {
     regexp: /^unreleased\s+versions$/i,
     select: function () {
       var selected = []
       Object.keys(agents).forEach(function (name) {
-        var data = browserslist.byName(name)
+        var data = byName(name)
         if (!data) return
         var array = data.versions.filter(function (v) {
           return data.released.indexOf(v) === -1
@@ -511,11 +508,10 @@ browserslist.queries = {
       return selected
     }
   },
-
-  unreleasedByBrowser: {
+  {
     regexp: /^unreleased\s+(\w+)\s+versions?$/i,
     select: function (context, name) {
-      var data = browserslist.checkName(name)
+      var data = checkName(name)
       return data.versions.filter(function (v) {
         return data.released.indexOf(v) === -1
       }).map(function (v) {
@@ -523,8 +519,7 @@ browserslist.queries = {
       })
     }
   },
-
-  globalStatistics: {
+  {
     regexp: /^(>=?)\s*(\d*\.?\d+)%$/,
     select: function (context, sign, popularity) {
       popularity = parseFloat(popularity)
@@ -543,8 +538,7 @@ browserslist.queries = {
       return result
     }
   },
-
-  customStatistics: {
+  {
     regexp: /^(>=?)\s*(\d*\.?\d+)%\s+in\s+my\s+stats$/,
     select: function (context, sign, popularity) {
       popularity = parseFloat(popularity)
@@ -567,8 +561,7 @@ browserslist.queries = {
       return result
     }
   },
-
-  countryStatistics: {
+  {
     regexp: /^(>=?)\s*(\d*\.?\d+)%\s+in\s+((alt-)?\w\w)$/,
     select: function (context, sign, popularity, place) {
       popularity = parseFloat(popularity)
@@ -596,8 +589,7 @@ browserslist.queries = {
       return result
     }
   },
-
-  electronRange: {
+  {
     regexp: /^electron\s+([\d.]+)\s*-\s*([\d.]+)$/i,
     select: function (context, from, to) {
       if (!e2c[from]) {
@@ -618,11 +610,10 @@ browserslist.queries = {
       })
     }
   },
-
-  range: {
+  {
     regexp: /^(\w+)\s+([\d.]+)\s*-\s*([\d.]+)$/i,
     select: function (context, name, from, to) {
-      var data = browserslist.checkName(name)
+      var data = checkName(name)
       from = parseFloat(normalizeVersion(data, from) || from)
       to = parseFloat(normalizeVersion(data, to) || to)
 
@@ -636,8 +627,7 @@ browserslist.queries = {
       })
     }
   },
-
-  electronVersions: {
+  {
     regexp: /^electron\s*(>=?|<=?)\s*([\d.]+)$/i,
     select: function (context, sign, version) {
       return Object.keys(e2c)
@@ -647,11 +637,10 @@ browserslist.queries = {
         })
     }
   },
-
-  versions: {
+  {
     regexp: /^(\w+)\s*(>=?|<=?)\s*([\d.]+)$/,
     select: function (context, name, sign, version) {
-      var data = browserslist.checkName(name)
+      var data = checkName(name)
       var alias = normalizeVersion(data, version)
       if (alias) {
         version = alias
@@ -663,22 +652,19 @@ browserslist.queries = {
         })
     }
   },
-
-  esr: {
+  {
     regexp: /^(firefox|ff|fx)\s+esr$/i,
     select: function () {
       return ['firefox 52']
     }
   },
-
-  opMini: {
+  {
     regexp: /(operamini|op_mini)\s+all/i,
     select: function () {
       return ['op_mini all']
     }
   },
-
-  electron: {
+  {
     regexp: /^electron\s+([\d.]+)$/i,
     select: function (context, version) {
       var chrome = e2c[version]
@@ -689,12 +675,11 @@ browserslist.queries = {
       return ['chrome ' + chrome]
     }
   },
-
-  direct: {
+  {
     regexp: /^(\w+)\s+(tp|[\d.]+)$/i,
     select: function (context, name, version) {
       if (/^tp$/i.test(version)) version = 'TP'
-      var data = browserslist.checkName(name)
+      var data = checkName(name)
       var alias = normalizeVersion(data, version)
       if (alias) {
         version = alias
@@ -715,15 +700,13 @@ browserslist.queries = {
       return [data.name + ' ' + version]
     }
   },
-
-  defaults: {
+  {
     regexp: /^defaults$/i,
     select: function () {
       return browserslist(browserslist.defaults)
     }
   }
-
-};
+];
 
 // Get and convert Can I Use data
 
