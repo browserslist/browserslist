@@ -310,7 +310,7 @@ const webpackConfig = {
 }
 ```
 
-This plugin will reduce browserslist size from 150 KB to 6 KB. But you loose
+This plugin will reduce Browserslist size from 150 KB to 6 KB. But you loose
 `> 1% in US` queries support.
 
 ## JS API
