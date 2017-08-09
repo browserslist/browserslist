@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.3.1
+* Reduce library size.
+
 ## 2.3
 * Add `unreleased versions` and `unreleased Chrome versions` queries.
 
