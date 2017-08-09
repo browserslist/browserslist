@@ -11,6 +11,8 @@ function normalize (versions) {
   })
 }
 
+var env = process.env
+
 // eslint-disable-next-line security/detect-unsafe-regex
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 var IS_SECTION = /^\s*\[(.+)\]\s*$/
@@ -41,9 +43,7 @@ function fillUsage (result, name, data) {
   }
 }
 
-var cacheEnabled = !(
-  process && process.env && process.env.BROWSERSLIST_DISABLE_CACHE
-)
+var cacheEnabled = !env.BROWSERSLIST_DISABLE_CACHE
 var filenessCache = {}
 var configCache = {}
 
@@ -73,8 +73,8 @@ function eachParent (file, callback) {
 function getStat (opts) {
   if (opts.stats) {
     return opts.stats
-  } else if (process.env.BROWSERSLIST_STATS) {
-    return process.env.BROWSERSLIST_STATS
+  } else if (env.BROWSERSLIST_STATS) {
+    return env.BROWSERSLIST_STATS
   } else if (opts.path) {
     return eachParent(opts.path, function (dir) {
       var file = path.join(dir, 'browserslist-stats.json')
@@ -96,18 +96,18 @@ function parsePackage (file) {
 function pickEnv (config, opts) {
   if (typeof config !== 'object') return config
 
-  var env
+  var name
   if (typeof opts.env === 'string') {
-    env = opts.env
-  } else if (typeof process.env.BROWSERSLIST_ENV === 'string') {
-    env = process.env.BROWSERSLIST_ENV
-  } else if (typeof process.env.NODE_ENV === 'string') {
-    env = process.env.NODE_ENV
+    name = opts.env
+  } else if (env.BROWSERSLIST_ENV) {
+    name = env.BROWSERSLIST_ENV
+  } else if (env.NODE_ENV) {
+    name = env.NODE_ENV
   } else {
-    env = 'development'
+    name = 'development'
   }
 
-  return config[env] || config.defaults
+  return config[name] || config.defaults
 }
 
 function generateFilter (sign, version) {
@@ -163,10 +163,10 @@ function browserslist (queries, opts) {
   }
 
   if (typeof queries === 'undefined' || queries === null) {
-    if (process.env.BROWSERSLIST) {
-      queries = process.env.BROWSERSLIST
-    } else if (opts.config || process.env.BROWSERSLIST_CONFIG) {
-      var file = opts.config || process.env.BROWSERSLIST_CONFIG
+    if (env.BROWSERSLIST) {
+      queries = env.BROWSERSLIST
+    } else if (opts.config || env.BROWSERSLIST_CONFIG) {
+      var file = opts.config || env.BROWSERSLIST_CONFIG
       if (path.basename(file) === 'package.json') {
         queries = pickEnv(parsePackage(file), opts)
       } else {
