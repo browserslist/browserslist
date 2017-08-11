@@ -10,8 +10,8 @@
   "license": "MIT",
   "repository": "ai/browserslist",
   "dependencies": {
-    "caniuse-lite": "^1.0.30000712",
-    "electron-to-chromium": "^1.3.17"
+    "caniuse-lite": "^1.0.30000715",
+    "electron-to-chromium": "^1.3.18"
   },
   "bin": "./cli.js",
   "devDependencies": {
@@ -29,7 +29,7 @@
     "jest": "^20.0.4",
     "lint-staged": "^4.0.3",
     "pre-commit": "^1.1.3",
-    "size-limit": "^0.8.1",
+    "size-limit": "^0.8.4",
     "yaspeller-ci": "^0.6.0"
   },
   "eslintConfig": {
