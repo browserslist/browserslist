@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.3.2
+* Fix `> 0` query for browsers with one version (by Nikolay Solovyov).
+
 ## 2.3.1
 * Reduce library size.
 
