@@ -641,7 +641,7 @@ var QUERIES = [
     regexp: /^(\w+)\s*(>=?|<=?)\s*([\d.]+)$/,
     select: function (context, name, sign, version) {
       var data = checkName(name)
-      var alias = normalizeVersion(data, version)
+      var alias = browserslist.versionAliases[data.name][version]
       if (alias) {
         version = alias
       }
