@@ -13,6 +13,11 @@ beforeEach(() => {
       name: 'android',
       released: ['4.2-4.3'],
       versions: ['4.2-4.3']
+    },
+    and_qq: {
+      name: 'and_qq',
+      released: ['1.2'],
+      versions: ['1.2']
     }
   }
 })
@@ -54,4 +59,8 @@ it('works with joined versions from Can I Use', () => {
 
 it('allows omission of the space around the operator', () => {
   expect(browserslist('ie<=9')).toEqual(['ie 9', 'ie 8'])
+})
+
+it('selects browser with one version', () => {
+  expect(browserslist('and_qq > 0')).toEqual(['and_qq 1.2'])
 })
