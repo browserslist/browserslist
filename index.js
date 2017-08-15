@@ -48,9 +48,6 @@ var filenessCache = {}
 var configCache = {}
 
 function isFile (file) {
-  if (!fs.existsSync) {
-    return false
-  }
   if (file in filenessCache) {
     return filenessCache[file]
   }
@@ -75,7 +72,7 @@ function getStat (opts) {
     return opts.stats
   } else if (env.BROWSERSLIST_STATS) {
     return env.BROWSERSLIST_STATS
-  } else if (opts.path) {
+  } else if (opts.path && path.resolve) {
     return eachParent(opts.path, function (dir) {
       var file = path.join(dir, 'browserslist-stats.json')
       return isFile(file) ? file : undefined
@@ -159,7 +156,7 @@ function browserslist (queries, opts) {
   if (typeof opts === 'undefined') opts = { }
 
   if (!opts.hasOwnProperty('path')) {
-    opts.path = path.resolve('.')
+    opts.path = path.resolve ? path.resolve('.') : '.'
   }
 
   if (typeof queries === 'undefined' || queries === null) {
@@ -353,6 +350,8 @@ browserslist.readConfig = function (file) {
 
 // Find config, read file and parse it
 browserslist.findConfig = function (from) {
+  if (!path.resolve) return undefined
+
   from = path.resolve(from)
 
   var cacheKey = isFile(from) ? path.dirname(from) : from
