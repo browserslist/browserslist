@@ -62,7 +62,7 @@
   "scripts": {
     "lint-staged": "lint-staged",
     "spellcheck": "yaspeller-ci README.md CHANGELOG.md",
-    "lint": "eslint *.js test/*.js",
+    "lint": "eslint *.js test/*.js __mocks__/*.js",
     "test": "jest --coverage && yarn lint && yarn spellcheck && size-limit"
   },
   "lint-staged": {
