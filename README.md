@@ -78,7 +78,9 @@ We recommend to write queries in `package.json`.
 You can specify the versions by queries (case insensitive):
 
 * `last 2 versions`: the last 2 versions for each browser.
+* `last 2 major versions`: all minor/patch releases of the current and previous major versions
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
+* `last 2 iOS major versions`: all minor/patch releases of the current and previous major versions of iOS Safari
 * `> 5%` or `>= 5%`: versions selected by global usage statistics.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
 * `> 5% in alt-AS`: uses Asia region usage statistics. List of all region codes
