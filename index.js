@@ -11,6 +11,27 @@ function normalize (versions) {
   })
 }
 
+function curryMapName (name) {
+  return function mapName (version) {
+    return name + ' ' + version
+  }
+}
+
+function getLastMajorVersions (released, versions) {
+  if (released.length === 0) return []
+  var last = released[released.length - 1]
+  var latest = parseInt(last.split('.')[0])
+  var minimum = latest - parseInt(versions) + 1
+  var i = released.length
+  var stop = false
+  var found = []
+  while (i-- && !stop) {
+    stop = minimum > parseInt(released[i].split('.')[0])
+    if (!stop) found.unshift(released[i])
+  }
+  return found
+}
+
 var env = process.env
 
 // eslint-disable-next-line security/detect-unsafe-regex
@@ -462,6 +483,21 @@ browserslist.clearCaches = function () {
 
 var QUERIES = [
   {
+    regexp: /^last\s+(\d+)\s+major versions?$/i,
+    select: function (context, versions) {
+      var selected = []
+      Object.keys(agents).forEach(function (name) {
+        var data = byName(name)
+        if (!data) return
+        var array = getLastMajorVersions(data.released, versions)
+
+        array = array.map(curryMapName(data.name))
+        selected = selected.concat(array)
+      })
+      return selected
+    }
+  },
+  {
     regexp: /^last\s+(\d+)\s+versions?$/i,
     select: function (context, versions) {
       var selected = []
@@ -470,21 +506,25 @@ var QUERIES = [
         if (!data) return
         var array = data.released.slice(-versions)
 
-        array = array.map(function (v) {
-          return data.name + ' ' + v
-        })
+        array = array.map(curryMapName(data.name))
         selected = selected.concat(array)
       })
       return selected
     }
   },
   {
+    regexp: /^last\s+(\d+)\s+(\w+)\s+major versions?$/i,
+    select: function (context, versions, name) {
+      var data = checkName(name)
+      var validVersions = getLastMajorVersions(data.released, versions)
+      return validVersions.map(curryMapName(data.name))
+    }
+  },
+  {
     regexp: /^last\s+(\d+)\s+(\w+)\s+versions?$/i,
     select: function (context, versions, name) {
       var data = checkName(name)
-      return data.released.slice(-versions).map(function (v) {
-        return data.name + ' ' + v
-      })
+      return data.released.slice(-versions).map(curryMapName(data.name))
     }
   },
   {
@@ -498,9 +538,7 @@ var QUERIES = [
           return data.released.indexOf(v) === -1
         })
 
-        array = array.map(function (v) {
-          return data.name + ' ' + v
-        })
+        array = array.map(curryMapName(data.name))
         selected = selected.concat(array)
       })
       return selected
@@ -512,9 +550,7 @@ var QUERIES = [
       var data = checkName(name)
       return data.versions.filter(function (v) {
         return data.released.indexOf(v) === -1
-      }).map(function (v) {
-        return data.name + ' ' + v
-      })
+      }).map(curryMapName(data.name))
     }
   },
   {
@@ -620,9 +656,7 @@ var QUERIES = [
         return parsed >= from && parsed <= to
       }
 
-      return data.released.filter(filter).map(function (v) {
-        return data.name + ' ' + v
-      })
+      return data.released.filter(filter).map(curryMapName(data.name))
     }
   },
   {
