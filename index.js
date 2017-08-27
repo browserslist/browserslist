@@ -11,7 +11,7 @@ function normalize (versions) {
   })
 }
 
-function curryMapName (name) {
+function nameMapper (name) {
   return function mapName (version) {
     return name + ' ' + version
   }
@@ -491,7 +491,7 @@ var QUERIES = [
         if (!data) return
         var array = getLastMajorVersions(data.released, versions)
 
-        array = array.map(curryMapName(data.name))
+        array = array.map(nameMapper(data.name))
         selected = selected.concat(array)
       })
       return selected
@@ -506,7 +506,7 @@ var QUERIES = [
         if (!data) return
         var array = data.released.slice(-versions)
 
-        array = array.map(curryMapName(data.name))
+        array = array.map(nameMapper(data.name))
         selected = selected.concat(array)
       })
       return selected
@@ -517,14 +517,14 @@ var QUERIES = [
     select: function (context, versions, name) {
       var data = checkName(name)
       var validVersions = getLastMajorVersions(data.released, versions)
-      return validVersions.map(curryMapName(data.name))
+      return validVersions.map(nameMapper(data.name))
     }
   },
   {
     regexp: /^last\s+(\d+)\s+(\w+)\s+versions?$/i,
     select: function (context, versions, name) {
       var data = checkName(name)
-      return data.released.slice(-versions).map(curryMapName(data.name))
+      return data.released.slice(-versions).map(nameMapper(data.name))
     }
   },
   {
@@ -538,7 +538,7 @@ var QUERIES = [
           return data.released.indexOf(v) === -1
         })
 
-        array = array.map(curryMapName(data.name))
+        array = array.map(nameMapper(data.name))
         selected = selected.concat(array)
       })
       return selected
@@ -550,7 +550,7 @@ var QUERIES = [
       var data = checkName(name)
       return data.versions.filter(function (v) {
         return data.released.indexOf(v) === -1
-      }).map(curryMapName(data.name))
+      }).map(nameMapper(data.name))
     }
   },
   {
@@ -656,7 +656,7 @@ var QUERIES = [
         return parsed >= from && parsed <= to
       }
 
-      return data.released.filter(filter).map(curryMapName(data.name))
+      return data.released.filter(filter).map(nameMapper(data.name))
     }
   },
   {
