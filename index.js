@@ -17,19 +17,19 @@ function nameMapper (name) {
   }
 }
 
-function getLastMajorVersions (released, versions) {
+function getMajor (version) {
+  return parseInt(version.split('.')[0])
+}
+
+function getMajorVersions (released, number) {
   if (released.length === 0) return []
-  var last = released[released.length - 1]
-  var latest = parseInt(last.split('.')[0])
-  var minimum = latest - parseInt(versions) + 1
-  var i = released.length
-  var stop = false
-  var found = []
-  while (i-- && !stop) {
-    stop = minimum > parseInt(released[i].split('.')[0])
-    if (!stop) found.unshift(released[i])
+  var minimum = getMajor(released[released.length - 1]) - parseInt(number) + 1
+  var selected = []
+  for (var i = released.length - 1; i >= 0; i--) {
+    if (minimum > getMajor(released[i])) break
+    selected.unshift(released[i])
   }
-  return found
+  return selected
 }
 
 var env = process.env
@@ -489,7 +489,7 @@ var QUERIES = [
       Object.keys(agents).forEach(function (name) {
         var data = byName(name)
         if (!data) return
-        var array = getLastMajorVersions(data.released, versions)
+        var array = getMajorVersions(data.released, versions)
 
         array = array.map(nameMapper(data.name))
         selected = selected.concat(array)
@@ -516,7 +516,7 @@ var QUERIES = [
     regexp: /^last\s+(\d+)\s+(\w+)\s+major versions?$/i,
     select: function (context, versions, name) {
       var data = checkName(name)
-      var validVersions = getLastMajorVersions(data.released, versions)
+      var validVersions = getMajorVersions(data.released, versions)
       return validVersions.map(nameMapper(data.name))
     }
   },
