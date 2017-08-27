@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.4
+* Add `last n major versions` query (by John Sanders).
+
 ## 2.3.3
 * Fix browsers support.
 
