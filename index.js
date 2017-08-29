@@ -37,6 +37,7 @@ var env = process.env
 // eslint-disable-next-line security/detect-unsafe-regex
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 var IS_SECTION = /^\s*\[(.+)\]\s*$/
+var IS_EXTERNAL = /^use (.+)$/
 
 function uniq (array) {
   var filtered = []
@@ -58,6 +59,10 @@ BrowserslistError.prototype = Error.prototype
 
 // Helpers
 
+function warn (message) {
+  console.warn('[Browserslist] ' + message)
+}
+
 function fillUsage (result, name, data) {
   for (var i in data) {
     result[name + ' ' + i] = data[i]
@@ -77,6 +82,12 @@ function isFile (file) {
     filenessCache[file] = result
   }
   return result
+}
+
+function flatMap (array, fn) {
+  return array.reduce(function (result, value, index) {
+    return result.concat(fn(value, index))
+  }, [])
 }
 
 function eachParent (file, callback) {
@@ -109,6 +120,30 @@ function parsePackage (file) {
     config = { defaults: config }
   }
   return config
+}
+
+function resolveExternalPackage (query) {
+  var matches = String(query).match(IS_EXTERNAL)
+  if (matches === null) {
+    return query
+  }
+
+  var requirePath = matches[1]
+  try {
+    // eslint-disable-next-line security/detect-non-literal-require
+    var queriesFromPackage = require(requirePath)
+    if (Array.isArray(queriesFromPackage)) {
+      return flatMap(queriesFromPackage, resolveExternalPackage)
+    }
+
+    warn('Skipping external package "' + requirePath +
+      '" because it did not export an array of queries')
+  } catch (e) {
+    warn('Skipping external package "' + requirePath +
+      '" because it could not be resolved: ' + e.message)
+  }
+
+  return []
 }
 
 function pickEnv (config, opts) {
@@ -202,6 +237,14 @@ function browserslist (queries, opts) {
   if (typeof queries === 'string') {
     queries = queries.split(/,\s*/)
   }
+
+  if (!Array.isArray(queries)) {
+    throw new BrowserslistError(
+      'browser queries must be an array. Got ' + typeof queries
+    )
+  }
+
+  queries = flatMap(queries, resolveExternalPackage)
 
   var context = { }
 
@@ -390,7 +433,7 @@ browserslist.findConfig = function (from) {
       try {
         pkgBrowserslist = parsePackage(pkg)
       } catch (e) {
-        console.warn('[Browserslist] Could not parse ' + pkg + '. Ignoring it.')
+        warn('Could not parse ' + pkg + '. Ignoring it.')
       }
     }
 

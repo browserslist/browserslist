@@ -23,6 +23,10 @@ it('accepts string', () => {
   expect(browserslist('ie 11, ie 10')).toEqual(['ie 11', 'ie 10'])
 })
 
+it('does not accept non-string and non-array parameters', () => {
+  expect(() => browserslist({})).toThrow()
+})
+
 it('returns unique array', () => {
   expect(browserslist('ie 10, ie 10')).toEqual(['ie 10'])
 })
