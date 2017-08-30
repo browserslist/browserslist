@@ -37,7 +37,7 @@ var env = process.env
 // eslint-disable-next-line security/detect-unsafe-regex
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 var IS_SECTION = /^\s*\[(.+)\]\s*$/
-var IS_EXTERNAL = /^use (.+)$/
+var IS_EXTERNAL = /^extends (.+)$/
 
 function uniq (array) {
   var filtered = []
@@ -58,10 +58,6 @@ function BrowserslistError (message) {
 BrowserslistError.prototype = Error.prototype
 
 // Helpers
-
-function warn (message) {
-  console.warn('[Browserslist] ' + message)
-}
 
 function fillUsage (result, name, data) {
   for (var i in data) {
@@ -136,14 +132,16 @@ function resolveExternalPackage (query) {
       return flatMap(queriesFromPackage, resolveExternalPackage)
     }
 
-    warn('Skipping external package "' + requirePath +
-      '" because it did not export an array of queries')
+    throw new BrowserslistError(
+      'Could not extend "' + requirePath +
+      '" because it did not export an array of queries'
+    )
   } catch (e) {
-    warn('Skipping external package "' + requirePath +
-      '" because it could not be resolved: ' + e.message)
+    throw new BrowserslistError(
+      'Could not extend "' + requirePath +
+      '" because it could not be resolved: ' + e.message
+    )
   }
-
-  return []
 }
 
 function pickEnv (config, opts) {
@@ -433,7 +431,7 @@ browserslist.findConfig = function (from) {
       try {
         pkgBrowserslist = parsePackage(pkg)
       } catch (e) {
-        warn('Could not parse ' + pkg + '. Ignoring it.')
+        console.warn('[Browserslist] Could not parse ' + pkg + '. Ignoring it.')
       }
     }
 

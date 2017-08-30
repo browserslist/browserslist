@@ -267,12 +267,12 @@ from another package:
 
 ```
 "browserslist": [
-  "use my-package",
+  "extends my-package",
   ...
 ]
 ```
 
-The `package.json` syntax is shown here, but the same `"use"` query should work
+The `package.json` syntax is shown here, but the same `"extends"` query should work
 for any of the supported config syntaxes.
 
 In this example, `my-package` will be resolved (using standard `npm` module resolution)
@@ -282,8 +282,8 @@ Because this uses `npm`'s resolution, you can also reference specific files in a
 
 ```
 "browserslist": [
-  "use my-package/desktop",
-  "use my-package/mobile"
+  "extends my-package/desktop",
+  "extends my-package/mobile"
   ...
 ]
 ```

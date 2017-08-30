@@ -1,1 +1,1 @@
-module.exports = ['chrome 17']
+module.exports = ['last 1 ie version']
