@@ -51,7 +51,10 @@
       "global": {
         "statements": 100
       }
-    }
+    },
+    "modulePathIgnorePatterns": [
+      "test/fixtures"
+    ]
   },
   "size-limit": [
     {
