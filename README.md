@@ -1,8 +1,8 @@
 # Browserslist
 
-<img align="right" width="100" height="100"
+<img align="right" width="120" height="120"
      src="http://ai.github.io/browserslist/logo.svg"
-     title="Browserslist logo by Anton Lovchikov">
+     alt="Browserslist logo by Anton Lovchikov">
 
 Library to share supported browsers list between different front-end tools.
 It is used in:
