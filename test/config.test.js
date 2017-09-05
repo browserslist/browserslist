@@ -1,6 +1,7 @@
 var browserslist = require('../')
 
 var path = require('path')
+var fs = require('fs')
 
 var RC = path.join(__dirname, 'fixtures', 'rc', 'test.css')
 var FILE = path.join(__dirname, 'fixtures', 'dir', 'test.css')
@@ -10,9 +11,11 @@ var BOTH3 = path.join(__dirname, 'fixtures', 'both3', 'test.css')
 var BROKEN = path.join(__dirname, 'fixtures', 'broken', 'test.css')
 var PACKAGE = path.join(__dirname, 'fixtures', 'package', 'test.css')
 
-var origin = process.cwd()
+var originRead = fs.readFileSync
+var originCwd = process.cwd()
 afterEach(function () {
-  process.chdir(origin)
+  process.chdir(originCwd)
+  fs.readFileSync = originRead
 })
 
 it('parses queries', () => {
@@ -66,6 +69,13 @@ it('reads config from package.json', () => {
 
 it('shows warning on broken package.json', () => {
   console.warn = jest.fn()
+  fs.readFileSync = function (file) {
+    if (file === path.join(__dirname, 'fixtures/broken/package.json')) {
+      return '{'
+    } else {
+      return originRead.apply(fs, arguments)
+    }
+  }
   expect(browserslist.findConfig(BROKEN)).toEqual({
     defaults: ['ie 11', 'ie 10']
   })
