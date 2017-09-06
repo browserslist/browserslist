@@ -86,6 +86,18 @@ it('handles relative queries in external packages with local overrides', () => {
   ])
 })
 
+it('handles external packages with `not` queries', () => {
+  mock('external-package', ['last 3 versions', 'not ie 10'])
+  var result = browserslist(['extends external-package', 'not chrome 37'])
+  expect(result).toEqual([
+    'chrome 39',
+    'chrome 38',
+    'edge 12',
+    'ie 11',
+    'ie 9'
+  ])
+})
+
 it('throws when external package does not resolve', () => {
   expect(() =>
     browserslist(['extends package-that-does-not-exist'])
