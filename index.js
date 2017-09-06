@@ -37,7 +37,6 @@ var env = process.env
 // eslint-disable-next-line security/detect-unsafe-regex
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 var IS_SECTION = /^\s*\[(.+)\]\s*$/
-var IS_EXTERNAL = /^extends (.+)$/
 
 function uniq (array) {
   var filtered = []
@@ -80,12 +79,6 @@ function isFile (file) {
   return result
 }
 
-function flatMap (array, fn) {
-  return array.reduce(function (result, value, index) {
-    return result.concat(fn(value, index))
-  }, [])
-}
-
 function eachParent (file, callback) {
   var loc = path.resolve(file)
   do {
@@ -116,32 +109,6 @@ function parsePackage (file) {
     config = { defaults: config }
   }
   return config
-}
-
-function resolveExternalPackage (query) {
-  var matches = String(query).match(IS_EXTERNAL)
-  if (matches === null) {
-    return query
-  }
-
-  var requirePath = matches[1]
-  try {
-    // eslint-disable-next-line security/detect-non-literal-require
-    var queriesFromPackage = require(requirePath)
-    if (Array.isArray(queriesFromPackage)) {
-      return flatMap(queriesFromPackage, resolveExternalPackage)
-    }
-
-    throw new BrowserslistError(
-      'Could not extend "' + requirePath +
-      '" because it did not export an array of queries'
-    )
-  } catch (e) {
-    throw new BrowserslistError(
-      'Could not extend "' + requirePath +
-      '" because it could not be resolved: ' + e.message
-    )
-  }
 }
 
 function pickEnv (config, opts) {
@@ -186,6 +153,68 @@ function compareStrings (a, b) {
   if (a < b) return -1
   if (a > b) return +1
   return 0
+}
+
+function resolveExternalPackage (context, requirePath) {
+  try {
+    // eslint-disable-next-line security/detect-non-literal-require
+    var queriesFromPackage = require(requirePath)
+    if (Array.isArray(queriesFromPackage)) {
+      return resolveQueries(queriesFromPackage)
+    }
+
+    throw new BrowserslistError(
+      'Could not extend "' + requirePath +
+        '" because it did not export an array of queries'
+    )
+  } catch (e) {
+    throw new BrowserslistError(
+      'Could not extend "' + requirePath +
+        '" because it could not be resolved: ' + e.message
+    )
+  }
+}
+
+function resolveQueries (queries, context) {
+  var result = []
+
+  queries.forEach(function (selection, index) {
+    if (selection.trim() === '') return
+
+    var exclude = selection.indexOf('not ') === 0
+    if (exclude) {
+      if (index === 0) {
+        throw new BrowserslistError(
+          'Write any browsers query (for instance, `defaults`) ' +
+          'before `' + selection + '`')
+      }
+      selection = selection.slice(4)
+    }
+
+    for (var i = 0; i < QUERIES.length; i++) {
+      var type = QUERIES[i]
+      var match = selection.match(type.regexp)
+      if (match) {
+        var args = [context].concat(match.slice(1))
+        var array = type.select.apply(browserslist, args)
+        if (exclude) {
+          array = array.concat(array.map(function (j) {
+            return j.replace(/\s\d+/, ' 0')
+          }))
+          result = result.filter(function (j) {
+            return array.indexOf(j) === -1
+          })
+        } else {
+          result = result.concat(array)
+        }
+        return
+      }
+    }
+
+    throw new BrowserslistError('Unknown browser query `' + selection + '`')
+  })
+
+  return result
 }
 
 /**
@@ -242,8 +271,6 @@ function browserslist (queries, opts) {
     )
   }
 
-  queries = flatMap(queries, resolveExternalPackage)
-
   var context = { }
 
   var stats = getStat(opts)
@@ -265,43 +292,8 @@ function browserslist (queries, opts) {
     }
   }
 
-  var result = []
+  var result = resolveQueries(queries, context)
 
-  queries.forEach(function (selection, index) {
-    if (selection.trim() === '') return
-
-    var exclude = selection.indexOf('not ') === 0
-    if (exclude) {
-      if (index === 0) {
-        throw new BrowserslistError(
-          'Write any browsers query (for instance, `defaults`) ' +
-          'before `' + selection + '`')
-      }
-      selection = selection.slice(4)
-    }
-
-    for (var i = 0; i < QUERIES.length; i++) {
-      var type = QUERIES[i]
-      var match = selection.match(type.regexp)
-      if (match) {
-        var args = [context].concat(match.slice(1))
-        var array = type.select.apply(browserslist, args)
-        if (exclude) {
-          array = array.concat(array.map(function (j) {
-            return j.replace(/\s\d+/, ' 0')
-          }))
-          result = result.filter(function (j) {
-            return array.indexOf(j) === -1
-          })
-        } else {
-          result = result.concat(array)
-        }
-        return
-      }
-    }
-
-    throw new BrowserslistError('Unknown browser query `' + selection + '`')
-  })
   result = result.map(function (i) {
     var parts = i.split(' ')
     var name = parts[0]
@@ -778,6 +770,10 @@ var QUERIES = [
     select: function () {
       return browserslist(browserslist.defaults)
     }
+  },
+  {
+    regexp: /^extends (.+)$/,
+    select: resolveExternalPackage
   }
 ];
 
