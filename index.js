@@ -37,7 +37,6 @@ var env = process.env
 // eslint-disable-next-line security/detect-unsafe-regex
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 var IS_SECTION = /^\s*\[(.+)\]\s*$/
-var IS_EXTERNAL = /^extends (.+)$/
 
 function uniq (array) {
   var filtered = []
@@ -80,7 +79,7 @@ function isFile (file) {
   return result
 }
 
-function flatMap (array, fn) {
+function flatMap (fn, array) {
   return array.reduce(function (result, value, index) {
     return result.concat(fn(value, index))
   }, [])
@@ -116,32 +115,6 @@ function parsePackage (file) {
     config = { defaults: config }
   }
   return config
-}
-
-function resolveExternalPackage (query) {
-  var matches = String(query).match(IS_EXTERNAL)
-  if (matches === null) {
-    return query
-  }
-
-  var requirePath = matches[1]
-  try {
-    // eslint-disable-next-line security/detect-non-literal-require
-    var queriesFromPackage = require(requirePath)
-    if (Array.isArray(queriesFromPackage)) {
-      return flatMap(queriesFromPackage, resolveExternalPackage)
-    }
-
-    throw new BrowserslistError(
-      'Could not extend "' + requirePath +
-      '" because it did not export an array of queries'
-    )
-  } catch (e) {
-    throw new BrowserslistError(
-      'Could not extend "' + requirePath +
-      '" because it could not be resolved: ' + e.message
-    )
-  }
 }
 
 function pickEnv (config, opts) {
@@ -186,6 +159,22 @@ function compareStrings (a, b) {
   if (a < b) return -1
   if (a > b) return +1
   return 0
+}
+
+function resolveQuery (query, context) {
+  if (typeof query === 'string') {
+    for (var i = 0; i < QUERIES.length; i++) {
+      var type = QUERIES[i]
+      var match = query.match(type.regexp)
+      if (match) {
+        var args = [context].concat(match.slice(1))
+        var result = type.select.apply(browserslist, args)
+        return Array.isArray(result) ? result : [result]
+      }
+    }
+  }
+
+  throw new BrowserslistError('Unknown browser query `' + query + '`')
 }
 
 /**
@@ -242,8 +231,6 @@ function browserslist (queries, opts) {
     )
   }
 
-  queries = flatMap(queries, resolveExternalPackage)
-
   var context = { }
 
   var stats = getStat(opts)
@@ -265,10 +252,8 @@ function browserslist (queries, opts) {
     }
   }
 
-  var result = []
-
-  queries.forEach(function (selection, index) {
-    if (selection.trim() === '') return
+  var result = queries.reduce(function (memo, selection, index) {
+    if (selection.trim() === '') return memo
 
     var exclude = selection.indexOf('not ') === 0
     if (exclude) {
@@ -280,28 +265,19 @@ function browserslist (queries, opts) {
       selection = selection.slice(4)
     }
 
-    for (var i = 0; i < QUERIES.length; i++) {
-      var type = QUERIES[i]
-      var match = selection.match(type.regexp)
-      if (match) {
-        var args = [context].concat(match.slice(1))
-        var array = type.select.apply(browserslist, args)
-        if (exclude) {
-          array = array.concat(array.map(function (j) {
-            return j.replace(/\s\d+/, ' 0')
-          }))
-          result = result.filter(function (j) {
-            return array.indexOf(j) === -1
-          })
-        } else {
-          result = result.concat(array)
-        }
-        return
-      }
+    var resolved = resolveQuery(selection, context)
+    if (exclude) {
+      resolved = resolved.concat(resolved.map(function (j) {
+        return j.replace(/\s\d+/, ' 0')
+      }))
+      return memo.filter(function (query) {
+        return resolved.indexOf(query) === -1
+      })
     }
 
-    throw new BrowserslistError('Unknown browser query `' + selection + '`')
-  })
+    return memo.concat(resolved)
+  }, [])
+
   result = result.map(function (i) {
     var parts = i.split(' ')
     var name = parts[0]
@@ -771,6 +747,30 @@ var QUERIES = [
         }
       }
       return [data.name + ' ' + version]
+    }
+  },
+  {
+    regexp: /^extends (.+)$/i,
+    select: function (context, requirePath) {
+      try {
+        // eslint-disable-next-line security/detect-non-literal-require
+        var queriesFromPackage = require(requirePath)
+        if (Array.isArray(queriesFromPackage)) {
+          return flatMap(function (externalQuery) {
+            return resolveQuery(externalQuery, context)
+          }, queriesFromPackage)
+        }
+
+        throw new BrowserslistError(
+          'Could not extend "' + requirePath +
+          '" because it did not export an array of queries'
+        )
+      } catch (e) {
+        throw new BrowserslistError(
+          'Could not extend "' + requirePath +
+          '" because it could not be resolved: ' + e.message
+        )
+      }
     }
   },
   {
