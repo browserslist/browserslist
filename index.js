@@ -79,12 +79,6 @@ function isFile (file) {
   return result
 }
 
-function flatMap (fn, array) {
-  return array.reduce(function (result, value, index) {
-    return result.concat(fn(value, index))
-  }, [])
-}
-
 function eachParent (file, callback) {
   var loc = path.resolve(file)
   do {
@@ -161,20 +155,41 @@ function compareStrings (a, b) {
   return 0
 }
 
-function resolveQuery (query, context) {
-  if (typeof query === 'string') {
+function resolveQueries (queries, context) {
+  return queries.reduce(function (result, selection, index) {
+    if (selection.trim() === '') return result
+
+    var exclude = selection.indexOf('not ') === 0
+    if (exclude) {
+      if (index === 0) {
+        throw new BrowserslistError(
+          'Write any browsers query (for instance, `defaults`) ' +
+          'before `' + selection + '`')
+      }
+      selection = selection.slice(4)
+    }
+
     for (var i = 0; i < QUERIES.length; i++) {
       var type = QUERIES[i]
-      var match = query.match(type.regexp)
+      var match = selection.match(type.regexp)
       if (match) {
         var args = [context].concat(match.slice(1))
-        var result = type.select.apply(browserslist, args)
-        return Array.isArray(result) ? result : [result]
+        var array = type.select.apply(browserslist, args)
+        if (exclude) {
+          array = array.concat(array.map(function (j) {
+            return j.replace(/\s\d+/, ' 0')
+          }))
+          return result.filter(function (j) {
+            return array.indexOf(j) === -1
+          })
+        }
+
+        return result.concat(array)
       }
     }
-  }
 
-  throw new BrowserslistError('Unknown browser query `' + query + '`')
+    throw new BrowserslistError('Unknown browser query `' + selection + '`')
+  }, [])
 }
 
 /**
@@ -252,33 +267,7 @@ function browserslist (queries, opts) {
     }
   }
 
-  var result = queries.reduce(function (memo, selection, index) {
-    if (selection.trim() === '') return memo
-
-    var exclude = selection.indexOf('not ') === 0
-    if (exclude) {
-      if (index === 0) {
-        throw new BrowserslistError(
-          'Write any browsers query (for instance, `defaults`) ' +
-          'before `' + selection + '`')
-      }
-      selection = selection.slice(4)
-    }
-
-    var resolved = resolveQuery(selection, context)
-    if (exclude) {
-      resolved = resolved.concat(resolved.map(function (j) {
-        return j.replace(/\s\d+/, ' 0')
-      }))
-      return memo.filter(function (query) {
-        return resolved.indexOf(query) === -1
-      })
-    }
-
-    return memo.concat(resolved)
-  }, [])
-
-  result = result.map(function (i) {
+  var result = resolveQueries(queries, context).map(function (i) {
     var parts = i.split(' ')
     var name = parts[0]
     var version = parts[1]
@@ -756,9 +745,7 @@ var QUERIES = [
         // eslint-disable-next-line security/detect-non-literal-require
         var queriesFromPackage = require(requirePath)
         if (Array.isArray(queriesFromPackage)) {
-          return flatMap(function (externalQuery) {
-            return resolveQuery(externalQuery, context)
-          }, queriesFromPackage)
+          return resolveQueries(queriesFromPackage, context)
         }
 
         throw new BrowserslistError(
