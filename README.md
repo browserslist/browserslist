@@ -119,6 +119,7 @@ whereas `last 3 Chrome versions` might select `50, 49, 48` (major only).
 Names are case insensitive:
 
 * `Android` for Android WebView.
+* `Baidu` for Baidu Browser.
 * `BlackBerry` or `bb` for Blackberry browser.
 * `Chrome` for Google Chrome.
 * `ChromeAndroid` or `and_chr` for Chrome for Android
