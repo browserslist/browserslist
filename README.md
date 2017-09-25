@@ -7,7 +7,8 @@ Library to share supported browsers list between different front-end tools.
 It is used in:
 
 * [Autoprefixer]
-* [babel-preset-env] (no config support, only tool option)
+* [babel-preset-env]
+  (external config in package.json or browserslist files supported in v2.0+)
 * [eslint-plugin-compat]
 * [stylelint-no-unsupported-browser-features]
 * [postcss-normalize]
