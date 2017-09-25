@@ -8,7 +8,7 @@ It is used in:
 
 * [Autoprefixer]
 * [babel-preset-env]
-  (external config in package.json or browserslist files supported in v2.0+)
+  (external config in `package.json` or `browserslist` files supported in 2.0)
 * [eslint-plugin-compat]
 * [stylelint-no-unsupported-browser-features]
 * [postcss-normalize]
