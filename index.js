@@ -1,6 +1,7 @@
 var path = require('path')
 var e2c = require('electron-to-chromium/versions')
 var fs = require('fs')
+var addPackagePrefix = require('add-package-prefix')
 
 var agents = require('caniuse-lite/dist/unpacker/agents').agents
 var region = require('caniuse-lite/dist/unpacker/region').default
@@ -55,6 +56,11 @@ function BrowserslistError (message) {
   }
 }
 BrowserslistError.prototype = Error.prototype
+
+function PackageExtendsError (message) {
+  this.message = message + ' Use `dangerousExtend` option to disable.'
+}
+PackageExtendsError.prototype = BrowserslistError.prototype
 
 // Helpers
 
@@ -246,7 +252,7 @@ function browserslist (queries, opts) {
     )
   }
 
-  var context = { }
+  var context = { dangerousExtend: opts.dangerousExtend }
 
   var stats = getStat(opts)
   if (stats) {
@@ -741,6 +747,10 @@ var QUERIES = [
   {
     regexp: /^extends (.+)$/i,
     select: function (context, requirePath) {
+      if (!context.dangerousExtend) {
+        assertValidRequirePath(requirePath)
+      }
+
       try {
         // eslint-disable-next-line security/detect-non-literal-require
         var queriesFromPackage = require(requirePath)
@@ -766,7 +776,22 @@ var QUERIES = [
       return browserslist(browserslist.defaults)
     }
   }
-];
+]
+
+function assertValidRequirePath (requirePath) {
+  if (requirePath !== addPackagePrefix('browserslist-config-', requirePath)) {
+    throw new PackageExtendsError('Extended package name "' +
+      requirePath + '" needs `browserslist-config-` prefix.')
+  }
+
+  if (/\.\./.test(requirePath)) {
+    throw new PackageExtendsError('`../` not allowed in package name.')
+  }
+
+  if (/node_modules/.test(requirePath)) {
+    throw new PackageExtendsError('`node_modules` not allowed in package name.')
+  }
+}
 
 // Get and convert Can I Use data
 
