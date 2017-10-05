@@ -272,7 +272,7 @@ from another package:
 ]
 ```
 
-External configuration only supports packages that have the `browserslist-config-` prefix.
+External configuration only supports packages that have the `browserslist-config-` prefix. To bypass all validation, set `dangerousExtend` to `true` in the options.
 
 The `package.json` syntax is shown here, but the same `"extends"` query should work
 for any of the supported config syntaxes.

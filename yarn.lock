@@ -47,9 +47,9 @@ acorn@^5.0.0, acorn@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.1.1.tgz#53fe161111f912ab999ee887a90a0bc52822fd75"
 
-add-package-prefix@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/add-package-prefix/-/add-package-prefix-1.0.1.tgz#c7fc0a2652db92e262204ebeedf1ff1e15f7071f"
+add-package-prefix@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/add-package-prefix/-/add-package-prefix-1.0.2.tgz#90ec81bc40203c153987476600381b6ccbbdb5c8"
 
 ajv-keywords@^1.0.0:
   version "1.5.1"
