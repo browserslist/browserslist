@@ -166,14 +166,16 @@ describe('`extends package` validation', () => {
   it('throws when extends package has ".." in path',
     () => {
       expect(() =>
-        browserslist(['extends ../browserslist-config-package'])
+        browserslist(['extends browserslist-config-package/../something'])
       ).toThrowError('`../` not allowed in package name.')
     })
 
   it('throws when extends package has "node_modules" in path',
     () => {
       expect(() =>
-        browserslist(['extends node_modules/browserslist-config-package'])
+        browserslist([
+          'extends browserslist-config-package/node_modules/package'
+        ])
       ).toThrowError('`node_modules` not allowed in package name.')
     })
 })
