@@ -267,23 +267,25 @@ from another package:
 
 ```
 "browserslist": [
-  "extends my-package",
+  "extends browserslist-config-my-package",
   ...
 ]
 ```
 
+External configuration only supports packages that have the `browserslist-config-` prefix.
+
 The `package.json` syntax is shown here, but the same `"extends"` query should work
 for any of the supported config syntaxes.
 
-In this example, `my-package` will be resolved (using standard `npm` module resolution)
+In this example, `browserslist-config-my-package` will be resolved (using standard `npm` module resolution)
 and the exported array will be merged with the rest of the Browserslist config.
 
 Because this uses `npm`'s resolution, you can also reference specific files in a package:
 
 ```
 "browserslist": [
-  "extends my-package/desktop",
-  "extends my-package/mobile"
+  "extends browserslist-config-my-package/desktop",
+  "extends browserslist-config-my-package/mobile"
   ...
 ]
 ```
