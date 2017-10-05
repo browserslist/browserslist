@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.4.1
+* Throw error if `package.json` contain `browserlist` instead of `browserslist`.
+
 ## 2.4
 * Add `last n major versions` query (by John Sanders).
 

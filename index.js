@@ -110,11 +110,16 @@ function getStat (opts) {
 }
 
 function parsePackage (file) {
-  var config = JSON.parse(fs.readFileSync(file)).browserslist
-  if (typeof config === 'object' && config.length) {
-    config = { defaults: config }
+  var config = JSON.parse(fs.readFileSync(file))
+  if (config.browserlist && !config.browserslist) {
+    throw new BrowserslistError(
+      '`browserlist` key instead of `browserslist` in ' + file)
   }
-  return config
+  var list = config.browserslist
+  if (typeof list === 'object' && list.length) {
+    list = { defaults: list }
+  }
+  return list
 }
 
 function pickEnv (config, opts) {
@@ -402,6 +407,7 @@ browserslist.findConfig = function (from) {
       try {
         pkgBrowserslist = parsePackage(pkg)
       } catch (e) {
+        if (e.name === 'BrowserslistError') throw e
         console.warn('[Browserslist] Could not parse ' + pkg + '. Ignoring it.')
       }
     }

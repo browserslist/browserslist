@@ -1,7 +1,7 @@
-var browserslist = require('../')
+jest.doMock('fs', () => ({ }))
+jest.doMock('path', () => ({ }))
 
-jest.mock('fs')
-jest.mock('path')
+var browserslist = require('../')
 
 it('works without file system', () => {
   expect(browserslist(undefined, { path: './fixtures/rc/test.css' }))

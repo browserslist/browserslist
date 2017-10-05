@@ -4,15 +4,16 @@ var path = require('path')
 
 var RC = path.join(__dirname, 'fixtures', 'rc', 'test.css')
 var FILE = path.join(__dirname, 'fixtures', 'dir', 'test.css')
+var TYPO = path.join(__dirname, 'fixtures', 'typo', 'test.css')
 var BOTH1 = path.join(__dirname, 'fixtures', 'both1', 'test.css')
 var BOTH2 = path.join(__dirname, 'fixtures', 'both2', 'test.css')
 var BOTH3 = path.join(__dirname, 'fixtures', 'both3', 'test.css')
 var BROKEN = path.join(__dirname, 'fixtures', 'broken', 'test.css')
 var PACKAGE = path.join(__dirname, 'fixtures', 'package', 'test.css')
 
-var origin = process.cwd()
+var originCwd = process.cwd()
 afterEach(function () {
-  process.chdir(origin)
+  process.chdir(originCwd)
 })
 
 it('parses queries', () => {
@@ -70,6 +71,12 @@ it('shows warning on broken package.json', () => {
     defaults: ['ie 11', 'ie 10']
   })
   expect(console.warn).toBeCalled()
+})
+
+it('shows error on key typo', () => {
+  expect(() => {
+    browserslist.findConfig(TYPO)
+  }).toThrowError(/browserlist/)
 })
 
 it('reads from dir wich contains both browserslist and package.json', () => {

@@ -1,14 +1,14 @@
 # Browserslist
 
-<img align="right" width="100" height="100"
-     src="http://ai.github.io/browserslist/logo.svg"
-     title="Browserslist logo by Anton Lovchikov">
+<img align="right" width="120" height="120"
+     src="./logo.svg" alt="Browserslist logo by Anton Lovchikov">
 
 Library to share supported browsers list between different front-end tools.
 It is used in:
 
 * [Autoprefixer]
-* [babel-preset-env] (no config support, only tool option)
+* [babel-preset-env]
+  (external config in `package.json` or `browserslist` files supported in 2.0)
 * [eslint-plugin-compat]
 * [stylelint-no-unsupported-browser-features]
 * [postcss-normalize]
@@ -120,6 +120,7 @@ whereas `last 3 Chrome versions` might select `50, 49, 48` (major only).
 Names are case insensitive:
 
 * `Android` for Android WebView.
+* `Baidu` for Baidu Browser.
 * `BlackBerry` or `bb` for Blackberry browser.
 * `Chrome` for Google Chrome.
 * `ChromeAndroid` or `and_chr` for Chrome for Android

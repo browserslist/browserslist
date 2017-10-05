@@ -122,6 +122,15 @@ it('excludes queries for 0 version', () => {
   expect(android.length).toBe(0)
 })
 
+it('has actual browsers list in docs', () => {
+  var names = browserslist(['last 1 version']).map(i => i.split(' ')[0])
+  expect(names).toEqual([
+    'and_chr', 'and_ff', 'and_qq', 'and_uc', 'android', 'baidu', 'bb', 'chrome',
+    'edge', 'firefox', 'ie', 'ie_mob', 'ios_saf', 'op_mini', 'op_mob', 'opera',
+    'safari', 'samsung'
+  ])
+})
+
 it('throws error on first exclude query', () => {
   expect(() => {
     browserslist(['not ie 11'])
