@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.5
+* Add `extends` query (by YellowKirby).
+
 ## 2.4.1
 * Throw error if `package.json` contain `browserlist` instead of `browserslist`.
 
