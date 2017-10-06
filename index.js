@@ -160,12 +160,12 @@ function compareStrings (a, b) {
   return 0
 }
 
-function resolveQueries (queries, context) {
+function resolve (queries, context) {
   return queries.reduce(function (result, selection, index) {
     if (selection.trim() === '') return result
 
-    var exclude = selection.indexOf('not ') === 0
-    if (exclude) {
+    var isExclude = selection.indexOf('not ') === 0
+    if (isExclude) {
       if (index === 0) {
         throw new BrowserslistError(
           'Write any browsers query (for instance, `defaults`) ' +
@@ -180,7 +180,7 @@ function resolveQueries (queries, context) {
       if (match) {
         var args = [context].concat(match.slice(1))
         var array = type.select.apply(browserslist, args)
-        if (exclude) {
+        if (isExclude) {
           array = array.concat(array.map(function (j) {
             return j.replace(/\s\d+/, ' 0')
           }))
@@ -188,7 +188,6 @@ function resolveQueries (queries, context) {
             return array.indexOf(j) === -1
           })
         }
-
         return result.concat(array)
       }
     }
@@ -272,7 +271,7 @@ function browserslist (queries, opts) {
     }
   }
 
-  var result = resolveQueries(queries, context).map(function (i) {
+  var result = resolve(queries, context).map(function (i) {
     var parts = i.split(' ')
     var name = parts[0]
     var version = parts[1]
@@ -746,26 +745,15 @@ var QUERIES = [
   },
   {
     regexp: /^extends (.+)$/i,
-    select: function (context, requirePath) {
-      if (!context.dangerousExtend) checkExtend(requirePath)
-
-      try {
-        // eslint-disable-next-line security/detect-non-literal-require
-        var queriesFromPackage = require(requirePath)
-        if (Array.isArray(queriesFromPackage)) {
-          return resolveQueries(queriesFromPackage, context)
-        }
-
+    select: function (context, name) {
+      if (!context.dangerousExtend) checkExtend(name)
+      // eslint-disable-next-line security/detect-non-literal-require
+      var queries = require(name)
+      if (!Array.isArray(queries)) {
         throw new BrowserslistError(
-          'Could not extend "' + requirePath +
-          '" because it did not export an array of queries'
-        )
-      } catch (e) {
-        throw new BrowserslistError(
-          'Could not extend "' + requirePath +
-          '" because it could not be resolved: ' + e.message
-        )
+          '`' + name + '` config exports not an array of queries')
       }
+      return resolve(queries, context)
     }
   },
   {

@@ -135,23 +135,11 @@ describe('`extends package` validation', () => {
     ])
   })
 
-  it('throws when external package does not resolve', () => {
-    expect(() =>
-      browserslist(['extends browserslist-config-package-that-does-not-exist'])
-    ).toThrowError(
-      'Could not extend "browserslist-config-package-that-does-not-exist" ' +
-        'because it could not be resolved'
-    )
-  })
-
   it('throws when external package does not resolve to an array', () => {
     mock('browserslist-config-external-package', { not: 'an array' })
     expect(() =>
       browserslist(['extends browserslist-config-external-package'])
-    ).toThrowError(
-      'Could not extend "browserslist-config-external-package" ' +
-        'because it did not export an array of queries'
-    )
+    ).toThrowError(/not an array/)
   })
 
   it('throws when package does not have browserslist-config- prefix', () => {
