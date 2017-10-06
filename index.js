@@ -1,6 +1,7 @@
 var path = require('path')
 var e2c = require('electron-to-chromium/versions')
 var fs = require('fs')
+var addPackagePrefix = require('add-package-prefix')
 
 var agents = require('caniuse-lite/dist/unpacker/agents').agents
 var region = require('caniuse-lite/dist/unpacker/region').default
@@ -55,6 +56,11 @@ function BrowserslistError (message) {
   }
 }
 BrowserslistError.prototype = Error.prototype
+
+function PackageExtendsError (message) {
+  this.message = message + ' Use `dangerousExtend` option to disable.'
+}
+PackageExtendsError.prototype = BrowserslistError.prototype
 
 // Helpers
 
@@ -160,6 +166,43 @@ function compareStrings (a, b) {
   return 0
 }
 
+function resolveQueries (queries, context) {
+  return queries.reduce(function (result, selection, index) {
+    if (selection.trim() === '') return result
+
+    var exclude = selection.indexOf('not ') === 0
+    if (exclude) {
+      if (index === 0) {
+        throw new BrowserslistError(
+          'Write any browsers query (for instance, `defaults`) ' +
+          'before `' + selection + '`')
+      }
+      selection = selection.slice(4)
+    }
+
+    for (var i = 0; i < QUERIES.length; i++) {
+      var type = QUERIES[i]
+      var match = selection.match(type.regexp)
+      if (match) {
+        var args = [context].concat(match.slice(1))
+        var array = type.select.apply(browserslist, args)
+        if (exclude) {
+          array = array.concat(array.map(function (j) {
+            return j.replace(/\s\d+/, ' 0')
+          }))
+          return result.filter(function (j) {
+            return array.indexOf(j) === -1
+          })
+        }
+
+        return result.concat(array)
+      }
+    }
+
+    throw new BrowserslistError('Unknown browser query `' + selection + '`')
+  }, [])
+}
+
 /**
  * Return array of browsers by selection queries.
  *
@@ -208,7 +251,13 @@ function browserslist (queries, opts) {
     queries = queries.split(/,\s*/)
   }
 
-  var context = { }
+  if (!Array.isArray(queries)) {
+    throw new BrowserslistError(
+      'browser queries must be an array. Got ' + typeof queries
+    )
+  }
+
+  var context = { dangerousExtend: opts.dangerousExtend }
 
   var stats = getStat(opts)
   if (stats) {
@@ -229,44 +278,7 @@ function browserslist (queries, opts) {
     }
   }
 
-  var result = []
-
-  queries.forEach(function (selection, index) {
-    if (selection.trim() === '') return
-
-    var exclude = selection.indexOf('not ') === 0
-    if (exclude) {
-      if (index === 0) {
-        throw new BrowserslistError(
-          'Write any browsers query (for instance, `defaults`) ' +
-          'before `' + selection + '`')
-      }
-      selection = selection.slice(4)
-    }
-
-    for (var i = 0; i < QUERIES.length; i++) {
-      var type = QUERIES[i]
-      var match = selection.match(type.regexp)
-      if (match) {
-        var args = [context].concat(match.slice(1))
-        var array = type.select.apply(browserslist, args)
-        if (exclude) {
-          array = array.concat(array.map(function (j) {
-            return j.replace(/\s\d+/, ' 0')
-          }))
-          result = result.filter(function (j) {
-            return array.indexOf(j) === -1
-          })
-        } else {
-          result = result.concat(array)
-        }
-        return
-      }
-    }
-
-    throw new BrowserslistError('Unknown browser query `' + selection + '`')
-  })
-  result = result.map(function (i) {
+  var result = resolveQueries(queries, context).map(function (i) {
     var parts = i.split(' ')
     var name = parts[0]
     var version = parts[1]
@@ -739,12 +751,53 @@ var QUERIES = [
     }
   },
   {
+    regexp: /^extends (.+)$/i,
+    select: function (context, requirePath) {
+      if (!context.dangerousExtend) {
+        assertValidRequirePath(requirePath)
+      }
+
+      try {
+        // eslint-disable-next-line security/detect-non-literal-require
+        var queriesFromPackage = require(requirePath)
+        if (Array.isArray(queriesFromPackage)) {
+          return resolveQueries(queriesFromPackage, context)
+        }
+
+        throw new BrowserslistError(
+          'Could not extend "' + requirePath +
+          '" because it did not export an array of queries'
+        )
+      } catch (e) {
+        throw new BrowserslistError(
+          'Could not extend "' + requirePath +
+          '" because it could not be resolved: ' + e.message
+        )
+      }
+    }
+  },
+  {
     regexp: /^defaults$/i,
     select: function () {
       return browserslist(browserslist.defaults)
     }
   }
-];
+]
+
+function assertValidRequirePath (requirePath) {
+  if (requirePath !== addPackagePrefix('browserslist-config-', requirePath)) {
+    throw new PackageExtendsError('Extended package name "' +
+      requirePath + '" needs `browserslist-config-` prefix.')
+  }
+
+  if (/\.\./.test(requirePath)) {
+    throw new PackageExtendsError('`../` not allowed in package name.')
+  }
+
+  if (/node_modules/.test(requirePath)) {
+    throw new PackageExtendsError('`node_modules` not allowed in package name.')
+  }
+}
 
 // Get and convert Can I Use data
 

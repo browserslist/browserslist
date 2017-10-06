@@ -261,6 +261,45 @@ by [environment variables]:
 
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
+## External Configuration
+
+You can use the following query to reference an exported Browserslist config
+from another package:
+
+```
+"browserslist": [
+  "extends browserslist-config-my-package",
+  ...
+]
+```
+
+External configuration only supports packages that have the `browserslist-config-` prefix. To bypass all validation, set `dangerousExtend` to `true` in the options.
+
+The `package.json` syntax is shown here, but the same `"extends"` query should work
+for any of the supported config syntaxes.
+
+In this example, `browserslist-config-my-package` will be resolved (using standard `npm` module resolution)
+and the exported array will be merged with the rest of the Browserslist config.
+
+Because this uses `npm`'s resolution, you can also reference specific files in a package:
+
+```
+"browserslist": [
+  "extends browserslist-config-my-package/desktop",
+  "extends browserslist-config-my-package/mobile"
+  ...
+]
+```
+
+When writing a shared Browserslist package, just export a standard CommonJS array:
+
+```js
+module.exports = [
+  "ie 9",
+  "last 2 versions"
+]
+```
+
 ## Custom Usage Data
 
 If you have a website, you can query against the usage statistics of your site:
