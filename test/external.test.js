@@ -157,17 +157,14 @@ describe('`extends package` validation', () => {
   it('throws when package does not have browserslist-config- prefix', () => {
     expect(() =>
       browserslist(['extends thing-without-prefix'])
-    ).toThrowError(
-      'Extended package name "thing-without-prefix"' +
-      ' needs `browserslist-config-` prefix.'
-    )
+    ).toThrowError(/needs `browserslist-config-` prefix/)
   })
 
-  it('throws when extends package has ".." in path',
+  it('throws when extends package has "." in path',
     () => {
       expect(() =>
         browserslist(['extends browserslist-config-package/../something'])
-      ).toThrowError('`../` not allowed in package name.')
+      ).toThrowError(/`.` not allowed/)
     })
 
   it('throws when extends package has "node_modules" in path',
@@ -176,6 +173,6 @@ describe('`extends package` validation', () => {
         browserslist([
           'extends browserslist-config-package/node_modules/package'
         ])
-      ).toThrowError('`node_modules` not allowed in package name.')
+      ).toThrowError(/`node_modules` not allowed/)
     })
 })

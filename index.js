@@ -1,7 +1,6 @@
 var path = require('path')
 var e2c = require('electron-to-chromium/versions')
 var fs = require('fs')
-var addPackagePrefix = require('add-package-prefix')
 
 var agents = require('caniuse-lite/dist/unpacker/agents').agents
 var region = require('caniuse-lite/dist/unpacker/region').default
@@ -56,11 +55,6 @@ function BrowserslistError (message) {
   }
 }
 BrowserslistError.prototype = Error.prototype
-
-function PackageExtendsError (message) {
-  this.message = message + ' Use `dangerousExtend` option to disable.'
-}
-PackageExtendsError.prototype = BrowserslistError.prototype
 
 // Helpers
 
@@ -753,9 +747,7 @@ var QUERIES = [
   {
     regexp: /^extends (.+)$/i,
     select: function (context, requirePath) {
-      if (!context.dangerousExtend) {
-        assertValidRequirePath(requirePath)
-      }
+      if (!context.dangerousExtend) checkExtend(requirePath)
 
       try {
         // eslint-disable-next-line security/detect-non-literal-require
@@ -784,18 +776,22 @@ var QUERIES = [
   }
 ]
 
-function assertValidRequirePath (requirePath) {
-  if (requirePath !== addPackagePrefix('browserslist-config-', requirePath)) {
-    throw new PackageExtendsError('Extended package name "' +
-      requirePath + '" needs `browserslist-config-` prefix.')
-  }
+var CONFIG_PATTERN = /^browserslist-config-/
+var SCOPED_CONFIG__PATTERN = /@[^./]+\/browserslist-config-/
 
-  if (/\.\./.test(requirePath)) {
-    throw new PackageExtendsError('`../` not allowed in package name.')
+function checkExtend (name) {
+  var use = ' Use `dangerousExtend` option to disable.'
+  if (!CONFIG_PATTERN.test(name) && !SCOPED_CONFIG__PATTERN.test(name)) {
+    throw new BrowserslistError(
+      'Browserslist config needs `browserslist-config-` prefix. ' + use)
   }
-
-  if (/node_modules/.test(requirePath)) {
-    throw new PackageExtendsError('`node_modules` not allowed in package name.')
+  if (name.indexOf('.') !== -1) {
+    throw new BrowserslistError(
+      '`.` not allowed in Browserslist config name. ' + use)
+  }
+  if (name.indexOf('node_modules') !== -1) {
+    throw new BrowserslistError(
+      '`node_modules` not allowed in Browserslist config.' + use)
   }
 }
 
