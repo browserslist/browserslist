@@ -246,8 +246,7 @@ function browserslist (queries, opts) {
 
   if (!Array.isArray(queries)) {
     throw new BrowserslistError(
-      'browser queries must be an array. Got ' + typeof queries
-    )
+      'Browser queries must be an array. Got ' + typeof queries + '.')
   }
 
   var context = { dangerousExtend: opts.dangerousExtend }
