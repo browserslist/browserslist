@@ -178,7 +178,7 @@ So, if tool process `app/styles/main.css`, you can put config to root,
 
 You can specify direct path in `BROWSERSLIST_CONFIG` environment variables.
 
-## External Configuration
+## Shareable Configs
 
 You can use the following query to reference an exported Browserslist config
 from another package:
