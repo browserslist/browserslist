@@ -146,7 +146,7 @@ Names are case insensitive:
 If you want to reduce config files in project root, you can specify
 browsers in `package.json` with `browserslist` key:
 
-```js
+```json
 {
   "private": true,
   "dependencies": {
@@ -183,15 +183,14 @@ You can specify direct path in `BROWSERSLIST_CONFIG` environment variables.
 You can use the following query to reference an exported Browserslist config
 from another package:
 
-```
-"browserslist": [
-  "extends browserslist-config-mycompany",
-  ...
-]
+```json
+  "browserslist": [
+    "extends browserslist-config-mycompany"
+  ]
 ```
 
 For security reasons, external configuration only supports packages that have
-the `browserslist-config-` prefix. If you doesn’t accept Browserslist queries
+the `browserslist-config-` prefix. If you doesn’t accept Browserslist queries
 from users, you can disable the validation by `dangerousExtend` option:
 
 ```js
@@ -201,12 +200,11 @@ browserslist(queries, { path, dangerousExtend: true })
 Because this uses `npm`'s resolution, you can also reference specific files
 in a package:
 
-```
-"browserslist": [
-  "extends browserslist-config-mycompany/desktop",
-  "extends browserslist-config-mycompany/mobile"
-  ...
-]
+```json
+  "browserslist": [
+    "extends browserslist-config-mycompany/desktop",
+    "extends browserslist-config-mycompany/mobile"
+  ]
 ```
 
 When writing a shared Browserslist package, just export an array:
@@ -267,8 +265,6 @@ for `development` queries and then use defaults.
 In `package.json`:
 
 ```js
-{
-  …
   "browserslist": {
     "production": [
       "last 2 version",
@@ -278,7 +274,6 @@ In `package.json`:
       "last 1 version"
     ]
   }
-}
 ```
 
 In `.browserslistrc` config:
