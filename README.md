@@ -95,6 +95,8 @@ You can specify the versions by queries (case insensitive):
 * `Firefox <= 20`: versions of Firefox less than or equal to 20.
 * `Firefox ESR`: the latest [Firefox ESR] version.
 * `iOS 7`: the iOS browser version 7 directly.
+* `extends browserslist-config-mycompany`: take queries from
+  `browserslist-config-mycompany` npm package.
 * `unreleased versions`: alpha and beta versions of each browser.
 * `unreleased Chrome versions`: alpha and beta versions of Chrome browser.
 * `not ie <= 8`: exclude browsers selected before by previous queries.
@@ -139,18 +141,6 @@ Names are case insensitive:
 * `Samsung` for Samsung Internet.
 * `UCAndroid` or `and_uc` for UC Browser for Android.
 
-### Electron
-
-[`electron-to-chromium`](https://www.npmjs.com/package/electron-to-chromium)
-could return a compatible Browserslist query for your (major) Electron version:
-
-```js
-const e2c = require('electron-to-chromium')
-autoprefixer({
-    browsers: e2c.electronToBrowserList('1.4') //=> "Chrome >= 53"
-})
-```
-
 ## `package.json`
 
 If you want to reduce config files in project root, you can specify
@@ -188,39 +178,45 @@ So, if tool process `app/styles/main.css`, you can put config to root,
 
 You can specify direct path in `BROWSERSLIST_CONFIG` environment variables.
 
-## Environments
+## External Configuration
 
-You can also specify different browser queries for various environments.
-Browserslist will choose query according to `BROWSERSLIST_ENV` or `NODE_ENV`
-variables. If none of them is declared, Browserslist will firstly look
-for `development` queries and then use defaults.
+You can use the following query to reference an exported Browserslist config
+from another package:
 
-In `package.json`:
-
-```js
-{
-  …
-  "browserslist": {
-    "production": [
-      "last 2 version",
-      "ie 9"
-    ],
-    "development": [
-      "last 1 version"
-    ]
-  }
-}
+```
+"browserslist": [
+  "extends browserslist-config-mycompany",
+  ...
+]
 ```
 
-In `.browserslistrc` config:
+For security reasons, external configuration only supports packages that have
+the `browserslist-config-` prefix. If you doesn’t accept Browserslist queries
+from users, you can disable the validation by `dangerousExtend` option:
 
-```ini
-[production]
-last 2 version
-ie 9
+```js
+browserslist(queries, { path, dangerousExtend: true })
+```
 
-[development]
-last 1 version
+Because this uses `npm`'s resolution, you can also reference specific files
+in a package:
+
+```
+"browserslist": [
+  "extends browserslist-config-mycompany/desktop",
+  "extends browserslist-config-mycompany/mobile"
+  ...
+]
+```
+
+When writing a shared Browserslist package, just export an array:
+
+```js
+// browserslist-config-mycompany/index.js
+module.exports = [
+  'last 2 versions'
+  'ie 9'
+]
 ```
 
 ## Environment Variables
@@ -261,43 +257,39 @@ by [environment variables]:
 
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
-## External Configuration
+## Environments
 
-You can use the following query to reference an exported Browserslist config
-from another package:
+You can also specify different browser queries for various environments.
+Browserslist will choose query according to `BROWSERSLIST_ENV` or `NODE_ENV`
+variables. If none of them is declared, Browserslist will firstly look
+for `development` queries and then use defaults.
 
-```
-"browserslist": [
-  "extends browserslist-config-my-package",
-  ...
-]
-```
-
-External configuration only supports packages that have the `browserslist-config-` prefix. To bypass all validation, set `dangerousExtend` to `true` in the options.
-
-The `package.json` syntax is shown here, but the same `"extends"` query should work
-for any of the supported config syntaxes.
-
-In this example, `browserslist-config-my-package` will be resolved (using standard `npm` module resolution)
-and the exported array will be merged with the rest of the Browserslist config.
-
-Because this uses `npm`'s resolution, you can also reference specific files in a package:
-
-```
-"browserslist": [
-  "extends browserslist-config-my-package/desktop",
-  "extends browserslist-config-my-package/mobile"
-  ...
-]
-```
-
-When writing a shared Browserslist package, just export a standard CommonJS array:
+In `package.json`:
 
 ```js
-module.exports = [
-  "ie 9",
-  "last 2 versions"
-]
+{
+  …
+  "browserslist": {
+    "production": [
+      "last 2 version",
+      "ie 9"
+    ],
+    "development": [
+      "last 1 version"
+    ]
+  }
+}
+```
+
+In `.browserslistrc` config:
+
+```ini
+[production]
+last 2 version
+ie 9
+
+[development]
+last 1 version
 ```
 
 ## Custom Usage Data
