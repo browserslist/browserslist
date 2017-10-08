@@ -190,8 +190,12 @@ from another package:
 ```
 
 For security reasons, external configuration only supports packages that have
-the `browserslist-config-` prefix. If you doesn’t accept Browserslist queries
-from users, you can disable the validation by `dangerousExtend` option:
+the `browserslist-config-` prefix. npm scoped packages are also supported, by
+naming or prefixing the module with `@scope/browserslist-config`, such as
+`@scope/browserslist-config` or `@scope/browserslist-config-mycompany`.
+
+If you don't accept Browserslist queries from users, you can disable the
+validation by using the `dangerousExtend` option:
 
 ```js
 browserslist(queries, { path, dangerousExtend: true })
