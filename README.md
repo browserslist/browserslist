@@ -207,10 +207,10 @@ in a package:
   ]
 ```
 
-When writing a shared Browserslist package, just export an array:
+When writing a shared Browserslist package, just export an array.
+`browserslist-config-mycompany/index.js`:
 
 ```js
-// browserslist-config-mycompany/index.js
 module.exports = [
   'last 2 versions',
   'ie 9'
