@@ -212,7 +212,7 @@ When writing a shared Browserslist package, just export an array:
 ```js
 // browserslist-config-mycompany/index.js
 module.exports = [
-  'last 2 versions'
+  'last 2 versions',
   'ie 9'
 ]
 ```
