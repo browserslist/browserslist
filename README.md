@@ -194,7 +194,7 @@ the `browserslist-config-` prefix. npm scoped packages are also supported, by
 naming or prefixing the module with `@scope/browserslist-config`, such as
 `@scope/browserslist-config` or `@scope/browserslist-config-mycompany`.
 
-If you don't accept Browserslist queries from users, you can disable the
+If you don’t accept Browserslist queries from users, you can disable the
 validation by using the `dangerousExtend` option:
 
 ```js
