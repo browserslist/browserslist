@@ -764,7 +764,7 @@ var QUERIES = [
 ]
 
 var CONFIG_PATTERN = /^browserslist-config-/
-var SCOPED_CONFIG__PATTERN = /@[^./]+\/browserslist-config-/
+var SCOPED_CONFIG__PATTERN = /@[^./]+\/browserslist-config(-|$)/
 
 function checkExtend (name) {
   var use = ' Use `dangerousExtend` option to disable.'

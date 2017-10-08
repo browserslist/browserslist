@@ -28,6 +28,12 @@ it('handles scoped packages', () => {
   expect(result).toEqual(['ie 11'])
 })
 
+it('handles scoped packages when package is @scope/browserslist-config', () => {
+  mock('@scope/browserslist-config', ['ie 11'])
+  var result = browserslist(['extends @scope/browserslist-config'])
+  expect(result).toEqual(['ie 11'])
+})
+
 it('recursively imports configs', () => {
   mock('browserslist-config-one', ['extends browserslist-config-two', 'ie 9'])
   mock('browserslist-config-two', ['ie 10'])
