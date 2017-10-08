@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.5.1
+* Allow `@scope/browserlist-config` config name (by Jamie Connolly).
+
 ## 2.5
 * Add `extends` query (by YellowKirby).
 
