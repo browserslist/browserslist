@@ -64,7 +64,6 @@ function fillUsage (result, name, data) {
   }
 }
 
-var cacheEnabled = !env.BROWSERSLIST_DISABLE_CACHE
 var filenessCache = {}
 var configCache = {}
 
@@ -73,7 +72,7 @@ function isFile (file) {
     return filenessCache[file]
   }
   var result = fs.existsSync(file) && fs.statSync(file).isFile()
-  if (cacheEnabled) {
+  if (!env.BROWSERSLIST_DISABLE_CACHE) {
     filenessCache[file] = result
   }
   return result
@@ -199,7 +198,7 @@ function resolve (queries, context) {
 /**
  * Return array of browsers by selection queries.
  *
- * @param {string[]} queries Browser queries.
+ * @param {(string|string[])} [queries=browserslist.defaults] Browser queries.
  * @param {object} opts Options.
  * @param {string} [opts.path="."] Path to processed file.
  *                                 It will be used to find config files.
@@ -231,7 +230,7 @@ function browserslist (queries, opts) {
       } else {
         queries = pickEnv(browserslist.readConfig(file), opts)
       }
-    } else if (opts.path) {
+    } else {
       queries = pickEnv(browserslist.findConfig(opts.path), opts)
     }
   }
@@ -421,7 +420,7 @@ browserslist.findConfig = function (from) {
       return pkgBrowserslist
     }
   })
-  if (cacheEnabled) {
+  if (!env.BROWSERSLIST_DISABLE_CACHE) {
     configCache[cacheKey] = resolved
   }
   return resolved
