@@ -4,45 +4,45 @@ var path = require('path')
 var os = require('os')
 var fs = require('fs')
 
-it('caches configuration but the cache is clearable', () => {
-  var tempDir = path.join(os.tmpdir(), 'browserslist-' + Math.random())
-  fs.mkdirSync(tempDir)
-  var tempName = path.join(tempDir, 'browserslist')
-  // Write a test configuration, then parse it
-  fs.writeFileSync(tempName, 'ie 8', 'UTF-8')
-  var e1 = browserslist.findConfig(tempDir)
-  // Now re-write the configuration, and re-read it without clearing the cache
-  fs.writeFileSync(tempName, 'chrome 56', 'UTF-8')
-  var e2 = browserslist.findConfig(tempDir)
-  // The configuration wasn't re-read, so the results should be equal:
-  expect(e1).toEqual(e2)
+var DIR = path.join(os.tmpdir(), 'browserslist-' + Math.random())
+var CONFIG = path.join(DIR, 'browserslist')
 
-  // Now clear the cache, then re-read...
-  browserslist.clearCaches()
-  var e3 = browserslist.findConfig(tempDir)
-  // The configuration should _not_ be equal.
-  expect(e1).not.toEqual(e3)
-
-  // All good; clean up.
-  fs.unlinkSync(tempName)
+beforeAll(() => {
+  fs.mkdirSync(DIR)
 })
 
-it('should not use cache when ENV variable set', () => {
+afterEach(() => {
+  browserslist.clearCaches()
+  delete process.env.BROWSERSLIST_DISABLE_CACHE
+})
+
+afterAll(() => {
+  fs.unlinkSync(CONFIG)
+  fs.rmdirSync(DIR)
+})
+
+it('caches configuration but the cache is clearable', () => {
+  fs.writeFileSync(CONFIG, 'ie 8', 'UTF-8')
+  var result1 = browserslist.findConfig(DIR)
+
+  fs.writeFileSync(CONFIG, 'chrome 56', 'UTF-8')
+  var result2 = browserslist.findConfig(DIR)
+
+  expect(result1).toEqual(result2)
+
+  browserslist.clearCaches()
+  var result3 = browserslist.findConfig(DIR)
+  expect(result1).not.toEqual(result3)
+})
+
+it('does not use cache when ENV variable set', () => {
   process.env.BROWSERSLIST_DISABLE_CACHE = 1
 
-  var tempDir = path.join(os.tmpdir(), 'browserslist-' + Math.random())
-  fs.mkdirSync(tempDir)
-  var tempName = path.join(tempDir, 'browserslist')
-  // Write a test configuration, then parse it
-  fs.writeFileSync(tempName, 'ie 8', 'UTF-8')
-  var e1 = browserslist.findConfig(tempDir)
-  // Now re-write the configuration, and re-read it without clearing the cache
-  fs.writeFileSync(tempName, 'chrome 56', 'UTF-8')
-  var e2 = browserslist.findConfig(tempDir)
-  // The configuration should _not_ be equal.
-  expect(e1).not.toEqual(e2)
+  fs.writeFileSync(CONFIG, 'ie 8', 'UTF-8')
+  var result1 = browserslist.findConfig(DIR)
 
-  // All good; clean up.
-  fs.unlinkSync(tempName)
-  delete process.env.BROWSERSLIST_DISABLE_CACHE
+  fs.writeFileSync(CONFIG, 'chrome 56', 'UTF-8')
+  var result2 = browserslist.findConfig(DIR)
+
+  expect(result1).not.toEqual(result2)
 })
