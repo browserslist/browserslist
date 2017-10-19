@@ -5,6 +5,7 @@ var originUsage = browserslist.usage
 beforeEach(() => {
   browserslist.usage = {
     US: {
+      'ie 8': 1,
       'ie 9': 5,
       'ie 10': 10.1,
       'ie 11': 75
@@ -29,7 +30,9 @@ it('works with float', () => {
 })
 
 it('works with float that has a leading dot', () => {
-  expect(browserslist('> .2% in US')).toEqual(['ie 11', 'ie 10', 'ie 9'])
+  expect(browserslist('> .2% in US')).toEqual(
+    ['ie 11', 'ie 10', 'ie 9', 'ie 8']
+  )
 })
 
 it('fixes country case', () => {
