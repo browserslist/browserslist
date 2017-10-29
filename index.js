@@ -230,7 +230,7 @@ function browserslist (queries, opts) {
       } else {
         queries = pickEnv(browserslist.readConfig(file), opts)
       }
-    } else {
+    } else if (opts.path) {
       queries = pickEnv(browserslist.findConfig(opts.path), opts)
     }
   }
