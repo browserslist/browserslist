@@ -5,10 +5,11 @@ var pkg = require('./package.json')
 var args = process.argv.slice(2)
 
 var USAGE = 'Usage:\n' +
+            '  ' + pkg.name + '\n' +
             '  ' + pkg.name + ' "QUERIES"\n' +
+            '  ' + pkg.name + ' --config="path/to/browserlist/file"\n' +
             '  ' + pkg.name + ' --coverage "QUERIES"\n' +
             '  ' + pkg.name + ' --coverage=US "QUERIES"\n' +
-            '  ' + pkg.name + ' --config="path/to/browserlist/file"\n' +
             '  ' + pkg.name + ' --env="environment name defined in config"\n' +
             '  ' + pkg.name + ' --stats="path/to/browserlist/stats/file"'
 
@@ -60,7 +61,15 @@ if (isArg('--help') || isArg('-h')) {
   }
 
   if (!queries && !opts.config) {
-    error('Define queries or browserslist config path.\n\n' + USAGE)
+    if (browserslist.findConfig(process.cwd())) {
+      opts.path = process.cwd()
+    } else {
+      error(
+        'Browserslist config did not found. ' +
+        'Define queries or config path.' +
+        '\n\n' + USAGE
+      )
+    }
   }
 
   var browsers

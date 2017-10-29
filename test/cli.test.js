@@ -12,7 +12,13 @@ function toArray (data) {
 }
 
 function run () {
-  var cli = spawn('./cli.js', Array.prototype.slice.call(arguments, 0))
+  var args = Array.prototype.slice.call(arguments, 0)
+  var opts = { }
+  if (typeof args[0] === 'object') {
+    opts = args[0]
+    args = []
+  }
+  var cli = spawn(path.join(__dirname, '..', 'cli.js'), args, opts)
   return new Promise(resolve => {
     var out = ''
     cli.stdout.on('data', data => {
@@ -84,7 +90,7 @@ it('returns usage in specified country', () => {
 
 it('returns error on missed queries', () => {
   return run('--coverage').then(out => {
-    expect(out).toContain('Define queries or browserslist config path')
+    expect(out).toContain('Define queries or config path')
   })
 })
 
@@ -96,6 +102,12 @@ it('returns error: `unknown browser query to get coverage`', () => {
 
 it('reads browserslist config', () => {
   return run('--config=' + CONF).then(out => {
+    expect(toArray(out)).toEqual(['ie 11', 'ie 10'])
+  })
+})
+
+it('reads browserslist config from current directory', () => {
+  return run({ cwd: path.join(__dirname, 'fixtures') }).then(out => {
     expect(toArray(out)).toEqual(['ie 11', 'ie 10'])
   })
 })
