@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.6.1
+* Fix `Path must be a string` error.
+
 ## 2.6
 * By default load config from current directory in CLI tool.
 
