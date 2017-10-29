@@ -3,7 +3,7 @@
 <img align="right" width="120" height="120"
      src="./logo.svg" alt="Browserslist logo by Anton Lovchikov">
 
-Library to share supported browsers list between different front-end tools.
+Library to share target browsers between different front-end tools.
 It is used in:
 
 * [Autoprefixer]
