@@ -494,31 +494,27 @@ var QUERIES = [
   {
     regexp: /^last\s+(\d+)\s+major versions?$/i,
     select: function (context, versions) {
-      var selected = []
-      Object.keys(agents).forEach(function (name) {
+      return Object.keys(agents).reduce(function (selected, name) {
         var data = byName(name)
-        if (!data) return
+        if (!data) return selected
         var array = getMajorVersions(data.released, versions)
 
         array = array.map(nameMapper(data.name))
-        selected = selected.concat(array)
-      })
-      return selected
+        return selected.concat(array)
+      }, [])
     }
   },
   {
     regexp: /^last\s+(\d+)\s+versions?$/i,
     select: function (context, versions) {
-      var selected = []
-      Object.keys(agents).forEach(function (name) {
+      return Object.keys(agents).reduce(function (selected, name) {
         var data = byName(name)
-        if (!data) return
+        if (!data) return selected
         var array = data.released.slice(-versions)
 
         array = array.map(nameMapper(data.name))
-        selected = selected.concat(array)
-      })
-      return selected
+        return selected.concat(array)
+      }, [])
     }
   },
   {
@@ -539,18 +535,16 @@ var QUERIES = [
   {
     regexp: /^unreleased\s+versions$/i,
     select: function () {
-      var selected = []
-      Object.keys(agents).forEach(function (name) {
+      return Object.keys(agents).reduce(function (selected, name) {
         var data = byName(name)
-        if (!data) return
+        if (!data) return selected
         var array = data.versions.filter(function (v) {
           return data.released.indexOf(v) === -1
         })
 
         array = array.map(nameMapper(data.name))
-        selected = selected.concat(array)
-      })
-      return selected
+        return selected.concat(array)
+      }, [])
     }
   },
   {
@@ -583,49 +577,47 @@ var QUERIES = [
     regexp: /^(>=?)\s*(\d*\.?\d+)%$/,
     select: function (context, sign, popularity) {
       popularity = parseFloat(popularity)
-      var result = []
+      var usage = browserslist.usage.global
 
-      for (var version in browserslist.usage.global) {
+      return Object.keys(usage).reduce(function (result, version) {
         if (sign === '>') {
-          if (browserslist.usage.global[version] > popularity) {
+          if (usage[version] > popularity) {
             result.push(version)
           }
-        } else if (browserslist.usage.global[version] >= popularity) {
+        } else if (usage[version] >= popularity) {
           result.push(version)
         }
-      }
-
-      return result
+        return result
+      }, [])
     }
   },
   {
     regexp: /^(>=?)\s*(\d*\.?\d+)%\s+in\s+my\s+stats$/,
     select: function (context, sign, popularity) {
       popularity = parseFloat(popularity)
-      var result = []
 
       if (!context.customUsage) {
         throw new BrowserslistError('Custom usage statistics was not provided')
       }
 
-      for (var version in context.customUsage) {
+      var usage = context.customUsage
+
+      return Object.keys(usage).reduce(function (result, version) {
         if (sign === '>') {
-          if (context.customUsage[version] > popularity) {
+          if (usage[version] > popularity) {
             result.push(version)
           }
-        } else if (context.customUsage[version] >= popularity) {
+        } else if (usage[version] >= popularity) {
           result.push(version)
         }
-      }
-
-      return result
+        return result
+      }, [])
     }
   },
   {
     regexp: /^(>=?)\s*(\d*\.?\d+)%\s+in\s+((alt-)?\w\w)$/,
     select: function (context, sign, popularity, place) {
       popularity = parseFloat(popularity)
-      var result = []
 
       if (place.length === 2) {
         place = place.toUpperCase()
@@ -636,7 +628,7 @@ var QUERIES = [
       loadCountryStatistics(place)
       var usage = browserslist.usage[place]
 
-      for (var version in usage) {
+      return Object.keys(usage).reduce(function (result, version) {
         if (sign === '>') {
           if (usage[version] > popularity) {
             result.push(version)
@@ -644,9 +636,8 @@ var QUERIES = [
         } else if (usage[version] >= popularity) {
           result.push(version)
         }
-      }
-
-      return result
+        return result
+      }, [])
     }
   },
   {
