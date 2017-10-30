@@ -61,7 +61,3 @@ it('is case insensitive', () => {
   expect(browserslist('sInCe 2016'))
     .toEqual(['safari 11', 'safari 10.1', 'safari 10', 'safari 9.1'])
 })
-
-it('throws error on incorrect year', () => {
-  expect(() => browserslist('since 9999')).toThrow()
-})
