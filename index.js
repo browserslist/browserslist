@@ -563,6 +563,23 @@ var QUERIES = [
     }
   },
   {
+    regexp: /^since (\d+)$/i,
+    select: function (context, year) {
+      var ts = new Date(parseInt(year), 0, 1, 0, 0, 0)
+      if (ts > Date.now()) throw new BrowserslistError('Incorrect year')
+      ts /= 1000
+
+      return Object.keys(agents).reduce(function (selected, name) {
+        var data = byName(name)
+        if (!data) return selected
+        var versions = Object.keys(data.releaseDate).filter(function (v) {
+          return data.releaseDate[v] > ts
+        })
+        return selected.concat(versions.map(nameMapper(data.name)))
+      }, [])
+    }
+  },
+  {
     regexp: /^(>=?)\s*(\d*\.?\d+)%$/,
     select: function (context, sign, popularity) {
       popularity = parseFloat(popularity)
@@ -789,7 +806,8 @@ function checkExtend (name) {
     browserslist.data[name] = {
       name: name,
       versions: normalize(agents[name].versions),
-      released: normalize(agents[name].versions.slice(0, -3))
+      released: normalize(agents[name].versions.slice(0, -3)),
+      releaseDate: agents[name].release_date
     }
     fillUsage(browserslist.usage.global, name, browser.usage_global)
 
