@@ -12,6 +12,7 @@ It is used in:
 * [eslint-plugin-compat]
 * [stylelint-no-unsupported-browser-features]
 * [postcss-normalize]
+* [browserslist-useragent](https://github.com/pastelsky/browserslist-useragent)
 
 All tools that rely on Browserslist will find its config automatically,
 when you add the following to `package.json`:
