@@ -13,7 +13,6 @@ It is used in:
 * [stylelint-no-unsupported-browser-features]
 * [postcss-normalize]
 
-
 All tools that rely on Browserslist will find its config automatically,
 when you add the following to `package.json`:
 
@@ -63,7 +62,10 @@ You can test Browserslist queries in [online demo].
 [Can I Use]:                                 http://caniuse.com/
 
 ## Tools
-* [browserslist-useragent](https://github.com/pastelsky/browserslist-useragent) - Match browserslist queries against useragents.
+* [browserslist-useragent] check browser by user agent string
+  to match Browserslist target browsers query.
+
+[browserslist-useragent]: https://github.com/pastelsky/browserslist-useragent
 
 ## Queries
 
