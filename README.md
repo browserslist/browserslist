@@ -106,6 +106,7 @@ You can specify the versions by queries (case insensitive):
 * `unreleased versions`: alpha and beta versions of each browser.
 * `unreleased Chrome versions`: alpha and beta versions of Chrome browser.
 * `not ie <= 8`: exclude browsers selected before by previous queries.
+* `since 2013`: all versions released since year 2013
   You can add `not ` to any query.
 
 Browserslist works with separated versions of browsers.
