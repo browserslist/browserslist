@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.7
+* Add `since 2016` queries support (by Igor Deryabin).
+
 ## 2.6.1
 * Fix `Path must be a string` error.
 
