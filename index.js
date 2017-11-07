@@ -37,6 +37,8 @@ var env = process.env
 // eslint-disable-next-line security/detect-unsafe-regex
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 var IS_SECTION = /^\s*\[(.+)\]\s*$/
+var DEFAULT_SINCE_MONTH = '01'
+// var DEFAULT_SINCE_DAY = '1'
 
 function uniq (array) {
   var filtered = []
@@ -557,9 +559,12 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^since (\d+)$/i,
-    select: function (context, year) {
-      var since = new Date(parseInt(year), 0, 1, 0, 0, 0) / 1000
+    // eslint-disable-next-line security/detect-unsafe-regex
+    regexp: /^since (\d+)(?:-(\d+))?$/i,
+    select: function (context, year, month) {
+      year = parseInt(year)
+      month = parseInt(month || DEFAULT_SINCE_MONTH) - 1
+      var since = new Date(year, month, 1, 0, 0, 0) / 1000
 
       return Object.keys(agents).reduce(function (selected, name) {
         var data = byName(name)

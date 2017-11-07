@@ -29,16 +29,16 @@ beforeEach(() => {
         '6': 1343174400,
         '7': 1382400000,
         '8': 1413417600,
-        '9': 1443657600,
-        '10': 1474329600,
-        '11': 1505779200,
+        '9': 1443657600, // Wed Sep 30 20:00:00 EDT 2015
+        '10': 1474329600, // Mon Sep 19 20:00:00 EDT 2016
+        '11': 1505779200, // Mon Sep 18 20:00:00 EDT 2017
         '3.1': 1205798400,
         '3.2': 1226534400,
         '5.1': 1311120000,
         '6.1': 1382400000,
         '7.1': 1410998400,
-        '9.1': 1458518400,
-        '10.1': 1490572800,
+        '9.1': 1458518400, // Sun Mar 20 20:00:00 EDT 2016
+        '10.1': 1490572800, // Sun Mar 26 20:00:00 EDT 2017
         TP: null
       }
     }
@@ -60,4 +60,9 @@ it('selects versions released since specified year', () => {
 it('is case insensitive', () => {
   expect(browserslist('sInCe 2016'))
     .toEqual(['safari 11', 'safari 10.1', 'safari 10', 'safari 9.1'])
+})
+
+it('selects versions released since specific year and month', () => {
+  expect(browserslist('since 2016-09'))
+    .toEqual(['safari 11', 'safari 10.1', 'safari 10'])
 })
