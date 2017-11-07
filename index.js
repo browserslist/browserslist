@@ -38,7 +38,7 @@ var env = process.env
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 var IS_SECTION = /^\s*\[(.+)\]\s*$/
 var DEFAULT_SINCE_MONTH = '01'
-// var DEFAULT_SINCE_DAY = '1'
+var DEFAULT_SINCE_DATE = '01'
 
 function uniq (array) {
   var filtered = []
@@ -560,17 +560,18 @@ var QUERIES = [
   },
   {
     // eslint-disable-next-line security/detect-unsafe-regex
-    regexp: /^since (\d+)(?:-(\d+))?$/i,
-    select: function (context, year, month) {
+    regexp: /^since (\d+)(?:-(\d+)(?:-(\d+))?)?$/i,
+    select: function (context, year, month, date) {
       year = parseInt(year)
       month = parseInt(month || DEFAULT_SINCE_MONTH) - 1
-      var since = new Date(year, month, 1, 0, 0, 0) / 1000
+      date = parseInt(date || DEFAULT_SINCE_DATE)
+      var since = Date.UTC(year, month, date, 0, 0, 0) / 1000
 
       return Object.keys(agents).reduce(function (selected, name) {
         var data = byName(name)
         if (!data) return selected
         var versions = Object.keys(data.releaseDate).filter(function (v) {
-          return data.releaseDate[v] > since
+          return data.releaseDate[v] >= since
         })
         return selected.concat(versions.map(nameMapper(data.name)))
       }, [])
