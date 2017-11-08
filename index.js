@@ -517,11 +517,28 @@ var QUERIES = [
     }
   },
   {
+    regexp: /^last\s+(\d+)\s+electron\s+major versions?$/i,
+    select: function (context, versions) {
+      var validVersions = getMajorVersions(Object.keys(e2c).reverse(), versions)
+      return validVersions.map(function (i) {
+        return 'chrome ' + e2c[i]
+      })
+    }
+  },
+  {
     regexp: /^last\s+(\d+)\s+(\w+)\s+major versions?$/i,
     select: function (context, versions, name) {
       var data = checkName(name)
       var validVersions = getMajorVersions(data.released, versions)
       return validVersions.map(nameMapper(data.name))
+    }
+  },
+  {
+    regexp: /^last\s+(\d+)\s+electron\s+versions?$/i,
+    select: function (context, versions) {
+      return Object.keys(e2c).reverse().slice(-versions).map(function (i) {
+        return 'chrome ' + e2c[i]
+      })
     }
   },
   {
@@ -544,6 +561,16 @@ var QUERIES = [
         array = array.map(nameMapper(data.name))
         return selected.concat(array)
       }, [])
+    }
+  },
+  {
+    regexp: /^unreleased\s+electron\s+versions?$/i,
+    select: function () {
+      return Object.keys(e2c).filter(function (v) {
+        return Object.keys(e2c).indexOf(v) === -1
+      }).reverse().map(function (i) {
+        return 'chrome ' + e2c[i]
+      })
     }
   },
   {
