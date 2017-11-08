@@ -36,6 +36,7 @@
   "eslintConfig": {
     "extends": "eslint-config-logux/browser",
     "rules": {
+      "security/detect-unsafe-regex": "off",
       "global-require": "off"
     },
     "overrides": {

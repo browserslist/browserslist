@@ -34,7 +34,6 @@ function getMajorVersions (released, number) {
 
 var env = process.env
 
-// eslint-disable-next-line security/detect-unsafe-regex
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 var IS_SECTION = /^\s*\[(.+)\]\s*$/
 
@@ -557,7 +556,6 @@ var QUERIES = [
     }
   },
   {
-    // eslint-disable-next-line security/detect-unsafe-regex
     regexp: /^since (\d+)(?:-(\d+))?(?:-(\d+))?$/i,
     select: function (context, year, month, date) {
       year = parseInt(year)
