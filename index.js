@@ -557,15 +557,19 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^since (\d+)$/i,
-    select: function (context, year) {
-      var since = new Date(parseInt(year), 0, 1, 0, 0, 0) / 1000
+    // eslint-disable-next-line security/detect-unsafe-regex
+    regexp: /^since (\d+)(?:-(\d+))?(?:-(\d+))?$/i,
+    select: function (context, year, month, date) {
+      year = parseInt(year)
+      month = parseInt(month || '01') - 1
+      date = parseInt(date || '01')
+      var since = Date.UTC(year, month, date, 0, 0, 0) / 1000
 
       return Object.keys(agents).reduce(function (selected, name) {
         var data = byName(name)
         if (!data) return selected
         var versions = Object.keys(data.releaseDate).filter(function (v) {
-          return data.releaseDate[v] > since
+          return data.releaseDate[v] >= since
         })
         return selected.concat(versions.map(nameMapper(data.name)))
       }, [])
