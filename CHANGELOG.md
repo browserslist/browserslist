@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.8
+* Add `since 2016-03` and `since 2016-03-20` queries support (by Andrew Blick).
+
 ## 2.7
 * Add `since 2016` queries support (by Igor Deryabin).
 
