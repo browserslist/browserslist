@@ -40,3 +40,16 @@ it('converts Electron versions to Chrome', () => {
 it('ignores case in Electron versions', () => {
   expect(browserslist('Electron < 0.21')).toEqual(['chrome 39'])
 })
+
+it('supports last versions for Electron', () => {
+  expect(browserslist('last 2 Electron versions').length).toEqual(2)
+})
+
+it('supports last major versions for Electron', () => {
+  expect(browserslist('last 2 Electron major versions').length)
+    .toBeGreaterThanOrEqual(2)
+})
+
+it('supports unreleased versions for Electron', () => {
+  expect(browserslist('unreleased Electron versions').length).toEqual(0)
+})

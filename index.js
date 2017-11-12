@@ -566,11 +566,7 @@ var QUERIES = [
   {
     regexp: /^unreleased\s+electron\s+versions?$/i,
     select: function () {
-      return Object.keys(e2c).filter(function (v) {
-        return Object.keys(e2c).indexOf(v) === -1
-      }).reverse().map(function (i) {
-        return 'chrome ' + e2c[i]
-      })
+      return []
     }
   },
   {
