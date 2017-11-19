@@ -114,6 +114,8 @@ You can specify the versions by queries (case insensitive):
 
 You can add `not ` to any query.
 
+### Debug
+
 Run `npx browserslist` in project directory to see what browsers was selected
 by your queries.
 
