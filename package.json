@@ -18,6 +18,7 @@
   "devDependencies": {
     "cross-spawn": "^5.1.0",
     "eslint": "^4.11.0",
+    "eslint-ci": "^0.1.0",
     "eslint-config-logux": "^16.2.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-es5": "^1.1.0",
@@ -67,7 +68,7 @@
   "scripts": {
     "lint-staged": "lint-staged",
     "spellcheck": "yaspeller-ci README.md CHANGELOG.md",
-    "lint": "eslint *.js test/*.js __mocks__/*.js",
+    "lint": "eslint-ci *.js test/*.js __mocks__/*.js",
     "test": "jest --coverage && yarn lint && yarn spellcheck && size-limit"
   },
   "lint-staged": {
