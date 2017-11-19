@@ -42,7 +42,7 @@ it('ignores case in Electron versions', () => {
 })
 
 it('supports last versions for Electron', () => {
-  expect(browserslist('last 2 Electron versions').length).toEqual(2)
+  expect(browserslist('last 2 Electron versions')).toHaveLength(2)
 })
 
 it('supports last major versions for Electron', () => {
@@ -51,5 +51,5 @@ it('supports last major versions for Electron', () => {
 })
 
 it('supports unreleased versions for Electron', () => {
-  expect(browserslist('unreleased Electron versions').length).toEqual(0)
+  expect(browserslist('unreleased Electron versions')).toHaveLength(0)
 })

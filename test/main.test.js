@@ -119,7 +119,7 @@ it('excludes queries', () => {
 it('excludes queries for 0 version', () => {
   var browsers = browserslist(['> 1% in US', 'not last 2 and_chr versions'])
   var android = browsers.filter(i => i.indexOf('and_chr ') !== -1)
-  expect(android.length).toBe(0)
+  expect(android).toHaveLength(0)
 })
 
 it('has actual browsers list in docs', () => {

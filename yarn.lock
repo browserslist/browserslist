@@ -1397,11 +1397,11 @@ eslint-ci@^0.1.0:
   dependencies:
     ci-job-number "^0.3.0"
 
-eslint-config-logux@^16.2.0:
-  version "16.2.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-logux/-/eslint-config-logux-16.2.0.tgz#f86abbf6aa4fcccb9647ccc32fd6b69b8ccc8182"
+eslint-config-logux@^17.0.0:
+  version "17.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-logux/-/eslint-config-logux-17.0.0.tgz#a3c426c729e8663f45213f5d694fbdb69cde2c22"
   dependencies:
-    globals "^10.1.0"
+    globals "^11.0.1"
 
 eslint-config-standard@^10.2.1:
   version "10.2.1"
@@ -1972,9 +1972,9 @@ glob@^7.0.3, glob@^7.0.5, glob@^7.1.1, glob@^7.1.2:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-globals@^10.1.0:
-  version "10.4.0"
-  resolved "https://registry.yarnpkg.com/globals/-/globals-10.4.0.tgz#5c477388b128a9e4c5c5d01c7a2aca68c68b2da7"
+globals@^11.0.1:
+  version "11.0.1"
+  resolved "https://registry.yarnpkg.com/globals/-/globals-11.0.1.tgz#12a87bb010e5154396acc535e1e43fc753b0e5e8"
 
 globals@^9.17.0, globals@^9.18.0:
   version "9.18.0"
