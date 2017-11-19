@@ -62,8 +62,12 @@ You can test Browserslist queries in [online demo].
 [Can I Use]:                                 http://caniuse.com/
 
 ## Tools
+
 * [browserslist-useragent] check browser by user agent string
   to match Browserslist target browsers query.
+* Run `npx browserslist` in your project directory to see project’s
+  target browsers. This CLI tool is built-in and available in any project
+  with Autoprefixer.
 
 [browserslist-useragent]: https://github.com/pastelsky/browserslist-useragent
 
@@ -76,10 +80,9 @@ Browserslist will use browsers query from one of this sources:
 3. `browserslist` config file in current or parent directories.
 3. `.browserslistrc` config file in current or parent directories.
 4. `browserslist` key in `package.json` file in current or parent directories.
+   **We recommend this way.**
 5. If the above methods did not produce a valid result
    Browserslist will use defaults: `> 1%, last 2 versions, Firefox ESR`.
-
-We recommend to write queries in `package.json`.
 
 You can specify the versions by queries (case insensitive):
 
@@ -111,6 +114,11 @@ You can specify the versions by queries (case insensitive):
 
 You can add `not ` to any query.
 
+Run `npx browserslist` in project directory to see what browsers was selected
+by your queries.
+
+### Notes
+
 Browserslist works with separated versions of browsers.
 You should avoid queries like `Firefox > 0`.
 
@@ -126,7 +134,7 @@ whereas `last 3 Chrome versions` might select `50, 49, 48` (major only).
 [custom usage data]:           #custom-usage-data
 [Can I Use]:                   http://caniuse.com/
 
-## Browsers
+### Browsers
 
 Names are case insensitive:
 
