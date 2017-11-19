@@ -119,6 +119,24 @@ You can add `not ` to any query.
 Run `npx browserslist` in project directory to see what browsers was selected
 by your queries.
 
+```sh
+$ npx browserslist
+and_chr 61
+and_ff 56
+and_qq 1.2
+and_uc 11.4
+android 56
+baidu 7.12
+bb 10
+chrome 62
+edge 16
+firefox 56
+ios_saf 11
+opera 48
+safari 11
+samsung 5
+```
+
 ### Notes
 
 Browserslist works with separated versions of browsers.
