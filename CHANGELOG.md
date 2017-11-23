@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.9.1
+* Fix unknown query on trailing spaces in query.
+
 ## 2.9
 * Add `last Electron versions` and `last Electron major versions` queries
   (by Louis Mouhat).
