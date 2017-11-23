@@ -11,14 +11,14 @@
   "license": "MIT",
   "repository": "ai/browserslist",
   "dependencies": {
-    "caniuse-lite": "^1.0.30000766",
+    "caniuse-lite": "^1.0.30000770",
     "electron-to-chromium": "^1.3.27"
   },
   "bin": "./cli.js",
   "devDependencies": {
     "cross-spawn": "^5.1.0",
     "eslint": "^4.11.0",
-    "eslint-ci": "^0.1.0",
+    "eslint-ci": "^0.1.1",
     "eslint-config-logux": "^17.0.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-es5": "^1.1.0",
