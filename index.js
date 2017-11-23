@@ -160,7 +160,8 @@ function compareStrings (a, b) {
 
 function resolve (queries, context) {
   return queries.reduce(function (result, selection, index) {
-    if (selection.trim() === '') return result
+    selection = selection.trim()
+    if (selection === '') return result
 
     var isExclude = selection.indexOf('not ') === 0
     if (isExclude) {
