@@ -108,7 +108,8 @@ You can specify the versions by queries (case insensitive):
   `browserslist-config-mycompany` npm package.
 * `unreleased versions`: alpha and beta versions of each browser.
 * `unreleased Chrome versions`: alpha and beta versions of Chrome browser.
-* `not ie <= 8`: exclude browsers selected before by previous queries.
+* `not ie <= 8`: exclude browsers selected by previous queries (by browser version).
+* `not < 1%`: exclude browsers selected by previous queries (by browser usage).
 * `since 2013`: all versions released since year 2013
   (also `since 2013-03` and `since 2013-03-10`).
 

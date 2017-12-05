@@ -25,6 +25,14 @@ it('selects popularity by more or equal', () => {
   expect(browserslist('>= 5%')).toEqual(['ie 11', 'ie 10', 'ie 9'])
 })
 
+it('selects browsers by unpopularity', () => {
+  expect(browserslist('< 5%')).toEqual(['ie 8'])
+})
+
+it('selects unpopularity by less or equal', () => {
+  expect(browserslist('<= 5%')).toEqual(['ie 9', 'ie 8'])
+})
+
 it('accepts non-space query', () => {
   expect(browserslist('>10%')).toEqual(['ie 11', 'ie 10'])
 })

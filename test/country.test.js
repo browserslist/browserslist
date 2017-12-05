@@ -25,6 +25,14 @@ it('selects popularity by more or equal', () => {
   expect(browserslist('>= 5% in US')).toEqual(['ie 11', 'ie 10', 'ie 9'])
 })
 
+it('selects browsers by unpopularity', () => {
+  expect(browserslist('< 5% in US')).toEqual(['ie 8'])
+})
+
+it('selects unpopularity by less or equal', () => {
+  expect(browserslist('<= 5% in US')).toEqual(['ie 9', 'ie 8'])
+})
+
 it('works with float', () => {
   expect(browserslist('> 10.2% in US')).toEqual(['ie 11'])
 })
