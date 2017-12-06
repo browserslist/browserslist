@@ -31,6 +31,16 @@ it('selects popularity by more or equal', () => {
     .toEqual(['ie 11', 'ie 10'])
 })
 
+it('selects browsers by unpopularity', () => {
+  expect(browserslist('< 0.5% in my stats', { stats: CUSTOM_STATS }))
+    .toEqual(['chrome 34', 'ie 8'])
+})
+
+it('selects unpopularity by less or equal', () => {
+  expect(browserslist('<= 2.3% in my stats', { stats: CUSTOM_STATS }))
+    .toEqual(['chrome 36', 'chrome 35', 'chrome 34', 'ie 9', 'ie 8'])
+})
+
 it('accepts non-space query', () => {
   expect(browserslist('>10% in my stats', { stats: CUSTOM_STATS }))
     .toEqual(['ie 11'])

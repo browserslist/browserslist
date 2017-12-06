@@ -598,7 +598,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^(>=?)\s*(\d*\.?\d+)%$/,
+    regexp: /^(>=?|<=?)\s*(\d*\.?\d+)%$/,
     select: function (context, sign, popularity) {
       popularity = parseFloat(popularity)
       var usage = browserslist.usage.global
@@ -606,6 +606,14 @@ var QUERIES = [
       return Object.keys(usage).reduce(function (result, version) {
         if (sign === '>') {
           if (usage[version] > popularity) {
+            result.push(version)
+          }
+        } else if (sign === '<') {
+          if (usage[version] < popularity) {
+            result.push(version)
+          }
+        } else if (sign === '<=') {
+          if (usage[version] <= popularity) {
             result.push(version)
           }
         } else if (usage[version] >= popularity) {
@@ -616,7 +624,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^(>=?)\s*(\d*\.?\d+)%\s+in\s+my\s+stats$/,
+    regexp: /^(>=?|<=?)\s*(\d*\.?\d+)%\s+in\s+my\s+stats$/,
     select: function (context, sign, popularity) {
       popularity = parseFloat(popularity)
 
@@ -631,6 +639,14 @@ var QUERIES = [
           if (usage[version] > popularity) {
             result.push(version)
           }
+        } else if (sign === '<') {
+          if (usage[version] < popularity) {
+            result.push(version)
+          }
+        } else if (sign === '<=') {
+          if (usage[version] <= popularity) {
+            result.push(version)
+          }
         } else if (usage[version] >= popularity) {
           result.push(version)
         }
@@ -639,7 +655,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^(>=?)\s*(\d*\.?\d+)%\s+in\s+((alt-)?\w\w)$/,
+    regexp: /^(>=?|<=?)\s*(\d*\.?\d+)%\s+in\s+((alt-)?\w\w)$/,
     select: function (context, sign, popularity, place) {
       popularity = parseFloat(popularity)
 
@@ -655,6 +671,14 @@ var QUERIES = [
       return Object.keys(usage).reduce(function (result, version) {
         if (sign === '>') {
           if (usage[version] > popularity) {
+            result.push(version)
+          }
+        } else if (sign === '<') {
+          if (usage[version] < popularity) {
+            result.push(version)
+          }
+        } else if (sign === '<=') {
+          if (usage[version] <= popularity) {
             result.push(version)
           }
         } else if (usage[version] >= popularity) {
