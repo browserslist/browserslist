@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.10
+* Add `< 1%` and `<= 1%` queries support (by August Kaiser).
+
 ## 2.9.1
 * Fix unknown query on trailing spaces in query.
 
