@@ -88,30 +88,25 @@ You can specify the versions by queries (case insensitive):
 
 * `last 2 versions`: the last 2 versions for each browser.
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
-* `last 2 major versions`: all minor/patch releases of the current
-  and previous major versions.
-* `last 2 iOS major versions`: all minor/patch releases of the current
-  and previous major versions of iOS Safari.
 * `> 5%` or `>= 5%`: versions selected by global usage statistics.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
 * `> 5% in alt-AS`: uses Asia region usage statistics. List of all region codes
   can be found at [`caniuse-lite/data/regions`].
 * `> 5% in my stats`: uses [custom usage data].
-* `ie 6-8`: selects an inclusive range of versions.
-* `Firefox > 20`: versions of Firefox newer than 20.
-* `Firefox >= 20`: versions of Firefox newer than or equal to 20.
-* `Firefox < 20`: versions of Firefox less than 20.
-* `Firefox <= 20`: versions of Firefox less than or equal to 20.
-* `Firefox ESR`: the latest [Firefox ESR] version.
-* `iOS 7`: the iOS browser version 7 directly.
 * `extends browserslist-config-mycompany`: take queries from
   `browserslist-config-mycompany` npm package.
+* `ie 6-8`: selects an inclusive range of versions.
+* `Firefox > 20`: versions of Firefox newer than 20.
+  `>=`, `<` and `<=` work too.
+* `iOS 7`: the iOS browser version 7 directly.
+* `Firefox ESR`: the latest [Firefox ESR] version.
 * `unreleased versions`: alpha and beta versions of each browser.
 * `unreleased Chrome versions`: alpha and beta versions of Chrome browser.
-* `not ie <= 8`: exclude browsers selected by previous queries (by browser version).
-* `not < 1%`: exclude browsers selected by previous queries (by browser usage).
+* `last 2 major versions` or `last 2 iOS major versions`:
+  all minor/patch releases of the current and previous major versions.
 * `since 2013`: all versions released since year 2013
   (also `since 2013-03` and `since 2013-03-10`).
+* `not ie <= 8`: exclude browsers selected by previous queries.
 
 You can add `not ` to any query.
 
