@@ -101,8 +101,8 @@ You can specify the versions by queries (case insensitive):
   `>=`, `<` and `<=` work too.
 * `iOS 7`: the iOS browser version 7 directly.
 * `Firefox ESR`: the latest [Firefox ESR] version.
-* `unreleased versions`: alpha and beta versions of each browser.
-* `unreleased Chrome versions`: alpha and beta versions of Chrome browser.
+* `unreleased versions` or `unreleased Chrome versions`:
+  alpha and beta versions.
 * `last 2 major versions` or `last 2 iOS major versions`:
   all minor/patch releases of last 2 major versions.
 * `since 2013`: all versions released since year 2013
