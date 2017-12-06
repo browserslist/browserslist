@@ -88,7 +88,8 @@ You can specify the versions by queries (case insensitive):
 
 * `last 2 versions`: the last 2 versions for each browser.
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
-* `> 5%` or `>= 5%`: versions selected by global usage statistics.
+* `> 5%`: versions selected by global usage statistics.
+  `>=`, `<` and `<=` work too.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
 * `> 5% in alt-AS`: uses Asia region usage statistics. List of all region codes
   can be found at [`caniuse-lite/data/regions`].
@@ -103,7 +104,7 @@ You can specify the versions by queries (case insensitive):
 * `unreleased versions`: alpha and beta versions of each browser.
 * `unreleased Chrome versions`: alpha and beta versions of Chrome browser.
 * `last 2 major versions` or `last 2 iOS major versions`:
-  all minor/patch releases of the current and previous major versions.
+  all minor/patch releases of last 2 major versions.
 * `since 2013`: all versions released since year 2013
   (also `since 2013-03` and `since 2013-03-10`).
 * `not ie <= 8`: exclude browsers selected by previous queries.
