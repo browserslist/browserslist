@@ -55,7 +55,7 @@ You can test Browserslist queries in [online demo].
 
 [stylelint-no-unsupported-browser-features]: https://github.com/ismay/stylelint-no-unsupported-browser-features
 [eslint-plugin-compat]:                      https://github.com/amilajack/eslint-plugin-compat
-[babel-preset-env]:                          https://github.com/babel/babel-preset-env
+[babel-preset-env]:                          https://github.com/babel/babel/tree/master/packages/babel-preset-env
 [postcss-normalize]:                         https://github.com/jonathantneal/postcss-normalize
 [Autoprefixer]:                              https://github.com/postcss/autoprefixer
 [online demo]:                               http://browserl.ist/
