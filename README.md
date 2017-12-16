@@ -9,6 +9,7 @@ It is used in:
 * [Autoprefixer]
 * [babel-preset-env]
   (external config in `package.json` or `browserslist` files supported in 2.0)
+* [postcss-preset-env]
 * [eslint-plugin-compat]
 * [stylelint-no-unsupported-browser-features]
 * [postcss-normalize]
@@ -55,6 +56,7 @@ You can test Browserslist queries in [online demo].
 
 [stylelint-no-unsupported-browser-features]: https://github.com/ismay/stylelint-no-unsupported-browser-features
 [eslint-plugin-compat]:                      https://github.com/amilajack/eslint-plugin-compat
+[postcss-preset-env]: https://github.com/jonathantneal/postcss-preset-env
 [babel-preset-env]:                          https://github.com/babel/babel/tree/master/packages/babel-preset-env
 [postcss-normalize]:                         https://github.com/jonathantneal/postcss-normalize
 [Autoprefixer]:                              https://github.com/postcss/autoprefixer
