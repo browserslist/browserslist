@@ -1,3 +1,4 @@
+var process = require('process')
 var path = require('path')
 var e2c = require('electron-to-chromium/versions')
 var fs = require('fs')
@@ -32,7 +33,7 @@ function getMajorVersions (released, number) {
   return selected
 }
 
-var env = typeof process === 'undefined' ? {} : process.env
+var env = process ? process.env : { }
 
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 var IS_SECTION = /^\s*\[(.+)\]\s*$/

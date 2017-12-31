@@ -62,7 +62,7 @@
   "size-limit": [
     {
       "path": "index.js",
-      "limit": "161 KB"
+      "limit": "160 KB"
     }
   ],
   "scripts": {
@@ -76,6 +76,7 @@
     "*.js": "eslint"
   },
   "browser": {
+    "process": false,
     "path": false,
     "fs": false
   },
