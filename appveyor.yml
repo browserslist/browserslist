@@ -1,12 +1,15 @@
 environment:
+  YARN_IGNORE_ENGINES: true
+
   matrix:
+    - nodejs_version: "9"
     - nodejs_version: "8"
     - nodejs_version: "6"
     - nodejs_version: "4"
 
 install:
   - ps: Install-Product node $env:nodejs_version
-  - YARN_IGNORE_ENGINES=true yarn install
+  - yarn install
 
 test_script:
   - yarn test
@@ -16,3 +19,4 @@ cache:
  - "%LOCALAPPDATA%/Yarn"
 
 build: off
+deploy: off
