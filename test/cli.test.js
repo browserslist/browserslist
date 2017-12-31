@@ -133,7 +133,7 @@ it('returns usage from config', () => {
 })
 
 it('support custom stats', () => {
-  return run('--stats=' + STATS, '"> 5% in my stats"').then(out => {
+  return run('--stats=' + STATS, '> 5% in my stats').then(out => {
     expect(toArray(out)).toEqual(['ie 11', 'ie 10'])
   })
 })
