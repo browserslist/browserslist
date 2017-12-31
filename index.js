@@ -32,7 +32,7 @@ function getMajorVersions (released, number) {
   return selected
 }
 
-var env = process.env
+var env = typeof process === 'undefined' ? {} : process.env
 
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 var IS_SECTION = /^\s*\[(.+)\]\s*$/
