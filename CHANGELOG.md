@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.10.1
+* Fix using Browserslist without `process` (by Andrew Patton).
+
 ## 2.10
 * Add `< 1%` and `<= 1%` queries support (by August Kaiser).
 
