@@ -11,19 +11,19 @@
   "license": "MIT",
   "repository": "ai/browserslist",
   "dependencies": {
-    "caniuse-lite": "^1.0.30000780",
-    "electron-to-chromium": "^1.3.28"
+    "caniuse-lite": "^1.0.30000784",
+    "electron-to-chromium": "^1.3.30"
   },
   "bin": "./cli.js",
   "devDependencies": {
     "cross-spawn": "^5.1.0",
-    "eslint": "^4.12.1",
+    "eslint": "^4.14.0",
     "eslint-ci": "^0.1.1",
     "eslint-config-logux": "^17.0.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-es5": "^1.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jest": "^21.4.1",
+    "eslint-plugin-jest": "^21.5.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-security": "^1.4.0",
