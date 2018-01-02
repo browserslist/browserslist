@@ -369,7 +369,7 @@ For example, the query `> 1% in my stats, > 5% in US, 10%` is permitted.
 ## Webpack
 
 If you plan to use Browserslist on client-side (e. g., tools like CodePen)
-Browserslist could take big part of your bundle, about 150 KB.
+Browserslist could take big part of your bundle, about 150 KB.
 
 But the biggest part of this size will be region usage statistics, which could
 be useless for you. You can use `IgnorePlugin` in webpack to cut it:
