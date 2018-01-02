@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.10.2
+* Fix Browserify support.
+
 ## 2.10.1
 * Fix using Browserslist without `process` (by Andrew Patton).
 
