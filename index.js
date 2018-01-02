@@ -33,7 +33,7 @@ function getMajorVersions (released, number) {
   return selected
 }
 
-var env = process ? process.env : { }
+var env = process && process.env ? process.env : { }
 
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 var IS_SECTION = /^\s*\[(.+)\]\s*$/
