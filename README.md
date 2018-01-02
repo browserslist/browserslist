@@ -69,7 +69,7 @@ You can test Browserslist queries in [online demo].
   to match Browserslist target browsers query.
 * [`caniuse-api`] returns browsers which support some specific feature.
 * Run `npx browserslist` in your project directory to see project’s
-  target browsers. This CLI tool is built-in and available in any project
+  target browsers. This CLI tool is built-in and available in any project
   with Autoprefixer.
 
 [`browserslist-useragent`]: https://github.com/pastelsky/browserslist-useragent
