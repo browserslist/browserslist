@@ -46,6 +46,11 @@ it('selects versions released within last X years', () => {
     .toEqual(['edge 16', 'edge 15', 'edge 14'])
 })
 
+it('selects versions released within last year', () => {
+  expect(browserslist('last 1 year'))
+    .toEqual(['edge 16', 'edge 15'])
+})
+
 it('is case insensitive', () => {
   expect(browserslist('Last 5 years'))
     .toEqual(['edge 16', 'edge 15', 'edge 14', 'edge 13', 'edge 12', 'ie 11'])
