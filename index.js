@@ -322,6 +322,17 @@ function loadCountryStatistics (country) {
   }
 }
 
+function filterByYear (since) {
+  return Object.keys(agents).reduce(function (selected, name) {
+    var data = byName(name)
+    if (!data) return selected
+    var versions = Object.keys(data.releaseDate).filter(function (v) {
+      return data.releaseDate[v] >= since
+    })
+    return selected.concat(versions.map(nameMapper(data.name)))
+  }, [])
+}
+
 // Will be filled by Can I Use data below
 browserslist.data = { }
 browserslist.usage = {
@@ -581,6 +592,15 @@ var QUERIES = [
     }
   },
   {
+    regexp: /^last\s+(\d+)\s+years?$/i,
+    select: function (context, years) {
+      var date = new Date()
+      var since = date.setFullYear(date.getFullYear() - years) / 1000
+
+      return filterByYear(since)
+    }
+  },
+  {
     regexp: /^since (\d+)(?:-(\d+))?(?:-(\d+))?$/i,
     select: function (context, year, month, date) {
       year = parseInt(year)
@@ -588,14 +608,7 @@ var QUERIES = [
       date = parseInt(date || '01')
       var since = Date.UTC(year, month, date, 0, 0, 0) / 1000
 
-      return Object.keys(agents).reduce(function (selected, name) {
-        var data = byName(name)
-        if (!data) return selected
-        var versions = Object.keys(data.releaseDate).filter(function (v) {
-          return data.releaseDate[v] >= since
-        })
-        return selected.concat(versions.map(nameMapper(data.name)))
-      }, [])
+      return filterByYear(since)
     }
   },
   {

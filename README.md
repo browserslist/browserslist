@@ -92,6 +92,7 @@ You can specify the versions by queries (case insensitive):
 
 * `last 2 versions`: the last 2 versions for each browser.
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
+* `last 2 years`: all versions released in the last 2 years
 * `> 5%`: versions selected by global usage statistics.
   `>=`, `<` and `<=` work too.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
