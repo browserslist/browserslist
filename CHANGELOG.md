@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.11
+* Add `last 2 years` query support (by James Harris).
+
 ## 2.10.2
 * Fix Browserify support.
 
