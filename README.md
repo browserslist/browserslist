@@ -92,7 +92,6 @@ You can specify the versions by queries (case insensitive):
 
 * `last 2 versions`: the last 2 versions for each browser.
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
-* `last 2 years`: all versions released in the last 2 years
 * `> 5%`: versions selected by global usage statistics.
   `>=`, `<` and `<=` work too.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
@@ -110,8 +109,8 @@ You can specify the versions by queries (case insensitive):
   alpha and beta versions.
 * `last 2 major versions` or `last 2 iOS major versions`:
   all minor/patch releases of last 2 major versions.
-* `since 2013`: all versions released since year 2013
-  (also `since 2013-03` and `since 2013-03-10`).
+* `since 2015` or `last 2 years`: all versions released since year 2015
+  (also `since 2015-03` and `since 2015-03-10`).
 * `not ie <= 8`: exclude browsers selected by previous queries.
 
 You can add `not ` to any query.
