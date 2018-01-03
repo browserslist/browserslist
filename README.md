@@ -439,7 +439,7 @@ $ browserslist --coverage=US "> 1% in US"
 These browsers account for 83.1% of all users in the US
 ```
 
-## Internal caches
+## Cache
 
 Browserslist caches the configuration it reads from `package.json` and
 `browserslist` files, as well as knowledge about the existence of files,
