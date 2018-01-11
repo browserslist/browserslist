@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.11.1
+* Fix using Browserslist in browser with `path` but without `fs`.
+
 ## 2.11
 * Add `last 2 years` query support (by James Harris).
 
