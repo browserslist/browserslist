@@ -1,4 +1,4 @@
-jest.doMock('fs', () => ({ }))
+jest.doMock('path', () => ({ }))
 
 var browserslist = require('../')
 

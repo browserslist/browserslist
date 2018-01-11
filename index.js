@@ -92,7 +92,7 @@ function getStat (opts) {
     return opts.stats
   } else if (env.BROWSERSLIST_STATS) {
     return env.BROWSERSLIST_STATS
-  } else if (opts.path && path.resolve) {
+  } else if (opts.path && path.resolve && fs.existsSync) {
     return eachParent(opts.path, function (dir) {
       var file = path.join(dir, 'browserslist-stats.json')
       return isFile(file) ? file : undefined
@@ -391,7 +391,7 @@ browserslist.readConfig = function (file) {
 
 // Find config, read file and parse it
 browserslist.findConfig = function (from) {
-  if (!path.resolve) return undefined
+  if (!path.resolve || !fs.existsSync) return undefined
 
   from = path.resolve(from)
 
