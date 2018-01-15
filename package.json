@@ -77,9 +77,8 @@
     "*.js": "eslint"
   },
   "browser": {
-    "process": false,
-    "path": false,
-    "fs": false
+    "./node.js": "./browser.js",
+    "path": false
   },
   "pre-commit": [
     "lint-staged"

@@ -46,7 +46,7 @@ it('accepts non-space query', () => {
     .toEqual(['ie 11'])
 })
 
-it('take stats from usage data object', () => {
+it('takes stats from usage data object', () => {
   var data = JSON.parse(fs.readFileSync(CUSTOM_STATS))
   expect(browserslist('> 10% in my stats', { stats: data }))
     .toEqual(['ie 11'])
@@ -57,7 +57,7 @@ it('works alongside global usage query', () => {
   expect(list.length > 1).toBeTruthy()
 })
 
-it('take stats from browserslist-stats.json', () => {
+it('takes stats from browserslist-stats.json', () => {
   expect(browserslist('> 5% in my stats', { path: STATS })).toEqual(['ie 8'])
 })
 
