@@ -89,6 +89,11 @@ it('uses default selection on empty request and no config', () => {
   expect(browserslist()).toEqual(browserslist(browserslist.defaults))
 })
 
+it('uses default selection on disabled path', () => {
+  expect(browserslist(undefined, { path: undefined }))
+    .toEqual(browserslist(browserslist.defaults))
+})
+
 it('raises on unknow query', () => {
   expect(() => {
     browserslist('good')

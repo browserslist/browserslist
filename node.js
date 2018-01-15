@@ -122,8 +122,10 @@ module.exports = {
       } else {
         return pickEnv(module.exports.readConfig(file), opts)
       }
-    } else {
+    } else if (opts.path) {
       return pickEnv(module.exports.findConfig(opts.path), opts)
+    } else {
+      return undefined
     }
   },
 
