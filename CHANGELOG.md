@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.11.2
+* Remove Node.js specific code from webpack build.
+
 ## 2.11.1
 * Fix using Browserslist in browser with `path` but without `fs`.
 
