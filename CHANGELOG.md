@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 2.11.3
+* Fix for `path: undefined` option.
+
 ## 2.11.2
 * Remove Node.js specific code from webpack build.
 
