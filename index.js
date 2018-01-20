@@ -256,8 +256,9 @@ browserslist.usage = {
 
 // Default browsers query
 browserslist.defaults = [
-  '> 1%',
-  'last 2 versions',
+  '> 0.3%',
+  'last 2 Chrome versions',
+  'last 2 Firefox versions',
   'Firefox ESR'
 ]
 
