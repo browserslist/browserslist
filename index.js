@@ -186,7 +186,7 @@ function resolve (queries, context) {
 function browserslist (queries, opts) {
   if (typeof opts === 'undefined') opts = { }
 
-  if (!opts.path) {
+  if (typeof opts.path === 'undefined') {
     opts.path = path.resolve ? path.resolve('.') : '.'
   }
 
