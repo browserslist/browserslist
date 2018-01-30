@@ -85,7 +85,8 @@ Browserslist will use browsers query from one of this sources:
 4. `browserslist` key in `package.json` file in current or parent directories.
    **We recommend this way.**
 5. If the above methods did not produce a valid result
-   Browserslist will use defaults: `> 1%, last 2 versions, Firefox ESR`.
+   Browserslist will use defaults:
+   `> 1%, last 2 versions, Firefox ESR, not dead`.
 
 You can specify the versions by queries (case insensitive):
 
@@ -110,8 +111,11 @@ You can specify the versions by queries (case insensitive):
   all minor/patch releases of last 2 major versions.
 * `since 2015` or `last 2 years`: all versions released since year 2015
   (also `since 2015-03` and `since 2015-03-10`).
+* `dead`: browsers from `last 2 version` query, but with less than 0.5%
+  in global usage statistics and without official support or updates
+  for 24 months.
 * `defaults`: Browserslist’s default browsers
-  (`> 1%, last 2 versions, Firefox ESR`).
+  (`> 1%, last 2 versions, Firefox ESR, not dead`).
 * `not ie <= 8`: exclude browsers selected by previous queries.
 
 You can add `not ` to any query.

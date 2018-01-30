@@ -258,7 +258,8 @@ browserslist.usage = {
 browserslist.defaults = [
   '> 1%',
   'last 2 versions',
-  'Firefox ESR'
+  'Firefox ESR',
+  'not dead'
 ]
 
 // Browser names aliases
@@ -637,6 +638,12 @@ var QUERIES = [
     regexp: /^defaults$/i,
     select: function () {
       return browserslist(browserslist.defaults)
+    }
+  },
+  {
+    regexp: /^dead$/i,
+    select: function () {
+      return ['ie 10']
     }
   }
 ];
