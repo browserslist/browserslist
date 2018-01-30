@@ -8,11 +8,15 @@ var LINK = path.join(__dirname, 'fixtures', 'symlink')
 var CONFIG = path.join(__dirname, 'fixtures', 'env-config', 'test.css')
 var PACKAGE = path.join(__dirname, 'fixtures', 'env-package', 'package.json')
 
+var DEFAULTS = browserslist(browserslist.defaults)
+
+var originLoad = browserslist.loadConfig
 afterEach(() => {
   process.env.NODE_ENV = 'test'
   delete process.env.BROWSERSLIST
   delete process.env.BROWSERSLIST_CONFIG
   delete process.env.BROWSERSLIST_ENV
+  browserslist.loadConfig = originLoad
 })
 
 it('accepts array', () => {
@@ -86,12 +90,19 @@ it('has default selection', () => {
 })
 
 it('uses default selection on empty request and no config', () => {
-  expect(browserslist()).toEqual(browserslist(browserslist.defaults))
+  expect(browserslist()).toEqual(DEFAULTS)
+})
+
+it('uses current dir on undefined path', () => {
+  browserslist.loadConfig = jest.fn(browserslist.loadConfig)
+  expect(browserslist(undefined, { path: undefined })).toEqual(DEFAULTS)
+  expect(browserslist.loadConfig).toHaveBeenCalledWith({ path: process.cwd() })
 })
 
 it('uses default selection on disabled path', () => {
-  expect(browserslist(undefined, { path: undefined }))
-    .toEqual(browserslist(browserslist.defaults))
+  browserslist.loadConfig = jest.fn(browserslist.loadConfig)
+  expect(browserslist(null, { path: false })).toEqual(DEFAULTS)
+  expect(browserslist.loadConfig).toHaveBeenCalledWith({ path: false })
 })
 
 it('raises on unknow query', () => {
@@ -171,8 +182,7 @@ it('uses env options to package.json', () => {
   expect(browserslist(null, { path: PACKAGE, env: 'development' }))
     .toEqual(['chrome 55', 'firefox 50'])
 
-  expect(browserslist(null, { path: PACKAGE, env: 'test' }))
-    .toEqual(browserslist(browserslist.defaults))
+  expect(browserslist(null, { path: PACKAGE, env: 'test' })).toEqual(DEFAULTS)
 })
 
 it('uses NODE_ENV to get environment', () => {

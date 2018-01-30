@@ -191,7 +191,7 @@ function browserslist (queries, opts) {
   }
 
   if (typeof queries === 'undefined' || queries === null) {
-    var config = env.loadConfig(opts)
+    var config = browserslist.loadConfig(opts)
     if (config) {
       queries = config
     } else {
@@ -284,6 +284,7 @@ browserslist.clearCaches = env.clearCaches
 browserslist.parseConfig = env.parseConfig
 browserslist.readConfig = env.readConfig
 browserslist.findConfig = env.findConfig
+browserslist.loadConfig = env.loadConfig
 
 /**
  * Return browsers market coverage.
