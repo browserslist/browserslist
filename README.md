@@ -111,6 +111,8 @@ You can specify the versions by queries (case insensitive):
   all minor/patch releases of last 2 major versions.
 * `since 2015` or `last 2 years`: all versions released since year 2015
   (also `since 2015-03` and `since 2015-03-10`).
+* `defaults`: Browserslist’s default browsers
+  (`> 1%, last 2 versions, Firefox ESR`).
 * `not ie <= 8`: exclude browsers selected by previous queries.
 
 You can add `not ` to any query.
