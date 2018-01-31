@@ -36,6 +36,8 @@ Last 2 versions
 IE 10 # sorry
 ```
 
+[Browserslist Example] shows how every tool uses Browserslist.
+
 Developers set browsers list in queries like `last 2 version`
 to be free from updating browser versions manually.
 Browserslist will use [Can I Use] data for this queries.
@@ -53,7 +55,8 @@ You can test Browserslist queries in [online demo].
 
 [stylelint-no-unsupported-browser-features]: https://github.com/ismay/stylelint-no-unsupported-browser-features
 [eslint-plugin-compat]:                      https://github.com/amilajack/eslint-plugin-compat
-[postcss-preset-env]: https://github.com/jonathantneal/postcss-preset-env
+[Browserslist Example]:                       https://github.com/ai/browserslist-example
+[postcss-preset-env]:                        https://github.com/jonathantneal/postcss-preset-env
 [babel-preset-env]:                          https://github.com/babel/babel/tree/master/packages/babel-preset-env
 [postcss-normalize]:                         https://github.com/jonathantneal/postcss-normalize
 [Autoprefixer]:                              https://github.com/postcss/autoprefixer
