@@ -14,6 +14,8 @@ It is used in:
 * [stylelint-no-unsupported-browser-features]
 * [postcss-normalize]
 
+[Browserslist Example] shows how every tool uses Browserslist.
+
 All tools that rely on Browserslist will find its config automatically,
 when you add the following to `package.json`:
 
@@ -35,8 +37,6 @@ Or in `.browserslistrc` config:
 Last 2 versions
 IE 10 # sorry
 ```
-
-[Browserslist Example] shows how every tool uses Browserslist.
 
 Developers set browsers list in queries like `last 2 version`
 to be free from updating browser versions manually.
