@@ -16,7 +16,7 @@ It is used in:
 
 [Browserslist Example] shows how every tool uses Browserslist.
 All tools will find target browsers automatically,
-when you add the following to `package.json`:
+when you add the following to `package.json`:
 
 ```json
 {
