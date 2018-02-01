@@ -15,8 +15,7 @@ It is used in:
 * [postcss-normalize]
 
 [Browserslist Example] shows how every tool uses Browserslist.
-
-All tools that rely on Browserslist will find its config automatically,
+All tools will find target browsers automatically,
 when you add the following to `package.json`:
 
 ```json
