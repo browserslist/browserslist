@@ -19,6 +19,12 @@ module.exports = {
     }
   },
 
+  loadCountry: function loadCountry () {
+    throw new BrowserslistError(
+      'Country statistics is not supported ' +
+      'in client-side build of Browserslist')
+  },
+
   parseConfig: noop,
 
   readConfig: noop,

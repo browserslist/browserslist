@@ -2,7 +2,6 @@ var path = require('path')
 var e2c = require('electron-to-chromium/versions')
 
 var agents = require('caniuse-lite/dist/unpacker/agents').agents
-var region = require('caniuse-lite/dist/unpacker/region').default
 
 var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
@@ -88,20 +87,6 @@ function normalizeVersion (data, version) {
     return data.versions[0]
   } else {
     return false
-  }
-}
-
-function loadCountryStatistics (country) {
-  country = country.replace(/[^\w-]/g, '')
-  if (!browserslist.usage[country]) {
-    var usage = { }
-    // eslint-disable-next-line security/detect-non-literal-require
-    var compressed = require('caniuse-lite/data/regions/' + country + '.js')
-    var data = region(compressed)
-    for (var i in data) {
-      fillUsage(usage, i, data[i])
-    }
-    browserslist.usage[country] = usage
   }
 }
 
@@ -305,7 +290,7 @@ browserslist.coverage = function (browsers, country) {
     } else {
       country = country.toUpperCase()
     }
-    loadCountryStatistics(country)
+    env.loadCountry(browserslist.usage, country)
   } else {
     country = 'global'
   }
@@ -496,7 +481,7 @@ var QUERIES = [
         place = place.toLowerCase()
       }
 
-      loadCountryStatistics(place)
+      env.loadCountry(browserslist.usage, place)
       var usage = browserslist.usage[place]
 
       return Object.keys(usage).reduce(function (result, version) {

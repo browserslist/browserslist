@@ -18,6 +18,12 @@ it('throws on sharable config', () => {
   }).toThrowError(/Sharable configs are not supported/)
 })
 
+it('throws on country statistics', () => {
+  expect(() => {
+    browserslist('> 1% in US')
+  }).toThrowError(/Country statistics is not supported/)
+})
+
 it('throws on config path', () => {
   expect(() => {
     browserslist(undefined, { config: './config/.browserslistrc' })

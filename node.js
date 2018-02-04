@@ -1,3 +1,4 @@
+var region = require('caniuse-lite/dist/unpacker/region').default
 var path = require('path')
 var fs = require('fs')
 
@@ -126,6 +127,21 @@ module.exports = {
       return pickEnv(module.exports.findConfig(opts.path), opts)
     } else {
       return undefined
+    }
+  },
+
+  loadCountry: function loadCountry (usage, country) {
+    var code = country.replace(/[^\w-]/g, '')
+    if (!usage[code]) {
+      // eslint-disable-next-line security/detect-non-literal-require
+      var compressed = require('caniuse-lite/data/regions/' + code + '.js')
+      var data = region(compressed)
+      usage[country] = { }
+      for (var i in data) {
+        for (var j in data[i]) {
+          usage[country][i + ' ' + j] = data[i][j]
+        }
+      }
     }
   },
 
