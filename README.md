@@ -371,25 +371,6 @@ For example, the query `> 1% in my stats, > 5% in US, 10%` is permitted.
 
 [Can I Use]: http://caniuse.com/
 
-## Webpack
-
-If you plan to use Browserslist on client-side (e. g., tools like CodePen)
-Browserslist could take big part of your bundle (150 KB).
-
-But the biggest part of this size will be region usage statistics, which could
-be useless for you. `IgnorePlugin` could cut it:
-
-```js
-const webpackConfig = {
-  …
-  plugins: [
-    new webpack.IgnorePlugin(/caniuse-lite\/data\/regions/)
-  ]
-}
-```
-
-This plugin will reduce Browserslist size from 150 KB to 6 KB. But you loose
-`> 1% in US` queries support.
 
 ## JS API
 
