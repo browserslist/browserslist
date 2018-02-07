@@ -344,7 +344,7 @@ If you have a website, you can query against the usage statistics of your site:
    into the browser console:
 
     ```js
-   var e=document.createElement('a');e.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(JSON.stringify(JSON.parse(localStorage['usage-data-by-id'])[localStorage['config-primary_usage']])));e.setAttribute('download','stats.json');document.body.appendChild(e);e.click();document.body.removeChild(e);
+   var s,d=JSON.parse(localStorage["usage-data-by-id"]),e=document.createElement("a");e.setAttribute("href","data:text/plain;charset=utf-8,"+encodeURIComponent(JSON.stringify(d[function(){for(var e in d)return e}()]))),e.setAttribute("download","stats.json"),document.body.appendChild(e),e.click(),document.body.removeChild(e);
     ```
 3. Save the data to a `browserslist-stats.json` file in your project.
 
