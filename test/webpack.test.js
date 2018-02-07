@@ -29,3 +29,10 @@ it('throws on config path', () => {
     browserslist(undefined, { config: './config/.browserslistrc' })
   }).toThrowError(/Browserslist config are not supported/)
 })
+
+it('has config methods', () => {
+  expect(browserslist.clearCaches()).toBeUndefined()
+  expect(browserslist.parseConfig('')).toBeUndefined()
+  expect(browserslist.readConfig()).toBeUndefined()
+  expect(browserslist.findConfig()).toBeUndefined()
+})
