@@ -599,7 +599,7 @@ var QUERIES = [
       } else {
         if (version.indexOf('.') === -1) {
           alias = version + '.0'
-        } else if (/\.0$/.test(version)) {
+        } else {
           alias = version.replace(/\.0$/, '')
         }
         alias = normalizeVersion(data, alias)

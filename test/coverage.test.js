@@ -30,6 +30,10 @@ it('returns zero coverage on empty browsers', () => {
   expect(browserslist.coverage([])).toEqual(0)
 })
 
+it('returns zero coverage on missed data', () => {
+  expect(browserslist.coverage(['ie 12'])).toEqual(0)
+})
+
 it('returns usage in specified country', () => {
   expect(browserslist.coverage(['ie 9'], 'UK')).toEqual(4.4)
 })
