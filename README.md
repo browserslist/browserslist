@@ -308,7 +308,7 @@ by [environment variables]:
 You can also specify different browser queries for various environments.
 Browserslist will choose query according to `BROWSERSLIST_ENV` or `NODE_ENV`
 variables. If none of them is declared, Browserslist will firstly look
-for `development` queries and then use defaults.
+for `production` queries and then use defaults.
 
 In `package.json`:
 

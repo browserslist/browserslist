@@ -197,8 +197,8 @@ it('uses BROWSERSLIST_ENV to get environment', () => {
     .toEqual(['chrome 55', 'firefox 50'])
 })
 
-it('uses development environment by default', () => {
+it('uses production environment by default', () => {
   delete process.env.NODE_ENV
   expect(browserslist(null, { path: CONFIG }))
-    .toEqual(['chrome 55', 'firefox 50'])
+    .toEqual(['ie 9', 'opera 41'])
 })
