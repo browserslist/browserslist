@@ -113,7 +113,8 @@ You can specify the versions by queries (case insensitive):
   (also `since 2015-03` and `since 2015-03-10`).
 * `dead`: browsers from `last 2 version` query, but with less than 0.5%
   in global usage statistics and without official support or updates
-  for 24 months.
+  for 24 months. Right now it is `IE 10`, `IE_Mob 10`, `BlackBerry 10`,
+  and `BlackBerry 7`.
 * `defaults`: Browserslist’s default browsers
   (`> 1%, last 2 versions, Firefox ESR, not dead`).
 * `not ie <= 8`: exclude browsers selected by previous queries.
