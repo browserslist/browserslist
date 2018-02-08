@@ -58,7 +58,7 @@ function pickEnv (config, opts) {
   } else if (process.env.NODE_ENV) {
     name = process.env.NODE_ENV
   } else {
-    name = 'development'
+    name = 'production'
   }
 
   return config[name] || config.defaults
