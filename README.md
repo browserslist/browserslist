@@ -327,12 +327,9 @@ In `package.json`:
 In `.browserslistrc` config:
 
 ```ini
-[staging production]
+[production staging]
 last 2 version
 ie 9
-
-[staging]
-edge 16
 
 [development]
 last 1 version

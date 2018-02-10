@@ -36,6 +36,13 @@ it('supports sections', () => {
   })
 })
 
+it('throws on dublicate sections', () => {
+  var config = '[test]\nie 10\n[production test]\nie 11'
+  expect(() => {
+    browserslist.parseConfig(config)
+  }).toThrowError(/Dublicate section test in Browserslist config/)
+})
+
 it('trims whitespaces', () => {
   expect(browserslist.parseConfig('ie 9\n\n [ test] \n \n  > 1%\n')).toEqual({
     defaults: ['ie 9'],

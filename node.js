@@ -147,7 +147,7 @@ module.exports = {
 
   parseConfig: function parseConfig (string) {
     var result = { defaults: [] }
-    var section = ['defaults']
+    var sections = ['defaults']
 
     string.toString()
       .replace(/#[^\n]*/g, '')
@@ -160,14 +160,17 @@ module.exports = {
       })
       .forEach(function (line) {
         if (IS_SECTION.test(line)) {
-          section = line.match(IS_SECTION)[1].trim().split(' ')
-
-          section.forEach(function (sectionName) {
-            result[sectionName] = result[sectionName] || []
+          sections = line.match(IS_SECTION)[1].trim().split(' ')
+          sections.forEach(function (section) {
+            if (result[section]) {
+              throw new BrowserslistError(
+                'Dublicate section ' + section + ' in Browserslist config')
+            }
+            result[section] = []
           })
         } else {
-          section.forEach(function (sectionName) {
-            result[sectionName].push(line)
+          sections.forEach(function (section) {
+            result[section].push(line)
           })
         }
       })

@@ -6,9 +6,6 @@ ie 10
 ff 50
 chrome 55
 
-[staging]
-edge 16
-
-[staging production]
+[production staging]
 ie 9
 opera 41
