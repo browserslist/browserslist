@@ -276,29 +276,42 @@ browserslist.loadConfig = env.loadConfig
  * Return browsers market coverage.
  *
  * @param {string[]} browsers Browsers names in Can I Use.
- * @param {string} [country="global"] Which country statistics should be used.
+ * @param {string|object} [stats="global"] Which statistics should be used.
+ *                                         Country code or custom statistics.
  *
  * @return {number} Total market coverage for all selected browsers.
  *
  * @example
  * browserslist.coverage(browserslist('> 1% in US'), 'US') //=> 83.1
  */
-browserslist.coverage = function (browsers, country) {
-  if (country && country !== 'global') {
-    if (country.length > 2) {
-      country = country.toLowerCase()
+browserslist.coverage = function (browsers, stats) {
+  var data
+  if (typeof stats === 'undefined') {
+    data = browserslist.usage.global
+  } else if (typeof stats === 'string') {
+    if (stats.length > 2) {
+      stats = stats.toLowerCase()
     } else {
-      country = country.toUpperCase()
+      stats = stats.toUpperCase()
     }
-    env.loadCountry(browserslist.usage, country)
+    env.loadCountry(browserslist.usage, stats)
+    data = browserslist.usage[stats]
   } else {
-    country = 'global'
+    if ('dataByBrowser' in stats) {
+      stats = stats.dataByBrowser
+    }
+    data = { }
+    for (var name in stats) {
+      for (var version in stats[name]) {
+        data[name + ' ' + version] = stats[name][version]
+      }
+    }
   }
 
   return browsers.reduce(function (all, i) {
-    var usage = browserslist.usage[country][i]
+    var usage = data[i]
     if (usage === undefined) {
-      usage = browserslist.usage[country][i.replace(/ [\d.]+$/, ' 0')]
+      usage = data[i.replace(/ [\d.]+$/, ' 0')]
     }
     return all + (usage || 0)
   }, 0)

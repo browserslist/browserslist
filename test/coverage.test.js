@@ -1,5 +1,12 @@
 var browserslist = require('../')
 
+var custom = {
+  ie: {
+    8: 3,
+    9: 10
+  }
+}
+
 var originUsage = browserslist.usage
 
 beforeEach(() => {
@@ -52,4 +59,9 @@ it('loads continents usage data from Can I Use', () => {
 
 it('fixes statistics of 0 version', () => {
   expect(browserslist.coverage(['ie 9'], 'RU')).toEqual(2)
+})
+
+it('supports custom statistics', () => {
+  expect(browserslist.coverage(['ie 9'], custom)).toEqual(10)
+  expect(browserslist.coverage(['ie 9'], { dataByBrowser: custom })).toEqual(10)
 })

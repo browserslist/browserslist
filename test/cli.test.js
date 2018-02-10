@@ -132,8 +132,15 @@ it('returns usage from config', () => {
   })
 })
 
-it('support custom stats', () => {
+it('supports custom stats', () => {
   return run('--stats=' + STATS, '> 5% in my stats').then(out => {
     expect(toArray(out)).toEqual(['ie 11', 'ie 10'])
+  })
+})
+
+it('supports custom stats in coverage', () => {
+  return run('--coverage', '--stats=' + STATS, '> 5% in my stats').then(out => {
+    expect(out).toEqual(
+      'These browsers account for 15.7% of all users in custom statistics\n')
   })
 })
