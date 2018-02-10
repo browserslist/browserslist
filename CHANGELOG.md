@@ -1,6 +1,16 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.0
+* Remove country statistics from client-side build of Browserslist.
+* Change `> 1%` to `> 0.5%` in default query.
+* Add `not dead` to default query.
+* Change default environment to `production` (by Marco Fugaro).
+* Add `dead` query support with IE 10 and BlackBerry browser.
+* Add multiple environments in one section support (by Evilebot Tnawi).
+* Add custom statistics support to `browserlist.coverage()`.
+* Fix `path` option check.
+
 ## 2.11.3
 * Fix for `path: undefined` option.
 
