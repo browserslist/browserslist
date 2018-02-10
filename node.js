@@ -147,7 +147,7 @@ module.exports = {
 
   parseConfig: function parseConfig (string) {
     var result = { defaults: [] }
-    var section = 'defaults'
+    var section = ['defaults']
 
     string.toString()
       .replace(/#[^\n]*/g, '')
@@ -160,10 +160,15 @@ module.exports = {
       })
       .forEach(function (line) {
         if (IS_SECTION.test(line)) {
-          section = line.match(IS_SECTION)[1].trim()
-          result[section] = result[section] || []
+          section = line.match(IS_SECTION)[1].trim().split(' ')
+
+          section.forEach(function (sectionName) {
+            result[sectionName] = result[sectionName] || []
+          })
         } else {
-          result[section].push(line)
+          section.forEach(function (sectionName) {
+            result[sectionName].push(line)
+          })
         }
       })
 

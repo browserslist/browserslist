@@ -168,6 +168,9 @@ it('uses env options to browserlist config', () => {
   expect(browserslist(null, { path: CONFIG, env: 'production' }))
     .toEqual(['ie 9', 'opera 41'])
 
+  expect(browserslist(null, { path: CONFIG, env: 'staging' }))
+    .toEqual(['edge 16', 'ie 9', 'opera 41'])
+
   expect(browserslist(null, { path: CONFIG, env: 'development' }))
     .toEqual(['chrome 55', 'firefox 50'])
 
