@@ -86,7 +86,7 @@ Browserslist will use browsers query from one of this sources:
    **We recommend this way.**
 5. If the above methods did not produce a valid result
    Browserslist will use defaults:
-   `> 1%, last 2 versions, Firefox ESR, not dead`.
+   `> 0.5%, last 2 versions, Firefox ESR, not dead`.
 
 You can specify the versions by queries (case insensitive):
 
@@ -116,7 +116,7 @@ You can specify the versions by queries (case insensitive):
   for 24 months. Right now it is `IE 10`, `IE_Mob 10`, `BlackBerry 10`,
   and `BlackBerry 7`.
 * `defaults`: Browserslist’s default browsers
-  (`> 1%, last 2 versions, Firefox ESR, not dead`).
+  (`> 0.5%, last 2 versions, Firefox ESR, not dead`).
 * `not ie <= 8`: exclude browsers selected by previous queries.
 
 You can add `not ` to any query.
