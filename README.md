@@ -74,6 +74,7 @@ You can test Browserslist queries in [online demo].
 [`browserslist-useragent`]: https://github.com/pastelsky/browserslist-useragent
 [`caniuse-api`]:            https://github.com/Nyalab/caniuse-api
 
+
 ## Queries
 
 Browserslist will use browsers query from one of this sources:
@@ -121,6 +122,7 @@ You can specify the versions by queries (case insensitive):
 
 You can add `not ` to any query.
 
+
 ### Debug
 
 Run `npx browserslist` in project directory to see what browsers was selected
@@ -144,6 +146,7 @@ safari 11
 samsung 5
 ```
 
+
 ### Notes
 
 Browserslist works with separated versions of browsers.
@@ -160,6 +163,7 @@ whereas `last 3 Chrome versions` might select `50, 49, 48` (major only).
 [two-letter country code]:     http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 [custom usage data]:           #custom-usage-data
 [Can I Use]:                   http://caniuse.com/
+
 
 ### Browsers
 
@@ -185,6 +189,7 @@ Names are case insensitive:
 * `Samsung` for Samsung Internet.
 * `UCAndroid` or `and_uc` for UC Browser for Android.
 
+
 ## `package.json`
 
 If you want to reduce config files in project root, you can specify
@@ -202,6 +207,7 @@ browsers in `package.json` with `browserslist` key:
   ]
 }
 ```
+
 
 ## Config File
 
@@ -221,6 +227,7 @@ So, if tool process `app/styles/main.css`, you can put config to root,
 `app/` or `app/styles`.
 
 You can specify direct path in `BROWSERSLIST_CONFIG` environment variables.
+
 
 ## Shareable Configs
 
@@ -265,6 +272,7 @@ module.exports = [
 ]
 ```
 
+
 ## Environment Variables
 
 If some tool use Browserslist inside, you can change browsers settings
@@ -303,6 +311,7 @@ by [environment variables]:
 
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
+
 ## Environments
 
 You can also specify different browser queries for various environments.
@@ -334,6 +343,7 @@ ie 9
 [development]
 last 1 version
 ```
+
 
 ## Custom Usage Data
 
@@ -402,6 +412,7 @@ For non-JS environment and debug purpose you can use CLI tool:
 browserslist "> 1%, last 2 versions"
 ```
 
+
 ## Coverage
 
 You can get total users coverage for selected browsers by JS API:
@@ -437,6 +448,7 @@ These browsers account for 83.1% of all users in the US
 $ browserslist --coverage "> 1% in my stats" --stats=./browserslist-stats.json
 These browsers account for 83.1% of all users in custom statistics
 ```
+
 
 ## Cache
 
