@@ -22,6 +22,11 @@ it('raises on unknown version', () => {
   }).toThrowError('Unknown version 1 of IE')
 })
 
+it('ignores unknown versions on request', () => {
+  expect(browserslist('IE 1, IE 9', { ignoreUnknownVersions: true }))
+    .toEqual(['ie 9'])
+})
+
 it('works with joined versions from Can I Use', () => {
   expect(browserslist('ios 7.0')).toEqual(['ios_saf 7.0-7.1'])
   expect(browserslist('ios 7.1')).toEqual(['ios_saf 7.0-7.1'])

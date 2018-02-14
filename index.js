@@ -157,12 +157,16 @@ function resolve (queries, context) {
  * @param {object} opts Options.
  * @param {string} [opts.path="."] Path to processed file.
  *                                 It will be used to find config files.
- * @param {string} [opts.env="development"] Processing environment.
- *                                          It will be used to take right
- *                                          queries from config file.
+ * @param {string} [opts.env="production"] Processing environment.
+ *                                         It will be used to take right
+ *                                         queries from config file.
  * @param {string} [opts.config] Path to config file with queries.
  * @param {object} [opts.stats] Custom browser usage statistics
  *                              for "> 1% in my stats" query.
+ * @param {boolean} [opts.ignoreUnknownVersions=false] Do not throw on unknown
+ *                                                     version in direct query.
+ * @param {boolean} [opts.dangerousExtend] Disable security checks
+ *                                         for extend query.
  * @return {string[]} Array with browser names in Can I Use.
  *
  * @example
@@ -193,7 +197,10 @@ function browserslist (queries, opts) {
       'Browser queries must be an array. Got ' + typeof queries + '.')
   }
 
-  var context = { dangerousExtend: opts.dangerousExtend }
+  var context = {
+    ignoreUnknownVersions: opts.ignoreUnknownVersions,
+    dangerousExtend: opts.dangerousExtend
+  }
 
   var stats = env.getStat(opts)
   if (stats) {
@@ -618,6 +625,8 @@ var QUERIES = [
         alias = normalizeVersion(data, alias)
         if (alias) {
           version = alias
+        } else if (context.ignoreUnknownVersions) {
+          return []
         } else {
           throw new BrowserslistError(
             'Unknown version ' + version + ' of ' + name)

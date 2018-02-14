@@ -406,6 +406,17 @@ If a query is missing, Browserslist will look for a config file.
 You can provide a `path` option (that can be a file) to find the config file
 relatively to it.
 
+Options:
+
+* `path`: file or a directory path to look for config file. Default is `.`.
+* `env`: what environment section use from config. Default is `production`.
+* `stats`: custom usage statistics data.
+* `config`: path to config if you want to set it manually.
+* `ignoreUnknownVersions`: do not throw on direct query (like `ie 12`).
+  Default is `false.`
+* `dangerousExtend`: Disable security checks for `extend` query.
+  Default is `false.`
+
 For non-JS environment and debug purpose you can use CLI tool:
 
 ```sh
