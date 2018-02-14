@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.1
+* Add `ignoreUnknownVersions` option.
+* Fix docs (by Pascal Duez).
+
 ## 3.0
 * Remove country statistics from client-side build of Browserslist.
 * Change `> 1%` to `> 0.5%` in default query.
