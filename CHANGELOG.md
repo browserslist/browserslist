@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.1.1
+* Fix JSDoc (by Sylvain Pollet-Villard).
+
 ## 3.1
 * Add `ignoreUnknownVersions` option.
 * Fix docs (by Pascal Duez).
