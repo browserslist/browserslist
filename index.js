@@ -154,7 +154,7 @@ function resolve (queries, context) {
  * Return array of browsers by selection queries.
  *
  * @param {(string|string[])} [queries=browserslist.defaults] Browser queries.
- * @param {object} opts Options.
+ * @param {object} [opts] Options.
  * @param {string} [opts.path="."] Path to processed file.
  *                                 It will be used to find config files.
  * @param {string} [opts.env="production"] Processing environment.
