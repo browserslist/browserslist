@@ -354,13 +354,13 @@ If you have a website, you can query against the usage statistics of your site:
 
 1. Import your Google Analytics data into [Can I Use].
    Press `Import…` button in Settings page.
-2. Open browser DevTools on [Can I Use] and paste this snippet
-   into the browser console:
+2. Use the [bookmarklet](https://en.wikipedia.org/wiki/Bookmarklet) on [Can I Use].  
+    To save the bookmarklet, create an empty bookmark in your browser. Set the name equal to something that is easy to remember. Ex: `Get CanIuse data`. Set the URL equal to:
 
     ```js
-   var d=JSON.parse(localStorage["usage-data-by-id"]),e=document.createElement("a");e.setAttribute("href","data:text/plain;charset=utf-8,"+encodeURIComponent(JSON.stringify(d[function(){for(var e in d)return e}()]))),e.setAttribute("download","stats.json"),document.body.appendChild(e),e.click(),document.body.removeChild(e);
+   javascript:(function(){var data=JSON.parse(localStorage['usage-data-by-id']),backdrop=document.createElement('div');parent=document.createElement('div');backdrop.setAttribute('style','background:rgba(0,0,0,.5);display:flex;justify-content:center;align-items:center;position:fixed;top:0;right:0;bottom:0;left:0;z-index:10');parent.setAttribute('style','background:#fff;color:#000;padding:50px;top:0;left:0');for(var dataKey in data){var link=document.createElement("a");link.setAttribute("style","display:block;margin:10px 0");link.setAttribute("download","browserslist-stats.json");link.setAttribute("href","data:text/plain;charset=utf-8,"+encodeURIComponent(JSON.stringify(data[dataKey])));link.innerHTML='Get data: '+data[dataKey].name;parent.appendChild(link);link.addEventListener('click',function(){document.body.removeChild(backdrop)})}document.body.appendChild(backdrop);backdrop.appendChild(parent);backdrop.addEventListener('click',function(){document.body.removeChild(backdrop)})})();
     ```
-3. Save the data to a `browserslist-stats.json` file in your project.
+3. Click on the link from the available data and save the data to a `browserslist-stats.json` file in your project.
 
 Of course, you can generate usage statistics file by any other method.
 File format should be like:
