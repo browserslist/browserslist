@@ -109,6 +109,15 @@ it('raises on unknow query', () => {
   expect(() => {
     browserslist('good')
   }).toThrowError('Unknown browser query `good`')
+  expect(() => {
+    browserslist('IE === 9')
+  }).toThrowError('Unknown browser query `IE === 9`')
+})
+
+it('raises on missed version', () => {
+  expect(() => {
+    browserslist('IE')
+  }).toThrowError('Specify versions in Browserslist query for browser IE')
 })
 
 it('sorts browsers', () => {

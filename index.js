@@ -113,6 +113,10 @@ function checkName (name) {
   return data
 }
 
+function unknownQuery (query) {
+  return new BrowserslistError('Unknown browser query `' + query + '`')
+}
+
 function resolve (queries, context) {
   return queries.reduce(function (result, selection, index) {
     selection = selection.trim()
@@ -146,7 +150,7 @@ function resolve (queries, context) {
       }
     }
 
-    throw new BrowserslistError('Unknown browser query `' + selection + '`')
+    throw unknownQuery(selection)
   }, [])
 }
 
@@ -651,6 +655,17 @@ var QUERIES = [
     regexp: /^dead$/i,
     select: function () {
       return ['ie 10', 'ie_mob 10', 'bb 10', 'bb 7']
+    }
+  },
+  {
+    regexp: /^(\w+)$/i,
+    select: function (context, name) {
+      if (byName(name)) {
+        throw new BrowserslistError(
+          'Specify versions in Browserslist query for browser ' + name)
+      } else {
+        throw unknownQuery(name)
+      }
     }
   }
 ];
