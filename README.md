@@ -67,6 +67,9 @@ You can test Browserslist queries in [online demo].
 
 ## Tools
 
+* [`browserslist-ga`] downloads `browserslist-stats.json`
+  from your Google Analytics to use browsers statistics of your customs
+  in `> 0.5% in my stats` query.
 * [`browserslist-useragent`] checks browser by user agent string
   to match Browserslist target browsers query.
 * [`caniuse-api`] returns browsers which support some specific feature.
@@ -75,6 +78,7 @@ You can test Browserslist queries in [online demo].
   with Autoprefixer.
 
 [`browserslist-useragent`]: https://github.com/pastelsky/browserslist-useragent
+[`browserslist-ga`]:        https://github.com/dmfrancisco/browserslist-ga
 [`caniuse-api`]:            https://github.com/Nyalab/caniuse-api
 
 
@@ -350,19 +354,13 @@ last 1 version
 
 ## Custom Usage Data
 
-If you have a website, you can query against the usage statistics of your site:
+If you have a website, you can query against the usage statistics of your site.
+[`browserslist-ga`] will ask access to Google Analytics and then generate
+`browserslist-stats.json`:
 
-1. Import your Google Analytics data into [Can I Use].
-   Press `Import…` button in Settings page.
-2. Use the [bookmarklet]. To create the bookmarklet, create an empty bookmark
-   in your browser. Set the name equal to `Get Can I Use data`.
-   Set the URL equal to:
-
-    ```js
-   javascript:(function(){var data=JSON.parse(localStorage['usage-data-by-id']),backdrop=document.createElement('div');parent=document.createElement('div');backdrop.setAttribute('style','background:rgba(0,0,0,.5);display:flex;justify-content:center;align-items:center;position:fixed;top:0;right:0;bottom:0;left:0;z-index:10');parent.setAttribute('style','background:#fff;color:#000;padding:50px;top:0;left:0');for(var dataKey in data){var link=document.createElement("a");link.setAttribute("style","display:block;margin:10px 0");link.setAttribute("download","browserslist-stats.json");link.setAttribute("href","data:text/plain;charset=utf-8,"+encodeURIComponent(JSON.stringify(data[dataKey])));link.innerHTML='Get data: '+data[dataKey].name;parent.appendChild(link);link.addEventListener('click',function(){document.body.removeChild(backdrop)})}document.body.appendChild(backdrop);backdrop.appendChild(parent);backdrop.addEventListener('click',function(){document.body.removeChild(backdrop)})})();
-    ```
-
-3. Click on the link from the available data and save the data to a `browserslist-stats.json` file in your project.
+```
+npx @davidfrancisco/browserslist-ga
+```
 
 Of course, you can generate usage statistics file by any other method.
 File format should be like:
@@ -385,8 +383,8 @@ Note that you can query against your custom usage data
 while also querying against global or regional data.
 For example, the query `> 1% in my stats, > 5% in US, 10%` is permitted.
 
-[bookmarklet]: https://en.wikipedia.org/wiki/Bookmarklet
-[Can I Use]:   http://caniuse.com/
+[`browserslist-ga`]: https://github.com/dmfrancisco/browserslist-ga
+[Can I Use]:         http://caniuse.com/
 
 
 ## JS API
