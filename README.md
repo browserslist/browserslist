@@ -358,7 +358,7 @@ If you have a website, you can query against the usage statistics of your site.
 `browserslist-stats.json`:
 
 ```
-npx @davidfrancisco/browserslist-ga
+npx browserslist-ga
 ```
 
 Of course, you can generate usage statistics file by any other method.
