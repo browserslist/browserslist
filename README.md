@@ -67,9 +67,8 @@ You can test Browserslist queries in [online demo].
 
 ## Tools
 
-* [`browserslist-ga`] downloads `browserslist-stats.json`
-  from your Google Analytics to use browsers statistics of your customs
-  in `> 0.5% in my stats` query.
+* [`browserslist-ga`] downloads your website browsers statistics
+  to use it in `> 0.5% in my stats` query.
 * [`browserslist-useragent`] checks browser by user agent string
   to match Browserslist target browsers query.
 * [`caniuse-api`] returns browsers which support some specific feature.
