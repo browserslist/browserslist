@@ -529,6 +529,34 @@ var QUERIES = [
     }
   },
   {
+    regexp: /^cover\s+(\d*\.?\d+)%\s+of\s+my\s+stats$/,
+    select: function (context, desiredCoverage) {
+      desiredCoverage = parseFloat(desiredCoverage)
+
+      if (!context.customUsage) {
+        throw new BrowserslistError('Custom usage statistics was not provided')
+      }
+
+      var usageByPopularity = Object.keys(context.customUsage).sort(
+        function (a, b) {
+          // sort by descending popularity
+          return context.customUsage[b] - context.customUsage[a]
+        }
+      )
+
+      var result = []
+      var coveragePercent = 0
+      usageByPopularity.some(function (version) {
+        if (coveragePercent >= desiredCoverage) return true
+        if (context.customUsage[version] === 0) return true
+        coveragePercent += context.customUsage[version]
+        result.push(version)
+        return false
+      })
+      return result
+    }
+  },
+  {
     regexp: /^electron\s+([\d.]+)\s*-\s*([\d.]+)$/i,
     select: function (context, from, to) {
       if (!e2c[from]) {
