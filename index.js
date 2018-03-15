@@ -529,27 +529,41 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^cover\s+(\d*\.?\d+)%\s+of\s+my\s+stats$/,
-    select: function (context, desiredCoverage) {
+    regexp: /^cover\s+(\d*\.?\d+)%(\s+in\s+(my\s+stats|(alt-)?\w\w))?$/,
+    select: function (context, desiredCoverage, statMode) {
       desiredCoverage = parseFloat(desiredCoverage)
 
-      if (!context.customUsage) {
-        throw new BrowserslistError('Custom usage statistics was not provided')
-      }
-
-      var usageByPopularity = Object.keys(context.customUsage).sort(
-        function (a, b) {
-          // sort by descending popularity
-          return context.customUsage[b] - context.customUsage[a]
+      var usage = browserslist.usage.global
+      if (statMode) {
+        if (statMode.match(/^\s+in\s+my\s+stats$/)) {
+          if (!context.customUsage) {
+            throw new BrowserslistError(
+              'Custom usage statistics was not provided'
+            )
+          }
+          usage = context.customUsage
+        } else {
+          var match = statMode.match(/\s+in\s+((alt-)?\w\w)/)
+          var place = match[1]
+          if (place.length === 2) {
+            place = place.toUpperCase()
+          } else {
+            place = place.toLowerCase()
+          }
+          env.loadCountry(browserslist.usage, place)
+          usage = browserslist.usage[place]
         }
-      )
+      }
 
       var result = []
       var coveragePercent = 0
-      usageByPopularity.some(function (version) {
+      Object.keys(usage).sort(
+        // sort by descending popularity
+        function (a, b) { return usage[b] - usage[a] }
+      ).some(function (version) {
         if (coveragePercent >= desiredCoverage) return true
-        if (context.customUsage[version] === 0) return true
-        coveragePercent += context.customUsage[version]
+        if (usage[version] === 0) return true
+        coveragePercent += usage[version]
         result.push(version)
         return false
       })
