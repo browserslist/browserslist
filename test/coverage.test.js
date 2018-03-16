@@ -70,6 +70,16 @@ it('throws when no custom stats', () => {
   }).toThrowError(/statistics was not provided/)
 })
 
+it('throws when no custom stats and no path.resolve', () => {
+  delete process.env.BROWSERSLIST_STATS
+  var resolveWas = path.resolve
+  delete path.resolve
+  expect(function () {
+    browserslist.coverage(['ie 8'], 'mystats')
+  }).toThrowError(/statistics was not provided/)
+  path.resolve = resolveWas
+})
+
 it('loads country usage data from Can I Use', () => {
   expect(browserslist.coverage(['ie 8', 'ie 9'], 'US') > 0).toBeTruthy()
 })
