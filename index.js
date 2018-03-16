@@ -300,13 +300,27 @@ browserslist.coverage = function (browsers, stats) {
   if (typeof stats === 'undefined') {
     data = browserslist.usage.global
   } else if (typeof stats === 'string') {
-    if (stats.length > 2) {
-      stats = stats.toLowerCase()
+    if (stats === 'mystats') {
+      var customStats = env.getStat({})
+      if (!customStats) {
+        throw new BrowserslistError('Custom usage statistics was not provided')
+      }
+      if ('dataByBrowser' in customStats) {
+        customStats = customStats.dataByBrowser
+      }
+      data = {}
+      for (var browser in customStats) {
+        fillUsage(data, browser, customStats[browser])
+      }
     } else {
-      stats = stats.toUpperCase()
+      if (stats.length > 2) {
+        stats = stats.toLowerCase()
+      } else {
+        stats = stats.toUpperCase()
+      }
+      env.loadCountry(browserslist.usage, stats)
+      data = browserslist.usage[stats]
     }
-    env.loadCountry(browserslist.usage, stats)
-    data = browserslist.usage[stats]
   } else {
     if ('dataByBrowser' in stats) {
       stats = stats.dataByBrowser
