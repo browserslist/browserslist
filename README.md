@@ -445,6 +445,11 @@ browserslist.coverage(browserslist('> 1% in US'), 'US')
 ```
 
 ```js
+browserslist.coverage(browserslist('> 1% in my stats'), 'my stats')
+//=> 83.1
+```
+
+```js
 browserslist.coverage(browserslist('> 1% in my stats', { stats }), stats)
 //=> 82.2
 ```
