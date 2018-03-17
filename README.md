@@ -105,9 +105,9 @@ You can specify the versions by queries (case insensitive):
 * `> 5% in alt-AS`: uses Asia region usage statistics. List of all region codes
   can be found at [`caniuse-lite/data/regions`].
 * `> 5% in my stats`: uses [custom usage data].
-* `cover 70%`: most popular browsers that provide coverage
-* `cover 70% in US`: same as above, with [two-letter country code].
-* `cover 70% in my stats`: uses [custom usage data].
+* `cover 99.5%`: most popular browsers that provide coverage.
+* `cover 99.5% in US`: same as above, with [two-letter country code].
+* `cover 99.5% in my stats`: uses [custom usage data].
 * `extends browserslist-config-mycompany`: take queries from
   `browserslist-config-mycompany` npm package.
 * `ie 6-8`: selects an inclusive range of versions.
