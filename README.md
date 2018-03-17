@@ -467,7 +467,12 @@ These browsers account for 83.1% of all users in the US
 ```
 
 ```sh
-$ browserslist --coverage "> 1% in my stats" --stats=./browserslist-stats.json
+$ browserslist --coverage "> 1% in my stats"
+These browsers account for 83.1% of all users in custom statistics
+```
+
+```sh
+$ browserslist --coverage "> 1% in my stats" --stats=./stats.json
 These browsers account for 83.1% of all users in custom statistics
 ```
 
