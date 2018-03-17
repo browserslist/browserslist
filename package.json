@@ -63,7 +63,7 @@
   "size-limit": [
     {
       "path": "index.js",
-      "limit": "7.5 KB"
+      "limit": "7.1 KB"
     }
   ],
   "scripts": {
