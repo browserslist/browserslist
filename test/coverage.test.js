@@ -1,4 +1,5 @@
 var browserslist = require('../')
+var path = require('path')
 
 var custom = {
   ie: {
@@ -47,6 +48,36 @@ it('returns usage in specified country', () => {
 
 it('accepts country in any case', () => {
   expect(browserslist.coverage(['ie 9'], 'uk')).toEqual(4.4)
+})
+
+var STATS = path.join(__dirname, 'fixtures', 'browserslist-stats.json')
+var CUSTOM_STATS = path.join(__dirname, 'fixtures', 'stats.json')
+
+it('accepts mystats to load from custom stats', () => {
+  process.env.BROWSERSLIST_STATS = STATS
+  expect(browserslist.coverage(['ie 8'], 'mystats')).toEqual(6)
+})
+
+it('accepts mystats to load from custom stats with dataByBrowser', () => {
+  process.env.BROWSERSLIST_STATS = CUSTOM_STATS
+  expect(browserslist.coverage(['ie 8'], 'mystats')).toEqual(0.1)
+})
+
+it('throws when no custom stats', () => {
+  delete process.env.BROWSERSLIST_STATS
+  expect(function () {
+    browserslist.coverage(['ie 8'], 'mystats')
+  }).toThrowError(/statistics was not provided/)
+})
+
+it('throws when no custom stats and no path.resolve', () => {
+  delete process.env.BROWSERSLIST_STATS
+  var resolveWas = path.resolve
+  delete path.resolve
+  expect(function () {
+    browserslist.coverage(['ie 8'], 'mystats')
+  }).toThrowError(/statistics was not provided/)
+  path.resolve = resolveWas
 })
 
 it('loads country usage data from Can I Use', () => {
