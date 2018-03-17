@@ -530,8 +530,8 @@ var QUERIES = [
   },
   {
     regexp: /^cover\s+(\d*\.?\d+)%(\s+in\s+(my\s+stats|(alt-)?\w\w))?$/,
-    select: function (context, desiredCoverage, statMode) {
-      desiredCoverage = parseFloat(desiredCoverage)
+    select: function (context, coverage, statMode) {
+      coverage = parseFloat(coverage)
 
       var usage = browserslist.usage.global
       if (statMode) {
@@ -555,18 +555,22 @@ var QUERIES = [
         }
       }
 
-      var result = []
-      var coveragePercent = 0
-      Object.keys(usage).sort(
-        // sort by descending popularity
-        function (a, b) { return usage[b] - usage[a] }
-      ).some(function (version) {
-        if (coveragePercent >= desiredCoverage) return true
-        if (usage[version] === 0) return true
-        coveragePercent += usage[version]
-        result.push(version)
-        return false
+      var versions = Object.keys(usage).sort(function (a, b) {
+        return usage[b] - usage[a]
       })
+
+      var coveraged = 0
+      var result = []
+      var version
+      for (var i = 0; i <= versions.length; i++) {
+        version = versions[i]
+        if (usage[version] === 0) break
+
+        coveraged += usage[version]
+        result.push(version)
+        if (coveraged >= coverage) break
+      }
+
       return result
     }
   },
