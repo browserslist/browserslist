@@ -208,9 +208,6 @@ function browserslist (queries, opts) {
 
   var stats = env.getStat(opts)
   if (stats) {
-    if ('dataByBrowser' in stats) {
-      stats = stats.dataByBrowser
-    }
     context.customUsage = { }
     for (var browser in stats) {
       fillUsage(context.customUsage, browser, stats[browser])
@@ -289,6 +286,8 @@ browserslist.loadConfig = env.loadConfig
  * @param {string[]} browsers Browsers names in Can I Use.
  * @param {string|object} [stats="global"] Which statistics should be used.
  *                                         Country code or custom statistics.
+ *                                         Pass `"my stats"` to load statistics
+ *                                         from Browserslist files.
  *
  * @return {number} Total market coverage for all selected browsers.
  *
@@ -299,30 +298,25 @@ browserslist.coverage = function (browsers, stats) {
   var data
   if (typeof stats === 'undefined') {
     data = browserslist.usage.global
-  } else if (typeof stats === 'string') {
-    if (stats === 'mystats') {
-      var opts = {}
-      opts.path = path.resolve ? path.resolve('.') : '.'
-      var customStats = env.getStat(opts)
-      if (!customStats) {
-        throw new BrowserslistError('Custom usage statistics was not provided')
-      }
-      if ('dataByBrowser' in customStats) {
-        customStats = customStats.dataByBrowser
-      }
-      data = {}
-      for (var browser in customStats) {
-        fillUsage(data, browser, customStats[browser])
-      }
-    } else {
-      if (stats.length > 2) {
-        stats = stats.toLowerCase()
-      } else {
-        stats = stats.toUpperCase()
-      }
-      env.loadCountry(browserslist.usage, stats)
-      data = browserslist.usage[stats]
+  } else if (stats === 'my stats') {
+    var opts = {}
+    opts.path = path.resolve ? path.resolve('.') : '.'
+    var customStats = env.getStat(opts)
+    if (!customStats) {
+      throw new BrowserslistError('Custom usage statistics was not provided')
     }
+    data = {}
+    for (var browser in customStats) {
+      fillUsage(data, browser, customStats[browser])
+    }
+  } else if (typeof stats === 'string') {
+    if (stats.length > 2) {
+      stats = stats.toLowerCase()
+    } else {
+      stats = stats.toUpperCase()
+    }
+    env.loadCountry(browserslist.usage, stats)
+    data = browserslist.usage[stats]
   } else {
     if ('dataByBrowser' in stats) {
       stats = stats.dataByBrowser

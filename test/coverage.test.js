@@ -55,18 +55,18 @@ var CUSTOM_STATS = path.join(__dirname, 'fixtures', 'stats.json')
 
 it('accepts mystats to load from custom stats', () => {
   process.env.BROWSERSLIST_STATS = STATS
-  expect(browserslist.coverage(['ie 8'], 'mystats')).toEqual(6)
+  expect(browserslist.coverage(['ie 8'], 'my stats')).toEqual(6)
 })
 
 it('accepts mystats to load from custom stats with dataByBrowser', () => {
   process.env.BROWSERSLIST_STATS = CUSTOM_STATS
-  expect(browserslist.coverage(['ie 8'], 'mystats')).toEqual(0.1)
+  expect(browserslist.coverage(['ie 8'], 'my stats')).toEqual(0.1)
 })
 
 it('throws when no custom stats', () => {
   delete process.env.BROWSERSLIST_STATS
   expect(function () {
-    browserslist.coverage(['ie 8'], 'mystats')
+    browserslist.coverage(['ie 8'], 'my stats')
   }).toThrowError(/statistics was not provided/)
 })
 
@@ -75,7 +75,7 @@ it('throws when no custom stats and no path.resolve', () => {
   var resolveWas = path.resolve
   delete path.resolve
   expect(function () {
-    browserslist.coverage(['ie 8'], 'mystats')
+    browserslist.coverage(['ie 8'], 'my stats')
   }).toThrowError(/statistics was not provided/)
   path.resolve = resolveWas
 })

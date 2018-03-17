@@ -110,6 +110,10 @@ module.exports = {
       }
     }
 
+    if (stats && 'dataByBrowser' in stats) {
+      stats = stats.dataByBrowser
+    }
+
     return stats
   },
 
