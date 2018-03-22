@@ -67,7 +67,7 @@ if (isArg('--help') || isArg('-h')) {
       opts.path = process.cwd()
     } else {
       error(
-        'Browserslist config did not found. ' +
+        'Browserslist config was not found. ' +
         'Define queries or config path.' +
         '\n\n' + USAGE
       )
