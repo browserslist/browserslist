@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.2.1
+* Fix error text (by Steve Schrab).
+
 ## 3.2
 * Add `cover 99%` query (by Vasily Fedoseyev).
 * Add `cover 99% in US` query (by Vasily Fedoseyev).
