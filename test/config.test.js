@@ -8,6 +8,8 @@ var TYPO = path.join(__dirname, 'fixtures', 'typo', 'test.css')
 var BOTH1 = path.join(__dirname, 'fixtures', 'both1', 'test.css')
 var BOTH2 = path.join(__dirname, 'fixtures', 'both2', 'test.css')
 var BOTH3 = path.join(__dirname, 'fixtures', 'both3', 'test.css')
+var WRONG1 = path.join(__dirname, 'fixtures', 'wrong1', 'test.css')
+var WRONG2 = path.join(__dirname, 'fixtures', 'wrong2', 'test.css')
 var BROKEN = path.join(__dirname, 'fixtures', 'broken', 'test.css')
 var PACKAGE = path.join(__dirname, 'fixtures', 'package', 'test.css')
 
@@ -102,4 +104,13 @@ it('reads from dir wich contains both .browserslistrc and browserslist', () => {
   expect(() => {
     browserslist.findConfig(BOTH3)
   }).toThrowError(/contains both .browserslistrc and browserslist/)
+})
+
+it('checks config format', () => {
+  expect(() => {
+    browserslist.findConfig(WRONG1)
+  }).toThrowError(/Browserslist config should contain/)
+  expect(() => {
+    browserslist.findConfig(WRONG2)
+  }).toThrowError(/Browserslist config should contain/)
 })

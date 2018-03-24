@@ -7,6 +7,8 @@ var BrowserslistError = require('./error')
 var IS_SECTION = /^\s*\[(.+)\]\s*$/
 var CONFIG_PATTERN = /^browserslist-config-/
 var SCOPED_CONFIG__PATTERN = /@[^./]+\/browserslist-config(-|$)/
+var FORMAT = 'Browserslist config should contain ' +
+             'array of strings with browser queries'
 
 var filenessCache = { }
 var configCache = { }
@@ -47,6 +49,17 @@ function eachParent (file, callback) {
   return undefined
 }
 
+function check (section) {
+  if (!Array.isArray(section)) {
+    throw new BrowserslistError(FORMAT)
+  }
+  for (var i = 0; i < section.length; i++) {
+    if (typeof section[i] !== 'string') {
+      throw new BrowserslistError(FORMAT)
+    }
+  }
+}
+
 function pickEnv (config, opts) {
   if (typeof config !== 'object') return config
 
@@ -71,9 +84,14 @@ function parsePackage (file) {
       '`browserlist` key instead of `browserslist` in ' + file)
   }
   var list = config.browserslist
-  if (typeof list === 'object' && list.length) {
+  if (Array.isArray(list)) {
     list = { defaults: list }
   }
+
+  for (var i in list) {
+    check(list[i])
+  }
+
   return list
 }
 
