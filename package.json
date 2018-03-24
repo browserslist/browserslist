@@ -9,7 +9,7 @@
   ],
   "author": "Andrey Sitnik <andrey@sitnik.ru>",
   "license": "MIT",
-  "repository": "ai/browserslist",
+  "repository": "browserslist/browserslist",
   "dependencies": {
     "caniuse-lite": "^1.0.30000819",
     "electron-to-chromium": "^1.3.40"
