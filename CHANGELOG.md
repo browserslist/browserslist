@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.2.2
+* Add `package.json` config validation.
+* Move project to `browserlist` GitHub organization.
+
 ## 3.2.1
 * Fix error text (by Steve Schrab).
 
