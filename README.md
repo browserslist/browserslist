@@ -77,7 +77,7 @@ You can test Browserslist queries in [online demo].
   with Autoprefixer.
 
 [`browserslist-useragent`]: https://github.com/pastelsky/browserslist-useragent
-[`browserslist-ga`]:        https://github.com/dmfrancisco/browserslist-ga
+[`browserslist-ga`]:        https://github.com/browserslist/browserslist-ga
 [`caniuse-api`]:            https://github.com/Nyalab/caniuse-api
 
 
@@ -385,7 +385,7 @@ Note that you can query against your custom usage data
 while also querying against global or regional data.
 For example, the query `> 1% in my stats, > 5% in US, 10%` is permitted.
 
-[`browserslist-ga`]: https://github.com/dmfrancisco/browserslist-ga
+[`browserslist-ga`]: https://github.com/browserslist/browserslist-ga
 [Can I Use]:         http://caniuse.com/
 
 
