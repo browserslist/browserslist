@@ -11,6 +11,7 @@ var BOTH3 = path.join(__dirname, 'fixtures', 'both3', 'test.css')
 var WRONG1 = path.join(__dirname, 'fixtures', 'wrong1', 'test.css')
 var WRONG2 = path.join(__dirname, 'fixtures', 'wrong2', 'test.css')
 var BROKEN = path.join(__dirname, 'fixtures', 'broken', 'test.css')
+var STRING = path.join(__dirname, 'fixtures', 'string', 'test.css')
 var PACKAGE = path.join(__dirname, 'fixtures', 'package', 'test.css')
 
 var originCwd = process.cwd()
@@ -113,4 +114,10 @@ it('checks config format', () => {
   expect(() => {
     browserslist.findConfig(WRONG2)
   }).toThrowError(/Browserslist config should contain/)
+})
+
+it('reads config with one string', () => {
+  expect(browserslist.findConfig(STRING)).toEqual({
+    defaults: ['ie 11', 'ie 10']
+  })
 })

@@ -50,13 +50,14 @@ function eachParent (file, callback) {
 }
 
 function check (section) {
-  if (!Array.isArray(section)) {
-    throw new BrowserslistError(FORMAT)
-  }
-  for (var i = 0; i < section.length; i++) {
-    if (typeof section[i] !== 'string') {
-      throw new BrowserslistError(FORMAT)
+  if (Array.isArray(section)) {
+    for (var i = 0; i < section.length; i++) {
+      if (typeof section[i] !== 'string') {
+        throw new BrowserslistError(FORMAT)
+      }
     }
+  } else if (typeof section !== 'string') {
+    throw new BrowserslistError(FORMAT)
   }
 }
 
