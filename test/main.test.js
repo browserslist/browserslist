@@ -6,6 +6,7 @@ var IE = path.join(__dirname, 'fixtures', 'explorers')
 var FILE = path.join(__dirname, 'fixtures', 'dir', 'test.css')
 var LINK = path.join(__dirname, 'fixtures', 'symlink')
 var CONFIG = path.join(__dirname, 'fixtures', 'env-config', 'test.css')
+var STRING = path.join(__dirname, 'fixtures', 'string', 'package.json')
 var PACKAGE = path.join(__dirname, 'fixtures', 'env-package', 'package.json')
 
 var DEFAULTS = browserslist(browserslist.defaults)
@@ -61,6 +62,10 @@ it('reads config by direct path', () => {
 it('reads package.json config by direct path', () => {
   expect(browserslist(null, { config: PACKAGE, env: 'development' }))
     .toEqual(['chrome 55', 'firefox 50'])
+})
+
+it('reads package.json config with one string', () => {
+  expect(browserslist(null, { config: STRING })).toEqual(['ie 9', 'ie 8'])
 })
 
 it('reads config by direct path in environment variable', () => {
