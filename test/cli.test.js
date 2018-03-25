@@ -33,6 +33,31 @@ function run () {
   })
 }
 
+function err () {
+  var args = Array.prototype.slice.call(arguments, 0)
+  var opts = { }
+  if (typeof args[0] === 'object') {
+    opts = args[0]
+    args = []
+  }
+  var cli = spawn(path.join(__dirname, '..', 'cli.js'), args, opts)
+  return new Promise(resolve => {
+    var error = ''
+    var out = ''
+    cli.stdout.on('data', data => {
+      out += data.toString()
+    })
+    cli.stderr.on('data', data => {
+      error += data.toString()
+    })
+    cli.on('close', code => {
+      expect(out).toEqual('')
+      expect(code).not.toEqual(0)
+      resolve(error)
+    })
+  })
+}
+
 it('returns help', () => {
   return run('--help').then(out => {
     expect(out).toContain('Usage:')
@@ -55,7 +80,7 @@ it('returns version', () => {
 })
 
 it('returns error: `unknown arguments`', () => {
-  return run('--unknown').then(out => {
+  return err('--unknown').then(out => {
     expect(out).toContain('Unknown arguments')
   })
 })
@@ -75,8 +100,8 @@ it('uses case insensitive aliases', () => {
 })
 
 it('returns error `unknown browser query`', () => {
-  return run('unknow').then(out => {
-    expect(out).toContain('Unknown browser query `unknow`')
+  return err('unknow').then(out => {
+    expect(out).toEqual('browserslist: Unknown browser query `unknow`\n')
   })
 })
 
@@ -89,14 +114,14 @@ it('returns usage in specified country', () => {
 })
 
 it('returns error on missed queries', () => {
-  return run('--coverage').then(out => {
-    expect(out).toContain('Define queries or config path')
+  return err('--coverage').then(out => {
+    expect(out).toContain('Define queries or config path.\n\nUsage:')
   })
 })
 
 it('returns error: `unknown browser query to get coverage`', () => {
-  return run('--coverage=UK', 'ie8').then(out => {
-    expect(out).toContain('Unknown browser query `ie8`')
+  return err('--coverage=UK', 'ie8').then(out => {
+    expect(out).toEqual('browserslist: Unknown browser query `ie8`\n')
   })
 })
 
@@ -113,8 +138,8 @@ it('reads browserslist config from current directory', () => {
 })
 
 it('returns error browserslist config', () => {
-  return run('--config="./unknown_path"').then(out => {
-    expect(out).toContain('Can\'t read ./unknown_path config')
+  return err('--config="./unknown_path"').then(out => {
+    expect(out).toEqual('browserslist: Can\'t read ./unknown_path config\n')
   })
 })
 
@@ -142,5 +167,14 @@ it('supports custom stats in coverage', () => {
   return run('--coverage', '--stats=' + STATS, '> 5% in my stats').then(out => {
     expect(out).toEqual(
       'These browsers account for 15.7% of all users in custom statistics\n')
+  })
+})
+
+it('shows Browserslist error', () => {
+  return err({ cwd: path.join(__dirname, 'fixtures', 'wrong1') }).then(out => {
+    expect(out).toEqual(
+      'browserslist: Browserslist config ' +
+      'should be a string or an array of strings with browser queries\n'
+    )
   })
 })
