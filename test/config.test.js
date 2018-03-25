@@ -110,10 +110,10 @@ it('reads from dir wich contains both .browserslistrc and browserslist', () => {
 it('checks config format', () => {
   expect(() => {
     browserslist.findConfig(WRONG1)
-  }).toThrowError(/Browserslist config should contain/)
+  }).toThrowError(/Browserslist config should/)
   expect(() => {
     browserslist.findConfig(WRONG2)
-  }).toThrowError(/Browserslist config should contain/)
+  }).toThrowError(/Browserslist config should/)
 })
 
 it('reads config with one string', () => {
