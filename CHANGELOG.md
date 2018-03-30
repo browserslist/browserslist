@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.2.4
+* Resolve shareable config from current working directory.
+
 ## 3.2.3
 * Fix `package.json` config validation for single string case.
 * Fix CLI error reporting.
