@@ -100,7 +100,7 @@ module.exports = {
   loadQueries: function loadQueries (context, name) {
     if (!context.dangerousExtend) checkExtend(name)
     // eslint-disable-next-line security/detect-non-literal-require
-    var queries = require(name)
+    var queries = require(require.resolve(name, { paths: ['.'] }))
     if (!Array.isArray(queries)) {
       throw new BrowserslistError(
         '`' + name + '` config exports not an array of queries')
