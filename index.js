@@ -140,7 +140,7 @@ function resolve (queries, context) {
         var array = type.select.apply(browserslist, args)
         if (isExclude) {
           array = array.concat(array.map(function (j) {
-            return j.replace(/\s\d+/, ' 0')
+            return j.replace(/\s[^\s]+/, ' 0')
           }))
           return result.filter(function (j) {
             return array.indexOf(j) === -1

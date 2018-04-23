@@ -157,6 +157,12 @@ it('excludes queries for 0 version', () => {
   expect(android).toHaveLength(0)
 })
 
+it('excludes queries for all version', () => {
+  var browsers = browserslist(['> 0% in US', 'not last 1 op_mini versions'])
+  var operaMini = browsers.filter(i => i.indexOf('op_mini ') !== -1)
+  expect(operaMini).toHaveLength(0)
+})
+
 it('has actual browsers list in docs', () => {
   var names = browserslist(['last 1 version']).map(i => i.split(' ')[0])
   expect(names).toEqual([
