@@ -332,7 +332,7 @@ browserslist.coverage = function (browsers, stats) {
   return browsers.reduce(function (all, i) {
     var usage = data[i]
     if (usage === undefined) {
-      usage = data[i.replace(/ [\d.]+$/, ' 0')]
+      usage = data[i.replace(/ [^\s]+$/, ' 0')]
     }
     return all + (usage || 0)
   }, 0)
