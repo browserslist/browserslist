@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.2.5
+* Fix excluding Opera Mini and other browsers with `all` version.
+
 ## 3.2.4
 * Resolve shareable config from current working directory.
 
