@@ -22,7 +22,7 @@ when you add the following to `package.json`:
 {
   "browserslist": [
     "> 1%",
-    "last 2 versions"
+    "IE 10"
   ]
 }
 ```
@@ -33,7 +33,6 @@ Or in `.browserslistrc` config:
 # Browsers that we support
 
 > 1%
-Last 2 versions
 IE 10 # sorry
 ```
 
@@ -97,8 +96,6 @@ Browserslist will use browsers query from one of this sources:
 
 You can specify the versions by queries (case insensitive):
 
-* `last 2 versions`: the last 2 versions for each browser.
-* `last 2 Chrome versions`: the last 2 versions of Chrome browser.
 * `> 5%`: versions selected by global usage statistics.
   `>=`, `<` and `<=` work too.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
@@ -125,6 +122,8 @@ You can specify the versions by queries (case insensitive):
   in global usage statistics and without official support or updates
   for 24 months. Right now it is `IE 10`, `IE_Mob 10`, `BlackBerry 10`,
   and `BlackBerry 7`.
+* ~~`last 2 versions`: the last 2 versions for each browser.~~ (not recommended)
+* `last 2 Chrome versions`: the last 2 versions of Chrome browser.
 * `defaults`: Browserslist’s default browsers
   (`> 0.5%, last 2 versions, Firefox ESR, not dead`).
 * `not ie <= 8`: exclude browsers selected by previous queries.
@@ -212,7 +211,7 @@ browsers in `package.json` with `browserslist` key:
   },
   "browserslist": [
     "> 1%",
-    "last 2 versions"
+    "IE 10"
   ]
 }
 ```
@@ -227,8 +226,7 @@ and have browsers queries split by a new line. Comments starts with `#` symb
 # Browsers that we support
 
 > 1%
-Last 2 versions
-IE 8 # sorry
+IE 10 # sorry
 ```
 
 Browserslist will check config in every directory in `path`.
@@ -276,8 +274,8 @@ When writing a shared Browserslist package, just export an array.
 
 ```js
 module.exports = [
-  'last 2 versions',
-  'ie 9'
+  '> 1%',
+  'ie 10'
 ]
 ```
 
@@ -333,11 +331,12 @@ In `package.json`:
 ```js
   "browserslist": {
     "production": [
-      "last 2 version",
-      "ie 9"
+      "> 1%",
+      "ie 10"
     ],
     "development": [
-      "last 1 version"
+      "last 1 chrome version",
+      "last 1 firefox version"
     ]
   }
 ```
@@ -346,11 +345,12 @@ In `.browserslistrc` config:
 
 ```ini
 [production staging]
-last 2 version
-ie 9
+> 1%
+ie 10
 
 [development]
-last 1 version
+last 1 chrome version
+last 1 firefox version
 ```
 
 
@@ -405,8 +405,8 @@ var process = function (source, opts) {
 }
 ```
 
-Queries can be a string `"> 5%, last 1 version"`
-or an array `['> 5%', 'last 1 version']`.
+Queries can be a string `"> 1%, IE 10"`
+or an array `['> 1%', 'IE 10']`.
 
 If a query is missing, Browserslist will look for a config file.
 You can provide a `path` option (that can be a file) to find the config file
@@ -426,7 +426,7 @@ Options:
 For non-JS environment and debug purpose you can use CLI tool:
 
 ```sh
-browserslist "> 1%, last 2 versions"
+browserslist "> 1%, IE 10"
 ```
 
 
