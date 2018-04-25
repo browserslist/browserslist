@@ -121,7 +121,7 @@ You can specify the versions by queries (case insensitive):
 * `dead`: browsers from `last 2 version` query, but with less than 0.5%
   in global usage statistics and without official support or updates
   for 24 months. Right now it is `IE 10`, `IE_Mob 10`, `BlackBerry 10`,
-  and `BlackBerry 7`.
+  `BlackBerry 7`, and `OperaMobile 12.1`.
 * `last 2 versions`: the last 2 versions for *each* browser.
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
 * `defaults`: Browserslist’s default browsers

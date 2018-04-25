@@ -710,7 +710,7 @@ var QUERIES = [
   {
     regexp: /^dead$/i,
     select: function () {
-      return ['ie 10', 'ie_mob 10', 'bb 10', 'bb 7']
+      return ['ie 10', 'ie_mob 10', 'bb 10', 'bb 7', 'op_mob 12.1']
     }
   },
   {
