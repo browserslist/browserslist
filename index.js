@@ -1,5 +1,6 @@
 var path = require('path')
 var e2c = require('electron-to-chromium/versions')
+var nodeReleases = require('node-releases/data/processed/envs.json')
 
 var agents = require('caniuse-lite/dist/unpacker/agents').agents
 
@@ -666,6 +667,45 @@ var QUERIES = [
           'Unknown version ' + version + ' of electron')
       }
       return ['chrome ' + chrome]
+    }
+  },
+  {
+    regexp: /^(node)\s+((\d+\.?){0,2}\d+)$/i,
+    select: function (context, name, version) {
+      var targetNodeRelease = nodeReleases
+        .filter(function (nodeRelease) {
+          return (nodeRelease.version + '.').indexOf(version + '.') === 0
+        })
+        .sort(function (nodeRelease1, nodeRelease2) {
+          var nodeRelease1Version = nodeRelease1.version.split('.')
+          var nodeRelease2Version = nodeRelease2.version.split('.')
+          for (var i = 0; i < nodeRelease1Version.length; i++) {
+            if (nodeRelease1Version[i] !== nodeRelease2Version[i]) {
+              return nodeRelease1Version[i] - nodeRelease2Version[i]
+            }
+          }
+          return 0
+        })
+        .pop()
+      if (targetNodeRelease) {
+        return name.toLowerCase() + ' ' + targetNodeRelease.version
+      }
+      if (context.ignoreUnknownVersions) {
+        return []
+      }
+      throw new BrowserslistError('Unknown version ' + version + ' of Node.js')
+    }
+  },
+  {
+    regexp: /^maintained\s+(node)\s+versions$/i,
+    select: function (context, name) {
+      return nodeReleases
+        .filter(function (nodeRelease) {
+          return nodeRelease.lts === true
+        })
+        .map(function (nodeRelease) {
+          return name.toLowerCase() + ' ' + nodeRelease.version
+        })
     }
   },
   {
