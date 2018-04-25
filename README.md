@@ -94,6 +94,25 @@ Browserslist will use browsers query from one of this sources:
    Browserslist will use defaults:
    `> 0.5%, last 2 versions, Firefox ESR, not dead`.
 
+
+### Best Practices
+
+* We do not recommend to change browsers, if you are not 100% sure
+  what are you doing. Browserslist’s default browsers selection is a result
+  of long discussion. It is easy to make mistake by selecting own browsers
+  without understanding what are you doing (like you can make your website
+  inaccessible for Chinese users).
+* Select browsers directly (`last 2 Chrome versions`) only if you are making
+  web app for kiosk with one browser. There are a lot browsers on the market.
+  If you are making general web app you should respect browsers diversity.
+* If you want to change browsers we recommend `> 0.2%`, `> 1% in US`
+  or `> 1% in my stats`. `last 2 versions` will add too many dead browsers
+  and will not add many popular versions. If your contract requires
+  last 2 versions support, set `last 2 versions, > 1% in my stats, not dead`.
+
+
+### Full List
+
 You can specify the versions by queries (case insensitive):
 
 * `> 5%`: versions selected by global usage statistics.
