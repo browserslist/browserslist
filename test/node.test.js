@@ -15,7 +15,7 @@ describe('Node.js versions', () => {
     }).toThrowError(/Unknown version/)
   })
 
-  it('return empty array on unknown Node.js version with flag ignoreUnknownVersions = true', () => {
+  it('return empty array on unknown Node.js version with special flag', () => {
     expect(browserslist('node 7.5.7', {
       ignoreUnknownVersions: true
     })).toEqual([])
