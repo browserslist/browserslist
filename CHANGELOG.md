@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.2.6
+* Add Opera Mini 12 to dead browsers.
+* Update docs (by Jamie Kyle).
+
 ## 3.2.5
 * Fix excluding Opera Mini and other browsers with `all` version.
 
