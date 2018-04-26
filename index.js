@@ -670,8 +670,8 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^(node)\s+((\d+\.?){0,2}\d+)$/i,
-    select: function (context, name, version) {
+    regexp: /^node\s+((\d+\.?){0,2}\d+)$/i,
+    select: function (context, version) {
       var targetNodeRelease = nodeReleases
         .filter(function (nodeRelease) {
           return (nodeRelease.version + '.').indexOf(version + '.') === 0
@@ -688,7 +688,7 @@ var QUERIES = [
         })
         .pop()
       if (targetNodeRelease) {
-        return name.toLowerCase() + ' ' + targetNodeRelease.version
+        return 'node ' + targetNodeRelease.version
       }
       if (context.ignoreUnknownVersions) {
         return []
@@ -697,14 +697,14 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^maintained\s+(node)\s+versions$/i,
-    select: function (context, name) {
+    regexp: /^maintained\s+node\s+versions$/i,
+    select: function () {
       return nodeReleases
         .filter(function (nodeRelease) {
           return nodeRelease.lts === true
         })
         .map(function (nodeRelease) {
-          return name.toLowerCase() + ' ' + nodeRelease.version
+          return 'node ' + nodeRelease.version
         })
     }
   },
