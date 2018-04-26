@@ -672,21 +672,23 @@ var QUERIES = [
   {
     regexp: /^node\s+((\d+\.?){0,2}\d+)$/i,
     select: function (context, version) {
-      var targetNodeRelease = nodeReleases
-        .filter(function (nodeRelease) {
-          return (nodeRelease.version + '.').indexOf(version + '.') === 0
-        })
-        .sort(function (nodeRelease1, nodeRelease2) {
-          var nodeRelease1Version = nodeRelease1.version.split('.')
-          var nodeRelease2Version = nodeRelease2.version.split('.')
-          for (var i = 0; i < nodeRelease1Version.length; i++) {
-            if (nodeRelease1Version[i] !== nodeRelease2Version[i]) {
-              return nodeRelease1Version[i] - nodeRelease2Version[i]
-            }
+      var targetNodeRelease = nodeReleases.reduce(function (latestNodeRelease, nodeRelease) {
+        if ((nodeRelease.version + '.').indexOf(version + '.') !== 0) {
+          return latestNodeRelease
+        }
+        if (!latestNodeRelease) {
+          return nodeRelease
+        }
+        var latestNodeReleaseSegments = latestNodeRelease.version.split('.')
+        var nodeReleaseSegments = nodeRelease.version.split('.')
+        for (var i = 0; i < latestNodeReleaseSegments.length; i++) {
+          if (latestNodeReleaseSegments[i] !== nodeReleaseSegments[i]) {
+            return +latestNodeReleaseSegments[i] > +nodeReleaseSegments[i]
+              ? latestNodeRelease
+              : nodeRelease
           }
-          return 0
-        })
-        .pop()
+        }
+      }, null)
       if (targetNodeRelease) {
         return 'node ' + targetNodeRelease.version
       }
