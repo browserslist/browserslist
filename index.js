@@ -672,23 +672,26 @@ var QUERIES = [
   {
     regexp: /^node\s+((\d+\.?){0,2}\d+)$/i,
     select: function (context, version) {
-      var targetNodeRelease = nodeReleases.reduce(function (latestNodeRelease, nodeRelease) {
-        if ((nodeRelease.version + '.').indexOf(version + '.') !== 0) {
-          return latestNodeRelease
-        }
-        if (!latestNodeRelease) {
-          return nodeRelease
-        }
-        var latestNodeReleaseSegments = latestNodeRelease.version.split('.')
-        var nodeReleaseSegments = nodeRelease.version.split('.')
-        for (var i = 0; i < latestNodeReleaseSegments.length; i++) {
-          if (latestNodeReleaseSegments[i] !== nodeReleaseSegments[i]) {
-            return +latestNodeReleaseSegments[i] > +nodeReleaseSegments[i]
-              ? latestNodeRelease
-              : nodeRelease
+      var targetNodeRelease = nodeReleases
+        .reduce(function (latestNodeRelease, nodeRelease) {
+          if ((nodeRelease.version + '.').indexOf(version + '.') !== 0) {
+            return latestNodeRelease
           }
-        }
-      }, null)
+          if (!latestNodeRelease) {
+            return nodeRelease
+          }
+          var latestNodeReleaseSegments = latestNodeRelease.version.split('.')
+          var nodeReleaseSegments = nodeRelease.version.split('.')
+          for (var i = 0; i < latestNodeReleaseSegments.length; i++) {
+            if (latestNodeReleaseSegments[i] !== nodeReleaseSegments[i]) {
+              if (+nodeReleaseSegments[i] > +latestNodeReleaseSegments[i]) {
+                latestNodeRelease = nodeRelease
+              }
+              break
+            }
+          }
+          return latestNodeRelease
+        }, null)
       if (targetNodeRelease) {
         return 'node ' + targetNodeRelease.version
       }
