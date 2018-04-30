@@ -58,11 +58,11 @@ You can test Browserslist queries in [online demo].
 [eslint-plugin-compat]:                      https://github.com/amilajack/eslint-plugin-compat
 [Browserslist Example]:                       https://github.com/browserslist/browserslist-example
 [postcss-preset-env]:                        https://github.com/jonathantneal/postcss-preset-env
-[babel-preset-env]:                          https://github.com/babel/babel/tree/master/packages/babel-preset-env
 [postcss-normalize]:                         https://github.com/jonathantneal/postcss-normalize
 [Autoprefixer]:                              https://github.com/postcss/autoprefixer
 [online demo]:                               http://browserl.ist/
 [Can I Use]:                                 http://caniuse.com/
+[Babel]:                          https://github.com/babel/babel/tree/master/packages/babel-preset-env
 
 ## Tools
 
