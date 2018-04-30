@@ -7,7 +7,7 @@ Library to share target browsers between different front-end tools.
 It is used in:
 
 * [Autoprefixer]
-* [babel-preset-env]
+* [Babel]
   (external config in `package.json` or `browserslist` will be supported in 7.0)
 * [postcss-preset-env]
 * [eslint-plugin-compat]
