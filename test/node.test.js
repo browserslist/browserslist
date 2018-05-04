@@ -29,6 +29,34 @@ describe('Node.js versions', () => {
     expect(browserslist('node 5')).toEqual(['node 5.12.0'])
   })
 
+  it('returns latest version from unordered list', () => {
+    jest.resetModules()
+    jest.doMock('node-releases/data/processed/envs.json', () => {
+      return [
+        {
+          'name': 'nodejs',
+          'version': '5.10.0',
+          'date': '2016-04-01',
+          'lts': false
+        },
+        {
+          'name': 'nodejs',
+          'version': '5.12.0',
+          'date': '2016-06-23',
+          'lts': false
+        },
+        {
+          'name': 'nodejs',
+          'version': '5.11.0',
+          'date': '2016-04-21',
+          'lts': false
+        }
+      ]
+    })
+    var browserslistWithMocks = require('../')
+    expect(browserslistWithMocks('node 5')).toEqual(['node 5.12.0'])
+  })
+
   it('selects maintained Node.js versions', () => {
     expect(Array.isArray(browserslist('maintained node versions'))).toBe(true)
   })
