@@ -1,6 +1,9 @@
 var path = require('path')
 var e2c = require('electron-to-chromium/versions')
 var nodeReleases = require('node-releases/data/processed/envs.json')
+var nodeReleaseSchedule = require(
+  'node-releases/data/release-schedule/release-schedule.json'
+)
 
 var agents = require('caniuse-lite/dist/unpacker/agents').agents
 
@@ -674,6 +677,9 @@ var QUERIES = [
     select: function (context, version) {
       var targetNodeRelease = nodeReleases
         .reduce(function (latestNodeRelease, nodeRelease) {
+          if (nodeRelease.name !== 'nodejs') {
+            return latestNodeRelease
+          }
           if ((nodeRelease.version + '.').indexOf(version + '.') !== 0) {
             return latestNodeRelease
           }
@@ -683,12 +689,13 @@ var QUERIES = [
           var latestNodeReleaseSegments = latestNodeRelease.version.split('.')
           var nodeReleaseSegments = nodeRelease.version.split('.')
           for (var i = 0; i < latestNodeReleaseSegments.length; i++) {
-            if (latestNodeReleaseSegments[i] !== nodeReleaseSegments[i]) {
-              if (+nodeReleaseSegments[i] > +latestNodeReleaseSegments[i]) {
-                latestNodeRelease = nodeRelease
-              }
-              break
+            if (latestNodeReleaseSegments[i] === nodeReleaseSegments[i]) {
+              continue
             }
+            if (+nodeReleaseSegments[i] > +latestNodeReleaseSegments[i]) {
+              latestNodeRelease = nodeRelease
+            }
+            break
           }
           return latestNodeRelease
         }, null)
@@ -704,13 +711,14 @@ var QUERIES = [
   {
     regexp: /^maintained\s+node\s+versions$/i,
     select: function () {
-      return nodeReleases
-        .filter(function (nodeRelease) {
-          return nodeRelease.lts === true
-        })
-        .map(function (nodeRelease) {
-          return 'node ' + nodeRelease.version
-        })
+      var maintainedNodeVersions = []
+      var dateNow = Date.now()
+      for (var version in nodeReleaseSchedule) {
+        if (dateNow < Date.parse(nodeReleaseSchedule[version].end)) {
+          maintainedNodeVersions.push('node ' + version.slice(1))
+        }
+      }
+      return maintainedNodeVersions
     }
   },
   {
