@@ -11,8 +11,8 @@
   "license": "MIT",
   "repository": "browserslist/browserslist",
   "dependencies": {
-    "caniuse-lite": "^1.0.30000830",
-    "electron-to-chromium": "^1.3.42"
+    "caniuse-lite": "^1.0.30000835",
+    "electron-to-chromium": "^1.3.45"
   },
   "bin": "./cli.js",
   "devDependencies": {
@@ -28,9 +28,9 @@
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-security": "^1.4.0",
     "eslint-plugin-standard": "^3.1.0",
-    "fs-extra": "^5.0.0",
+    "fs-extra": "^6.0.0",
     "jest": "^22.4.3",
-    "lint-staged": "^7.0.4",
+    "lint-staged": "^7.0.5",
     "pre-commit": "^1.1.3",
     "size-limit": "^0.17.0",
     "yaspeller-ci": "^1.0.0"
