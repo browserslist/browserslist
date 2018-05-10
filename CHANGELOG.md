@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.2.7
+* Add Firefox 60 as Firefox ESR.
+
 ## 3.2.6
 * Add Opera Mini 12 to dead browsers.
 * Update docs (by Jamie Kyle).
