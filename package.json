@@ -35,21 +35,6 @@
     "size-limit": "^0.17.1",
     "yaspeller-ci": "^1.0.0"
   },
-  "eslintConfig": {
-    "extends": "eslint-config-logux/browser",
-    "rules": {
-      "security/detect-unsafe-regex": "off",
-      "global-require": "off"
-    },
-    "overrides": {
-      "files": [
-        "*.test.js"
-      ],
-      "rules": {
-        "es5/no-arrow-functions": "off"
-      }
-    }
-  },
   "jest": {
     "testEnvironment": "node",
     "coverageThreshold": {
@@ -61,21 +46,11 @@
       "<rootDir>/test/fixtures"
     ]
   },
-  "size-limit": [
-    {
-      "path": "index.js",
-      "limit": "7.2 KB"
-    }
-  ],
   "scripts": {
     "lint-staged": "lint-staged",
     "spellcheck": "yaspeller-ci README.md CHANGELOG.md",
     "lint": "eslint-ci *.js test/*.js benchmark/*.js",
     "test": "jest --coverage && yarn lint && yarn spellcheck && size-limit"
-  },
-  "lint-staged": {
-    "*.md": "yaspeller-ci",
-    "*.js": "eslint"
   },
   "browser": {
     "./node.js": "./browser.js",

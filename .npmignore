@@ -11,7 +11,9 @@ appveyor.yml
 .travis.yml
 
 .editorconfig
+.size-limit
 .eslintrc
 .yaspellerrc
+.lintstagedrc
 
 *.svg
