@@ -140,7 +140,7 @@ function resolve (queries, context) {
         var array = type.select.apply(browserslist, args)
         if (isExclude) {
           array = array.concat(array.map(function (j) {
-            return j.replace(/\s[^\s]+/, ' 0')
+            return j.replace(/\s\S+/, ' 0')
           }))
           return result.filter(function (j) {
             return array.indexOf(j) === -1
@@ -332,7 +332,7 @@ browserslist.coverage = function (browsers, stats) {
   return browsers.reduce(function (all, i) {
     var usage = data[i]
     if (usage === undefined) {
-      usage = data[i.replace(/ [^\s]+$/, ' 0')]
+      usage = data[i.replace(/ \S+$/, ' 0')]
     }
     return all + (usage || 0)
   }, 0)
