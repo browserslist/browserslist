@@ -709,8 +709,9 @@ var QUERIES = [
   },
   {
     regexp: /^dead$/i,
-    select: function () {
-      return ['ie 10', 'ie_mob 10', 'bb 10', 'bb 7', 'op_mob 12.1']
+    select: function (context) {
+      var dead = ['ie <= 10', 'ie_mob <= 10', 'bb <= 10', 'op_mob <= 12.1']
+      return resolve(dead, context)
     }
   },
   {
