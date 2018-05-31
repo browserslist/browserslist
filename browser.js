@@ -31,5 +31,7 @@ module.exports = {
 
   findConfig: noop,
 
-  clearCaches: noop
+  clearCaches: noop,
+
+  testCanIUse: noop
 }
