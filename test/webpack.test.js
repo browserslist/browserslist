@@ -36,3 +36,7 @@ it('has config methods', () => {
   expect(browserslist.readConfig()).toBeUndefined()
   expect(browserslist.findConfig()).toBeUndefined()
 })
+
+it('has test caniuse-lite method', () => {
+  expect(browserslist.testCanIUse()).toBeUndefined()
+})

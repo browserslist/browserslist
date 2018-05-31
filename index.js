@@ -7,6 +7,7 @@ var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
 
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
+var latestVersion = 0
 
 function normalize (versions) {
   return versions.filter(function (version) {
@@ -154,6 +155,14 @@ function resolve (queries, context) {
   }, [])
 }
 
+function checkLatestVersion (releaseDate) {
+  for (var version in releaseDate) {
+    if (releaseDate[version] > latestVersion) {
+      latestVersion = releaseDate[version]
+    }
+  }
+}
+
 /**
  * Return array of browsers by selection queries.
  *
@@ -279,6 +288,7 @@ browserslist.parseConfig = env.parseConfig
 browserslist.readConfig = env.readConfig
 browserslist.findConfig = env.findConfig
 browserslist.loadConfig = env.loadConfig
+browserslist.testCanIUse = env.testCanIUse
 
 /**
  * Return browsers market coverage.
@@ -752,7 +762,9 @@ var QUERIES = [
         }
       }
     }
+    checkLatestVersion(agents[name].release_date)
   }
+  browserslist.testCanIUse(latestVersion)
 }())
 
 module.exports = browserslist

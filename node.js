@@ -12,6 +12,7 @@ var FORMAT = 'Browserslist config should be a string or an array ' +
 
 var filenessCache = { }
 var configCache = { }
+var DAYS_TO_UPDATE_CANIUSE = 182
 
 function checkExtend (name) {
   var use = ' Use `dangerousExtend` option to disable.'
@@ -94,6 +95,12 @@ function parsePackage (file) {
   }
 
   return list
+}
+
+function padToEnd (num, digits) {
+  var arr = new Array(digits)
+  arr.unshift(1)
+  return num * arr.join('0')
 }
 
 module.exports = {
@@ -258,5 +265,24 @@ module.exports = {
   clearCaches: function clearCaches () {
     filenessCache = { }
     configCache = { }
+  },
+
+  testCanIUse: function testCanIUse (latestVersion) {
+    var now = Date.now()
+    var digitsDiff = String(now).length - String(latestVersion).length
+    if (digitsDiff) {
+      latestVersion = padToEnd(latestVersion, digitsDiff)
+    }
+    var diffDates = now - latestVersion
+    diffDates = diffDates / 1000 / 60 / 60
+    var daysFromUpdate = Math.floor(diffDates / 24)
+    if (daysFromUpdate > DAYS_TO_UPDATE_CANIUSE) {
+      var pathToYarnLock = path.normalize('./yarn.lock')
+      var isYarnInstalled = isFile(pathToYarnLock)
+      var packageManagerStr = isYarnInstalled ? 'yarn upgrage' : 'npm update'
+      console.warn('\x1b[31m\x1b[1m[Browserslist] WARN: ' +
+        '\x1b[0m\'caniuse-lite\' is outdated. ' +
+        'Please run \x1b[1m%s caniuse-lite\x1b[0m', packageManagerStr)
+    }
   }
 }
