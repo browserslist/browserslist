@@ -12,6 +12,7 @@ var FORMAT = 'Browserslist config should be a string or an array ' +
 
 var filenessCache = { }
 var configCache = { }
+var MONTH_TO_UPDATE_CANIUSE = 6
 
 function checkExtend (name) {
   var use = ' Use `dangerousExtend` option to disable.'
@@ -94,6 +95,19 @@ function parsePackage (file) {
   }
 
   return list
+}
+
+function getNewestReleaseTime (agentsObj) {
+  var newestRelease = 0
+  for (var name in agentsObj) {
+    var agentReleaseDates = agentsObj[name].releaseDate || {}
+    newestRelease = Object.keys(agentReleaseDates)
+      .reduce(function (accTime, elem) {
+        var agentTime = agentReleaseDates[elem]
+        return agentTime > accTime ? agentTime : accTime
+      }, newestRelease)
+  }
+  return newestRelease * 1000
 }
 
 module.exports = {
@@ -258,5 +272,33 @@ module.exports = {
   clearCaches: function clearCaches () {
     filenessCache = { }
     configCache = { }
+  },
+
+  checkCanIUse: function checkCanIUse (agentsObj) {
+    var newestBrowserReleaseTime = getNewestReleaseTime(agentsObj)
+    var today = new Date()
+    var halfYearAgo = new Date(
+      today.getFullYear(),
+      today.getMonth() - MONTH_TO_UPDATE_CANIUSE,
+      today.getDate()
+    ).getTime()
+
+    var isWarningNeed = newestBrowserReleaseTime - halfYearAgo < 0
+
+    if (isWarningNeed) {
+      var hasYarnLock = false
+      eachParent(__filename, function (dir) {
+        var yarnLock = path.join(dir, 'yarn.lock')
+        if (isFile(yarnLock)) {
+          hasYarnLock = true
+        }
+      })
+
+      var packageManager = hasYarnLock ? 'yarn upgrade' : 'npm update'
+      console.warn('\x1b[1m!!![Browserslist] WARN: ' +
+        '\'caniuse-lite\' is outdated. ' +
+        'Please run next command \'' + packageManager +
+        ' caniuse-lite browserslist\'')
+    }
   }
 }
