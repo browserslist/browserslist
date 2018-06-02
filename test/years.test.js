@@ -8,6 +8,7 @@ function mockDate (iso) {
     Object.getPrototypeOf(RealDate.prototype).constructor.call(this)
     return new RealDate(iso)
   }
+  global.Date.now = RealDate.now
 }
 
 beforeEach(() => {

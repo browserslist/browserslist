@@ -12,7 +12,7 @@ var FORMAT = 'Browserslist config should be a string or an array ' +
 
 var filenessCache = { }
 var configCache = { }
-var MONTH_TO_UPDATE_CANIUSE = 6
+var TIME_TO_UPDATE_CANIUSE = 6 * 30 * 24 * 60 * 60 * 1000
 
 function checkExtend (name) {
   var use = ' Use `dangerousExtend` option to disable.'
@@ -276,26 +276,22 @@ module.exports = {
 
   checkCanIUse: function checkCanIUse (agentsObj) {
     var newestBrowserReleaseTime = getNewestReleaseTime(agentsObj)
-    var today = new Date()
-    var halfYearAgo = new Date(
-      today.getFullYear(),
-      today.getMonth() - MONTH_TO_UPDATE_CANIUSE,
-      today.getDate()
-    ).getTime()
+    var halfYearAgo = Date.now() - TIME_TO_UPDATE_CANIUSE
 
     var isWarningNeed = newestBrowserReleaseTime - halfYearAgo < 0
 
     if (isWarningNeed) {
       var hasYarnLock = false
       eachParent(__filename, function (dir) {
+        var pckg = path.join(dir, 'package.json')
         var yarnLock = path.join(dir, 'yarn.lock')
-        if (isFile(yarnLock)) {
+        if (isFile(pckg) && isFile(yarnLock)) {
           hasYarnLock = true
         }
       })
 
       var packageManager = hasYarnLock ? 'yarn upgrade' : 'npm update'
-      console.warn('\x1b[1m!!![Browserslist] WARN: ' +
+      console.warn('!!![Browserslist] WARN: ' +
         '\'caniuse-lite\' is outdated. ' +
         'Please run next command \'' + packageManager +
         ' caniuse-lite browserslist\'')
