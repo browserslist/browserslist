@@ -105,8 +105,8 @@ Browserslist will use browsers query from one of this sources:
   If you are making general web app you should respect browsers diversity.
 * If you want to change the default set of browsers we recommend to combine
   `last 1 version`, `not dead` with `> 0.2%` (or `> 1% in US`,
-  `> 1% in my stats`). Just `last n versions` adds to many dead browsers
-  and do not add popular old versions. Just `> 0.2%` make popular browsers even
+  `> 1% in my stats`). Just `last n versions` adds too many dead browsers
+  and does not add popular old versions. Just `> 0.2%` make popular browsers even
   more popular, so we will have a monopoly and stagnation, as we had
   with Internet Explorer 6.
 * Don’t remove browsers just because you don’t know them. Opera Mini has
