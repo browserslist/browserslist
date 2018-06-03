@@ -278,7 +278,10 @@ module.exports = {
     var newestBrowserReleaseTime = getNewestReleaseTime(agentsObj)
     var halfYearAgo = Date.now() - TIME_TO_UPDATE_CANIUSE
 
-    var isWarningNeed = newestBrowserReleaseTime - halfYearAgo < 0
+    var isWarningNeed = (
+      newestBrowserReleaseTime !== 0 &&
+      newestBrowserReleaseTime - halfYearAgo < 0
+    )
 
     if (isWarningNeed) {
       var hasYarnLock = false
@@ -291,7 +294,7 @@ module.exports = {
       })
 
       var packageManager = hasYarnLock ? 'yarn upgrade' : 'npm update'
-      console.warn('!!![Browserslist] WARN: ' +
+      console.warn('[Browserslist] WARN: ' +
         '\'caniuse-lite\' is outdated. ' +
         'Please run next command \'' + packageManager +
         ' caniuse-lite browserslist\'')

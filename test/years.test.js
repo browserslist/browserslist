@@ -2,6 +2,7 @@ var browserslist = require('../')
 
 var RealDate = Date
 var originData = browserslist.data
+var originWarn = console.warn
 
 function mockDate (iso) {
   global.Date = function () {
@@ -35,11 +36,24 @@ beforeEach(() => {
       }
     }
   }
+  console.warn = function () {
+    if (
+      typeof arguments[0] === 'string' &&
+      (
+        /yarn upgrade/.test(arguments[0]) ||
+        /npm update/.test(arguments[0])
+      )
+    ) {
+      return
+    }
+    originWarn.apply(this, arguments)
+  }
 })
 
 afterEach(() => {
   global.Date = RealDate
   browserslist.data = originData
+  console.warn = originWarn
 })
 
 it('selects versions released within last X years', () => {

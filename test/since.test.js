@@ -1,6 +1,7 @@
 var browserslist = require('../')
 
 var originData = browserslist.data
+var originWarn = console.warn
 
 beforeEach(() => {
   browserslist.data = {
@@ -14,10 +15,23 @@ beforeEach(() => {
       }
     }
   }
+  console.warn = function () {
+    if (
+      typeof arguments[0] === 'string' &&
+      (
+        /yarn upgrade/.test(arguments[0]) ||
+        /npm update/.test(arguments[0])
+      )
+    ) {
+      return
+    }
+    originWarn.apply(this, arguments)
+  }
 })
 
 afterEach(() => {
   browserslist.data = originData
+  console.warn = originWarn
 })
 
 it('selects versions released on year boundaries', () => {
