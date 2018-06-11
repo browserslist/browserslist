@@ -54,6 +54,7 @@
   },
   "browser": {
     "./node.js": "./browser.js",
+    "./update.js": false,
     "path": false
   },
   "pre-commit": [
