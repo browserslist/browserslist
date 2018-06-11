@@ -4,6 +4,8 @@ var path = require('path')
 var browserslist = require('../')
 var pkg = require('../package.json')
 
+var message = require('./update.test.js').message
+
 var STATS = path.join(__dirname, 'fixtures', 'stats.json')
 var CONF = path.join(__dirname, 'fixtures', 'env-config', 'browserslist')
 
@@ -25,7 +27,7 @@ function run () {
       out += data.toString()
     })
     cli.stderr.on('data', data => {
-      out += data.toString()
+      out += data.toString().replace(message + '\n', '')
     })
     cli.on('close', () => {
       resolve(out)
@@ -48,7 +50,7 @@ function err () {
       out += data.toString()
     })
     cli.stderr.on('data', data => {
-      error += data.toString()
+      error += data.toString().replace(message + '\n', '')
     })
     cli.on('close', code => {
       expect(out).toEqual('')
