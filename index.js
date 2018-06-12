@@ -205,7 +205,6 @@ function browserslist (queries, opts) {
     ignoreUnknownVersions: opts.ignoreUnknownVersions,
     dangerousExtend: opts.dangerousExtend
   }
-
   var stats = env.getStat(opts)
   if (stats) {
     context.customUsage = { }
@@ -213,6 +212,8 @@ function browserslist (queries, opts) {
       fillUsage(context.customUsage, browser, stats[browser])
     }
   }
+
+  env.updateNotifier.notifier(browserslist.data.interval)
 
   var result = resolve(queries, context).map(function (i) {
     var parts = i.split(' ')
@@ -753,6 +754,8 @@ var QUERIES = [
       }
     }
   }
+  browserslist.data.interval =
+   env.updateNotifier.getInterval(browserslist.data)
 }())
 
 module.exports = browserslist

@@ -1,5 +1,10 @@
 var BrowserslistError = require('./error')
 
+var u = {
+  getInterval: function () {},
+  notifier: function () {}
+}
+
 function noop () { }
 
 module.exports = {
@@ -31,5 +36,7 @@ module.exports = {
 
   findConfig: noop,
 
-  clearCaches: noop
+  clearCaches: noop,
+
+  updateNotifier: u
 }
