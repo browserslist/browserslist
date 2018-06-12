@@ -1,17 +1,16 @@
 var browserslist = require('../')
-var updateNotifier = require('../update')
-var getIntervalFromLatestRelease =
- jest.fn(updateNotifier.getIntervalFromLatestRelease)
-var caniuseUpdateNotifier =
- jest.fn(updateNotifier.caniuseUpdateNotifier)
+var env = require('../node')
+var getInterval =
+ jest.fn(env.updateNotifier.getInterval)
+var notifier =
+ jest.fn(env.updateNotifier.notifier)
 
-var interval = browserslist.data.intervalFromLatestRelease
+var interval = browserslist.data.interval
 var message = '\n[Browserslist]:\n' +
 'https://github.com/ben-eb/caniuse-lite ' +
 'hasn\'t been updated for more than ' +
  interval + ' days!\n' +
-'To update, run:\n' +
-'npm update caniuse-lite browserslist or' +
+'run: npm update caniuse-lite browserslist or' +
 ' yarn upgrade caniuse-lite browserslist\n'
 
 var trueConsole = console.warn
@@ -49,16 +48,16 @@ describe('testing updateNotifier internals',
     })
 
     it('should calculate interval from latest release', () => {
-      expect(getIntervalFromLatestRelease(browserslist.data)).toBe(0)
+      expect(getInterval(browserslist.data)).toBe(0)
     })
     /* re-run prevention */
     it('should change updateNotifier.notified property to true' +
      'and return its value', () => {
-      expect(caniuseUpdateNotifier(188)).toBe(true)
+      expect(notifier(188)).toBe(true)
     })
     it('should return null if updateNotifier.notified is equal to true',
       () => {
-        expect(getIntervalFromLatestRelease()).toBeNull()
+        expect(getInterval()).toBeNull()
       })
   })
 
@@ -76,15 +75,15 @@ describe('integration with browserslist', () => {
   it('should append intervalFromLatestRelease property to browserslist.data',
     () => {
       browserslist('last 2 versions')
-      expect(typeof browserslist.data.intervalFromLatestRelease).toBe('number')
+      expect(typeof browserslist.data.interval).toBe('number')
     })
   it('should NOT call console if interval < 188', () => {
-    browserslist.data.intervalFromLatestRelease = 18
+    browserslist.data.interval = 18
     browserslist('last 2 versions')
     expect(console.warn).not.toHaveBeenCalled()
   })
   it('should call console if interval >= 188', () => {
-    browserslist.data.intervalFromLatestRelease = 188
+    browserslist.data.interval = 188
     var fakeInterval = 188
     message = message.replace(interval, fakeInterval)
     browserslist('last 2 versions')
@@ -92,8 +91,8 @@ describe('integration with browserslist', () => {
   })
   it('should NOT be executed if it was executed before', () => {
     browserslist('last 2 versions')
-    expect(getIntervalFromLatestRelease).not.toHaveBeenCalled()
-    expect(caniuseUpdateNotifier).not.toHaveBeenCalled()
+    expect(getInterval).not.toHaveBeenCalled()
+    expect(notifier).not.toHaveBeenCalled()
     expect(console.warn).not.toHaveBeenCalled()
   })
 })

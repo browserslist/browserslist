@@ -5,7 +5,6 @@ var agents = require('caniuse-lite/dist/unpacker/agents').agents
 
 var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
-var updateNotifier = require('./update')
 
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 
@@ -206,7 +205,6 @@ function browserslist (queries, opts) {
     ignoreUnknownVersions: opts.ignoreUnknownVersions,
     dangerousExtend: opts.dangerousExtend
   }
-
   var stats = env.getStat(opts)
   if (stats) {
     context.customUsage = { }
@@ -215,8 +213,7 @@ function browserslist (queries, opts) {
     }
   }
 
-  updateNotifier.caniuseUpdateNotifier(
-    browserslist.data.intervalFromLatestRelease)
+  env.updateNotifier.notifier(browserslist.data.interval)
 
   var result = resolve(queries, context).map(function (i) {
     var parts = i.split(' ')
@@ -757,8 +754,8 @@ var QUERIES = [
       }
     }
   }
-  browserslist.data.intervalFromLatestRelease =
-   updateNotifier.getIntervalFromLatestRelease(browserslist.data)
+  browserslist.data.interval =
+   env.updateNotifier.getInterval(browserslist.data)
 }())
 
 module.exports = browserslist
