@@ -3,8 +3,8 @@
 <img align="right" width="120" height="120"
      src="./logo.svg" alt="Browserslist logo by Anton Lovchikov">
 
-Library to share target browsers between different front-end tools.
-It is used in:
+The config to share target browsers and Node.js versions between different
+front-end tools. It is used in:
 
 * [Autoprefixer]
 * [Babel]
@@ -21,8 +21,10 @@ when you add the following to `package.json`:
 ```json
 {
   "browserslist": [
+    "last 1 version",
     "> 1%",
-    "IE 10"
+    "maintained node versions",
+    "not dead"
   ]
 }
 ```
@@ -32,15 +34,17 @@ Or in `.browserslistrc` config:
 ```yaml
 # Browsers that we support
 
+last 1 version
 > 1%
-IE 10 # sorry
+maintained node versions
+not dead
 ```
 
-Developers set browsers list in queries like `last 2 version`
-to be free from updating browser versions manually.
+Developers set versions list in queries like `last 2 version`
+to be free from updating versions versions manually.
 Browserslist will use [Can I Use] data for this queries.
 
-Browserslist will take browsers queries from tool option,
+Browserslist will take queries from tool option,
 `browserslist` config, `.browserslistrc` config,
 `browserslist` section in `package.json` or environment variables.
 
@@ -85,7 +89,8 @@ You can test Browserslist queries in [online demo].
 
 ## Queries
 
-Browserslist will use browsers query from one of this sources:
+Browserslist will use browsers and Node.js versions query
+from one of this sources:
 
 1. Tool options. For example `browsers` option in Autoprefixer.
 2. `BROWSERSLIST` environment variable.
@@ -106,8 +111,8 @@ Browserslist will use browsers query from one of this sources:
 * If you want to change the default set of browsers we recommend to combine
   `last 1 version`, `not dead` with `> 0.2%` (or `> 1% in US`,
   `> 1% in my stats`). Just `last n versions` adds too many dead browsers
-  and does not add popular old versions. Just `> 0.2%` make popular browsers even
-  more popular, so we will have a monopoly and stagnation, as we had
+  and does not add popular old versions. Just `> 0.2%` make popular browsers
+  even more popular, so we will have a monopoly and stagnation, as we had
   with Internet Explorer 6.
 * Don’t remove browsers just because you don’t know them. Opera Mini has
   100 million users in Africa and it is more popular in global market,
@@ -117,9 +122,9 @@ Browserslist will use browsers query from one of this sources:
 
 ### Full List
 
-You can specify the versions by queries (case insensitive):
+You can specify the browser and Node.js versions by queries (case insensitive):
 
-* `> 5%`: versions selected by global usage statistics.
+* `> 5%`: browsers versions selected by global usage statistics.
   `>=`, `<` and `<=` work too.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
 * `> 5% in alt-AS`: uses Asia region usage statistics. List of all region codes
@@ -128,6 +133,10 @@ You can specify the versions by queries (case insensitive):
 * `cover 99.5%`: most popular browsers that provide coverage.
 * `cover 99.5% in US`: same as above, with [two-letter country code].
 * `cover 99.5% in my stats`: uses [custom usage data].
+* `maintained node versions`: all Node.js versions, which are [still maintained]
+  by Node.js Foundation.
+* `node 10` and `node 10.4`: selects latest Node.js `10.x.x`
+  or `10.4.x` release.
 * `extends browserslist-config-mycompany`: take queries from
   `browserslist-config-mycompany` npm package.
 * `ie 6-8`: selects an inclusive range of versions.
@@ -193,6 +202,7 @@ whereas `last 3 Chrome versions` might select `50, 49, 48` (major only).
 [`caniuse-lite/data/regions`]: https://github.com/ben-eb/caniuse-lite/tree/master/data/regions
 [two-letter country code]:     http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 [custom usage data]:           #custom-usage-data
+[still maintained]:            https://github.com/nodejs/Release
 [Can I Use]:                   http://caniuse.com/
 
 
@@ -212,6 +222,7 @@ Names are case insensitive:
 * `Firefox` or `ff` for Mozilla Firefox.
 * `FirefoxAndroid` or `and_ff` for Firefox for Android.
 * `iOS` or `ios_saf` for iOS Safari.
+* `Node` for Node.js.
 * `Opera` for Opera.
 * `OperaMini` or `op_mini` for Opera Mini.
 * `OperaMobile` or `op_mob` for Opera Mobile.
@@ -233,6 +244,7 @@ browsers in `package.json` with `browserslist` key:
     "autoprefixer": "^6.5.4"
   },
   "browserslist": [
+    "last 1 version",
     "> 1%",
     "IE 10"
   ]
@@ -248,6 +260,7 @@ and have browsers queries split by a new line. Comments starts with `#` symb
 ```yaml
 # Browsers that we support
 
+last 1 version
 > 1%
 IE 10 # sorry
 ```
@@ -297,6 +310,7 @@ When writing a shared Browserslist package, just export an array.
 
 ```js
 module.exports = [
+  'last 1 version',
   '> 1%',
   'ie 10'
 ]
