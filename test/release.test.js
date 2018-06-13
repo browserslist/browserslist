@@ -125,8 +125,8 @@ describe('All versions are older than 6 months', () => {
     fs.statSync = mockStatSync
     browserslist('last 2 versions')
     expect(console.warn).toHaveBeenCalledWith(
-      '[Browserslist] WARN: \'caniuse-lite\' is outdated. ' +
-      'Please run next command \'yarn upgrade caniuse-lite browserslist\''
+      'Browserslist: caniuse-lite is outdated. ' +
+      'Please run next command `yarn upgrade caniuse-lite browserslist`'
     )
   })
 
@@ -135,8 +135,8 @@ describe('All versions are older than 6 months', () => {
     fs.statSync = mockStatSync
     browserslist('last 2 versions')
     expect(console.warn).toHaveBeenCalledWith(
-      '[Browserslist] WARN: \'caniuse-lite\' is outdated. ' +
-      'Please run next command \'npm update caniuse-lite browserslist\''
+      'Browserslist: caniuse-lite is outdated. ' +
+      'Please run next command `npm update caniuse-lite browserslist`'
     )
   })
 })

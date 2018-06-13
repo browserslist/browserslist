@@ -284,20 +284,17 @@ module.exports = {
     )
 
     if (isWarningNeed) {
-      var hasYarnLock = false
+      var command = 'npm update'
       eachParent(__filename, function (dir) {
         var pckg = path.join(dir, 'package.json')
         var yarnLock = path.join(dir, 'yarn.lock')
         if (isFile(pckg) && isFile(yarnLock)) {
-          hasYarnLock = true
+          command = 'yarn upgrade'
         }
       })
-
-      var packageManager = hasYarnLock ? 'yarn upgrade' : 'npm update'
-      console.warn('[Browserslist] WARN: ' +
-        '\'caniuse-lite\' is outdated. ' +
-        'Please run next command \'' + packageManager +
-        ' caniuse-lite browserslist\'')
+      console.warn(
+        'Browserslist: caniuse-lite is outdated. ' +
+        'Please run next command `' + command + ' caniuse-lite browserslist`')
     }
   }
 }
