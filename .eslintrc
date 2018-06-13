@@ -4,12 +4,14 @@
     "security/detect-unsafe-regex": "off",
     "global-require": "off"
   },
-  "overrides": {
-    "files": [
-      "*.test.js"
-    ],
-    "rules": {
-      "es5/no-arrow-functions": "off"
+  "overrides": [
+    {
+      "files": [
+        "*.test.js"
+      ],
+      "rules": {
+        "es5/no-arrow-functions": "off"
+      }
     }
-  }
+  ]
 }
