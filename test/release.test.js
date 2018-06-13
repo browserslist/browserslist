@@ -1,8 +1,6 @@
 var browserslist = require('../')
 var fs = require('fs')
 
-jest.mock('fs')
-
 var originData = browserslist.data
 var originWarn = console.warn
 
@@ -106,6 +104,9 @@ describe('There are versions are younger than 6 months', () => {
 })
 
 describe('All versions are older than 6 months', () => {
+  var originSxists = fs.existsSync
+  var originStat = fs.statSync
+
   beforeEach(() => {
     browserslist.data = olderSixMonthsData
     console.warn = jest.fn()
@@ -113,11 +114,13 @@ describe('All versions are older than 6 months', () => {
 
   afterEach(() => {
     browserslist.data = originData
+    fs.existsSync = originSxists
+    fs.statSync = originStat
     console.warn = originWarn
     browserslist.clearCaches()
   })
 
-  it('yarn detedtion', () => {
+  it('yarn detection', () => {
     fs.existsSync = findPackageAndYarn
     fs.statSync = mockStatSync
     browserslist('last 2 versions')
@@ -127,7 +130,7 @@ describe('All versions are older than 6 months', () => {
     )
   })
 
-  it('npm detedtion', () => {
+  it('npm detection', () => {
     fs.existsSync = findPackage
     fs.statSync = mockStatSync
     browserslist('last 2 versions')
