@@ -189,7 +189,7 @@ module.exports = {
 
     string.toString()
       .replace(/#[^\n]*/g, '')
-      .split(/\n/)
+      .split(/\n|,/)
       .map(function (line) {
         return line.trim()
       })

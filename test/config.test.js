@@ -25,6 +25,12 @@ it('parses queries', () => {
   })
 })
 
+it('parses comma', () => {
+  expect(browserslist.parseConfig('ie 10, > 1%')).toEqual({
+    defaults: ['ie 10', '> 1%']
+  })
+})
+
 it('removes comments', () => {
   var config = '# support list\nie 10#bad\n> 1%'
   expect(browserslist.parseConfig(config)).toEqual({
