@@ -97,17 +97,17 @@ function parsePackage (file) {
   return list
 }
 
-function getNewestReleaseTime (agentsObj) {
-  var newestRelease = 0
-  for (var name in agentsObj) {
-    var agentReleaseDates = agentsObj[name].releaseDate || {}
-    newestRelease = Object.keys(agentReleaseDates)
-      .reduce(function (accTime, elem) {
-        var agentTime = agentReleaseDates[elem]
-        return agentTime > accTime ? agentTime : accTime
-      }, newestRelease)
+function latestReleaseTime (agents) {
+  var latest = 0
+  for (var name in agents) {
+    var dates = agents[name].releaseDate || { }
+    for (var key in dates) {
+      if (latest < dates[key]) {
+        latest = dates[key]
+      }
+    }
   }
-  return newestRelease * 1000
+  return latest * 1000
 }
 
 module.exports = {
@@ -275,15 +275,9 @@ module.exports = {
   },
 
   checkCanIUse: function checkCanIUse (agentsObj) {
-    var newestBrowserReleaseTime = getNewestReleaseTime(agentsObj)
+    var latest = latestReleaseTime(agentsObj)
     var halfYearAgo = Date.now() - TIME_TO_UPDATE_CANIUSE
-
-    var isWarningNeed = (
-      newestBrowserReleaseTime !== 0 &&
-      newestBrowserReleaseTime - halfYearAgo < 0
-    )
-
-    if (isWarningNeed) {
+    if (latest !== 0 && latest < halfYearAgo) {
       var command = 'npm update'
       eachParent(__filename, function (dir) {
         var pckg = path.join(dir, 'package.json')
