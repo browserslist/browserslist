@@ -144,7 +144,7 @@ function resolve (queries, context) {
         var array = type.select.apply(browserslist, args)
         if (isExclude) {
           array = array.concat(array.map(function (j) {
-            return j.replace(/\s[^\s]+/, ' 0')
+            return j.replace(/\s\S+/, ' 0')
           }))
           return result.filter(function (j) {
             return array.indexOf(j) === -1
@@ -336,7 +336,7 @@ browserslist.coverage = function (browsers, stats) {
   return browsers.reduce(function (all, i) {
     var usage = data[i]
     if (usage === undefined) {
-      usage = data[i.replace(/ [^\s]+$/, ' 0')]
+      usage = data[i.replace(/ \S+$/, ' 0')]
     }
     return all + (usage || 0)
   }, 0)
@@ -652,7 +652,7 @@ var QUERIES = [
   {
     regexp: /^(firefox|ff|fx)\s+esr$/i,
     select: function () {
-      return ['firefox 52']
+      return ['firefox 52', 'firefox 60']
     }
   },
   {
@@ -762,8 +762,9 @@ var QUERIES = [
   },
   {
     regexp: /^dead$/i,
-    select: function () {
-      return ['ie 10', 'ie_mob 10', 'bb 10', 'bb 7']
+    select: function (context) {
+      var dead = ['ie <= 10', 'ie_mob <= 10', 'bb <= 10', 'op_mob <= 12.1']
+      return resolve(dead, context)
     }
   },
   {

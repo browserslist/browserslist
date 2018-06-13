@@ -7,7 +7,7 @@ Library to share target browsers between different front-end tools.
 It is used in:
 
 * [Autoprefixer]
-* [babel-preset-env]
+* [Babel]
   (external config in `package.json` or `browserslist` will be supported in 7.0)
 * [postcss-preset-env]
 * [eslint-plugin-compat]
@@ -58,11 +58,11 @@ You can test Browserslist queries in [online demo].
 [eslint-plugin-compat]:                      https://github.com/amilajack/eslint-plugin-compat
 [Browserslist Example]:                       https://github.com/browserslist/browserslist-example
 [postcss-preset-env]:                        https://github.com/jonathantneal/postcss-preset-env
-[babel-preset-env]:                          https://github.com/babel/babel/tree/master/packages/babel-preset-env
 [postcss-normalize]:                         https://github.com/jonathantneal/postcss-normalize
 [Autoprefixer]:                              https://github.com/postcss/autoprefixer
 [online demo]:                               http://browserl.ist/
 [Can I Use]:                                 http://caniuse.com/
+[Babel]:                          https://github.com/babel/babel/tree/master/packages/babel-preset-env
 
 ## Tools
 
@@ -70,14 +70,17 @@ You can test Browserslist queries in [online demo].
   to use it in `> 0.5% in my stats` query.
 * [`browserslist-useragent`] checks browser by user agent string
   to match Browserslist target browsers query.
+* [`browserslist-useragent-ruby`] is a Ruby library to checks browser
+  by user agent string to match Browserslist.
 * [`caniuse-api`] returns browsers which support some specific feature.
 * Run `npx browserslist` in your project directory to see project’s
   target browsers. This CLI tool is built-in and available in any project
   with Autoprefixer.
 
-[`browserslist-useragent`]: https://github.com/pastelsky/browserslist-useragent
-[`browserslist-ga`]:        https://github.com/browserslist/browserslist-ga
-[`caniuse-api`]:            https://github.com/Nyalab/caniuse-api
+[`browserslist-useragent-ruby`]: https://github.com/browserslist/browserslist-useragent-ruby
+[`browserslist-useragent`]:      https://github.com/pastelsky/browserslist-useragent
+[`browserslist-ga`]:             https://github.com/browserslist/browserslist-ga
+[`caniuse-api`]:                 https://github.com/Nyalab/caniuse-api
 
 
 ## Queries
@@ -93,6 +96,26 @@ Browserslist will use browsers query from one of this sources:
 5. If the above methods did not produce a valid result
    Browserslist will use defaults:
    `> 0.5%, last 2 versions, Firefox ESR, not dead`.
+
+
+### Best Practices
+
+* Select browsers directly (`last 2 Chrome versions`) only if you are making
+  web app for kiosk with one browser. There are a lot browsers on the market.
+  If you are making general web app you should respect browsers diversity.
+* If you want to change the default set of browsers we recommend to combine
+  `last 1 version`, `not dead` with `> 0.2%` (or `> 1% in US`,
+  `> 1% in my stats`). Just `last n versions` adds too many dead browsers
+  and does not add popular old versions. Just `> 0.2%` make popular browsers even
+  more popular, so we will have a monopoly and stagnation, as we had
+  with Internet Explorer 6.
+* Don’t remove browsers just because you don’t know them. Opera Mini has
+  100 million users in Africa and it is more popular in global market,
+  than Microsoft Edge. Chinese QQ Browsers has more market share than Firefox
+  and desktop Safari altogether.
+
+
+### Full List
 
 You can specify the versions by queries (case insensitive):
 
@@ -121,7 +144,7 @@ You can specify the versions by queries (case insensitive):
 * `dead`: browsers from `last 2 version` query, but with less than 0.5%
   in global usage statistics and without official support or updates
   for 24 months. Right now it is `IE 10`, `IE_Mob 10`, `BlackBerry 10`,
-  and `BlackBerry 7`.
+  `BlackBerry 7`, and `OperaMobile 12.1`.
 * `last 2 versions`: the last 2 versions for *each* browser.
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
 * `defaults`: Browserslist’s default browsers

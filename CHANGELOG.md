@@ -1,6 +1,17 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 3.2.8
+* Add IE 9-5.5 to dead browsers.
+* Remove development configs from npm package.
+
+## 3.2.7
+* Add Firefox 60 as Firefox ESR.
+
+## 3.2.6
+* Add Opera Mini 12 to dead browsers.
+* Update docs (by Jamie Kyle).
+
 ## 3.2.5
 * Fix excluding Opera Mini and other browsers with `all` version.
 

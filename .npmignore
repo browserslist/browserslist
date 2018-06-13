@@ -1,6 +1,3 @@
-.gitignore
-.npmignore
-
 node_modules/
 npm-debug.log
 yarn-error.log
@@ -14,7 +11,9 @@ appveyor.yml
 .travis.yml
 
 .editorconfig
+.size-limit
 .eslintrc
 .yaspellerrc
+.lintstagedrc
 
 *.svg

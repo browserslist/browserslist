@@ -38,7 +38,7 @@ if (isArg('--help') || isArg('-h')) {
 
   for (var i = 0; i < args.length; i++) {
     if (args[i][0] !== '-') {
-      queries = args[i].replace(/^['"]|['"]$/g, '')
+      queries = args[i].replace(/^["']|["']$/g, '')
       continue
     }
 
@@ -46,7 +46,7 @@ if (isArg('--help') || isArg('-h')) {
     var name = arg[0]
     var value = arg[1]
 
-    if (value) value = value.replace(/^['"]|['"]$/g, '')
+    if (value) value = value.replace(/^["']|["']$/g, '')
 
     if (name === '--config' || name === '-b') {
       opts.config = value
