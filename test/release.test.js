@@ -97,7 +97,7 @@ describe('There are versions are younger than 6 months', () => {
     browserslist.clearCaches()
   })
 
-  it('checkCanIUse doesn\'t throw warning', () => {
+  it('does not print warning', () => {
     browserslist('last 2 versions')
     expect(console.warn).toHaveBeenCalledTimes(0)
   })
@@ -120,23 +120,23 @@ describe('All versions are older than 6 months', () => {
     browserslist.clearCaches()
   })
 
-  it('yarn detection', () => {
-    fs.existsSync = findPackageAndYarn
-    fs.statSync = mockStatSync
-    browserslist('last 2 versions')
-    expect(console.warn).toHaveBeenCalledWith(
-      'Browserslist: caniuse-lite is outdated. ' +
-      'Please run next command `yarn upgrade caniuse-lite browserslist`'
-    )
-  })
-
-  it('npm detection', () => {
+  it('shows warning', () => {
     fs.existsSync = findPackage
     fs.statSync = mockStatSync
     browserslist('last 2 versions')
     expect(console.warn).toHaveBeenCalledWith(
       'Browserslist: caniuse-lite is outdated. ' +
       'Please run next command `npm update caniuse-lite browserslist`'
+    )
+  })
+
+  it('detects yarn', () => {
+    fs.existsSync = findPackageAndYarn
+    fs.statSync = mockStatSync
+    browserslist('last 2 versions')
+    expect(console.warn).toHaveBeenCalledWith(
+      'Browserslist: caniuse-lite is outdated. ' +
+      'Please run next command `yarn upgrade caniuse-lite browserslist`'
     )
   })
 })
