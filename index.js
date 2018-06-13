@@ -1,11 +1,8 @@
+var jsReleases = require('node-releases/data/processed/envs.json')
+var agents = require('caniuse-lite/dist/unpacker/agents').agents
+var jsEOL = require('node-releases/data/release-schedule/release-schedule.json')
 var path = require('path')
 var e2c = require('electron-to-chromium/versions')
-var nodeReleases = require('node-releases/data/processed/envs.json')
-var nodeReleaseSchedule = require(
-  'node-releases/data/release-schedule/release-schedule.json'
-)
-
-var agents = require('caniuse-lite/dist/unpacker/agents').agents
 
 var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
@@ -673,52 +670,35 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^node\s+((\d+\.?){0,2}\d+)$/i,
+    regexp: /^node\s+(\d+(\.\d+)?(\.\d+)?)$/i,
     select: function (context, version) {
-      var targetNodeRelease = nodeReleases
-        .reduce(function (latestNodeRelease, nodeRelease) {
-          if (nodeRelease.name !== 'nodejs') {
-            return latestNodeRelease
-          }
-          if ((nodeRelease.version + '.').indexOf(version + '.') !== 0) {
-            return latestNodeRelease
-          }
-          if (!latestNodeRelease) {
-            return nodeRelease
-          }
-          var latestNodeReleaseSegments = latestNodeRelease.version.split('.')
-          var nodeReleaseSegments = nodeRelease.version.split('.')
-          for (var i = 0; i < latestNodeReleaseSegments.length; i++) {
-            if (latestNodeReleaseSegments[i] === nodeReleaseSegments[i]) {
-              continue
-            }
-            if (+nodeReleaseSegments[i] > +latestNodeReleaseSegments[i]) {
-              latestNodeRelease = nodeRelease
-            }
-            break
-          }
-          return latestNodeRelease
-        }, null)
-      if (targetNodeRelease) {
-        return 'node ' + targetNodeRelease.version
+      var nodeReleases = jsReleases.filter(function (i) {
+        return i.name === 'nodejs'
+      })
+      var matched = nodeReleases.filter(function (i) {
+        return (i.version + '.').indexOf(version + '.') === 0
+      })
+      if (matched.length === 0) {
+        if (context.ignoreUnknownVersions) {
+          return []
+        } else {
+          throw new BrowserslistError(
+            'Unknown version ' + version + ' of Node.js')
+        }
       }
-      if (context.ignoreUnknownVersions) {
-        return []
-      }
-      throw new BrowserslistError('Unknown version ' + version + ' of Node.js')
+      return ['node ' + matched[matched.length - 1].version]
     }
   },
   {
     regexp: /^maintained\s+node\s+versions$/i,
-    select: function () {
-      var maintainedNodeVersions = []
-      var dateNow = Date.now()
-      for (var version in nodeReleaseSchedule) {
-        if (dateNow < Date.parse(nodeReleaseSchedule[version].end)) {
-          maintainedNodeVersions.push('node ' + version.slice(1))
-        }
-      }
-      return maintainedNodeVersions
+    select: function (context) {
+      var now = Date.now()
+      var queries = Object.keys(jsEOL).filter(function (key) {
+        return now < Date.parse(jsEOL[key].end)
+      }).map(function (key) {
+        return 'node ' + key.slice(1)
+      })
+      return resolve(queries, context)
     }
   },
   {
