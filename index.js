@@ -1,7 +1,8 @@
+var jsReleases = require('node-releases/data/processed/envs.json')
+var agents = require('caniuse-lite/dist/unpacker/agents').agents
+var jsEOL = require('node-releases/data/release-schedule/release-schedule.json')
 var path = require('path')
 var e2c = require('electron-to-chromium/versions')
-
-var agents = require('caniuse-lite/dist/unpacker/agents').agents
 
 var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
@@ -667,6 +668,38 @@ var QUERIES = [
           'Unknown version ' + version + ' of electron')
       }
       return ['chrome ' + chrome]
+    }
+  },
+  {
+    regexp: /^node\s+(\d+(\.\d+)?(\.\d+)?)$/i,
+    select: function (context, version) {
+      var nodeReleases = jsReleases.filter(function (i) {
+        return i.name === 'nodejs'
+      })
+      var matched = nodeReleases.filter(function (i) {
+        return (i.version + '.').indexOf(version + '.') === 0
+      })
+      if (matched.length === 0) {
+        if (context.ignoreUnknownVersions) {
+          return []
+        } else {
+          throw new BrowserslistError(
+            'Unknown version ' + version + ' of Node.js')
+        }
+      }
+      return ['node ' + matched[matched.length - 1].version]
+    }
+  },
+  {
+    regexp: /^maintained\s+node\s+versions$/i,
+    select: function (context) {
+      var now = Date.now()
+      var queries = Object.keys(jsEOL).filter(function (key) {
+        return now < Date.parse(jsEOL[key].end)
+      }).map(function (key) {
+        return 'node ' + key.slice(1)
+      })
+      return resolve(queries, context)
     }
   },
   {
