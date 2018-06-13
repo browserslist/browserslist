@@ -130,6 +130,14 @@ describe('All versions are older than 6 months', () => {
     )
   })
 
+  it('shows warning only once', () => {
+    fs.existsSync = findPackage
+    fs.statSync = mockStatSync
+    browserslist('last 2 versions')
+    browserslist('last 2 versions')
+    expect(console.warn).toHaveBeenCalledTimes(1)
+  })
+
   it('detects yarn', () => {
     fs.existsSync = findPackageAndYarn
     fs.statSync = mockStatSync
