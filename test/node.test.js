@@ -10,14 +10,12 @@ it('supports case insensitive Node.js name', () => {
 
 it('throws on unknown Node.js version', () => {
   expect(() => {
-    browserslist('node 7.5.7')
+    browserslist('node 3')
   }).toThrowError(/Unknown version/)
 })
 
 it('return empty array on unknown Node.js version with special flag', () => {
-  expect(browserslist('node 7.5.7', {
-    ignoreUnknownVersions: true
-  })).toEqual([])
+  expect(browserslist('node 3', { ignoreUnknownVersions: true })).toEqual([])
 })
 
 it('supports selection of Node.js version by major.minor query', () => {
