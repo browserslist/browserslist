@@ -207,7 +207,7 @@ function browserslist (queries, opts) {
     dangerousExtend: opts.dangerousExtend
   }
 
-  env.checkCanIUse(browserslist.data)
+  env.oldDataWarning(browserslist.data)
   var stats = env.getStat(opts)
   if (stats) {
     context.customUsage = { }

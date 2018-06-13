@@ -33,5 +33,5 @@ module.exports = {
 
   clearCaches: noop,
 
-  checkCanIUse: noop
+  oldDataWarning: noop
 }

@@ -274,7 +274,7 @@ module.exports = {
     configCache = { }
   },
 
-  checkCanIUse: function checkCanIUse (agentsObj) {
+  oldDataWarning: function oldDataWarning (agentsObj) {
     var latest = latestReleaseTime(agentsObj)
     var halfYearAgo = Date.now() - TIME_TO_UPDATE_CANIUSE
     if (latest !== 0 && latest < halfYearAgo) {
