@@ -36,17 +36,6 @@
     "size-limit": "^0.18.2",
     "yaspeller-ci": "^1.0.0"
   },
-  "jest": {
-    "testEnvironment": "node",
-    "coverageThreshold": {
-      "global": {
-        "statements": 100
-      }
-    },
-    "modulePathIgnorePatterns": [
-      "<rootDir>/test/fixtures"
-    ]
-  },
   "scripts": {
     "lint-staged": "lint-staged",
     "spellcheck": "yaspeller-ci README.md CHANGELOG.md",

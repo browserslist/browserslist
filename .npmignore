@@ -15,5 +15,6 @@ appveyor.yml
 .eslintrc
 .yaspellerrc
 .lintstagedrc
+jest.config.js
 
 *.svg
