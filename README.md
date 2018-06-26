@@ -41,7 +41,7 @@ not dead
 ```
 
 Developers set versions list in queries like `last 2 version`
-to be free from updating versions versions manually.
+to be free from updating versions manually.
 Browserslist will use [Can I Use] data for this queries.
 
 Browserslist will take queries from tool option,
