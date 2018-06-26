@@ -1,6 +1,12 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.0.0 “Erinaceus amurensis”
+* Add `node X` and `maintained node versions` queries (by Pavel Vostrikov).
+* Remove Node.js 4 support.
+* Show warning if `caniuse-lite` is old (by Anton Tuzhik).
+* Add comma support in config file.
+
 ## 3.2.8
 * Add IE 9-5.5 to dead browsers.
 * Remove development configs from npm package.
