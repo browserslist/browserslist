@@ -29,7 +29,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 3.2.1
 * Fix error text (by Steve Schrab).
 
-## 3.2
+## 3.2 “”
 * Add `cover 99%` query (by Vasily Fedoseyev).
 * Add `cover 99% in US` query (by Vasily Fedoseyev).
 * Add `cover 99% in my stats` query (by Vasily Fedoseyev).
@@ -45,7 +45,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 * Add `ignoreUnknownVersions` option.
 * Fix docs (by Pascal Duez).
 
-## 3.0
+## 3.0 “Atelerix sclateri”
 * Remove country statistics from client-side build of Browserslist.
 * Change `> 1%` to `> 0.5%` in default query.
 * Add `not dead` to default query.
@@ -146,7 +146,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 2.1
 * Add `>= 5%`, `>= 5% in US` and `>= 5% in my stats` queries.
 
-## 2.0
+## 2.0 “Atelerix frontalis”
 * `last n versions` returns versions for all browsers, not only main browsers.
 * Cache file system operations (by Aarni Koskela).
 * Use `caniuse-lite` 1 MB instead of `caniuse-db` 7 MB (by Ben Briggs).
@@ -245,7 +245,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 1.0.1
 * Update Firefox ESR (by Rouven Weßling).
 
-## 1.0
+## 1.0 “Atelerix algirus”
 * Remove Opera 12.1 from default query.
 * Add `not` keyword and exclude browsers by query.
 * Add Microsoft Edge support (by Andrey Polischuk).
@@ -284,5 +284,5 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 0.1.1
 * Sort browsers by name and version.
 
-## 0.1
+## 0.1 “Atelerix albiventris”
 * Initial release.
