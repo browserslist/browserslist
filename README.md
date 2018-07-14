@@ -1,7 +1,7 @@
 # Browserslist [![Cult Of Martians][cult-img]][cult]
 
-<img align="right" width="120" height="120"
-     src="./img/logo.svg" alt="Browserslist logo by Anton Lovchikov">
+<img width="120" height="120" alt="Browserslist logo by Anton Lovchikov"
+     src="http://browserslist.github.io/browserslist/logo.svg" align="right">
 
 The config to share target browsers and Node.js versions between different
 front-end tools. It is used in:
