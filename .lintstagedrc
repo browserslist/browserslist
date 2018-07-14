@@ -1,4 +1,0 @@
-{
-  "*.md": "yaspeller-ci",
-  "*.js": "eslint"
-}

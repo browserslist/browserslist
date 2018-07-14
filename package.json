@@ -48,5 +48,145 @@
   },
   "pre-commit": [
     "lint-staged"
-  ]
+  ],
+  "jest": {
+    "testEnvironment": "node",
+    "coverageThreshold": {
+      "global": {
+        "statements": 100
+      }
+    },
+    "modulePathIgnorePatterns": [
+      "<rootDir>/test/fixtures"
+    ]
+  },
+  "size-limit": [
+    {
+      "path": "index.js",
+      "limit": "8.5 KB"
+    }
+  ],
+  "lint-staged": {
+    "*.md": "yaspeller-ci",
+    "*.js": "eslint"
+  },
+  "eslintConfig": {
+    "extends": "eslint-config-logux/browser",
+    "rules": {
+      "security/detect-unsafe-regex": "off",
+      "global-require": "off"
+    },
+    "overrides": [
+      {
+        "files": [
+          "*.test.js"
+        ],
+        "rules": {
+          "es5/no-arrow-functions": "off"
+        }
+      }
+    ]
+  },
+  "yaspeller": {
+    "lang": "en",
+    "ignoreCapitalization": true,
+    "dictionary": [
+      "WebView",
+      "UC",
+      "browserslist",
+      "DevTools",
+      "CLI",
+      "Autoprefixer",
+      "ESR",
+      "iOS",
+      "JS",
+      "TP",
+      "jspm",
+      "npm",
+      "symlink",
+      "eslint",
+      "compat",
+      "env",
+      "stylelint",
+      "Evilebot",
+      "Tnawi",
+      "Lind",
+      "Rey",
+      "Rouven",
+      "Weßling",
+      "Polischuk",
+      "Horvat",
+      "Briggs",
+      "Howes",
+      "Oliveira",
+      "Müller",
+      "Maxime",
+      "Thirouin",
+      "Stepan",
+      "Kuzmin",
+      "Maksim",
+      "Semenov",
+      "openlibser",
+      "Oleh",
+      "Aloshkin",
+      "Stoliar",
+      "Massarotto",
+      "Kilian",
+      "Valkhof",
+      "Jarek",
+      "Rencz",
+      "unreleased",
+      "Aarni",
+      "Koskela",
+      "Tuure",
+      "Savuoja",
+      "Versioning",
+      "QQ",
+      "Zhulduz",
+      "Zhankenova",
+      "postcss",
+      "js",
+      "Clément",
+      "Pieter",
+      "Beulque",
+      "webpack",
+      "KB",
+      "CodePen",
+      "Nikolay",
+      "Solovyov",
+      "Baidu",
+      "YellowKirby",
+      "Configs",
+      "Jamie",
+      "Connolly",
+      "useragent",
+      "Deryabin",
+      "Blick",
+      "Mouhat",
+      "Patton",
+      "Browserify",
+      "Fugaro",
+      "Duez",
+      "Sylvain",
+      "Pollet",
+      "Villard",
+      "Vasily",
+      "Fedoseyev",
+      "Schrab",
+      "GitHub",
+      "Kyle",
+      "configs",
+      "Atelerix",
+      "sclateri",
+      "frontalis",
+      "algirus",
+      "albiventris",
+      "Pavel",
+      "Vostrikov",
+      "Anton",
+      "Tuzhik",
+      "Erinaceus",
+      "amurensis"
+    ]
+  }
 }

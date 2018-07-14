@@ -11,10 +11,4 @@ appveyor.yml
 .travis.yml
 
 .editorconfig
-.size-limit
-.eslintrc
-.yaspellerrc
-.lintstagedrc
-jest.config.js
-
 img/
