@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.0.1
+* Reduce npm package size.
+* Fix docs.
+
 ## 4.0.0 “Erinaceus amurensis”
 * Add `node X` and `maintained node versions` queries (by Pavel Vostrikov).
 * Remove Node.js 4 support.
