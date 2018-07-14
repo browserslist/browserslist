@@ -919,6 +919,17 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
+clean-publish@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/clean-publish/-/clean-publish-1.0.6.tgz#be8b15f28264914df0c17d6932fb31db903cfb17"
+  dependencies:
+    chalk "^2.4.1"
+    cross-spawn "^6.0.5"
+    fs-extra "^6.0.1"
+    lodash.omit "^4.5.0"
+    lodash.pick "^4.4.0"
+    yargs "^12.0.1"
+
 cli-cursor@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/cli-cursor/-/cli-cursor-1.0.2.tgz#64da3f7d56a54412e59794bd62dc35295e8f2987"
@@ -3405,6 +3416,14 @@ lodash.camelcase@^4.3.0:
 lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+
+lodash.omit@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.omit/-/lodash.omit-4.5.0.tgz#6eb19ae5a1ee1dd9df0b969e66ce0b7fa30b5e60"
+
+lodash.pick@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.pick/-/lodash.pick-4.4.0.tgz#52f05610fff9ded422611441ed1fc123a03001b3"
 
 lodash.sortby@^4.7.0:
   version "4.7.0"

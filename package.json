@@ -17,6 +17,7 @@
   },
   "bin": "./cli.js",
   "devDependencies": {
+    "clean-publish": "^1.0.6",
     "cross-spawn": "^6.0.5",
     "eslint": "^5.1.0",
     "eslint-ci": "^0.1.1",
