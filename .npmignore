@@ -17,4 +17,4 @@ appveyor.yml
 .lintstagedrc
 jest.config.js
 
-*.svg
+img/
