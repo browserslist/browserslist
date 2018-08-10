@@ -202,7 +202,7 @@ module.exports = {
           sections.forEach(function (section) {
             if (result[section]) {
               throw new BrowserslistError(
-                'Dublicate section ' + section + ' in Browserslist config')
+                'Duplicate section ' + section + ' in Browserslist config')
             }
             result[section] = []
           })
