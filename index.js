@@ -9,6 +9,17 @@ var env = require('./node') // Will load browser.js in webpack
 
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 
+// Enum values MUST be powers of 2, so combination are safe
+var QueryType = {
+  or: 1,
+  and: 2
+}
+
+function flatten (array) {
+  if (!Array.isArray(array)) return [array]
+  return array.reduce(function (a, b) { return a.concat(flatten(b)) }, [])
+}
+
 function normalize (versions) {
   return versions.filter(function (version) {
     return typeof version === 'string'
@@ -119,8 +130,9 @@ function unknownQuery (query) {
 }
 
 function resolve (queries, context) {
-  return queries.reduce(function (result, selection, index) {
-    selection = selection.trim()
+  return queries.reduce(function (result, query, index) {
+    var selection = query.queryString.trim()
+
     if (selection === '') return result
 
     var isExclude = selection.indexOf('not ') === 0
@@ -133,13 +145,16 @@ function resolve (queries, context) {
       selection = selection.slice(4)
     }
 
+    debugger
+
     for (var i = 0; i < QUERIES.length; i++) {
       var type = QUERIES[i]
       var match = selection.match(type.regexp)
       if (match) {
         var args = [context].concat(match.slice(1))
         var array = type.select.apply(browserslist, args)
-        if (isExclude) {
+
+        if (isExclude && query.QueryType === QueryType.or) {
           array = array.concat(array.map(function (j) {
             return j.replace(/\s\S+/, ' 0')
           }))
@@ -147,7 +162,28 @@ function resolve (queries, context) {
             return array.indexOf(j) === -1
           })
         }
-        return result.concat(array)
+
+        debugger
+
+        if (query.QueryType === QueryType.and) {
+          if (result.length === 0) {
+            result = array
+          }
+
+          if (isExclude) {
+            return result.filter(function (j) {
+              return array.indexOf(j) === -1
+            })
+          } else {
+            return result.filter(function (j) {
+              return array.indexOf(j) !== -1
+            })
+          }
+        }
+
+        if (query.QueryType === QueryType.or) {
+          return result.concat(array)
+        }
       }
     }
 
@@ -194,8 +230,50 @@ function browserslist (queries, opts) {
   }
 
   if (typeof queries === 'string') {
-    queries = queries.split(/,\s*/)
+    var regexAnd = /and\s*/i
+    var regexOr = /,\s*/
+    var hasAnd = regexAnd.test(queries)
+    var hasOr = regexOr.test(queries)
+
+    if (hasAnd && hasOr) {
+      debugger
+      queries = flatten(
+        createQueries(regexOr, QueryType.or, queries)
+          .map(function (query) {
+            return regexAnd.test(query.queryString)
+              ? createQueries(regexAnd, QueryType.and, query.queryString)
+              : query
+          })
+      )
+    } else if (hasAnd) {
+      queries = createQueries(regexAnd, QueryType.and, queries)
+    } else if (hasOr) {
+      queries = createQueries(regexOr, QueryType.or, queries)
+    }
   }
+
+  function createQueries (split, type, queryString) {
+    return queryString
+      .split(split)
+      .map(function (qString) {
+        return {
+          queryString: qString,
+          QueryType: type
+        }
+      })
+  }
+
+  // function getQueryType (query) {
+  //   if (query.indexOf('not ') === 0) {
+  //     return QueryType.exclude
+  //   }
+
+  //   if (query.indexOf('and ') > -1) {
+  //     return QueryType.and
+  //   }
+
+  //   return QueryType.normal
+  // }
 
   if (!Array.isArray(queries)) {
     throw new BrowserslistError(
