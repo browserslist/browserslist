@@ -45,11 +45,11 @@ it('supports sections', () => {
   })
 })
 
-it('throws on dublicate sections', () => {
+it('throws on duplicate sections', () => {
   var config = '[test]\nie 10\n[production test]\nie 11'
   expect(() => {
     browserslist.parseConfig(config)
-  }).toThrowError(/Dublicate section test in Browserslist config/)
+  }).toThrowError(/Duplicate section test in Browserslist config/)
 })
 
 it('trims whitespaces', () => {
