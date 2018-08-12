@@ -64,7 +64,7 @@
   "size-limit": [
     {
       "path": "index.js",
-      "limit": "8.5 KB"
+      "limit": "8.511 KB"
     }
   ],
   "lint-staged": {
