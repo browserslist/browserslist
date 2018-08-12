@@ -695,7 +695,8 @@ var QUERIES = [
     select: function (context) {
       var now = Date.now()
       var queries = Object.keys(jsEOL).filter(function (key) {
-        return now < Date.parse(jsEOL[key].end)
+        return now < Date.parse(jsEOL[key].end) &&
+          now > Date.parse(jsEOL[key].start)
       }).map(function (key) {
         return 'node ' + key.slice(1)
       })
