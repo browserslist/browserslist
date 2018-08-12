@@ -13,7 +13,7 @@
   "dependencies": {
     "caniuse-lite": "^1.0.30000865",
     "electron-to-chromium": "^1.3.52",
-    "node-releases": "^1.0.0-alpha.10"
+    "node-releases": "^1.0.0-alpha.11"
   },
   "bin": "./cli.js",
   "devDependencies": {
