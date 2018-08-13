@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.0.2
+* Fix new `node-releases` support (by Sergey Rubanov).
+* Fix error text (by Josh Smith).
+
 ## 4.0.1
 * Reduce npm package size.
 * Fix docs.

@@ -1,6 +1,6 @@
 {
   "name": "browserslist",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Share target browsers between different front-end tools, like Autoprefixer, Stylelint and babel-env-preset",
   "keywords": [
     "caniuse",
@@ -190,7 +190,8 @@
       "amurensis",
       "DynJS",
       "JSDoc",
-      "Browserslist’s"
+      "Browserslist’s",
+      "Rubanov"
     ]
   }
 }
