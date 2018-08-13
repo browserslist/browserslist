@@ -277,7 +277,7 @@ function browserslist (queries, opts) {
 }
 
 function doMatch (string, qs) {
-  var or = /^(?:,|\sor\s)(.*)/i
+  var or = /^(?:,|\sOR\s)(.*)/i
   var and = /^\sAND\s(.*)/i
 
   return find(
