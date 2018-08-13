@@ -4,6 +4,7 @@ var jsEOL = require('node-releases/data/release-schedule/release-schedule.json')
 var path = require('path')
 var e2c = require('electron-to-chromium/versions')
 
+var BrowserslistQuery = require('./query')
 var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
 
@@ -11,13 +12,9 @@ var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 
 // Enum values MUST be powers of 2, so combination are safe
 var QueryType = {
+  initial: 0,
   or: 1,
   and: 2
-}
-
-function flatten (array) {
-  if (!Array.isArray(array)) return [array]
-  return array.reduce(function (a, b) { return a.concat(flatten(b)) }, [])
 }
 
 function normalize (versions) {
@@ -131,7 +128,7 @@ function unknownQuery (query) {
 
 function resolve (queries, context) {
   return queries.reduce(function (result, query, index) {
-    var selection = query.queryString.trim()
+    var selection = query.queryString
 
     if (selection === '') return result
 
@@ -145,7 +142,7 @@ function resolve (queries, context) {
       selection = selection.slice(4)
     }
 
-    debugger
+    // debugger
 
     for (var i = 0; i < QUERIES.length; i++) {
       var type = QUERIES[i]
@@ -163,13 +160,9 @@ function resolve (queries, context) {
           })
         }
 
-        debugger
+        // debugger
 
         if (query.QueryType === QueryType.and) {
-          if (result.length === 0) {
-            result = array
-          }
-
           if (isExclude) {
             return result.filter(function (j) {
               return array.indexOf(j) === -1
@@ -179,10 +172,10 @@ function resolve (queries, context) {
               return array.indexOf(j) !== -1
             })
           }
-        }
-
-        if (query.QueryType === QueryType.or) {
+        } else if (query.QueryType === QueryType.or) {
           return result.concat(array)
+        } else if (query.QueryType === QueryType.initial) {
+          return array
         }
       }
     }
@@ -230,50 +223,14 @@ function browserslist (queries, opts) {
   }
 
   if (typeof queries === 'string') {
-    var regexAnd = /and\s*/i
-    var regexOr = /,\s*/
-    var hasAnd = regexAnd.test(queries)
-    var hasOr = regexOr.test(queries)
+    var qs = []
 
-    if (hasAnd && hasOr) {
-      debugger
-      queries = flatten(
-        createQueries(regexOr, QueryType.or, queries)
-          .map(function (query) {
-            return regexAnd.test(query.queryString)
-              ? createQueries(regexAnd, QueryType.and, query.queryString)
-              : query
-          })
-      )
-    } else if (hasAnd) {
-      queries = createQueries(regexAnd, QueryType.and, queries)
-    } else if (hasOr) {
-      queries = createQueries(regexOr, QueryType.or, queries)
-    }
+    do {
+      queries = doMatch(queries, qs)
+    } while (queries)
+
+    queries = qs
   }
-
-  function createQueries (split, type, queryString) {
-    return queryString
-      .split(split)
-      .map(function (qString) {
-        return {
-          queryString: qString,
-          QueryType: type
-        }
-      })
-  }
-
-  // function getQueryType (query) {
-  //   if (query.indexOf('not ') === 0) {
-  //     return QueryType.exclude
-  //   }
-
-  //   if (query.indexOf('and ') > -1) {
-  //     return QueryType.and
-  //   }
-
-  //   return QueryType.normal
-  // }
 
   if (!Array.isArray(queries)) {
     throw new BrowserslistError(
@@ -318,6 +275,38 @@ function browserslist (queries, opts) {
   })
 
   return uniq(result)
+}
+
+function doMatch (string, qs) {
+  var or = /^(?:,|\sor\s)(.*)/i
+  var and = /^\sAND\s(.*)/i
+
+  return find(
+    string,
+    function (parsed, n, max) {
+      if (and.test(parsed)) {
+        qs.unshift(new BrowserslistQuery(QueryType.and, parsed.match(and)[1]))
+        return true
+      } else if (or.test(parsed)) {
+        qs.unshift(new BrowserslistQuery(QueryType.or, parsed.match(or)[1]))
+        return true
+      } else if (n === max) {
+        qs.unshift(new BrowserslistQuery(QueryType.initial, parsed))
+        return true
+      }
+      return false
+    }
+  )
+}
+
+function find (string, predicate) {
+  for (var n = 1, max = string.length; n <= max; n++) {
+    var parsed = string.substr(-n, n)
+    if (predicate(parsed, n, max)) {
+      return string.replace(parsed, '')
+    }
+  }
+  return ''
 }
 
 // Will be filled by Can I Use data below

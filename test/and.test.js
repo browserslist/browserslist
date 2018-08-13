@@ -10,6 +10,7 @@ var resultFixture = [
   'firefox 60',
   'ie 11',
   'ios_saf 11.3-11.4',
+  'ios_saf 11.0-11.2',
   'op_mini all',
   'safari 11.1',
   'samsung 6.2'
@@ -288,14 +289,12 @@ afterEach(() => {
 
 it('query composition with AND operator', () => {
   // old behavior
-  // expect(
-  //   browserslist('> 1%, not IE < 11, not Chrome < 67, not iOS < 11.4')
-  // ).toEqual(resultFixture)
+  expect(
+    browserslist('> 1%, not IE < 11, not Chrome < 67')
+  ).toEqual(resultFixture)
 
   // new behavior
   expect(
-    browserslist('last 2 version, IE 11 and > 1%')
+    browserslist('last 2 version and not IE < 11 and > 1%')
   ).toEqual(resultFixture)
 })
-
-// TODO: browserslist('last 2 versions and not IE < 11 and > 1%')
