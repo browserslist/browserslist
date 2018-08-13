@@ -128,9 +128,11 @@ function unknownQuery (query) {
 
 function resolve (queries, context) {
   return queries.reduce(function (result, query, index) {
-    var selection = query.queryString
+    if (!(query instanceof BrowserslistQuery)) {
+      query = new BrowserslistQuery(QueryType.or, query)
+    }
 
-    if (selection === '') return result
+    var selection = query.queryString
 
     var isExclude = selection.indexOf('not ') === 0
     if (isExclude) {
@@ -141,8 +143,6 @@ function resolve (queries, context) {
       }
       selection = selection.slice(4)
     }
-
-    // debugger
 
     for (var i = 0; i < QUERIES.length; i++) {
       var type = QUERIES[i]
@@ -160,8 +160,6 @@ function resolve (queries, context) {
           })
         }
 
-        // debugger
-
         if (query.QueryType === QueryType.and) {
           if (isExclude) {
             return result.filter(function (j) {
@@ -172,10 +170,11 @@ function resolve (queries, context) {
               return array.indexOf(j) !== -1
             })
           }
-        } else if (query.QueryType === QueryType.or) {
+        } else if (
+          query.QueryType === QueryType.initial ||
+          query.QueryType === QueryType.or
+        ) {
           return result.concat(array)
-        } else if (query.QueryType === QueryType.initial) {
-          return array
         }
       }
     }
