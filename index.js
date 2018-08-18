@@ -126,6 +126,14 @@ function unknownQuery (query) {
   return new BrowserslistError('Unknown browser query `' + query + '`')
 }
 
+/**
+ * Resolves queries into a browser list.
+ * @param {BrowserslistQuery[]|string[]} queries List of queries to combine.
+ * If string then it will be an OR query (original behavior).
+ * E.g. new BrowserslistQuery(QueryType.or, string)
+ * @param {object} context optional arguments to the select function in QUERIES.
+ * @returns {string[]} A list of browsers
+ */
 function resolve (queries, context) {
   return queries.reduce(function (result, query, index) {
     if (!(query instanceof BrowserslistQuery)) {
