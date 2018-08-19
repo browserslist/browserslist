@@ -159,15 +159,6 @@ function resolve (queries, context) {
         var args = [context].concat(match.slice(1))
         var array = type.select.apply(browserslist, args)
 
-        if (isExclude && query.QueryType === QueryType.or) {
-          array = array.concat(array.map(function (j) {
-            return j.replace(/\s\S+/, ' 0')
-          }))
-          return result.filter(function (j) {
-            return array.indexOf(j) === -1
-          })
-        }
-
         switch (query.QueryType) {
           case QueryType.and:
             if (isExclude) {
@@ -182,6 +173,14 @@ function resolve (queries, context) {
           case QueryType.initial:
           case QueryType.or:
           default: // old behavior
+            if (isExclude) {
+              array = array.concat(array.map(function (j) {
+                return j.replace(/\s\S+/, ' 0')
+              }))
+              return result.filter(function (j) {
+                return array.indexOf(j) === -1
+              })
+            }
             return result.concat(array)
         }
       }
