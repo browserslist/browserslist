@@ -12,9 +12,9 @@ var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 
 // Enum values MUST be powers of 2, so combination are safe
 var QueryType = {
-  initial: 0,
-  or: 1,
-  and: 2
+  oneliner: 1,
+  or: 2,
+  and: 4
 }
 
 function normalize (versions) {
@@ -170,7 +170,7 @@ function resolve (queries, context) {
                 return array.indexOf(j) !== -1
               })
             }
-          case QueryType.initial:
+          case QueryType.oneliner:
           case QueryType.or:
           default: // old behavior
             if (isExclude) {
@@ -297,7 +297,7 @@ function doMatch (string, qs) {
         qs.unshift(new BrowserslistQuery(QueryType.or, parsed.match(or)[1]))
         return true
       } else if (n === max) {
-        qs.unshift(new BrowserslistQuery(QueryType.initial, parsed))
+        qs.unshift(new BrowserslistQuery(QueryType.oneliner, parsed))
         return true
       }
       return false
