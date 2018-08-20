@@ -531,11 +531,11 @@ environment variable.
 
 ## Contributors
 
-[![0](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/images/0)](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/links/0)
-[![1](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/images/1)](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/links/1)
-[![2](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/images/2)](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/links/2)
-[![3](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/images/3)](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/links/3)
-[![4](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/images/4)](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/links/4)
-[![5](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/images/5)](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/links/5)
-[![6](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/images/6)](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/links/6)
-[![7](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/images/7)](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/links/7)
+<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/0" alt="" width="76" height="90" align="left">
+<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/1" alt="" width="76" height="90" align="left">
+<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/2" alt="" width="76" height="90" align="left">
+<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/3" alt="" width="76" height="90" align="left">
+<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/4" alt="" width="76" height="90" align="left">
+<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/5" alt="" width="76" height="90" align="left">
+<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/6" alt="" width="76" height="90" align="left">
+<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/7" alt="" width="76" height="90" align="left">
