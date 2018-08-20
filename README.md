@@ -528,3 +528,14 @@ browserslist.clearCaches();
 
 To disable the caching altogether, set the `BROWSERSLIST_DISABLE_CACHE`
 environment variable.
+
+## Contributors
+
+[![0](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/images/0)](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/links/0)
+[![1](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/images/1)](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/links/1)
+[![2](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/images/2)](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/links/2)
+[![3](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/images/3)](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/links/3)
+[![4](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/images/4)](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/links/4)
+[![5](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/images/5)](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/links/5)
+[![6](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/images/6)](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/links/6)
+[![7](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/images/7)](https://sourcerer.io/fame/sergey48k/browserslist/browserslist/links/7)
