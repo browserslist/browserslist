@@ -33,3 +33,9 @@ it('selects maintained Node.js versions', () => {
 it('supports case insensitive query for maintained Node.js versions', () => {
   expect(Array.isArray(browserslist('maintained Node versions'))).toBe(true)
 })
+
+it('supports current node version', () => {
+  var versions = browserslist('current node')
+  expect(versions).toHaveLength(1)
+  expect(versions[0]).toMatch(/node \d+\.\d+\.\d+/)
+})

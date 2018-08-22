@@ -296,5 +296,9 @@ module.exports = {
         'Browserslist: caniuse-lite is outdated. ' +
         'Please run next command `' + command + ' caniuse-lite browserslist`')
     }
+  },
+
+  currentNode: function currentNode () {
+    return 'node ' + process.versions.node
   }
 }

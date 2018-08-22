@@ -691,6 +691,12 @@ var QUERIES = [
     }
   },
   {
+    regexp: /^current\s+node$/i,
+    select: function (context) {
+      return [env.currentNode(resolve, context)]
+    }
+  },
+  {
     regexp: /^maintained\s+node\s+versions$/i,
     select: function (context) {
       var now = Date.now()

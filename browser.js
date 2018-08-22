@@ -25,6 +25,10 @@ module.exports = {
       'in client-side build of Browserslist')
   },
 
+  currentNode: function currentNode (resolve, context) {
+    return resolve(['maintained node versions'], context)[0]
+  },
+
   parseConfig: noop,
 
   readConfig: noop,
