@@ -137,6 +137,7 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   by Node.js Foundation.
 * `node 10` and `node 10.4`: selects latest Node.js `10.x.x`
   or `10.4.x` release.
+* `current node`: Node.js version used by Browserslist right now.
 * `extends browserslist-config-mycompany`: take queries from
   `browserslist-config-mycompany` npm package.
 * `ie 6-8`: selects an inclusive range of versions.
