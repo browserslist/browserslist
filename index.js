@@ -163,10 +163,14 @@ function resolve (queries, context) {
           case QueryType.and:
             if (isExclude) {
               return result.filter(function (j) {
+                // remove result items that are in array
+                // (the complement of result is array AKA difference)
                 return array.indexOf(j) === -1
               })
             } else {
               return result.filter(function (j) {
+                // remove result items not in array
+                // (intersect of result and array)
                 return array.indexOf(j) !== -1
               })
             }
@@ -178,9 +182,11 @@ function resolve (queries, context) {
                 return j.replace(/\s\S+/, ' 0')
               }))
               return result.filter(function (j) {
+                // remove result items that are in array
                 return array.indexOf(j) === -1
               })
             }
+            // union of result and array
             return result.concat(array)
         }
       }
