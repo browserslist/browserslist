@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.1.1
+* Update Firefox ESR versions.
+
 ## 4.1
 * Add `current node` query.
 * Add contributors widget to docs (by Sergey Surkov).
