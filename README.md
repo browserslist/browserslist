@@ -92,13 +92,13 @@ You can test Browserslist queries in [online demo].
 Browserslist will use browsers and Node.js versions query
 from one of this sources:
 
-1. Tool options. For example `browsers` option in Autoprefixer.
-2. `BROWSERSLIST` environment variable.
-3. `browserslist` config file in current or parent directories.
-3. `.browserslistrc` config file in current or parent directories.
-4. `browserslist` key in `package.json` file in current or parent directories.
+1. `browserslist` key in `package.json` file in current or parent directories.
    **We recommend this way.**
-5. If the above methods did not produce a valid result
+2. Tool options. For example `browsers` option in Autoprefixer.
+3. `BROWSERSLIST` environment variable.
+4. `browserslist` config file in current or parent directories.
+5. `.browserslistrc` config file in current or parent directories.
+6. If the above methods did not produce a valid result
    Browserslist will use defaults:
    `> 0.5%, last 2 versions, Firefox ESR, not dead`.
 
