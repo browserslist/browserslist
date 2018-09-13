@@ -13,7 +13,8 @@ var USAGE = 'Usage:\n' +
             '  ' + pkg.name + ' --coverage "QUERIES"\n' +
             '  ' + pkg.name + ' --coverage=US "QUERIES"\n' +
             '  ' + pkg.name + ' --env="environment name defined in config"\n' +
-            '  ' + pkg.name + ' --stats="path/to/browserlist/stats/file"'
+            '  ' + pkg.name + ' --stats="path/to/browserlist/stats/file"' +
+            '  ' + pkg.name + ' --all (returns browsers and coverage info)"\n'
 
 function isArg (arg) {
   return args.some(function (str) {
@@ -57,6 +58,8 @@ if (isArg('--help') || isArg('-h')) {
     } else if (name === '--coverage' || name === '-c') {
       mode = 'coverage'
       if (value) country = value
+    } else if (name === '--all' || name === '-a') {
+      mode = 'all'
     } else {
       error('Unknown arguments ' + args[i] + '.\n\n' + USAGE)
     }
@@ -84,7 +87,18 @@ if (isArg('--help') || isArg('-h')) {
     }
   }
 
-  if (mode === 'browsers') {
+  if (mode === 'all') {
+    browsers.forEach(function (browser) {
+      process.stdout.write(browser + '\n')
+    })
+    var worldResult = browserslist.coverage(browsers, undefined)
+    var roundWorld = Math.round(worldResult * 100) / 100.0
+    process.stdout.write('coverage_global ' + roundWorld + '\n')
+
+    var usResult = browserslist.coverage(browsers, 'us')
+    var roundUS = Math.round(usResult * 100) / 100.0
+    process.stdout.write('coverage_us ' + roundUS + '\n')
+  } else if (mode === 'browsers') {
     browsers.forEach(function (browser) {
       process.stdout.write(browser + '\n')
     })
