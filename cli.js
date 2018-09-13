@@ -36,6 +36,7 @@ if (isArg('--help') || isArg('-h')) {
   var opts = { }
   var queries
   var country
+  var stats
 
   for (var i = 0; i < args.length; i++) {
     if (args[i][0] !== '-') {
@@ -91,21 +92,20 @@ if (isArg('--help') || isArg('-h')) {
     browsers.forEach(function (browser) {
       process.stdout.write(browser + '\n')
     })
-    var stats
-    var worldResult = browserslist.coverage(browsers, stats)
+    var worldResult = browserslist.coverage(browsers, undefined)
     var roundWorld = Math.round(worldResult * 100) / 100.0
     process.stdout.write('coverage_global ' + roundWorld + '\n')
 
     var usResult = browserslist.coverage(browsers, 'us')
     var roundUS = Math.round(usResult * 100) / 100.0
     process.stdout.write('coverage_us ' + roundUS + '\n')
-  }
-  else if (mode === 'browsers') {
+
+  } else if (mode === 'browsers') {
     browsers.forEach(function (browser) {
       process.stdout.write(browser + '\n')
     })
-  } 
-  else {
+
+  } else {
     var stats
     if (country) {
       stats = country
