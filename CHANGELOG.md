@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.1.2
+* Add --all command line option
+
 ## 4.1.1
 * Update Firefox ESR versions.
 
