@@ -14,7 +14,7 @@ var USAGE = 'Usage:\n' +
             '  ' + pkg.name + ' --coverage=US "QUERIES"\n' +
             '  ' + pkg.name + ' --env="environment name defined in config"\n' +
             '  ' + pkg.name + ' --stats="path/to/browserlist/stats/file"' +
-            '  ' + pkg.name + ' --all (returns browsers and coverage info)"\n' +
+            '  ' + pkg.name + ' --all (returns browsers and coverage info)"\n'
 
 function isArg (arg) {
   return args.some(function (str) {
@@ -91,12 +91,12 @@ if (isArg('--help') || isArg('-h')) {
     browsers.forEach(function (browser) {
       process.stdout.write(browser + '\n')
     })
-
-    var worldResult = browserslist.coverage(browsers, null)
+    var stats
+    var worldResult = browserslist.coverage(browsers, stats)
     var roundWorld = Math.round(worldResult * 100) / 100.0
     process.stdout.write('coverage_global ' + roundWorld + '\n')
 
-    var usResult = browserslist.coverage(browsers, "us")
+    var usResult = browserslist.coverage(browsers, 'us')
     var roundUS = Math.round(usResult * 100) / 100.0
     process.stdout.write('coverage_us ' + roundUS + '\n')
   }
