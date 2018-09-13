@@ -98,12 +98,10 @@ if (isArg('--help') || isArg('-h')) {
     var usResult = browserslist.coverage(browsers, 'us')
     var roundUS = Math.round(usResult * 100) / 100.0
     process.stdout.write('coverage_us ' + roundUS + '\n')
-
   } else if (mode === 'browsers') {
     browsers.forEach(function (browser) {
       process.stdout.write(browser + '\n')
     })
-
   } else {
     var stats
     if (country) {
