@@ -36,6 +36,7 @@ if (isArg('--help') || isArg('-h')) {
   var opts = { }
   var queries
   var country
+  var stats
 
   for (var i = 0; i < args.length; i++) {
     if (args[i][0] !== '-') {
