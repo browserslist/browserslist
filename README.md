@@ -8,7 +8,7 @@ front-end tools. It is used in:
 
 * [Autoprefixer]
 * [Babel]
-  (external config in `package.json` or `browserslist` will be supported in 7.0)
+  (external config in `package.json` or `.browserslistrc` will be supported in 7.0)
 * [postcss-preset-env]
 * [eslint-plugin-compat]
 * [stylelint-no-unsupported-browser-features]
