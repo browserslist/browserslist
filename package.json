@@ -11,28 +11,28 @@
   "license": "MIT",
   "repository": "browserslist/browserslist",
   "dependencies": {
-    "caniuse-lite": "^1.0.30000884",
-    "electron-to-chromium": "^1.3.62",
-    "node-releases": "^1.0.0-alpha.11"
+    "caniuse-lite": "^1.0.30000888",
+    "electron-to-chromium": "^1.3.73",
+    "node-releases": "^1.0.0-alpha.12"
   },
   "bin": "./cli.js",
   "devDependencies": {
     "clean-publish": "^1.0.10",
     "cross-spawn": "^6.0.5",
-    "eslint": "^5.5.0",
+    "eslint": "^5.6.1",
     "eslint-ci": "^0.1.1",
     "eslint-config-logux": "^25.0.1",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-es5": "^1.3.1",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jest": "^21.22.0",
+    "eslint-plugin-jest": "^21.24.0",
     "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-promise": "^4.0.0",
+    "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-security": "^1.4.0",
     "eslint-plugin-standard": "^4.0.0",
     "fs-extra": "^7.0.0",
-    "jest": "^23.5.0",
-    "lint-staged": "^7.2.2",
+    "jest": "^23.6.0",
+    "lint-staged": "^7.3.0",
     "pre-commit": "^1.1.3",
     "size-limit": "^0.20.0",
     "yaspeller-ci": "^1.0.0"
@@ -64,7 +64,7 @@
   "size-limit": [
     {
       "path": "index.js",
-      "limit": "8.6 KB"
+      "limit": "8.7 KB"
     }
   ],
   "lint-staged": {
