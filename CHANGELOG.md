@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.1.2
+* Better `unknow query` error message.
+* Use latest `node-releases`.
+
 ## 4.1.1
 * Update Firefox ESR versions.
 
