@@ -101,7 +101,10 @@ it('uses case insensitive aliases', () => {
 
 it('returns error `unknown browser query`', () => {
   return err('unknow').then(out => {
-    expect(out).toEqual('browserslist: Unknown browser query `unknow`\n')
+    expect(out).toEqual(
+      'browserslist: Unknown browser query `unknow`. ' +
+      'Maybe you are using old Browserslist or made typo in query.\n'
+    )
   })
 })
 
@@ -121,7 +124,10 @@ it('returns error on missed queries', () => {
 
 it('returns error: `unknown browser query to get coverage`', () => {
   return err('--coverage=UK', 'ie8').then(out => {
-    expect(out).toEqual('browserslist: Unknown browser query `ie8`\n')
+    expect(out).toEqual(
+      'browserslist: Unknown browser query `ie8`. ' +
+      'Maybe you are using old Browserslist or made typo in query.\n'
+    )
   })
 })
 

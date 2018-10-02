@@ -115,7 +115,10 @@ function checkName (name) {
 }
 
 function unknownQuery (query) {
-  return new BrowserslistError('Unknown browser query `' + query + '`')
+  return new BrowserslistError(
+    'Unknown browser query `' + query + '`. ' +
+    'Maybe you are using old Browserslist or made typo in query.'
+  )
 }
 
 function resolve (queries, context) {
