@@ -58,6 +58,11 @@ function err () {
   })
 }
 
+function coverage (query, area) {
+  var result = browserslist.coverage(query, area)
+  return Math.round(result * 100) / 100.0
+}
+
 it('returns help', () => {
   return run('--help').then(out => {
     expect(out).toContain('Usage:')
@@ -110,9 +115,27 @@ it('returns error `unknown browser query`', () => {
 
 it('returns usage in specified country', () => {
   return run('--coverage=US', 'ie 8').then(out => {
-    var result = browserslist.coverage(['ie 8'], 'US')
-    var round = Math.round(result * 100) / 100.0
-    expect(out).toContain(round + '%')
+    expect(out).toContain(
+      'These browsers account for ' +
+      coverage(['ie 8'], 'US') +
+      '% of all users in the US'
+    )
+  })
+})
+
+it('returns usage in specified ares', () => {
+  return run('--coverage=US,alt-AS,global', 'ie 8').then(out => {
+    expect(out).toContain(
+      'These browsers account for ' +
+      coverage(['ie 8'], 'US') +
+      '% of all users in the US\n' +
+      '                           ' +
+      coverage(['ie 8'], 'alt-AS') +
+      '% of all users in the ALT-AS\n' +
+      '                           ' +
+      coverage(['ie 8']) +
+      '% of all users globally\n'
+    )
   })
 })
 
