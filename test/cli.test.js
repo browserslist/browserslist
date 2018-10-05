@@ -207,3 +207,18 @@ it('shows Browserslist error', () => {
     )
   })
 })
+
+it('supports JSON', () => {
+  return run('--json', '"ie 8"').then(out => {
+    expect(out).toEqual('{\n  "browsers": [\n    "ie 8"\n  ]\n}\n')
+  })
+})
+
+it('supports JSON with coverage', () => {
+  return run('--json', '--coverage=US', '"ie 8"').then(out => {
+    expect(out).toEqual('{\n' +
+      '  "browsers": [\n    "ie 8"\n  ],\n' +
+      '  "coverage": {\n    "US": ' + coverage(['ie 8'], 'US') + '\n  }\n' +
+    '}\n')
+  })
+})
