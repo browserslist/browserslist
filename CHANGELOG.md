@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.2
+* Add `--json` argument for CLI.
+* Allow to pass multiple areas in CLI by `--coverage=US,alt-AS,global`.
+
 ## 4.1.2
 * Better `unknow query` error message.
 * Use latest `node-releases`.
