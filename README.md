@@ -105,7 +105,7 @@ from one of this sources:
 ### Best Practices
 
 * Select browsers directly (`last 2 Chrome versions`) only if you are making
-  web app for a kiosk with one browser. There are a lot of browsers
+  a web app for a kiosk with one browser. There are a lot of browsers
   on the market. If you are making general web app you should respect
   browsers diversity.
 * If you want to change the default set of browsers we recommend to combine
@@ -115,7 +115,7 @@ from one of this sources:
   even more popular, so we will have a monopoly and stagnation,
   as we had with Internet Explorer 6.
 * Don’t remove browsers just because you don’t know them. Opera Mini has
-  100 million users in Africa and it is more popular in the global market,
+  100 million users in Africa and it is more popular in the global market
   than Microsoft Edge. Chinese QQ Browsers has more market share than Firefox
   and desktop Safari altogether.
 
