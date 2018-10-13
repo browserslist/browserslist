@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.2.1
+* Use new `node-releases` support (by Sergey Rubanov).
+
 ## 4.2
 * Add `--json` argument for CLI.
 * Allow to pass multiple areas in CLI by `--coverage=US,alt-AS,global`.
