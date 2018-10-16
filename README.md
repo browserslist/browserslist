@@ -124,6 +124,7 @@ from one of this sources:
 
 You can specify the browser and Node.js versions by queries (case insensitive):
 
+* `all`: match all browsers versions.
 * `> 5%`: browsers versions selected by global usage statistics.
   `>=`, `<` and `<=` work too.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
