@@ -759,6 +759,25 @@ var QUERIES = [
     }
   },
   {
+    regexp: /^all$/i,
+    select: function () {
+      var result = []
+      Object.keys(browserslist.data)
+        .map(function (x) {
+          var browser = byName(x)
+          var browserVersions = browser.versions || []
+          result = result.concat(browserVersions
+            .filter(function (browserVersion) {
+              return browserVersion && browserVersion.length
+            })
+            .map(function (browserVersion) {
+              return browser.name + ' ' + browserVersion
+            }))
+        })
+      return result
+    }
+  },
+  {
     regexp: /^(\w+)$/i,
     select: function (context, name) {
       if (byName(name)) {
