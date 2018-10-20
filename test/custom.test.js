@@ -4,6 +4,7 @@ var path = require('path')
 var fs = require('fs')
 
 var CUSTOM_STATS = path.join(__dirname, 'fixtures', 'stats.json')
+var ANDROID = path.join(__dirname, 'fixtures', 'android-stats.json')
 var STATS = path.join(__dirname, 'fixtures', 'browserslist-stats.json')
 
 afterEach(() => {
@@ -59,6 +60,12 @@ it('works alongside global usage query', () => {
 
 it('takes stats from browserslist-stats.json', () => {
   expect(browserslist('> 5% in my stats', { path: STATS })).toEqual(['ie 8'])
+})
+
+it('normalizes versions', () => {
+  expect(
+    browserslist(['> 3% in my stats', 'not and_chr > 0'], { stats: ANDROID })
+  ).toEqual([])
 })
 
 it('throws error on no stats', () => {

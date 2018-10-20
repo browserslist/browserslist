@@ -211,7 +211,7 @@ function browserslist (queries, opts) {
   }
 
   env.oldDataWarning(browserslist.data)
-  var stats = env.getStat(opts)
+  var stats = env.getStat(opts, browserslist.data)
   if (stats) {
     context.customUsage = { }
     for (var browser in stats) {

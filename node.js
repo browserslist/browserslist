@@ -123,7 +123,7 @@ module.exports = {
     return queries
   },
 
-  getStat: function getStat (opts) {
+  getStat: function getStat (opts, data) {
     var stats
     if (opts.stats) {
       stats = opts.stats
@@ -148,7 +148,21 @@ module.exports = {
       stats = stats.dataByBrowser
     }
 
-    return stats
+    if (typeof stats !== 'object') return undefined
+
+    var normalized = { }
+    for (var i in stats) {
+      var versions = Object.keys(stats[i])
+      if (versions.length === 1 && data[i] && data[i].versions.length === 1) {
+        var normal = Object.keys(data[i].versions)[0]
+        normalized[i] = { }
+        normalized[i][normal] = stats[i]
+      } else {
+        normalized[i] = stats[i]
+      }
+    }
+
+    return normalized
   },
 
   loadConfig: function loadConfig (opts) {
