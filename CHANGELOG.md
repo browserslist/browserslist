@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.3
+* Allow to use `extends browserslist-config-a/file` (by @Schweinepriester).
+
 ## 4.2.1
 * Use new `node-releases` support (by Sergey Rubanov).
 
