@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.3.1
+* Fix conflict between `caniuse-lite` and custom browsers statistics.
+
 ## 4.3
 * Allow to use `extends browserslist-config-a/file` (by @Schweinepriester).
 
