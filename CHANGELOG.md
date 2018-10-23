@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.3.2
+* Fix `Unknown version 11 of Node.js` error (by Dan Onoshko).
+
 ## 4.3.1
 * Fix conflict between `caniuse-lite` and custom browsers statistics.
 
