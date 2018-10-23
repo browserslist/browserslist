@@ -443,7 +443,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^since (\d+)(?:-(\d+))?(?:-(\d+))?$/i,60*60*24*365.25
+    regexp: /^since (\d+)(?:-(\d+))?(?:-(\d+))?$/i,
     select: function (context, year, month, date) {
       year = parseInt(year)
       month = parseInt(month || '01') - 1
