@@ -13,9 +13,10 @@ function isVersionsMatch (versionA, versionB) {
   return (versionA + '.').indexOf(versionB + '.') === 0
 }
 
-function isJsEolReleased (version) {
+function isEolReleased (name) {
+  var version = name.slice(1)
   return jsReleases.some(function (i) {
-    return isVersionsMatch(i.version, version.slice(1))
+    return isVersionsMatch(i.version, version)
   })
 }
 
@@ -716,7 +717,7 @@ var QUERIES = [
       var queries = Object.keys(jsEOL).filter(function (key) {
         return now < Date.parse(jsEOL[key].end) &&
           now > Date.parse(jsEOL[key].start) &&
-          isJsEolReleased(key)
+          isEolReleased(key)
       }).map(function (key) {
         return 'node ' + key.slice(1)
       })
