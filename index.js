@@ -8,6 +8,7 @@ var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
 
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
+var YEAR = 60 * 60 * 24 * 365.25
 
 function normalize (versions) {
   return versions.filter(function (version) {
@@ -433,16 +434,16 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^last\s+(\d+)\s+years?$/i,
+    regexp: /^last\s+(\d*.?\d+)\s+years?$/i,
     select: function (context, years) {
-      var date = new Date()
-      var since = date.setFullYear(date.getFullYear() - years) / 1000
+      var date = new Date() / 1000
+      var since = date - YEAR * years
 
       return filterByYear(since)
     }
   },
   {
-    regexp: /^since (\d+)(?:-(\d+))?(?:-(\d+))?$/i,
+    regexp: /^since (\d+)(?:-(\d+))?(?:-(\d+))?$/i,60*60*24*365.25
     select: function (context, year, month, date) {
       year = parseInt(year)
       month = parseInt(month || '01') - 1
