@@ -9,6 +9,16 @@ var env = require('./node') // Will load browser.js in webpack
 
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 
+function isVersionsMatch (versionA, versionB) {
+  return (versionA + '.').indexOf(versionB + '.') === 0
+}
+
+function isJsEolReleased (version) {
+  return jsReleases.some(function (i) {
+    return isVersionsMatch(i.version, version.slice(1))
+  })
+}
+
 function normalize (versions) {
   return versions.filter(function (version) {
     return typeof version === 'string'
@@ -680,7 +690,7 @@ var QUERIES = [
         return i.name === 'nodejs'
       })
       var matched = nodeReleases.filter(function (i) {
-        return (i.version + '.').indexOf(version + '.') === 0
+        return isVersionsMatch(i.version, version)
       })
       if (matched.length === 0) {
         if (context.ignoreUnknownVersions) {
@@ -705,7 +715,8 @@ var QUERIES = [
       var now = Date.now()
       var queries = Object.keys(jsEOL).filter(function (key) {
         return now < Date.parse(jsEOL[key].end) &&
-          now > Date.parse(jsEOL[key].start)
+          now > Date.parse(jsEOL[key].start) &&
+          isJsEolReleased(key)
       }).map(function (key) {
         return 'node ' + key.slice(1)
       })
