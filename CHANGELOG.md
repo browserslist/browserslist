@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.3.3
+* Fix Node.js 11 support.
+
 ## 4.3.2
 * Fix `Unknown version 11 of Node.js` error (by Dan Onoshko).
 
