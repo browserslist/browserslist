@@ -12,8 +12,8 @@
   "repository": "browserslist/browserslist",
   "dependencies": {
     "caniuse-lite": "^1.0.30000898",
-    "electron-to-chromium": "^1.3.80",
-    "node-releases": "^1.0.0-alpha.14"
+    "electron-to-chromium": "^1.3.81",
+    "node-releases": "^1.0.0-alpha.15"
   },
   "bin": "./cli.js",
   "devDependencies": {
