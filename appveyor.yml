@@ -1,6 +1,4 @@
 environment:
-  YARN_IGNORE_ENGINES: true
-
   matrix:
     - nodejs_version: "11"
     - nodejs_version: "10"
