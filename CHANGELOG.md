@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.3.4
+* Allow to update `node-releases` without new Browserslist releases.
+
 ## 4.3.3
 * Fix Node.js 11 support.
 
