@@ -1,6 +1,39 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.3.4
+* Allow to update `node-releases` without new Browserslist releases.
+
+## 4.3.3
+* Fix Node.js 11 support.
+
+## 4.3.2
+* Fix `Unknown version 11 of Node.js` error (by Dan Onoshko).
+
+## 4.3.1
+* Fix conflict between `caniuse-lite` and custom browsers statistics.
+
+## 4.3
+* Allow to use `extends browserslist-config-a/file` (by @Schweinepriester).
+
+## 4.2.1
+* Use new `node-releases` support (by Sergey Rubanov).
+
+## 4.2
+* Add `--json` argument for CLI.
+* Allow to pass multiple areas in CLI by `--coverage=US,alt-AS,global`.
+
+## 4.1.2
+* Better `unknow query` error message.
+* Use latest `node-releases`.
+
+## 4.1.1
+* Update Firefox ESR versions.
+
+## 4.1
+* Add `current node` query.
+* Add contributors widget to docs (by Sergey Surkov).
+
 ## 4.0.2
 * Fix new `node-releases` support (by Sergey Rubanov).
 * Fix error text (by Josh Smith).

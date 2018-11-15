@@ -8,7 +8,6 @@ front-end tools. It is used in:
 
 * [Autoprefixer]
 * [Babel]
-  (external config in `package.json` or `browserslist` will be supported in 7.0)
 * [postcss-preset-env]
 * [eslint-plugin-compat]
 * [stylelint-no-unsupported-browser-features]
@@ -92,13 +91,13 @@ You can test Browserslist queries in [online demo].
 Browserslist will use browsers and Node.js versions query
 from one of this sources:
 
-1. Tool options. For example `browsers` option in Autoprefixer.
-2. `BROWSERSLIST` environment variable.
-3. `browserslist` config file in current or parent directories.
-3. `.browserslistrc` config file in current or parent directories.
-4. `browserslist` key in `package.json` file in current or parent directories.
+1. `browserslist` key in `package.json` file in current or parent directories.
    **We recommend this way.**
-5. If the above methods did not produce a valid result
+2. Tool options. For example `browsers` option in Autoprefixer.
+3. `BROWSERSLIST` environment variable.
+4. `browserslist` config file in current or parent directories.
+5. `.browserslistrc` config file in current or parent directories.
+6. If the above methods did not produce a valid result
    Browserslist will use defaults:
    `> 0.5%, last 2 versions, Firefox ESR, not dead`.
 
@@ -106,16 +105,17 @@ from one of this sources:
 ### Best Practices
 
 * Select browsers directly (`last 2 Chrome versions`) only if you are making
-  web app for kiosk with one browser. There are a lot browsers on the market.
-  If you are making general web app you should respect browsers diversity.
+  a web app for a kiosk with one browser. There are a lot of browsers
+  on the market. If you are making general web app you should respect
+  browsers diversity.
 * If you want to change the default set of browsers we recommend to combine
   `last 1 version`, `not dead` with `> 0.2%` (or `> 1% in US`,
-  `> 1% in my stats`). Just `last n versions` adds too many dead browsers
-  and does not add popular old versions. Just `> 0.2%` make popular browsers
-  even more popular, so we will have a monopoly and stagnation, as we had
-  with Internet Explorer 6.
+  `> 1% in my stats`). `last n versions` adds too many dead browsers
+  and does not add popular old versions. `> 0.2%` make popular browsers
+  even more popular, so we will have a monopoly and stagnation,
+  as we had with Internet Explorer 6.
 * Don’t remove browsers just because you don’t know them. Opera Mini has
-  100 million users in Africa and it is more popular in global market,
+  100 million users in Africa and it is more popular in the global market
   than Microsoft Edge. Chinese QQ Browsers has more market share than Firefox
   and desktop Safari altogether.
 
@@ -137,6 +137,7 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   by Node.js Foundation.
 * `node 10` and `node 10.4`: selects latest Node.js `10.x.x`
   or `10.4.x` release.
+* `current node`: Node.js version used by Browserslist right now.
 * `extends browserslist-config-mycompany`: take queries from
   `browserslist-config-mycompany` npm package.
 * `ie 6-8`: selects an inclusive range of versions.
@@ -528,3 +529,15 @@ browserslist.clearCaches();
 
 To disable the caching altogether, set the `BROWSERSLIST_DISABLE_CACHE`
 environment variable.
+
+
+## Contributors
+
+<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/0" alt="" width="76" height="90" align="left">
+<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/1" alt="" width="76" height="90" align="left">
+<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/2" alt="" width="76" height="90" align="left">
+<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/3" alt="" width="76" height="90" align="left">
+<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/4" alt="" width="76" height="90" align="left">
+<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/5" alt="" width="76" height="90" align="left">
+<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/6" alt="" width="76" height="90" align="left">
+<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/7" alt="" width="76" height="90" align="left">

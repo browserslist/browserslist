@@ -17,6 +17,17 @@ var QueryType = {
   and: 4
 }
 
+function isVersionsMatch (versionA, versionB) {
+  return (versionA + '.').indexOf(versionB + '.') === 0
+}
+
+function isEolReleased (name) {
+  var version = name.slice(1)
+  return jsReleases.some(function (i) {
+    return isVersionsMatch(i.version, version)
+  })
+}
+
 function normalize (versions) {
   return versions.filter(function (version) {
     return typeof version === 'string'
@@ -123,7 +134,10 @@ function checkName (name) {
 }
 
 function unknownQuery (query) {
-  return new BrowserslistError('Unknown browser query `' + query + '`')
+  return new BrowserslistError(
+    'Unknown browser query `' + query + '`. ' +
+    'Maybe you are using old Browserslist or made typo in query.'
+  )
 }
 
 /**
@@ -255,7 +269,7 @@ function browserslist (queries, opts) {
   }
 
   env.oldDataWarning(browserslist.data)
-  var stats = env.getStat(opts)
+  var stats = env.getStat(opts, browserslist.data)
   if (stats) {
     context.customUsage = { }
     for (var browser in stats) {
@@ -729,7 +743,7 @@ var QUERIES = [
   {
     regexp: /^(firefox|ff|fx)\s+esr$/i,
     select: function () {
-      return ['firefox 52', 'firefox 60']
+      return ['firefox 60']
     }
   },
   {
@@ -756,7 +770,7 @@ var QUERIES = [
         return i.name === 'nodejs'
       })
       var matched = nodeReleases.filter(function (i) {
-        return (i.version + '.').indexOf(version + '.') === 0
+        return isVersionsMatch(i.version, version)
       })
       if (matched.length === 0) {
         if (context.ignoreUnknownVersions) {
@@ -770,12 +784,19 @@ var QUERIES = [
     }
   },
   {
+    regexp: /^current\s+node$/i,
+    select: function (context) {
+      return [env.currentNode(resolve, context)]
+    }
+  },
+  {
     regexp: /^maintained\s+node\s+versions$/i,
     select: function (context) {
       var now = Date.now()
       var queries = Object.keys(jsEOL).filter(function (key) {
         return now < Date.parse(jsEOL[key].end) &&
-          now > Date.parse(jsEOL[key].start)
+          now > Date.parse(jsEOL[key].start) &&
+          isEolReleased(key)
       }).map(function (key) {
         return 'node ' + key.slice(1)
       })

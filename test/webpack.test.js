@@ -36,3 +36,9 @@ it('has config methods', () => {
   expect(browserslist.readConfig()).toBeUndefined()
   expect(browserslist.findConfig()).toBeUndefined()
 })
+
+it('supports current node version', () => {
+  var versions = browserslist('current node')
+  expect(versions).toHaveLength(1)
+  expect(versions[0]).toMatch(/node \d+\.\d+\.\d+/)
+})

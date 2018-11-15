@@ -27,6 +27,13 @@ it('uses package', () => {
   })
 })
 
+it('uses file in package', () => {
+  return mock('browserslist-config-test/ie', ['ie 11']).then(() => {
+    var result = browserslist(['extends browserslist-config-test/ie'])
+    expect(result).toEqual(['ie 11'])
+  })
+})
+
 it('works with non-prefixed package with dangerousExtend', () => {
   return mock('pkg', ['ie 11']).then(() => {
     var result = browserslist(['extends pkg', 'edge 12'], {
@@ -39,6 +46,13 @@ it('works with non-prefixed package with dangerousExtend', () => {
 it('handles scoped packages', () => {
   return mock('@scope/browserslist-config-test', ['ie 11']).then(() => {
     var result = browserslist(['extends @scope/browserslist-config-test'])
+    expect(result).toEqual(['ie 11'])
+  })
+})
+
+it('handles file in scoped packages', () => {
+  return mock('@scope/browserslist-config-test/ie', ['ie 11']).then(() => {
+    var result = browserslist(['extends @scope/browserslist-config-test/ie'])
     expect(result).toEqual(['ie 11'])
   })
 })

@@ -58,6 +58,11 @@ function err () {
   })
 }
 
+function coverage (query, area) {
+  var result = browserslist.coverage(query, area)
+  return Math.round(result * 100) / 100.0
+}
+
 it('returns help', () => {
   return run('--help').then(out => {
     expect(out).toContain('Usage:')
@@ -101,15 +106,36 @@ it('uses case insensitive aliases', () => {
 
 it('returns error `unknown browser query`', () => {
   return err('unknow').then(out => {
-    expect(out).toEqual('browserslist: Unknown browser query `unknow`\n')
+    expect(out).toEqual(
+      'browserslist: Unknown browser query `unknow`. ' +
+      'Maybe you are using old Browserslist or made typo in query.\n'
+    )
   })
 })
 
 it('returns usage in specified country', () => {
   return run('--coverage=US', 'ie 8').then(out => {
-    var result = browserslist.coverage(['ie 8'], 'US')
-    var round = Math.round(result * 100) / 100.0
-    expect(out).toContain(round + '%')
+    expect(out).toContain(
+      'These browsers account for ' +
+      coverage(['ie 8'], 'US') +
+      '% of all users in the US'
+    )
+  })
+})
+
+it('returns usage in specified ares', () => {
+  return run('--coverage=US,alt-AS,global', 'ie 8').then(out => {
+    expect(out).toContain(
+      'These browsers account for ' +
+      coverage(['ie 8'], 'US') +
+      '% of all users in the US\n' +
+      '                           ' +
+      coverage(['ie 8'], 'alt-AS') +
+      '% of all users in the ALT-AS\n' +
+      '                           ' +
+      coverage(['ie 8']) +
+      '% of all users globally\n'
+    )
   })
 })
 
@@ -121,7 +147,10 @@ it('returns error on missed queries', () => {
 
 it('returns error: `unknown browser query to get coverage`', () => {
   return err('--coverage=UK', 'ie8').then(out => {
-    expect(out).toEqual('browserslist: Unknown browser query `ie8`\n')
+    expect(out).toEqual(
+      'browserslist: Unknown browser query `ie8`. ' +
+      'Maybe you are using old Browserslist or made typo in query.\n'
+    )
   })
 })
 
@@ -176,5 +205,20 @@ it('shows Browserslist error', () => {
       'browserslist: Browserslist config ' +
       'should be a string or an array of strings with browser queries\n'
     )
+  })
+})
+
+it('supports JSON', () => {
+  return run('--json', '"ie 8"').then(out => {
+    expect(out).toEqual('{\n  "browsers": [\n    "ie 8"\n  ]\n}\n')
+  })
+})
+
+it('supports JSON with coverage', () => {
+  return run('--json', '--coverage=US', '"ie 8"').then(out => {
+    expect(out).toEqual('{\n' +
+      '  "browsers": [\n    "ie 8"\n  ],\n' +
+      '  "coverage": {\n    "US": ' + coverage(['ie 8'], 'US') + '\n  }\n' +
+    '}\n')
   })
 })
