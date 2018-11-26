@@ -111,9 +111,10 @@ from one of this sources:
 * If you want to change the default set of browsers we recommend to combine
   `last 1 version`, `not dead` with `> 0.2%` (or `> 1% in US`,
   `> 1% in my stats`). `last n versions` adds too many dead browsers
-  and does not add popular old versions. `> 0.2%` make popular browsers
-  even more popular, so we will have a monopoly and stagnation,
-  as we had with Internet Explorer 6.
+  and does not add popular old versions. Choosing a percentage above `0.2%`
+  will in the long run make popular browsers even more popular. We might run
+  into a monopoly and stagnation situation, as we had with Internet Explorer 6.
+  Please use this setting with caution.
 * Don’t remove browsers just because you don’t know them. Opera Mini has
   100 million users in Africa and it is more popular in the global market
   than Microsoft Edge. Chinese QQ Browsers has more market share than Firefox
