@@ -11,13 +11,11 @@ var PACKAGE = path.join(__dirname, 'fixtures', 'env-package', 'package.json')
 
 var DEFAULTS = browserslist(browserslist.defaults)
 
-var originLoad = browserslist.loadConfig
 afterEach(() => {
   process.env.NODE_ENV = 'test'
   delete process.env.BROWSERSLIST
   delete process.env.BROWSERSLIST_CONFIG
   delete process.env.BROWSERSLIST_ENV
-  browserslist.loadConfig = originLoad
 })
 
 it('accepts array', () => {
@@ -99,13 +97,13 @@ it('uses default selection on empty request and no config', () => {
 })
 
 it('uses current dir on undefined path', () => {
-  browserslist.loadConfig = jest.fn(browserslist.loadConfig)
+  jest.spyOn(browserslist, 'loadConfig')
   expect(browserslist(undefined, { path: undefined })).toEqual(DEFAULTS)
   expect(browserslist.loadConfig).toHaveBeenCalledWith({ path: process.cwd() })
 })
 
 it('uses default selection on disabled path', () => {
-  browserslist.loadConfig = jest.fn(browserslist.loadConfig)
+  jest.spyOn(browserslist, 'loadConfig')
   expect(browserslist(null, { path: false })).toEqual(DEFAULTS)
   expect(browserslist.loadConfig).toHaveBeenCalledWith({ path: false })
 })
