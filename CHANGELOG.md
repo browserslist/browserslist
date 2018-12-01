@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.3.5
+* Fix `not` query for wrong Can I Use data.
+
 ## 4.3.4
 * Allow to update `node-releases` without new Browserslist releases.
 
