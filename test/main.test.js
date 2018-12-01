@@ -223,3 +223,7 @@ it('uses production environment by default', () => {
   expect(browserslist(null, { path: CONFIG }))
     .toEqual(['ie 9', 'opera 41'])
 })
+
+it('correctly works with not and one-version browsers', () => {
+  expect(browserslist('last 1 Baidu version, not <2% in AT')).toHaveLength(0)
+})

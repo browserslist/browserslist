@@ -154,11 +154,30 @@ function resolve (queries, context) {
         var args = [context].concat(match.slice(1))
         var array = type.select.apply(browserslist, args)
         if (isExclude) {
-          array = array.concat(array.map(function (j) {
-            return j.replace(/\s\S+/, ' 0')
-          }))
+          var filter = { }
+          var browsers = { }
+          var versionLess = { }
+          array.forEach(function (j) {
+            filter[j] = true
+            var browser = j.replace(/\s\S+$/, '')
+            browsers[browser] = true
+            if (/\s0$/.test(j)) {
+              versionLess[browser] = true
+            }
+          })
           return result.filter(function (j) {
-            return array.indexOf(j) === -1
+            if (filter[j]) {
+              return false
+            } else {
+              var browser = j.replace(/\s\S+$/, '')
+              if (versionLess[browser]) {
+                return false
+              } else if (/\s0$/.test(j) && browsers[browser]) {
+                return false
+              } else {
+                return true
+              }
+            }
           })
         }
         return result.concat(array)
