@@ -314,6 +314,7 @@ browserslist.parseConfig = env.parseConfig
 browserslist.readConfig = env.readConfig
 browserslist.findConfig = env.findConfig
 browserslist.loadConfig = env.loadConfig
+browserslist.findPkg = env.loadPkg
 
 /**
  * Return browsers market coverage.
@@ -774,6 +775,37 @@ var QUERIES = [
     regexp: /^extends (.+)$/i,
     select: function (context, name) {
       return resolve(env.loadQueries(context, name), context)
+    }
+  },
+  {
+    regexp: /^project\s+browserslist$/i,
+    select: function (context) {
+      var pkgBrowserslist = env.loadPkg('.', context, false)
+      return browserslist(pkgBrowserslist, context)
+    }
+  },
+  {
+    regexp: /^project\s+electron\s+version/i,
+    select: function (context) {
+      var pkg = env.loadPkg('.', context, true)
+      if (pkg && pkg.devDependencies && pkg.devDependencies.electron) {
+        var semVer = pkg.devDependencies.electron
+        var match = semVer.match(/^([\^~]|([<>]=?))(\d+([.]\d+){0,2})$/)
+        if (match) {
+          var query = 'electron ' +
+            (match[2] ? match[2] + ' ' : '') +
+            match[3]
+          return browserslist(query)
+        } else {
+          throw new BrowserslistError(
+            'project electron version: Electron version specification ' +
+            semVer + ' is too complex.')
+        }
+      } else {
+        throw new BrowserslistError(
+          'project electron version: package.json does not contain ' +
+          'a devDependency on electron')
+      }
     }
   },
   {

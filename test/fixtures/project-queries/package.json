@@ -1,0 +1,6 @@
+{
+  "browserslist": ["ie 10"],
+  "devDependencies": {
+    "electron": "^1.1"
+  }
+}
