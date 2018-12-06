@@ -2,7 +2,7 @@ var jsReleases = require('node-releases/data/processed/envs.json')
 var agents = require('caniuse-lite/dist/unpacker/agents').agents
 var jsEOL = require('node-releases/data/release-schedule/release-schedule.json')
 var path = require('path')
-var e2cn = convertElectronReleaseData(require('electron-releases'))
+var e2cn = require('./e2cn')
 
 var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
@@ -278,9 +278,6 @@ function browserslist (queries, opts) {
 
   return uniq(result)
 }
-
-// Expose e2cn for tests
-browserslist.e2cn = e2cn
 
 // Will be filled by Can I Use data below
 browserslist.data = { }
@@ -848,52 +845,7 @@ var QUERIES = [
   }
 }())
 
-// Electron related. TODO: move into a separate .js file?
-
-function convertElectronReleaseData (rawData) {
-  var byVersion = {}
-  var released = []
-  var releasedMajor = []
-  var versionsByMajor = {}
-  var lastMajor = Number.MAX_SAFE_INTEGER
-
-  for (var i = 0; i < rawData.length; ++i) {
-    var entry = rawData[i]
-    var version = entry.version
-    var isReleased = entry.prerelease === false
-    var isSupported = version.indexOf('-unsupported') < 0
-    var isValid = !!entry.deps
-
-    if (isValid && isReleased && isSupported) {
-      var major = '' + getMajor(version)
-      var chrome = '' + getMajor(entry.deps.chrome)
-      var node = entry.deps.node
-
-      var item = {
-        electron: entry.version,
-        chrome: chrome,
-        node: node
-      }
-      byVersion[item.electron] = item
-      released.unshift(item.electron)
-
-      if (major !== lastMajor) {
-        releasedMajor.unshift(major)
-        versionsByMajor[major] = [version]
-      } else {
-        versionsByMajor[major].unshift(version)
-      }
-
-      lastMajor = major
-    }
-  }
-  return {
-    byVersion: byVersion, // items by version
-    released: released, // versions chronological
-    releasedMajor: releasedMajor, // major versions chronological
-    versionsByMajor: versionsByMajor // version[] chronological by major
-  }
-}
+// Electron related.
 
 function resolveElectronVersions (array) {
   var chrome = array.map(function (version) {

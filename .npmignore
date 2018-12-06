@@ -12,3 +12,4 @@ appveyor.yml
 
 .editorconfig
 img/
+scripts/
