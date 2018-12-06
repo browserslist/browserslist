@@ -1651,10 +1651,10 @@ ejs@^2.6.1:
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.6.1.tgz#498ec0d495655abc6f23cd61868d926464071aa0"
   integrity sha512-0xy4A/twfrRCnkhfk8ErDi5DqdAsAqeGxht4xkCUrsvhhbQNs7E+4jV0CN7+NKIY0aHE72+XvqtBIXzD31ZbXQ==
 
-electron-to-chromium@^1.3.86:
-  version "1.3.86"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.86.tgz#a45ea01da5b26500d12bca5e0f194ebb3e1fd14e"
-  integrity sha512-BcmXOu37FCPxrrh0wyKgKi5dAjIu2ohxN5ptapkLPKRC3IBK2NeIwh9n1x/8HzSRQiEKamJkDce1ZgOGgEX9iw==
+electron-releases@^3.15.0:
+  version "3.15.0"
+  resolved "https://registry.yarnpkg.com/electron-releases/-/electron-releases-3.15.0.tgz#974f0a6e8579fcd9d3c1eae214f451b7279e6227"
+  integrity sha512-sPgfoDDtE0tmUs9ne8D8j/xpBdQe/eoqb8vy8GOvJ/zl7qD8+QOAvGGpMbN4fblUxxKMcT3h2vfrKL5hWrGL7Q==
 
 elegant-spinner@^1.0.1:
   version "1.0.1"

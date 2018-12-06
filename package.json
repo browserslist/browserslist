@@ -12,7 +12,6 @@
   "repository": "browserslist/browserslist",
   "dependencies": {
     "caniuse-lite": "^1.0.30000912",
-    "electron-to-chromium": "^1.3.86",
     "node-releases": "^1.0.5"
   },
   "bin": "./cli.js",
@@ -20,6 +19,7 @@
     "@logux/eslint-config": "^27.0.0",
     "clean-publish": "^1.1.0",
     "cross-spawn": "^6.0.5",
+    "electron-releases": "^3.15.0",
     "eslint": "^5.9.0",
     "eslint-ci": "^1.0.0",
     "eslint-config-standard": "^12.0.0",
@@ -40,7 +40,8 @@
   "scripts": {
     "spellcheck": "yaspeller-ci README.md CHANGELOG.md",
     "lint": "eslint-ci *.js test/*.js benchmark/*.js",
-    "test": "jest --coverage && yarn lint && yarn spellcheck && size-limit"
+    "test": "jest --coverage && yarn lint && yarn spellcheck && size-limit",
+    "importdata": "node scripts/importElectronReleases.js"
   },
   "browser": {
     "./node.js": "./browser.js",

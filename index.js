@@ -2,7 +2,7 @@ var jsReleases = require('node-releases/data/processed/envs.json')
 var agents = require('caniuse-lite/dist/unpacker/agents').agents
 var jsEOL = require('node-releases/data/release-schedule/release-schedule.json')
 var path = require('path')
-var e2c = require('electron-to-chromium/versions')
+var e2cn = require('./e2cn')
 
 var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
@@ -26,9 +26,13 @@ function normalize (versions) {
   })
 }
 
+function mapName (name, version) {
+  return name + ' ' + version
+}
+
 function nameMapper (name) {
-  return function mapName (version) {
-    return name + ' ' + version
+  return function (version) {
+    return mapName(name, version)
   }
 }
 
@@ -403,10 +407,8 @@ var QUERIES = [
   {
     regexp: /^last\s+(\d+)\s+electron\s+major versions?$/i,
     select: function (context, versions) {
-      var validVersions = getMajorVersions(Object.keys(e2c).reverse(), versions)
-      return validVersions.map(function (i) {
-        return 'chrome ' + e2c[i]
-      })
+      var array = getMajorVersions(e2cn.releasedMajor, versions)
+      return resolveElectronVersions(array.map(selectElectronVersionForMajor))
     }
   },
   {
@@ -420,9 +422,7 @@ var QUERIES = [
   {
     regexp: /^last\s+(\d+)\s+electron\s+versions?$/i,
     select: function (context, versions) {
-      return Object.keys(e2c).reverse().slice(-versions).map(function (i) {
-        return 'chrome ' + e2c[i]
-      })
+      return resolveElectronVersions(e2cn.released.slice(-versions))
     }
   },
   {
@@ -450,6 +450,7 @@ var QUERIES = [
   {
     regexp: /^unreleased\s+electron\s+versions?$/i,
     select: function () {
+      // TODO: we can implement that now if needed
       return []
     }
   },
@@ -622,22 +623,17 @@ var QUERIES = [
   {
     regexp: /^electron\s+([\d.]+)\s*-\s*([\d.]+)$/i,
     select: function (context, from, to) {
-      if (!e2c[from]) {
+      // select oldest matching range:
+      var fromIndex = firstIndexOfMatchingElectronVersion(from)
+      var toIndex = firstIndexOfMatchingElectronVersion(to)
+      if (fromIndex < 0) {
         throw new BrowserslistError('Unknown version ' + from + ' of electron')
       }
-      if (!e2c[to]) {
+      if (toIndex < 0) {
         throw new BrowserslistError('Unknown version ' + to + ' of electron')
       }
-
-      from = parseFloat(from)
-      to = parseFloat(to)
-
-      return Object.keys(e2c).filter(function (i) {
-        var parsed = parseFloat(i)
-        return parsed >= from && parsed <= to
-      }).map(function (i) {
-        return 'chrome ' + e2c[i]
-      })
+      return resolveElectronVersions(
+        e2cn.released.slice(fromIndex, toIndex + 1))
     }
   },
   {
@@ -658,11 +654,29 @@ var QUERIES = [
   {
     regexp: /^electron\s*(>=?|<=?)\s*([\d.]+)$/i,
     select: function (context, sign, version) {
-      return Object.keys(e2c)
-        .filter(generateFilter(sign, version))
-        .map(function (i) {
-          return 'chrome ' + e2c[i]
-        })
+      var from = 0
+      var to = e2cn.released.length
+      switch (sign) {
+        case '<':
+          to = firstIndexOfMatchingElectronVersion(version)
+          break
+        case '<=':
+          to = firstIndexOfMatchingElectronVersion(version) + 1
+          to = to || -1 // preserve -1
+          break
+        case '>=':
+          from = lastIndexOfMatchingElectronVersion(version)
+          break
+        case '>':
+          from = lastIndexOfMatchingElectronVersion(version) + 1
+          from = from || -1 // preserve -1
+          break
+      }
+      if (from < 0 || to < 0) {
+        throw new BrowserslistError(
+          'Unknown version ' + version + ' of electron')
+      }
+      return resolveElectronVersions(e2cn.released.slice(from, to))
     }
   },
   {
@@ -695,12 +709,13 @@ var QUERIES = [
   {
     regexp: /^electron\s+([\d.]+)$/i,
     select: function (context, version) {
-      var chrome = e2c[version]
-      if (!chrome) {
+      // Select oldest existing for implcit ranges, f.e. 3 => 3.0.0
+      var index = firstIndexOfMatchingElectronVersion(version)
+      if (index < 0) {
         throw new BrowserslistError(
           'Unknown version ' + version + ' of electron')
       }
-      return ['chrome ' + chrome]
+      return resolveElectronVersions([e2cn.released[index]])
     }
   },
   {
@@ -829,5 +844,70 @@ var QUERIES = [
     }
   }
 }())
+
+// Electron related.
+
+function resolveElectronVersions (array) {
+  var chrome = array.map(function (version) {
+    return mapName('chrome', e2cn.byVersion[version].chrome)
+  })
+  var node = array.map(function (version) {
+    return mapName('node', e2cn.byVersion[version].node)
+  })
+  return chrome.concat(node)
+}
+
+function selectElectronVersionForMajor (major) {
+  // pick the oldest concrete version for a given major
+  return e2cn.versionsByMajor[major][0]
+}
+
+function firstIndexOfMatchingElectronVersion (version) {
+  if (e2cn.byVersion[version]) {
+    return e2cn.released.indexOf(version)
+  }
+
+  if (e2cn.byVersion[version + '.0']) {
+    return e2cn.released.indexOf(version + '.0')
+  }
+
+  var byMajor = e2cn.versionsByMajor[version]
+  if (byMajor) {
+    return e2cn.released.indexOf(byMajor[0])
+  }
+
+  for (var i = 0; i < e2cn.released.length; ++i) {
+    if (e2cn.released[i].indexOf(version + '.') === 0) {
+      return i
+    }
+  }
+
+  return -1
+}
+
+function lastIndexOfMatchingElectronVersion (version) {
+  if (e2cn.byVersion[version]) {
+    return e2cn.released.indexOf(version)
+  }
+
+  if (e2cn.byVersion[version + '.0']) {
+    var offset = e2cn.released.indexOf(version + '.0')
+    var lastMatch = offset
+    for (var i = 1; i < e2cn.released.length - offset; ++i) {
+      if (e2cn.released[i + offset].indexOf(version + '.') < 0) {
+        break
+      }
+      lastMatch = offset + i
+    }
+    return lastMatch
+  }
+
+  var byMajor = e2cn.versionsByMajor[version]
+  if (byMajor) {
+    return e2cn.released.indexOf(byMajor[byMajor.length - 1])
+  }
+
+  return -1
+}
 
 module.exports = browserslist
