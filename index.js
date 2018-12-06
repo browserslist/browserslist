@@ -2,7 +2,7 @@ var jsReleases = require('node-releases/data/processed/envs.json')
 var agents = require('caniuse-lite/dist/unpacker/agents').agents
 var jsEOL = require('node-releases/data/release-schedule/release-schedule.json')
 var path = require('path')
-var e2cn = require('./e2cn')
+var e2cn = unpackE2cn(require('./e2cn'))
 
 var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
@@ -847,6 +847,50 @@ var QUERIES = [
 
 // Electron related.
 
+function unpackE2cn (rawData) {
+  var byVersion = {}
+  var released = []
+  var releasedMajor = []
+  var versionsByMajor = {}
+  var lastMajor = Number.MAX_SAFE_INTEGER
+
+  for (var i = 0; i + 3 <= rawData.length; i += 3) {
+    var version = rawData[i]
+    var chrome = '' + getMajor(rawData[i + 1])
+    var node = rawData[i + 2]
+
+    var reverseIndex = (rawData.length - i) / 3 - 1
+
+    var major = '' + getMajor(version)
+
+    byVersion[version] = { chrome: chrome, node: node }
+    released.unshift(version)
+
+    // processed newest first, stored oldest first:
+    if (major !== lastMajor) {
+      releasedMajor.unshift(major)
+      versionsByMajor[major] = {
+        first: version,
+        last: version,
+        index: reverseIndex,
+        length: 1
+      }
+    } else {
+      versionsByMajor[major].length += 1
+      versionsByMajor[major].index -= 1
+      versionsByMajor[major].first = version
+    }
+
+    lastMajor = major
+  }
+  return {
+    byVersion: byVersion, // items by version
+    released: released, // versions chronological
+    releasedMajor: releasedMajor, // major versions chronological
+    versionsByMajor: versionsByMajor // version[] chronological by major
+  }
+}
+
 function resolveElectronVersions (array) {
   var chrome = array.map(function (version) {
     return mapName('chrome', e2cn.byVersion[version].chrome)
@@ -859,7 +903,7 @@ function resolveElectronVersions (array) {
 
 function selectElectronVersionForMajor (major) {
   // pick the oldest concrete version for a given major
-  return e2cn.versionsByMajor[major][0]
+  return e2cn.versionsByMajor[major] && e2cn.versionsByMajor[major].first
 }
 
 function firstIndexOfMatchingElectronVersion (version) {
@@ -873,7 +917,7 @@ function firstIndexOfMatchingElectronVersion (version) {
 
   var byMajor = e2cn.versionsByMajor[version]
   if (byMajor) {
-    return e2cn.released.indexOf(byMajor[0])
+    return byMajor.index
   }
 
   for (var i = 0; i < e2cn.released.length; ++i) {
@@ -904,7 +948,7 @@ function lastIndexOfMatchingElectronVersion (version) {
 
   var byMajor = e2cn.versionsByMajor[version]
   if (byMajor) {
-    return e2cn.released.indexOf(byMajor[byMajor.length - 1])
+    return byMajor.index + byMajor.length - 1
   }
 
   return -1

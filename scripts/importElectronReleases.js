@@ -1,55 +1,35 @@
 var electronReleasesLite = require('electron-releases/lite')
 var fs = require('fs')
 
-var converted = JSON.stringify(convertElectronReleaseData(
-  electronReleasesLite))
-fs.writeFileSync('e2cn.json', converted)
+var packed = JSON.stringify(pack(electronReleasesLite))
+fs.writeFileSync('e2cn.json', packed)
 
 function getMajor (version) {
   return version.split('.')[0]
 }
 
-function convertElectronReleaseData (rawData) {
-  var byVersion = {}
-  var released = []
-  var releasedMajor = []
-  var versionsByMajor = {}
-  var lastMajor = Number.MAX_SAFE_INTEGER
-
-  for (var i = 0; i < rawData.length; ++i) {
-    var entry = rawData[i]
+function pack (rawData) {
+  var data = rawData.filter(function (entry) {
     var version = entry.version
     var isReleased = entry.prerelease === false
     var isSupported = version.indexOf('-unsupported') < 0
     var isValid = !!entry.deps
 
-    if (isValid && isReleased && isSupported) {
-      var major = '' + getMajor(version)
-      var chrome = '' + getMajor(entry.deps.chrome)
-      var node = entry.deps.node
+    return isValid && isReleased && isSupported
+  })
 
-      var item = {
-        electron: entry.version,
-        chrome: chrome,
-        node: node
-      }
-      byVersion[item.electron] = item
-      released.unshift(item.electron)
+  var result = []
 
-      if (major !== lastMajor) {
-        releasedMajor.unshift(major)
-        versionsByMajor[major] = [version]
-      } else {
-        versionsByMajor[major].unshift(version)
-      }
+  for (var i = 0; i < data.length; ++i) {
+    var entry = data[i]
+    var version = entry.version
+    var chrome = '' + getMajor(entry.deps.chrome)
+    var node = entry.deps.node
 
-      lastMajor = major
-    }
+    result.push(version)
+    result.push(chrome)
+    result.push(node)
   }
-  return {
-    byVersion: byVersion, // items by version
-    released: released, // versions chronological
-    releasedMajor: releasedMajor, // major versions chronological
-    versionsByMajor: versionsByMajor // version[] chronological by major
-  }
+
+  return result
 }
