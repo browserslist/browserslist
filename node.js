@@ -284,22 +284,19 @@ module.exports = {
     return resolved
   },
 
-  loadPkg: function loadPkg (from, opts, skipParsePackage) {
-    from = path.resolve(from || '.')
+  loadPkg: function loadPkg (opts) {
+    var from = path.resolve(opts.path || '.')
 
     var resolved = eachParent(from, function (dir) {
       var pkg = path.join(dir, 'package.json')
       return isFile(pkg) ? pkg : undefined
     })
 
-    if (skipParsePackage) {
-      // Return JSON instead
-      resolved = JSON.parse(fs.readFileSync(resolved))
-    } else {
-      resolved = pickEnv(parsePackage(resolved), opts)
+    return {
+      path: resolved,
+      parseJSON: function () { return JSON.parse(fs.readFileSync(resolved)) },
+      parseQuery: function () { return pickEnv(parsePackage(resolved), opts) }
     }
-
-    return resolved
   },
 
   clearCaches: function clearCaches () {

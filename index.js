@@ -237,7 +237,8 @@ function browserslist (queries, opts) {
 
   var context = {
     ignoreUnknownVersions: opts.ignoreUnknownVersions,
-    dangerousExtend: opts.dangerousExtend
+    dangerousExtend: opts.dangerousExtend,
+    path: opts.path
   }
 
   env.oldDataWarning(browserslist.data)
@@ -780,14 +781,22 @@ var QUERIES = [
   {
     regexp: /^project\s+browserslist$/i,
     select: function (context) {
-      var pkgBrowserslist = env.loadPkg('.', context, false)
-      return browserslist(pkgBrowserslist, context)
+      var pkg = env.loadPkg(context)
+      if (path.normalize(pkg.path) === path.normalize(context.path)) {
+        throw new BrowserslistError(
+          'Cannot use "project browserslist" query in package.json')
+      }
+      return browserslist(pkg.parseQuery(), {
+        ignoreUnknownVersions: context.ignoreUnknownVersions,
+        dangerousExtend: context.dangerousExtend,
+        path: pkg.path
+      })
     }
   },
   {
     regexp: /^project\s+electron\s+version/i,
     select: function (context) {
-      var pkg = env.loadPkg('.', context, true)
+      var pkg = env.loadPkg(context).parseJSON()
       if (pkg && pkg.devDependencies && pkg.devDependencies.electron) {
         var semVer = pkg.devDependencies.electron
         var match = semVer.match(/^([\^~]|([<>]=?))(\d+([.]\d+){0,2})$/)
@@ -802,8 +811,10 @@ var QUERIES = [
             semVer + ' is too complex.')
         }
       } else {
+        var p = path.relative(process.cwd(), context.path || '.')
+        p = p.indexOf('package.json') > 0 ? p : path.join(p, 'package.json')
         throw new BrowserslistError(
-          'project electron version: package.json does not contain ' +
+          'project electron version: ' + p + ' does not contain ' +
           'a devDependency on electron')
       }
     }
