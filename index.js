@@ -315,7 +315,6 @@ browserslist.parseConfig = env.parseConfig
 browserslist.readConfig = env.readConfig
 browserslist.findConfig = env.findConfig
 browserslist.loadConfig = env.loadConfig
-browserslist.findPkg = env.loadPkg
 
 /**
  * Return browsers market coverage.
@@ -779,44 +778,9 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^project\s+browserslist$/i,
-    select: function (context) {
-      var pkg = env.loadPkg(context)
-      if (path.normalize(pkg.path) === path.normalize(context.path)) {
-        throw new BrowserslistError(
-          'Cannot use "project browserslist" query in package.json')
-      }
-      return browserslist(pkg.parseQuery(), {
-        ignoreUnknownVersions: context.ignoreUnknownVersions,
-        dangerousExtend: context.dangerousExtend,
-        path: pkg.path
-      })
-    }
-  },
-  {
     regexp: /^project\s+electron\s+version/i,
     select: function (context) {
-      var pkg = env.loadPkg(context).parseJSON()
-      if (pkg && pkg.devDependencies && pkg.devDependencies.electron) {
-        var semVer = pkg.devDependencies.electron
-        var match = semVer.match(/^([\^~]|([<>]=?))(\d+([.]\d+){0,2})$/)
-        if (match) {
-          var query = 'electron ' +
-            (match[2] ? match[2] + ' ' : '') +
-            match[3]
-          return browserslist(query)
-        } else {
-          throw new BrowserslistError(
-            'project electron version: Electron version specification ' +
-            semVer + ' is too complex.')
-        }
-      } else {
-        var p = path.relative(process.cwd(), context.path || '.')
-        p = p.indexOf('package.json') > 0 ? p : path.join(p, 'package.json')
-        throw new BrowserslistError(
-          'project electron version: ' + p + ' does not contain ' +
-          'a devDependency on electron')
-      }
+      return browserslist(env.resolveProjectElectronVersion(context))
     }
   },
   {

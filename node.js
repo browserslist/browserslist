@@ -284,18 +284,29 @@ module.exports = {
     return resolved
   },
 
-  loadPkg: function loadPkg (opts) {
+  resolveProjectElectronVersion: function (opts) {
     var from = path.resolve(opts.path || '.')
-
     var resolved = eachParent(from, function (dir) {
       var pkg = path.join(dir, 'package.json')
       return isFile(pkg) ? pkg : undefined
     })
 
-    return {
-      path: resolved,
-      parseJSON: function () { return JSON.parse(fs.readFileSync(resolved)) },
-      parseQuery: function () { return pickEnv(parsePackage(resolved), opts) }
+    var pkg = JSON.parse(fs.readFileSync(resolved))
+    if (pkg && pkg.devDependencies && pkg.devDependencies.electron) {
+      var semVer = pkg.devDependencies.electron
+      var match = semVer.match(/^([\^~]|([<>]=?))(\d+([.]\d+){0,2})$/)
+      if (match) {
+        var query = 'electron ' +
+          (match[2] ? match[2] + ' ' : '') +
+          match[3]
+        return query
+      } else {
+        throw new BrowserslistError(
+          'Electron version specification ' + semVer + ' is too complex.')
+      }
+    } else {
+      throw new BrowserslistError(
+        'package.json does not contain a devDependency on electron')
     }
   },
 
