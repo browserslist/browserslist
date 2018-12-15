@@ -59,7 +59,7 @@ it('works alongside global usage query', () => {
 })
 
 it('takes stats from browserslist-stats.json', () => {
-  expect(browserslist('> 5% in my stats', { path: STATS })).toEqual(['ie 8'])
+  expect(browserslist('> 5% in my stats', { path: STATS })).toEqual(['and_chr', 'ie 8'])
 })
 
 it('normalizes versions', () => {
