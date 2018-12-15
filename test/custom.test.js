@@ -59,13 +59,13 @@ it('works alongside global usage query', () => {
 })
 
 it('takes stats from browserslist-stats.json', () => {
-  expect(browserslist('> 5% in my stats', { path: STATS })).toEqual(['and_chr', 'ie 8'])
+  expect(browserslist('> 5% in my stats', { path: STATS })).toEqual(['ie 8'])
 })
 
 it('normalizes versions', () => {
-  expect(
-    browserslist(['> 3% in my stats', 'not and_chr > 0'], { stats: ANDROID })
-  ).toEqual([])
+  var o = { stats: ANDROID }
+  expect(browserslist(['> 3% in my stats'], o)[0]).toMatch(/and_chr \d+/)
+  expect(browserslist(['> 3% in my stats', 'not and_chr > 0'], o)).toEqual([])
 })
 
 it('throws error on no stats', () => {
