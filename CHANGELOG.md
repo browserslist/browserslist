@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.3.6
+* Fix version-less browser support in custom statistics (by Alex Walter).
+
 ## 4.3.5
 * Fix `not` query for wrong Can I Use data.
 
