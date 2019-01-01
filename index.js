@@ -152,32 +152,24 @@ function resolve (queries, context) {
       var match = selection.match(type.regexp)
       if (match) {
         var args = [context].concat(match.slice(1))
-        var array = type.select.apply(browserslist, args)
+        var array = type.select.apply(browserslist, args).map(function (j) {
+          var parts = j.split(' ')
+          if (parts[1] === '0') {
+            return parts[0] + ' ' + byName(parts[0]).versions[0]
+          } else {
+            return j
+          }
+        })
         if (isExclude) {
           var filter = { }
           var browsers = { }
-          var versionLess = { }
           array.forEach(function (j) {
             filter[j] = true
             var browser = j.replace(/\s\S+$/, '')
             browsers[browser] = true
-            if (/\s0$/.test(j)) {
-              versionLess[browser] = true
-            }
           })
           return result.filter(function (j) {
-            if (filter[j]) {
-              return false
-            } else {
-              var browser = j.replace(/\s\S+$/, '')
-              if (versionLess[browser]) {
-                return false
-              } else if (/\s0$/.test(j) && browsers[browser]) {
-                return false
-              } else {
-                return true
-              }
-            }
+            return !filter[j]
           })
         }
         return result.concat(array)
@@ -249,16 +241,7 @@ function browserslist (queries, opts) {
     }
   }
 
-  var result = resolve(queries, context).map(function (i) {
-    var parts = i.split(' ')
-    var name = parts[0]
-    var version = parts[1]
-    if (version === '0') {
-      return name + ' ' + byName(name).versions[0]
-    } else {
-      return i
-    }
-  }).sort(function (name1, name2) {
+  var result = resolve(queries, context).sort(function (name1, name2) {
     name1 = name1.split(' ')
     name2 = name2.split(' ')
     if (name1[0] === name2[0]) {
