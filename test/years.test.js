@@ -62,8 +62,11 @@ it('selects versions released within last X years', () => {
 })
 
 it('selects versions released within last year', () => {
-  expect(browserslist('last 1 year'))
-    .toEqual(['edge 16', 'edge 15'])
+  expect(browserslist('last 1 year')).toEqual(['edge 16', 'edge 15'])
+})
+
+it('supports year fraction', () => {
+  expect(browserslist('last 1.4 years')).toEqual(['edge 16', 'edge 15'])
 })
 
 it('is case insensitive', () => {
