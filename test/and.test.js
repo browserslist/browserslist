@@ -1,5 +1,9 @@
 var browserslist = require('../')
 
+var path = require('path')
+
+var PACKAGE = path.join(__dirname, 'fixtures', 'package2')
+
 it('query composition with AND operator', () => {
   // old behavior
   expect(
@@ -36,4 +40,10 @@ it('query composition with AND operator', () => {
 
 it('correctly works with not and one-version browsers as AND query', () => {
   expect(browserslist('last 1 Baidu version and not <2% in AT')).toHaveLength(0)
+})
+
+it('reads config from package.json', () => {
+  expect(browserslist.findConfig(PACKAGE)).toEqual({
+    defaults: ['ie 9 and ie 10']
+  })
 })

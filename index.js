@@ -11,16 +11,8 @@ var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 var YEAR = 365.259641 * 24 * 60 * 60 * 1000
 
 // Enum values MUST be powers of 2, so combination are safe
-var QueryType = {
-  oneliner: 1,
-  or: 2,
-  and: 4
-}
-
-function BrowserslistQuery (type, value) {
-  this.QueryType = type
-  this.queryString = value.trim()
-}
+var QUERY_OR = 1
+var QUERY_AND = 2
 
 function isVersionsMatch (versionA, versionB) {
   return (versionA + '.').indexOf(versionB + '.') === 0
@@ -148,17 +140,23 @@ function unknownQuery (query) {
 
 /**
  * Resolves queries into a browser list.
- * @param {BrowserslistQuery[]|string[]} queries List of queries to combine.
+ * @param {string|string[]} queries List of queries to combine.
  * If string then it will be an OR query (original behavior).
  * E.g. new BrowserslistQuery(QueryType.or, string)
  * @param {object} context optional arguments to the select function in QUERIES.
  * @returns {string[]} A list of browsers
  */
 function resolve (queries, context) {
+  if (Array.isArray(queries)) {
+    queries = flatten(queries.map(parse))
+  } else {
+    queries = parse(queries)
+  }
+
   return queries.reduce(function (result, query, index) {
-    if (!(query instanceof BrowserslistQuery)) {
-      query = new BrowserslistQuery(QueryType.or, query)
-    }
+    // if (!(query instanceof BrowserslistQuery)) {
+    //   query = new BrowserslistQuery(QueryType.or, query)
+    // }
 
     var selection = query.queryString
 
@@ -186,8 +184,8 @@ function resolve (queries, context) {
           }
         })
 
-        switch (query.QueryType) {
-          case QueryType.and:
+        switch (query.type) {
+          case QUERY_AND:
             if (isExclude) {
               return result.filter(function (j) {
                 // remove result items that are in array
@@ -201,8 +199,7 @@ function resolve (queries, context) {
                 return array.indexOf(j) !== -1
               })
             }
-          case QueryType.oneliner:
-          case QueryType.or:
+          case QUERY_OR:
           default:
             if (isExclude) {
               var filter = { }
@@ -264,19 +261,9 @@ function browserslist (queries, opts) {
     }
   }
 
-  if (typeof queries === 'string') {
-    var qs = []
-
-    do {
-      queries = doMatch(queries, qs)
-    } while (queries)
-
-    queries = qs
-  }
-
-  if (!Array.isArray(queries)) {
+  if (!(typeof queries === 'string' || Array.isArray(queries))) {
     throw new BrowserslistError(
-      'Browser queries must be an array. Got ' + typeof queries + '.')
+      'Browser queries must be an array or string. Got ' + typeof queries + '.')
   }
 
   var context = {
@@ -310,21 +297,36 @@ function browserslist (queries, opts) {
   return uniq(result)
 }
 
+/**
+ * Parse a browserslist string query
+ * @param {string} queries One or more queries as a string
+ * @returns {object[]} An array of BrowserslistQuery
+ */
+function parse (queries) {
+  var qs = []
+
+  do {
+    queries = doMatch(queries, qs)
+  } while (queries)
+
+  return qs
+}
+
 function doMatch (string, qs) {
-  var or = /^(?:,|\sOR\s)(.*)/i
-  var and = /^\sAND\s(.*)/i
+  var or = /^(?:,\s*|\s+OR\s+)(.*)/i
+  var and = /^\s+AND\s+(.*)/i
 
   return find(
     string,
     function (parsed, n, max) {
       if (and.test(parsed)) {
-        qs.unshift(new BrowserslistQuery(QueryType.and, parsed.match(and)[1]))
+        qs.unshift({ type: QUERY_AND, queryString: parsed.match(and)[1] })
         return true
       } else if (or.test(parsed)) {
-        qs.unshift(new BrowserslistQuery(QueryType.or, parsed.match(or)[1]))
+        qs.unshift({ type: QUERY_OR, queryString: parsed.match(or)[1] })
         return true
       } else if (n === max) {
-        qs.unshift(new BrowserslistQuery(QueryType.oneliner, parsed))
+        qs.unshift({ type: QUERY_OR, queryString: parsed.trim() })
         return true
       }
       return false
@@ -340,6 +342,13 @@ function find (string, predicate) {
     }
   }
   return ''
+}
+
+function flatten (array) {
+  if (!Array.isArray(array)) return [array]
+  return array.reduce(function (a, b) {
+    return a.concat(flatten(b))
+  }, [])
 }
 
 // Will be filled by Can I Use data below
