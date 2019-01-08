@@ -9,6 +9,7 @@ var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
 
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
+var YEAR = 365.259641 * 24 * 60 * 60 * 1000
 
 // Enum values MUST be powers of 2, so combination are safe
 var QueryType = {
@@ -111,6 +112,7 @@ function normalizeVersion (data, version) {
 }
 
 function filterByYear (since) {
+  since = since / 1000
   return Object.keys(agents).reduce(function (selected, name) {
     var data = byName(name)
     if (!data) return selected
@@ -171,7 +173,14 @@ function resolve (queries, context) {
       var match = selection.match(type.regexp)
       if (match) {
         var args = [context].concat(match.slice(1))
-        var array = type.select.apply(browserslist, args)
+        var array = type.select.apply(browserslist, args).map(function (j) {
+          var parts = j.split(' ')
+          if (parts[1] === '0') {
+            return parts[0] + ' ' + byName(parts[0]).versions[0]
+          } else {
+            return j
+          }
+        })
 
         switch (query.QueryType) {
           case QueryType.and:
@@ -192,12 +201,15 @@ function resolve (queries, context) {
           case QueryType.or:
           default: // old behavior
             if (isExclude) {
-              array = array.concat(array.map(function (j) {
-                return j.replace(/\s\S+/, ' 0')
-              }))
+              var filter = { }
+              var browsers = { }
+              array.forEach(function (j) {
+                filter[j] = true
+                var browser = j.replace(/\s\S+$/, '')
+                browsers[browser] = true
+              })
               return result.filter(function (j) {
-                // remove result items that are in array
-                return array.indexOf(j) === -1
+                return !filter[j]
               })
             }
             // union of result and array
@@ -277,16 +289,7 @@ function browserslist (queries, opts) {
     }
   }
 
-  var result = resolve(queries, context).map(function (i) {
-    var parts = i.split(' ')
-    var name = parts[0]
-    var version = parts[1]
-    if (version === '0') {
-      return name + ' ' + byName(name).versions[0]
-    } else {
-      return i
-    }
-  }).sort(function (name1, name2) {
+  var result = resolve(queries, context).sort(function (name1, name2) {
     name1 = name1.split(' ')
     name2 = name2.split(' ')
     if (name1[0] === name2[0]) {
@@ -523,12 +526,9 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^last\s+(\d+)\s+years?$/i,
+    regexp: /^last\s+(\d*.?\d+)\s+years?$/i,
     select: function (context, years) {
-      var date = new Date()
-      var since = date.setFullYear(date.getFullYear() - years) / 1000
-
-      return filterByYear(since)
+      return filterByYear(Date.now() - YEAR * years)
     }
   },
   {
@@ -537,9 +537,7 @@ var QUERIES = [
       year = parseInt(year)
       month = parseInt(month || '01') - 1
       date = parseInt(date || '01')
-      var since = Date.UTC(year, month, date, 0, 0, 0) / 1000
-
-      return filterByYear(since)
+      return filterByYear(Date.UTC(year, month, date, 0, 0, 0))
     }
   },
   {

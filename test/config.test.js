@@ -82,7 +82,7 @@ it('reads config from package.json', () => {
 })
 
 it('shows warning on broken package.json', () => {
-  console.warn = jest.fn()
+  jest.spyOn(console, 'warn').mockImplementation(() => true)
   expect(browserslist.findConfig(BROKEN)).toEqual({
     defaults: ['ie 11', 'ie 10']
   })

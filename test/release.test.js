@@ -2,7 +2,6 @@ var browserslist = require('../')
 var fs = require('fs')
 
 var originData = browserslist.data
-var originWarn = console.warn
 
 function createDate (monthBack) {
   var releaseTime = Date.now() - monthBack * 30 * 24 * 60 * 60 * 1000
@@ -85,66 +84,57 @@ function mockStatSync () {
   }
 }
 
-describe('There are versions are younger than 6 months', () => {
-  beforeEach(() => {
-    browserslist.data = youngerSixMonthsData
-    console.warn = jest.fn()
-  })
+var originSxists = fs.existsSync
+var originStat = fs.statSync
 
-  afterEach(() => {
-    browserslist.data = originData
-    console.warn = originWarn
-    browserslist.clearCaches()
-  })
-
-  it('does not print warning', () => {
-    browserslist('last 2 versions')
-    expect(console.warn).toHaveBeenCalledTimes(0)
-  })
+beforeEach(() => {
+  jest.spyOn(console, 'warn').mockImplementation(() => true)
 })
 
-describe('All versions are older than 6 months', () => {
-  var originSxists = fs.existsSync
-  var originStat = fs.statSync
+afterEach(() => {
+  jest.clearAllMocks()
+  fs.existsSync = originSxists
+  fs.statSync = originStat
+  browserslist.clearCaches()
+})
 
-  beforeEach(() => {
-    browserslist.data = olderSixMonthsData
-    console.warn = jest.fn()
-  })
+afterAll(() => {
+  browserslist.data = originData
+})
 
-  afterEach(() => {
-    browserslist.data = originData
-    fs.existsSync = originSxists
-    fs.statSync = originStat
-    console.warn = originWarn
-    browserslist.clearCaches()
-  })
+it('does not print warning', () => {
+  browserslist.data = youngerSixMonthsData
+  browserslist('last 2 versions')
+  expect(console.warn).toHaveBeenCalledTimes(0)
+})
 
-  it('shows warning', () => {
-    fs.existsSync = findPackage
-    fs.statSync = mockStatSync
-    browserslist('last 2 versions')
-    expect(console.warn).toHaveBeenCalledWith(
-      'Browserslist: caniuse-lite is outdated. ' +
-      'Please run next command `npm update caniuse-lite browserslist`'
-    )
-  })
+it('shows warning', () => {
+  browserslist.data = olderSixMonthsData
+  fs.existsSync = findPackage
+  fs.statSync = mockStatSync
+  browserslist('last 2 versions')
+  expect(console.warn).toHaveBeenCalledWith(
+    'Browserslist: caniuse-lite is outdated. ' +
+    'Please run next command `npm update caniuse-lite browserslist`'
+  )
+})
 
-  it('shows warning only once', () => {
-    fs.existsSync = findPackage
-    fs.statSync = mockStatSync
-    browserslist('last 2 versions')
-    browserslist('last 2 versions')
-    expect(console.warn).toHaveBeenCalledTimes(1)
-  })
+it('shows warning only once', () => {
+  browserslist.data = olderSixMonthsData
+  fs.existsSync = findPackage
+  fs.statSync = mockStatSync
+  browserslist('last 2 versions')
+  browserslist('last 2 versions')
+  expect(console.warn).toHaveBeenCalledTimes(1)
+})
 
-  it('detects yarn', () => {
-    fs.existsSync = findPackageAndYarn
-    fs.statSync = mockStatSync
-    browserslist('last 2 versions')
-    expect(console.warn).toHaveBeenCalledWith(
-      'Browserslist: caniuse-lite is outdated. ' +
-      'Please run next command `yarn upgrade caniuse-lite browserslist`'
-    )
-  })
+it('detects yarn', () => {
+  browserslist.data = olderSixMonthsData
+  fs.existsSync = findPackageAndYarn
+  fs.statSync = mockStatSync
+  browserslist('last 2 versions')
+  expect(console.warn).toHaveBeenCalledWith(
+    'Browserslist: caniuse-lite is outdated. ' +
+    'Please run next command `yarn upgrade caniuse-lite browserslist`'
+  )
 })

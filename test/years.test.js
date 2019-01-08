@@ -9,7 +9,9 @@ function mockDate (iso) {
     Object.getPrototypeOf(RealDate.prototype).constructor.call(this)
     return new RealDate(iso)
   }
-  global.Date.now = RealDate.now
+  global.Date.now = function () {
+    return (new RealDate(iso)).valueOf()
+  }
 }
 
 beforeEach(() => {
@@ -62,8 +64,11 @@ it('selects versions released within last X years', () => {
 })
 
 it('selects versions released within last year', () => {
-  expect(browserslist('last 1 year'))
-    .toEqual(['edge 16', 'edge 15'])
+  expect(browserslist('last 1 year')).toEqual(['edge 16', 'edge 15'])
+})
+
+it('supports year fraction', () => {
+  expect(browserslist('last 1.4 years')).toEqual(['edge 16', 'edge 15'])
 })
 
 it('is case insensitive', () => {
