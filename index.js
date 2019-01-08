@@ -11,7 +11,9 @@ var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 var YEAR = 365.259641 * 24 * 60 * 60 * 1000
 
 // Enum values MUST be powers of 2, so combination are safe
+/** @constant {number} */
 var QUERY_OR = 1
+/** @constant {number} */
 var QUERY_AND = 2
 
 function isVersionsMatch (versionA, versionB) {
@@ -140,10 +142,10 @@ function unknownQuery (query) {
 
 /**
  * Resolves queries into a browser list.
- * @param {string|string[]} queries List of queries to combine.
- * If string then it will be an OR query (original behavior).
- * E.g. new BrowserslistQuery(QueryType.or, string)
- * @param {object} context optional arguments to the select function in QUERIES.
+ * @param {string|string[]} queries Queries to combine.
+ * Either an array of queries or a long string of queries.
+ * @param {object} [context] Optional arguments to
+ * the select function in `queries`.
  * @returns {string[]} A list of browsers
  */
 function resolve (queries, context) {
@@ -154,10 +156,6 @@ function resolve (queries, context) {
   }
 
   return queries.reduce(function (result, query, index) {
-    // if (!(query instanceof BrowserslistQuery)) {
-    //   query = new BrowserslistQuery(QueryType.or, query)
-    // }
-
     var selection = query.queryString
 
     var isExclude = selection.indexOf('not ') === 0
@@ -189,7 +187,7 @@ function resolve (queries, context) {
             if (isExclude) {
               return result.filter(function (j) {
                 // remove result items that are in array
-                // (the complement of result is array AKA difference)
+                // (the relative complement of array in result)
                 return array.indexOf(j) === -1
               })
             } else {
@@ -237,7 +235,7 @@ function resolve (queries, context) {
  *                                                     version in direct query.
  * @param {boolean} [opts.dangerousExtend] Disable security checks
  *                                         for extend query.
- * @return {string[]} Array with browser names in Can I Use.
+ * @returns {string[]} Array with browser names in Can I Use.
  *
  * @example
  * browserslist('IE >= 10, IE 8') //=> ['ie 11', 'ie 10', 'ie 8']
@@ -295,9 +293,15 @@ function browserslist (queries, opts) {
 }
 
 /**
+ * @typedef {object} BrowserslistQuery
+ * @property {number} type A type constant like QUERY_OR @see QUERY_OR.
+ * @property {string} queryString A query like "not ie < 11".
+ */
+
+/**
  * Parse a browserslist string query
  * @param {string} queries One or more queries as a string
- * @returns {object[]} An array of BrowserslistQuery
+ * @returns {BrowserslistQuery[]} An array of BrowserslistQuery
  */
 function parse (queries) {
   var qs = []
@@ -309,6 +313,14 @@ function parse (queries) {
   return qs
 }
 
+/**
+ * Find query matches in a string. This function is meant to be called
+ * repeatedly with the returned query string until there is no more matches.
+ * @param {string} string A string with one or more queries.
+ * @param {BrowserslistQuery[]} qs Out parameter,
+ * will be filled with `BrowserslistQuery`.
+ * @returns {string} The rest of the query string minus the matched part.
+ */
 function doMatch (string, qs) {
   var or = /^(?:,\s*|\s+OR\s+)(.*)/i
   var and = /^\s+AND\s+(.*)/i
