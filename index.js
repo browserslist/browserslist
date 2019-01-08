@@ -203,11 +203,8 @@ function resolve (queries, context) {
           default:
             if (isExclude) {
               var filter = { }
-              var browsers = { }
               array.forEach(function (j) {
                 filter[j] = true
-                var browser = j.replace(/\s\S+$/, '')
-                browsers[browser] = true
               })
               return result.filter(function (j) {
                 return !filter[j]
