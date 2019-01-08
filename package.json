@@ -1,6 +1,6 @@
 {
   "name": "browserslist",
-  "version": "4.3.4",
+  "version": "4.3.7",
   "description": "Share target browsers between different front-end tools, like Autoprefixer, Stylelint and babel-env-preset",
   "keywords": [
     "caniuse",
@@ -11,34 +11,33 @@
   "license": "MIT",
   "repository": "browserslist/browserslist",
   "dependencies": {
-    "caniuse-lite": "^1.0.30000899",
-    "electron-to-chromium": "^1.3.82",
-    "node-releases": "^1.0.1"
+    "caniuse-lite": "^1.0.30000925",
+    "electron-to-chromium": "^1.3.96",
+    "node-releases": "^1.1.3"
   },
   "bin": "./cli.js",
   "devDependencies": {
-    "clean-publish": "^1.0.10",
+    "@logux/eslint-config": "^27.0.0",
+    "clean-publish": "^1.1.0",
     "cross-spawn": "^6.0.5",
-    "eslint": "^5.8.0",
-    "eslint-ci": "^0.1.1",
-    "eslint-config-logux": "^26.0.1",
+    "eslint": "^5.11.1",
+    "eslint-ci": "^1.0.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-es5": "^1.3.1",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jest": "^21.26.2",
+    "eslint-plugin-jest": "^22.1.2",
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-security": "^1.4.0",
     "eslint-plugin-standard": "^4.0.0",
-    "fs-extra": "^7.0.0",
+    "fs-extra": "^7.0.1",
+    "husky": "^1.3.1",
     "jest": "^23.6.0",
-    "lint-staged": "^7.3.0",
-    "pre-commit": "^1.1.3",
-    "size-limit": "^0.20.1",
+    "lint-staged": "^8.1.0",
+    "size-limit": "^0.21.1",
     "yaspeller-ci": "^1.0.0"
   },
   "scripts": {
-    "lint-staged": "lint-staged",
     "spellcheck": "yaspeller-ci README.md CHANGELOG.md",
     "lint": "eslint-ci *.js test/*.js benchmark/*.js",
     "test": "jest --coverage && yarn lint && yarn spellcheck && size-limit"
@@ -47,9 +46,11 @@
     "./node.js": "./browser.js",
     "path": false
   },
-  "pre-commit": [
-    "lint-staged"
-  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "jest": {
     "testEnvironment": "node",
     "coverageThreshold": {
@@ -64,7 +65,7 @@
   "size-limit": [
     {
       "path": "index.js",
-      "limit": "9.1 KB"
+      "limit": "9 KB"
     }
   ],
   "lint-staged": {
@@ -72,7 +73,7 @@
     "*.js": "eslint"
   },
   "eslintConfig": {
-    "extends": "eslint-config-logux/browser",
+    "extends": "@logux/eslint-config/browser",
     "rules": {
       "security/detect-unsafe-regex": "off",
       "global-require": "off"

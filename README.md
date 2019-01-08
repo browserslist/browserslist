@@ -1,7 +1,7 @@
 # Browserslist [![Cult Of Martians][cult-img]][cult]
 
 <img width="120" height="120" alt="Browserslist logo by Anton Lovchikov"
-     src="http://browserslist.github.io/browserslist/logo.svg" align="right">
+     src="https://browserslist.github.io/browserslist/logo.svg" align="right">
 
 The config to share target browsers and Node.js versions between different
 front-end tools. It is used in:
@@ -49,8 +49,8 @@ Browserslist will take queries from tool option,
 
 You can test Browserslist queries in [online demo].
 
-[cult-img]: http://cultofmartians.com/assets/badges/badge.svg
-[cult]: http://cultofmartians.com/done.html
+[cult-img]: https://cultofmartians.com/assets/badges/badge.svg
+[cult]: https://cultofmartians.com/done.html
 
 <a href="https://evilmartians.com/?utm_source=browserslist">
   <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
@@ -59,13 +59,13 @@ You can test Browserslist queries in [online demo].
 
 [stylelint-no-unsupported-browser-features]: https://github.com/ismay/stylelint-no-unsupported-browser-features
 [eslint-plugin-compat]:                      https://github.com/amilajack/eslint-plugin-compat
-[Browserslist Example]:                       https://github.com/browserslist/browserslist-example
+[Browserslist Example]:                      https://github.com/browserslist/browserslist-example
 [postcss-preset-env]:                        https://github.com/jonathantneal/postcss-preset-env
 [postcss-normalize]:                         https://github.com/jonathantneal/postcss-normalize
 [Autoprefixer]:                              https://github.com/postcss/autoprefixer
-[online demo]:                               http://browserl.ist/
-[Can I Use]:                                 http://caniuse.com/
-[Babel]:                          https://github.com/babel/babel/tree/master/packages/babel-preset-env
+[online demo]:                               https://browserl.ist/
+[Can I Use]:                                 https://caniuse.com/
+[Babel]:                                     https://github.com/babel/babel/tree/master/packages/babel-preset-env
 
 ## Tools
 
@@ -111,9 +111,10 @@ from one of this sources:
 * If you want to change the default set of browsers we recommend to combine
   `last 1 version`, `not dead` with `> 0.2%` (or `> 1% in US`,
   `> 1% in my stats`). `last n versions` adds too many dead browsers
-  and does not add popular old versions. `> 0.2%` make popular browsers
-  even more popular, so we will have a monopoly and stagnation,
-  as we had with Internet Explorer 6.
+  and does not add popular old versions. Choosing a percentage above `0.2%`
+  will in the long run make popular browsers even more popular. We might run
+  into a monopoly and stagnation situation, as we had with Internet Explorer 6.
+  Please use this setting with caution.
 * Don’t remove browsers just because you don’t know them. Opera Mini has
   100 million users in Africa and it is more popular in the global market
   than Microsoft Edge. Chinese QQ Browsers has more market share than Firefox
@@ -201,10 +202,10 @@ e.g. `last 3 iOS versions` might select `8.4, 9.2, 9.3` (mixed major and mino
 whereas `last 3 Chrome versions` might select `50, 49, 48` (major only).
 
 [`caniuse-lite/data/regions`]: https://github.com/ben-eb/caniuse-lite/tree/master/data/regions
-[two-letter country code]:     http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
+[two-letter country code]:     https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 [custom usage data]:           #custom-usage-data
 [still maintained]:            https://github.com/nodejs/Release
-[Can I Use]:                   http://caniuse.com/
+[Can I Use]:                   https://caniuse.com/
 
 
 ### Browsers
@@ -424,7 +425,7 @@ while also querying against global or regional data.
 For example, the query `> 1% in my stats, > 5% in US, 10%` is permitted.
 
 [`browserslist-ga`]: https://github.com/browserslist/browserslist-ga
-[Can I Use]:         http://caniuse.com/
+[Can I Use]:         https://caniuse.com/
 
 
 ## JS API

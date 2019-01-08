@@ -156,7 +156,7 @@ module.exports = {
       if (versions.length === 1 && data[i] && data[i].versions.length === 1) {
         var normal = Object.keys(data[i].versions)[0]
         normalized[i] = { }
-        normalized[i][normal] = stats[i]
+        normalized[i][normal] = stats[i][versions[0]]
       } else {
         normalized[i] = stats[i]
       }

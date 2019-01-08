@@ -1,6 +1,16 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.3.7
+* Fix fraction years support in `last 1.5 years` (by Clément P).
+* Fix version-less browser support.
+
+## 4.3.6
+* Fix version-less browser support in custom statistics (by Alex Walter).
+
+## 4.3.5
+* Fix `not` query for wrong Can I Use data.
+
 ## 4.3.4
 * Allow to update `node-releases` without new Browserslist releases.
 
