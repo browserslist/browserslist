@@ -1,26 +1,5 @@
 var browserslist = require('../')
 
-var originUsage = browserslist.usage
-
-var usageFixture = {
-  global: {
-    'ie 5.5': 0.009298,
-    'ie 6': 0.00895953,
-    'ie 7': 0.0134393,
-    'ie 8': 0.179191,
-    'ie 9': 0.161271,
-    'ie 10': 0.107514,
-    'ie 11': 2.71026
-  }
-}
-
-beforeEach(() => {
-  browserslist.usage = usageFixture
-})
-afterEach(() => {
-  browserslist.usage = originUsage
-})
-
 it('query composition with AND operator', () => {
   // old behavior
   expect(
@@ -53,4 +32,8 @@ it('query composition with AND operator', () => {
     'ie 6',
     'ie 5.5'
   ])
+})
+
+it('correctly works with not and one-version browsers as AND query', () => {
+  expect(browserslist('last 1 Baidu version and not <2% in AT')).toHaveLength(0)
 })

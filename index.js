@@ -4,7 +4,6 @@ var jsEOL = require('node-releases/data/release-schedule/release-schedule.json')
 var path = require('path')
 var e2c = require('electron-to-chromium/versions')
 
-var BrowserslistQuery = require('./query')
 var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
 
@@ -16,6 +15,11 @@ var QueryType = {
   oneliner: 1,
   or: 2,
   and: 4
+}
+
+function BrowserslistQuery (type, value) {
+  this.QueryType = type
+  this.queryString = value.trim()
 }
 
 function isVersionsMatch (versionA, versionB) {
@@ -199,7 +203,7 @@ function resolve (queries, context) {
             }
           case QueryType.oneliner:
           case QueryType.or:
-          default: // old behavior
+          default:
             if (isExclude) {
               var filter = { }
               var browsers = { }
