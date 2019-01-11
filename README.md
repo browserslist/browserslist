@@ -39,15 +39,13 @@ maintained node versions
 not dead
 ```
 
-_See [Query composition](#Query-Composition) for more information._
-
 Developers set versions list in queries like `last 2 version`
 to be free from updating versions manually.
-Browserslist will use [Can I Use] data for this queries.
+Browserslist will use [Can I Use] data for this queries.
 
 Browserslist will take queries from tool option,
 `browserslist` config, `.browserslistrc` config,
-`browserslist` section in `package.json` or environment variables.
+`browserslist` section in `package.json` or environment variables.
 
 You can test Browserslist queries in [online demo].
 
@@ -113,9 +111,9 @@ An `or` combiner can use the keyword `or` as well as `,`.
 intersection of the previous query: `last 1 version and > 1%`.
 
 There is 3 different ways to combine queries as depicted below. First you start
-with a single query and then we combine the queries to get our final list.
+with a single query and then we combine the queries to get our final list.
 Obviously you can **not** start with a `not` combiner, since the is no left-hand
-side query to combine it with.
+side query to combine it with.
 
 | Query combiner type | Illustration | Example |
 | ------------------- | :----------: | ------- |
@@ -130,11 +128,11 @@ in your terminal._
 ### Best Practices
 
 * Select browsers directly (`last 2 Chrome versions`) only if you are making
-  a web app for a kiosk with one browser. There are a lot of browsers
+  a web app for a kiosk with one browser. There are a lot of browsers
   on the market. If you are making general web app you should respect
   browsers diversity.
 * If you want to change the default set of browsers we recommend to combine
-  `last 1 version`, `not dead` with `> 0.2%` (or `> 1% in US`,
+  `last 1 version`, `not dead` with `> 0.2%` (or `> 1% in US`,
   `> 1% in my stats`). `last n versions` adds too many dead browsers
   and does not add popular old versions. Choosing a percentage above `0.2%`
   will in the long run make popular browsers even more popular. We might run
