@@ -20,8 +20,10 @@ when you add the following to `package.json`:
 ```json
 {
   "browserslist": [
-    "last 1 version or > 1%",
-    "maintained node versions and not dead"
+    "last 1 version",
+    "> 1%",
+    "maintained node versions",
+    "not dead"
   ]
 }
 ```
@@ -31,8 +33,10 @@ Or in `.browserslistrc` config:
 ```yaml
 # Browsers that we support
 
-last 1 version or > 1%
-maintained node versions and not dead
+last 1 version
+> 1%
+maintained node versions
+not dead
 ```
 
 _See [Query composition](#Query-Composition) for more information._
@@ -103,13 +107,10 @@ from one of this sources:
 ### Query Composition
 
 An `or` combiner can use the keyword `or` as well as `,`.
+`last 1 version or > 1%` is equal to `last 1 version, > 1%`.
 
 `and` query combinations are also supported to perform an
-intersection of the previous query.
-
-For backwards comparability, queries as arrays or delimited with
-an `,` are considered an `or` query. `and` combiner must
-combine queries in the same string.
+intersection of the previous query: `last 1 version and > 1%`.
 
 There is 3 different ways to combine queries as depicted below. First you start
 with a single query and then we combine the queries to get our final list.
@@ -122,8 +123,9 @@ side query to combine it with.
 | `and` combiner <br> (intersection) | ![intersection of queries](img/intersection.svg) | `'> .5% and last 2 versions'` |
 | `not` combiner <br> (relative complement) | ![Relative complement of queries](img/complement.svg) | `'> .5% and not last 2 versions'` <br> `'> .5% or not last 2 versions'` <br> `'> .5%, not last 2 versions'` |
 
-_A quick way to test your query is to do `npx browserslist '> .5%'` in
-your terminal._
+_A quick way to test your query is to do `npx browserslist '> 0.5%, not IE 11'`
+in your terminal._
+
 
 ### Best Practices
 
