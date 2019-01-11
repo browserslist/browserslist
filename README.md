@@ -20,10 +20,8 @@ when you add the following to `package.json`:
 ```json
 {
   "browserslist": [
-    "last 1 version",
-    "> 1%",
-    "maintained node versions",
-    "not dead"
+    "last 1 version or > 1%",
+    "maintained node versions and not dead"
   ]
 }
 ```
@@ -33,11 +31,11 @@ Or in `.browserslistrc` config:
 ```yaml
 # Browsers that we support
 
-last 1 version
-> 1%
-maintained node versions
-not dead
+last 1 version or > 1%
+maintained node versions and not dead
 ```
+
+_See [Query composition](#Query-Composition) for more information._
 
 Developers set versions list in queries like `last 2 version`
 to be free from updating versions manually.
@@ -101,6 +99,31 @@ from one of this sources:
    Browserslist will use defaults:
    `> 0.5%, last 2 versions, Firefox ESR, not dead`.
 
+
+### Query Composition
+
+An `or` combiner can use the keyword `or` as well as `,`.
+
+`and` query combinations are also supported to perform an
+intersection of the previous query.
+
+For backwards comparability, queries as arrays or delimited with
+an `,` are considered an `or` query. `and` combiner must
+combine queries in the same string.
+
+There is 3 different ways to combine queries as depicted below. First you start
+with a single query and then we combine the queries to get our final list.
+Obviously you can **not** start with a `not` combiner, since the is no left-hand
+side query to combine it with.
+
+| Query combiner type | Illustration | Example |
+| ------------------- | :----------: | ------- |
+|`or`/ `,` combiner <br> (union) | ![Union of queries](img/union.svg)  | `'> .5% or last 2 versions'` <br> `'> .5%, last 2 versions'` |
+| `and` combiner <br> (intersection) | ![intersection of queries](img/intersection.svg) | `'> .5% and last 2 versions'` |
+| `not` combiner <br> (relative complement) | ![Relative complement of queries](img/complement.svg) | `'> .5% and not last 2 versions'` <br> `'> .5% or not last 2 versions'` <br> `'> .5%, not last 2 versions'` |
+
+_A quick way to test your query is to do `npx browserslist '> .5%'` in
+your terminal._
 
 ### Best Practices
 
@@ -193,9 +216,6 @@ samsung 5
 
 Browserslist works with separated versions of browsers.
 You should avoid queries like `Firefox > 0`.
-
-Multiple criteria are combined as a boolean `OR`. A browser version must match
-at least one of the criteria to be selected.
 
 All queries are based on the [Can I Use] support table,
 e.g. `last 3 iOS versions` might select `8.4, 9.2, 9.3` (mixed major and minor),
