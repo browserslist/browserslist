@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.4
+* Added `and` and `or` keywords to combine queries (by Jon Ege Ronnenberg).
+
 ## 4.3.7
 * Fix fraction years support in `last 1.5 years` (by Clément P).
 * Fix version-less browser support.
