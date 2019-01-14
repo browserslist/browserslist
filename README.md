@@ -12,6 +12,7 @@ front-end tools. It is used in:
 * [eslint-plugin-compat]
 * [stylelint-no-unsupported-browser-features]
 * [postcss-normalize]
+* [obsolete-webpack-plugin]
 
 [Browserslist Example] shows how every tool uses Browserslist.
 All tools will find target browsers automatically,
@@ -66,6 +67,7 @@ You can test Browserslist queries in [online demo].
 [online demo]:                               https://browserl.ist/
 [Can I Use]:                                 https://caniuse.com/
 [Babel]:                                     https://github.com/babel/babel/tree/master/packages/babel-preset-env
+[obsolete-webpack-plugin]:                   https://github.com/ElemeFE/obsolete-webpack-plugin
 
 ## Tools
 
