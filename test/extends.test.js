@@ -50,6 +50,13 @@ it('handles scoped packages', () => {
   })
 })
 
+it('handles scoped packages with a dot in the name', () => {
+  return mock('@example.com/browserslist-config-test', ['ie 11']).then(() => {
+    var result = browserslist(['extends @example.com/browserslist-config-test'])
+    expect(result).toEqual(['ie 11'])
+  })
+})
+
 it('handles file in scoped packages', () => {
   return mock('@scope/browserslist-config-test/ie', ['ie 11']).then(() => {
     var result = browserslist(['extends @scope/browserslist-config-test/ie'])
