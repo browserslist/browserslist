@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.4.1
+* Allow to use `.` in scope name of shareable config (by Gustav Nikolaj).
+
 ## 4.4
 * Added `and` and `or` keywords to combine queries (by Jon Ege Ronnenberg).
 
