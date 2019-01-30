@@ -219,6 +219,7 @@ samsung 5
 
 Browserslist works with separated versions of browsers.
 You should avoid queries like `Firefox > 0`.
+The list of the specified browsers acts as a white list which means other browsers are ignored.
 
 All queries are based on the [Can I Use] support table,
 e.g. `last 3 iOS versions` might select `8.4, 9.2, 9.3` (mixed major and minor),
