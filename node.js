@@ -90,6 +90,10 @@ function parsePackage (file) {
     list = { defaults: list }
   }
 
+  else if (typeof list === 'string' || list instanceof String) {
+      list = list.split(',');
+  }
+  
   for (var i in list) {
     check(list[i])
   }
