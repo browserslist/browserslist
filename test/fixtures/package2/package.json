@@ -1,4 +1,4 @@
 {
   "private": true,
-  "browserslist": ["ie > 6 and ie 9 or ie 10"]
+  "browserslist": "ie > 6 and ie 9 or ie 10"
 }
