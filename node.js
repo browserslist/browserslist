@@ -89,10 +89,9 @@ function parsePackage (file) {
   if (Array.isArray(list)) {
     list = { defaults: list }
   }
-
-  for (var i in list) {
-    check(list[i])
-  }
+  Object.keys(list).forEach(function (el) {
+    check(list[el])
+  })
 
   return list
 }
