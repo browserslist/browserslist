@@ -94,9 +94,9 @@ function parsePackage (file) {
       list = list.split(',');
   }
   
-  for (var i in list) {
-    check(list[i])
-  }
+  Object.keys(list).forEach(function(el) {
+    check(list[el])
+  })
 
   return list
 }
