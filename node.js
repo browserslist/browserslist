@@ -89,10 +89,6 @@ function parsePackage (file) {
   if (Array.isArray(list)) {
     list = { defaults: list }
   }
-
-  else if (typeof list === 'string' || list instanceof String) {
-      list = list.split(',');
-  }
   
   Object.keys(list).forEach(function(el) {
     check(list[el])
