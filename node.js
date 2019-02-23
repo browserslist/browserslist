@@ -88,9 +88,8 @@ function parsePackage (file) {
   var list = config.browserslist
   if (Array.isArray(list)) {
     list = { defaults: list }
-  }
-  
-  Object.keys(list).forEach(function(el) {
+  }  
+  Object.keys(list).forEach(function (el) {
     check(list[el])
   })
 
