@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.4.2
+* Allow to have string in `package.json` (by @dmarkhas).
+
 ## 4.4.1
 * Allow to use `.` in scope name of shareable config (by Gustav Nikolaj).
 
