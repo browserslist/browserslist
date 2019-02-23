@@ -123,5 +123,7 @@ it('checks config format', () => {
 })
 
 it('reads config with one string', () => {
-  expect(browserslist.findConfig(STRING)).toEqual('ie 9, ie 8')
+  expect(browserslist.findConfig(STRING)).toEqual({
+    defaults: 'ie 9, ie 8'
+  })
 })

@@ -44,7 +44,7 @@ it('correctly works with not and one-version browsers as AND query', () => {
 
 it('reads config from package.json', () => {
   expect(browserslist.findConfig(PACKAGE)).toEqual({
-    defaults: ['ie > 6 and ie 9 or ie 10']
+    defaults: 'ie > 6 and ie 9 or ie 10'
   })
 
   expect(browserslist(null, { path: PACKAGE })).toEqual(

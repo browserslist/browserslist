@@ -86,12 +86,12 @@ function parsePackage (file) {
       '`browserlist` key instead of `browserslist` in ' + file)
   }
   var list = config.browserslist
-  if (Array.isArray(list)) {
+  if (Array.isArray(list) || typeof list === 'string') {
     list = { defaults: list }
   }
-  Object.keys(list).forEach(function (el) {
-    check(list[el])
-  })
+  for (var i in list) {
+    check(list[i])
+  }
 
   return list
 }
