@@ -107,18 +107,6 @@ it('supports comparison operator', () => {
     'node 9.10.0',
     'node 9.11.0',
 
-    'node 11.0.0',
-    'node 11.1.0',
-    'node 11.2.0',
-    'node 11.3.0',
-    'node 11.4.0',
-    'node 11.5.0',
-    'node 11.6.0',
-    'node 11.7.0',
-    'node 11.8.0',
-    'node 11.9.0',
-    'node 11.10.0',
-
     'node 10.0.0',
     'node 10.1.0',
     'node 10.2.0',
@@ -134,7 +122,19 @@ it('supports comparison operator', () => {
     'node 10.12.0',
     'node 10.13.0',
     'node 10.14.0',
-    'node 10.15.0'
+    'node 10.15.0',
+
+    'node 11.0.0',
+    'node 11.1.0',
+    'node 11.2.0',
+    'node 11.3.0',
+    'node 11.4.0',
+    'node 11.5.0',
+    'node 11.6.0',
+    'node 11.7.0',
+    'node 11.8.0',
+    'node 11.9.0',
+    'node 11.10.0'
   ]))
 
   expect(browserslist('node > 9')).toEqual(expect.arrayContaining([
@@ -150,18 +150,6 @@ it('supports comparison operator', () => {
     'node 9.10.0',
     'node 9.11.0',
 
-    'node 11.0.0',
-    'node 11.1.0',
-    'node 11.2.0',
-    'node 11.3.0',
-    'node 11.4.0',
-    'node 11.5.0',
-    'node 11.6.0',
-    'node 11.7.0',
-    'node 11.8.0',
-    'node 11.9.0',
-    'node 11.10.0',
-
     'node 10.0.0',
     'node 10.1.0',
     'node 10.2.0',
@@ -177,6 +165,18 @@ it('supports comparison operator', () => {
     'node 10.12.0',
     'node 10.13.0',
     'node 10.14.0',
-    'node 10.15.0'
+    'node 10.15.0',
+
+    'node 11.0.0',
+    'node 11.1.0',
+    'node 11.2.0',
+    'node 11.3.0',
+    'node 11.4.0',
+    'node 11.5.0',
+    'node 11.6.0',
+    'node 11.7.0',
+    'node 11.8.0',
+    'node 11.9.0',
+    'node 11.10.0'
   ]))
 })
