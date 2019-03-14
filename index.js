@@ -98,30 +98,22 @@ function generateSemverFilter (sign, version) {
   if (sign === '>') {
     return function (v) {
       v = v.split('.').map(parseSimpleInt)
-      return (compare(v[0], version[0]) ||
-        compare(v[1], version[1]) ||
-        compare(v[2], version[2])) > 0
+      return compareSemver(v, version) > 0
     }
   } else if (sign === '>=') {
     return function (v) {
       v = v.split('.').map(parseSimpleInt)
-      return (compare(v[0], version[0]) ||
-        compare(v[1], version[1]) ||
-        compare(v[2], version[2])) >= 0
+      return compareSemver(v, version) >= 0
     }
   } else if (sign === '<') {
     return function (v) {
       v = v.split('.').map(parseSimpleInt)
-      return (compare(version[0], v[0]) ||
-        compare(version[1], v[1]) ||
-        compare(version[2], v[2])) > 0
+      return compareSemver(version, v) > 0
     }
   } else {
     return function (v) {
       v = v.split('.').map(parseSimpleInt)
-      return (compare(version[0], v[0]) ||
-        compare(version[1], v[1]) ||
-        compare(version[2], v[2])) >= 0
+      return compareSemver(version, v) >= 0
     }
   }
 }
@@ -134,6 +126,14 @@ function compare (a, b) {
   if (a < b) return -1
   if (a > b) return +1
   return 0
+}
+
+function compareSemver (a, b) {
+  return (
+    compare(a[0], b[0]) ||
+    compare(a[1], b[1]) ||
+    compare(a[2], b[2])
+  )
 }
 
 function normalizeVersion (data, version) {
