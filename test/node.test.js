@@ -118,7 +118,6 @@ it('supports comparison operator', () => {
     'node 11.8.0',
     'node 11.9.0',
     'node 11.10.0',
-    'node 11.11.0',
 
     'node 10.0.0',
     'node 10.1.0',
@@ -162,7 +161,6 @@ it('supports comparison operator', () => {
     'node 11.8.0',
     'node 11.9.0',
     'node 11.10.0',
-    'node 11.11.0',
 
     'node 10.0.0',
     'node 10.1.0',
