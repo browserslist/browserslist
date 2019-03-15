@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.5
+* Add `>=`, `>`, and `<=` support for Node.js version (by Mathspy Terabithian).
+
 ## 4.4.2
 * Allow to have string in `package.json` (by @dmarkhas).
 
