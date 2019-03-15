@@ -91,10 +91,49 @@ function generateFilter (sign, version) {
   }
 }
 
-function compareStrings (a, b) {
+function generateSemverFilter (sign, version) {
+  version = version.split('.').map(parseSimpleInt)
+  version[1] = version[1] || 0
+  version[2] = version[2] || 0
+  if (sign === '>') {
+    return function (v) {
+      v = v.split('.').map(parseSimpleInt)
+      return compareSemver(v, version) > 0
+    }
+  } else if (sign === '>=') {
+    return function (v) {
+      v = v.split('.').map(parseSimpleInt)
+      return compareSemver(v, version) >= 0
+    }
+  } else if (sign === '<') {
+    return function (v) {
+      v = v.split('.').map(parseSimpleInt)
+      return compareSemver(version, v) > 0
+    }
+  } else {
+    return function (v) {
+      v = v.split('.').map(parseSimpleInt)
+      return compareSemver(version, v) >= 0
+    }
+  }
+}
+
+function parseSimpleInt (x) {
+  return parseInt(x)
+}
+
+function compare (a, b) {
   if (a < b) return -1
   if (a > b) return +1
   return 0
+}
+
+function compareSemver (a, b) {
+  return (
+    compare(a[0], b[0]) ||
+    compare(a[1], b[1]) ||
+    compare(a[2], b[2])
+  )
 }
 
 function normalizeVersion (data, version) {
@@ -282,10 +321,10 @@ function browserslist (queries, opts) {
       if (FLOAT_RANGE.test(name1[1]) && FLOAT_RANGE.test(name2[1])) {
         return parseFloat(name2[1]) - parseFloat(name1[1])
       } else {
-        return compareStrings(name2[1], name1[1])
+        return compare(name2[1], name1[1])
       }
     } else {
-      return compareStrings(name1[0], name2[0])
+      return compare(name1[0], name2[0])
     }
   })
 
@@ -742,6 +781,21 @@ var QUERIES = [
         .filter(generateFilter(sign, version))
         .map(function (i) {
           return 'chrome ' + e2c[i]
+        })
+    }
+  },
+  {
+    regexp: /^node\s*(>=?|<=?)\s*([\d.]+)$/,
+    select: function (context, sign, version) {
+      var nodeVersions = jsReleases.filter(function (i) {
+        return i.name === 'nodejs'
+      }).map(function (i) {
+        return i.version
+      })
+      return nodeVersions
+        .filter(generateSemverFilter(sign, version))
+        .map(function (v) {
+          return 'node ' + v
         })
     }
   },

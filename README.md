@@ -169,7 +169,7 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   `browserslist-config-mycompany` npm package.
 * `ie 6-8`: selects an inclusive range of versions.
 * `Firefox > 20`: versions of Firefox newer than 20.
-  `>=`, `<` and `<=` work too.
+  `>=`, `<` and `<=` work too. It also works with Node.js.
 * `iOS 7`: the iOS browser version 7 directly.
 * `Firefox ESR`: the latest [Firefox ESR] version.
 * `unreleased versions` or `unreleased Chrome versions`:
