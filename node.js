@@ -306,7 +306,8 @@ module.exports = {
       })
       console.warn(
         'Browserslist: caniuse-lite is outdated. ' +
-        'Please run next command `' + command + ' caniuse-lite browserslist`')
+        'Please run next command `' + command + '`'
+      )
     }
   },
 
