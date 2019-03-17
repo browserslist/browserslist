@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.5.1
+* Improve text for the warning about outdated `caniuse-lite`.
+
 ## 4.5
 * Add `>=`, `>`, and `<=` support for Node.js version (by Mathspy Terabithian).
 
