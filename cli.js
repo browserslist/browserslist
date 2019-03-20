@@ -72,17 +72,6 @@ if (isArg('--help') || isArg('-h')) {
 
   var browsers
   try {
-    if (!queries && !opts.config) {
-      if (browserslist.findConfig(process.cwd())) {
-        opts.path = process.cwd()
-      } else {
-        error(
-          'Browserslist config was not found. ' +
-          'Define queries or config path.' +
-          '\n\n' + USAGE
-        )
-      }
-    }
     browsers = browserslist(queries, opts)
   } catch (e) {
     if (e.name === 'BrowserslistError') {

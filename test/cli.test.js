@@ -139,12 +139,6 @@ it('returns usage in specified ares', () => {
   })
 })
 
-it('returns error on missed queries', () => {
-  return err('--coverage').then(out => {
-    expect(out).toContain('Define queries or config path.\n\nUsage:')
-  })
-})
-
 it('returns error: `unknown browser query to get coverage`', () => {
   return err('--coverage=UK', 'ie8').then(out => {
     expect(out).toEqual(
