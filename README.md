@@ -556,13 +556,9 @@ To disable the caching altogether, set the `BROWSERSLIST_DISABLE_CACHE`
 environment variable.
 
 
-## Contributors
+## Security Contact
 
-<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/0" alt="" width="76" height="90" align="left">
-<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/1" alt="" width="76" height="90" align="left">
-<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/2" alt="" width="76" height="90" align="left">
-<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/3" alt="" width="76" height="90" align="left">
-<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/4" alt="" width="76" height="90" align="left">
-<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/5" alt="" width="76" height="90" align="left">
-<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/6" alt="" width="76" height="90" align="left">
-<img src="https://sourcerer.io/fame/ai/browserslist/browserslist/images/7" alt="" width="76" height="90" align="left">
+To report a security vulnerability, please use the [Tidelift security contact].
+Tidelift will coordinate the fix and disclosure.
+
+[Tidelift security contact]: https://tidelift.com/security
