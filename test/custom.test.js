@@ -1,7 +1,7 @@
-var browserslist = require('../')
-
 var path = require('path')
 var fs = require('fs')
+
+var browserslist = require('../')
 
 var CUSTOM_STATS = path.join(__dirname, 'fixtures', 'stats.json')
 var ANDROID = path.join(__dirname, 'fixtures', 'android-stats.json')

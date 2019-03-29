@@ -1,6 +1,6 @@
-var browserslist = require('../')
-
 var path = require('path')
+
+var browserslist = require('../')
 
 var IE = path.join(__dirname, 'fixtures', 'explorers')
 var FILE = path.join(__dirname, 'fixtures', 'dir', 'test.css')

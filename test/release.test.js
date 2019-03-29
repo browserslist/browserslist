@@ -1,5 +1,6 @@
-var browserslist = require('../')
 var fs = require('fs')
+
+var browserslist = require('../')
 
 var originData = browserslist.data
 

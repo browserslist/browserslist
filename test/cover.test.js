@@ -1,6 +1,6 @@
-var browserslist = require('../')
-
 var path = require('path')
+
+var browserslist = require('../')
 
 var CUSTOM_STATS = path.join(__dirname, 'fixtures', 'stats.json')
 

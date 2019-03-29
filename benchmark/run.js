@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-var browserslist = require('..')
 var fs = require('fs')
 var path = require('path')
+
+var browserslist = require('..')
 
 var cases = [
   {

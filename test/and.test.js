@@ -1,6 +1,6 @@
-var browserslist = require('../')
-
 var path = require('path')
+
+var browserslist = require('../')
 
 var PACKAGE = path.join(__dirname, 'fixtures', 'package2')
 

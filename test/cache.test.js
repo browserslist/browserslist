@@ -1,8 +1,8 @@
-var browserslist = require('../')
-
 var path = require('path')
 var os = require('os')
 var fs = require('fs')
+
+var browserslist = require('../')
 
 var DIR = path.join(os.tmpdir(), 'browserslist-' + Math.random())
 var CONFIG = path.join(DIR, 'browserslist')
