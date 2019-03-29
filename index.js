@@ -364,22 +364,19 @@ function doMatch (string, qs) {
   var or = /^(?:,\s*|\s+OR\s+)(.*)/i
   var and = /^\s+AND\s+(.*)/i
 
-  return find(
-    string,
-    function (parsed, n, max) {
-      if (and.test(parsed)) {
-        qs.unshift({ type: QUERY_AND, queryString: parsed.match(and)[1] })
-        return true
-      } else if (or.test(parsed)) {
-        qs.unshift({ type: QUERY_OR, queryString: parsed.match(or)[1] })
-        return true
-      } else if (n === max) {
-        qs.unshift({ type: QUERY_OR, queryString: parsed.trim() })
-        return true
-      }
-      return false
+  return find(string, function (parsed, n, max) {
+    if (and.test(parsed)) {
+      qs.unshift({ type: QUERY_AND, queryString: parsed.match(and)[1] })
+      return true
+    } else if (or.test(parsed)) {
+      qs.unshift({ type: QUERY_OR, queryString: parsed.match(or)[1] })
+      return true
+    } else if (n === max) {
+      qs.unshift({ type: QUERY_OR, queryString: parsed.trim() })
+      return true
     }
-  )
+    return false
+  })
 }
 
 function find (string, predicate) {
