@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.5.3
+* Fix splitting string to queries.
+
 ## 4.5.2
 * Show default browsers in CLI on project without config.
 
