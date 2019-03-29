@@ -383,7 +383,7 @@ function find (string, predicate) {
   for (var n = 1, max = string.length; n <= max; n++) {
     var parsed = string.substr(-n, n)
     if (predicate(parsed, n, max)) {
-      return string.replace(parsed, '')
+      return string.slice(0, -n)
     }
   }
   return ''

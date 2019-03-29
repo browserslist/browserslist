@@ -22,6 +22,12 @@ it('raises on unknown version', () => {
   }).toThrowError('Unknown version 1 of IE')
 })
 
+it('uses right browser name in error', () => {
+  expect(() => {
+    browserslist('chrome 70, ie 11, safari 12.2, safari 12')
+  }).toThrowError('Unknown version 12.2 of safari')
+})
+
 it('ignores unknown versions on request', () => {
   expect(browserslist('IE 1, IE 9', { ignoreUnknownVersions: true }))
     .toEqual(['ie 9'])
