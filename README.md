@@ -78,6 +78,7 @@ You can test Browserslist queries in [online demo].
 * [`browserslist-useragent-ruby`] is a Ruby library to checks browser
   by user agent string to match Browserslist.
 * [`caniuse-api`] returns browsers which support some specific feature.
+* [`browserslist-browserstack`] returns BrowserStack capabilites that match Browserslist queries.
 * Run `npx browserslist` in your project directory to see project’s
   target browsers. This CLI tool is built-in and available in any project
   with Autoprefixer.
@@ -86,6 +87,7 @@ You can test Browserslist queries in [online demo].
 [`browserslist-useragent`]:      https://github.com/pastelsky/browserslist-useragent
 [`browserslist-ga`]:             https://github.com/browserslist/browserslist-ga
 [`caniuse-api`]:                 https://github.com/Nyalab/caniuse-api
+[`browserslist-browserstack`]:   https://github.com/xeroxinteractive/browserslist-browserstack
 
 
 ## Queries
