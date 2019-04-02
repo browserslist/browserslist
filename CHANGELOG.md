@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.5.4
+* Update docs (by Andrew Leedham and Dan Onoshko).
+
 ## 4.5.3
 * Fix splitting string to queries.
 
