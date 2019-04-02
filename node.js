@@ -291,6 +291,7 @@ module.exports = {
   oldDataWarning: function oldDataWarning (agentsObj) {
     if (dataTimeChecked) return
     dataTimeChecked = true
+    if (process.env.BROWSERSLIST_IGNORE_OLD_DATA) return
 
     var latest = latestReleaseTime(agentsObj)
     var halfYearAgo = Date.now() - TIME_TO_UPDATE_CANIUSE

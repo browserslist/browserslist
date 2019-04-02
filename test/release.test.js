@@ -97,6 +97,7 @@ afterEach(() => {
   fs.existsSync = originSxists
   fs.statSync = originStat
   browserslist.clearCaches()
+  delete process.env.BROWSERSLIST_IGNORE_OLD_DATA
 })
 
 afterAll(() => {
@@ -118,6 +119,15 @@ it('shows warning', () => {
     'Browserslist: caniuse-lite is outdated. ' +
     'Please run next command `npm update`'
   )
+})
+
+it('hides warning on request', () => {
+  process.env.BROWSERSLIST_IGNORE_OLD_DATA = true
+  browserslist.data = olderSixMonthsData
+  fs.existsSync = findPackage
+  fs.statSync = mockStatSync
+  browserslist('last 2 versions')
+  expect(console.warn).toHaveBeenCalledTimes(0)
 })
 
 it('shows warning only once', () => {
