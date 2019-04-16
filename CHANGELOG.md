@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.5.5
+* Fix CLI help (by Marcel Gerber).
+* Add KaiOS browser to docs.
+
 ## 4.5.4
 * Update docs (by Andrew Leedham and Dan Onoshko).
 

@@ -1,6 +1,6 @@
 {
   "name": "browserslist",
-  "version": "4.5.4",
+  "version": "4.5.5",
   "description": "Share target browsers between different front-end tools, like Autoprefixer, Stylelint and babel-env-preset",
   "keywords": [
     "caniuse",
@@ -208,7 +208,8 @@
       "BrowserStack",
       "RegExp",
       "Leedham",
-      "KaiOS"
+      "KaiOS",
+      "Gerber"
     ]
   }
 }
