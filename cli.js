@@ -13,7 +13,7 @@ var USAGE = 'Usage:\n' +
             '  ' + pkg.name + ' --config="path/to/browserlist/file"\n' +
             '  ' + pkg.name + ' --coverage "QUERIES"\n' +
             '  ' + pkg.name + ' --coverage=US "QUERIES"\n' +
-            '  ' + pkg.name + ' --coverage=US,RU,world "QUERIES"\n' +
+            '  ' + pkg.name + ' --coverage=US,RU,global "QUERIES"\n' +
             '  ' + pkg.name + ' --env="environment name defined in config"\n' +
             '  ' + pkg.name + ' --stats="path/to/browserlist/stats/file"'
 
