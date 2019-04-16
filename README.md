@@ -260,6 +260,7 @@ Names are case insensitive:
 * `Safari` for desktop Safari.
 * `Samsung` for Samsung Internet.
 * `UCAndroid` or `and_uc` for UC Browser for Android.
+* `kaios` for KaiOS Browser.
 
 
 ## `package.json`
