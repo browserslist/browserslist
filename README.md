@@ -92,6 +92,34 @@ You can test Browserslist queries in [online demo].
 [`browserslist-browserstack`]:     https://github.com/xeroxinteractive/browserslist-browserstack
 
 
+## Best Practices
+
+* Select browsers directly (`last 2 Chrome versions`) only if you are making
+  a web app for a kiosk with one browser. There are a lot of browsers
+  on the market. If you are making general web app you should respect
+  browsers diversity.
+* There is a `defaults` query, which gives a reasonable configuration
+  for most users:
+
+  ```json
+    "browserslist": [
+      "defaults"
+    ]
+  ```
+
+* If you want to change the default set of browsers we recommend to combine
+  `last 1 version`, `not dead` with `> 0.2%` (or `> 1% in US`,
+  `> 1% in my stats`). `last n versions` adds too many dead browsers
+  and does not add popular old versions. Choosing a percentage above `0.2%`
+  will in the long run make popular browsers even more popular. We might run
+  into a monopoly and stagnation situation, as we had with Internet Explorer 6.
+  Please use this setting with caution.
+* Don’t remove browsers just because you don’t know them. Opera Mini has
+  100 million users in Africa and it is more popular in the global market
+  than Microsoft Edge. Chinese QQ Browsers has more market share than Firefox
+  and desktop Safari altogether.
+
+
 ## Queries
 
 Browserslist will use browsers and Node.js versions query
@@ -130,36 +158,6 @@ side query to combine it with.
 
 _A quick way to test your query is to do `npx browserslist '> 0.5%, not IE 11'`
 in your terminal._
-
-
-### Best Practices
-
-* Select browsers directly (`last 2 Chrome versions`) only if you are making
-  a web app for a kiosk with one browser. There are a lot of browsers
-  on the market. If you are making general web app you should respect
-  browsers diversity.
-* There is a `defaults` setting, which gives a reasonable configuration
-  for most users:
-
-  ```json
-  {
-    "browserslist": [
-      "defaults"
-    ]
-  }
-  ```
-
-* If you want to change the default set of browsers we recommend to combine
-  `last 1 version`, `not dead` with `> 0.2%` (or `> 1% in US`,
-  `> 1% in my stats`). `last n versions` adds too many dead browsers
-  and does not add popular old versions. Choosing a percentage above `0.2%`
-  will in the long run make popular browsers even more popular. We might run
-  into a monopoly and stagnation situation, as we had with Internet Explorer 6.
-  Please use this setting with caution.
-* Don’t remove browsers just because you don’t know them. Opera Mini has
-  100 million users in Africa and it is more popular in the global market
-  than Microsoft Edge. Chinese QQ Browsers has more market share than Firefox
-  and desktop Safari altogether.
 
 
 ### Full List
