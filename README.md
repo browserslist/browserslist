@@ -44,15 +44,6 @@ Developers set versions list in queries like `last 2 version`
 to be free from updating versions manually.
 Browserslist will use [Can I Use] data for this queries.
 
-There is also a `defaults` setting, which gives a reasonable configuration for most users.
-```json
-{
-  "browserslist": [
-    "defaults"
-  ]
-}
-```
-
 Browserslist will take queries from tool option,
 `browserslist` config, `.browserslistrc` config,
 `browserslist` section in `package.json` or environment variables.
@@ -147,6 +138,17 @@ in your terminal._
   a web app for a kiosk with one browser. There are a lot of browsers
   on the market. If you are making general web app you should respect
   browsers diversity.
+* There is a `defaults` setting, which gives a reasonable configuration
+  for most users:
+
+  ```json
+  {
+    "browserslist": [
+      "defaults"
+    ]
+  }
+  ```
+
 * If you want to change the default set of browsers we recommend to combine
   `last 1 version`, `not dead` with `> 0.2%` (or `> 1% in US`,
   `> 1% in my stats`). `last n versions` adds too many dead browsers
