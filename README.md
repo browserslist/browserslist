@@ -44,6 +44,15 @@ Developers set versions list in queries like `last 2 version`
 to be free from updating versions manually.
 Browserslist will use [Can I Use] data for this queries.
 
+There is also a `defaults` setting, which gives a reasonable configuration for most users.
+```json
+{
+  "browserslist": [
+    "defaults"
+  ]
+}
+```
+
 Browserslist will take queries from tool option,
 `browserslist` config, `.browserslistrc` config,
 `browserslist` section in `package.json` or environment variables.
