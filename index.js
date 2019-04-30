@@ -782,7 +782,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^node\s*(>=?|<=?)\s*([\d.]+)$/,
+    regexp: /^node\s*(>=?|<=?)\s*([\d.]+)$/i,
     select: function (context, sign, version) {
       var nodeVersions = jsReleases.filter(function (i) {
         return i.name === 'nodejs'

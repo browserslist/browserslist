@@ -93,6 +93,8 @@ it('supports comparison operator', () => {
     'node 0.10.0'
   ])
 
+  expect(browserslist('Node <= 5')).toHaveLength(22)
+
   expect(browserslist('node >= 9')).toEqual(expect.arrayContaining([
     'node 9.0.0',
     'node 9.1.0',
