@@ -9,3 +9,6 @@ matrix:
     os: windows
     node_js: "11"
     cache: false
+    script: npx jest
+    env:
+      - YARN_GPG=no
