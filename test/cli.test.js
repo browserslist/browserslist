@@ -4,6 +4,8 @@ var path = require('path')
 var browserslist = require('../')
 var pkg = require('../package.json')
 
+jest.setTimeout(10000)
+
 var STATS = path.join(__dirname, 'fixtures', 'stats.json')
 var CONF = path.join(__dirname, 'fixtures', 'env-config', 'browserslist')
 
