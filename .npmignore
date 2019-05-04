@@ -6,8 +6,6 @@ yarn.lock
 benchmark/
 coverage/
 test/
-__mocks__/
-appveyor.yml
 .travis.yml
 
 .editorconfig
