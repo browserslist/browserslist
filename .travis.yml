@@ -1,6 +1,10 @@
 language: node_js
 cache: yarn
 node_js:
-  - node
+  - "11"
   - "10"
   - "8"
+matrix:
+  include:
+    os: windows
+    node_js: "11"
