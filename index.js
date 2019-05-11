@@ -146,10 +146,14 @@ function resolveVersion (data, version) {
   }
 }
 
-function normalizeVersion (data, version) {
+function normalizeVersion (data, version, context) {
   var resolved = resolveVersion(data, version)
-  if (!resolved && browserslist.fallbackAliases[data.name]) {
-    var alias = checkName(browserslist.fallbackAliases[data.name])
+  if (
+    !resolved &&
+    context.mobileToDesktop &&
+    browserslist.desktopNames[data.name]
+  ) {
+    var alias = checkName(browserslist.desktopNames[data.name])
     resolved = resolveVersion(alias, version)
   }
   if (resolved) {
@@ -287,6 +291,9 @@ function resolve (queries, context) {
  *                                                     version in direct query.
  * @param {boolean} [opts.dangerousExtend] Disable security checks
  *                                         for extend query.
+ * @param {boolean} [opts.mobileToDesktop] Alias mobile browsers to the desktop
+ *                                         version when Can I Use doesn't have
+ *                                         data about the specified version.
  * @returns {string[]} Array with browser names in Can I Use.
  *
  * @example
@@ -315,7 +322,8 @@ function browserslist (queries, opts) {
 
   var context = {
     ignoreUnknownVersions: opts.ignoreUnknownVersions,
-    dangerousExtend: opts.dangerousExtend
+    dangerousExtend: opts.dangerousExtend,
+    mobileToDesktop: opts.mobileToDesktop
   }
 
   env.oldDataWarning(browserslist.data)
@@ -442,11 +450,11 @@ browserslist.aliases = {
 
 // Can I Use only provides a few versions for some browsers (e.g. and_chr).
 // Fallback to a similar browser for unknown versions
-browserslist.fallbackAliases = {
+browserslist.desktopNames = {
   and_chr: 'chrome',
   and_ff: 'firefox',
   ie_mob: 'ie',
-  opera_mob: 'opera'
+  op_mob: 'opera'
 }
 
 // Aliases to work with joined versions like `ios_saf 7.0-7.1`
@@ -782,8 +790,8 @@ var QUERIES = [
     regexp: /^(\w+)\s+([\d.]+)\s*-\s*([\d.]+)$/i,
     select: function (context, name, from, to) {
       var data = checkName(name)
-      from = parseFloat(normalizeVersion(data, from) || from)
-      to = parseFloat(normalizeVersion(data, to) || to)
+      from = parseFloat(normalizeVersion(data, from, context) || from)
+      to = parseFloat(normalizeVersion(data, to, context) || to)
 
       function filter (v) {
         var parsed = parseFloat(v)
@@ -901,7 +909,7 @@ var QUERIES = [
     select: function (context, name, version) {
       if (/^tp$/i.test(version)) version = 'TP'
       var data = checkName(name)
-      var alias = normalizeVersion(data, version)
+      var alias = normalizeVersion(data, version, context)
       if (alias) {
         version = alias
       } else {
@@ -910,7 +918,7 @@ var QUERIES = [
         } else {
           alias = version.replace(/\.0$/, '')
         }
-        alias = normalizeVersion(data, alias)
+        alias = normalizeVersion(data, alias, context)
         if (alias) {
           version = alias
         } else if (context.ignoreUnknownVersions) {
