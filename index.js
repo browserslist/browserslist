@@ -136,11 +136,24 @@ function compareSemver (a, b) {
   )
 }
 
-function normalizeVersion (data, version) {
+function resolveVersion (data, version) {
   if (data.versions.indexOf(version) !== -1) {
     return version
   } else if (browserslist.versionAliases[data.name][version]) {
     return browserslist.versionAliases[data.name][version]
+  } else {
+    return false
+  }
+}
+
+function normalizeVersion (data, version) {
+  var resolved = resolveVersion(data, version)
+  if (!resolved && browserslist.fallbackAliases[data.name]) {
+    var alias = checkName(browserslist.fallbackAliases[data.name])
+    resolved = resolveVersion(alias, version)
+  }
+  if (resolved) {
+    return resolved
   } else if (data.versions.length === 1) {
     return data.versions[0]
   } else {
@@ -425,6 +438,15 @@ browserslist.aliases = {
   firefoxandroid: 'and_ff',
   ucandroid: 'and_uc',
   qqandroid: 'and_qq'
+}
+
+// Can I Use only provides a few versions for some browsers (e.g. and_chr).
+// Fallback to a similar browser for unknown versions
+browserslist.fallbackAliases = {
+  and_chr: 'chrome',
+  and_ff: 'firefox',
+  ie_mob: 'ie',
+  opera_mob: 'opera'
 }
 
 // Aliases to work with joined versions like `ios_saf 7.0-7.1`
