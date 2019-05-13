@@ -499,6 +499,9 @@ Options:
   Default is `false.`
 * `dangerousExtend`: Disable security checks for `extend` query.
   Default is `false.`
+* `mobileToDesktop`: Alias mobile browsers to the desktop version when Can I
+  Use doesn't have data about the specified version.
+  Default is `false`.
 
 For non-JS environment and debug purpose you can use CLI tool:
 
