@@ -49,5 +49,20 @@ it('supports Safari TP', () => {
 })
 
 it('supports Can I Use cutted versions', () => {
-  expect(browserslist('and_chr 55')).toHaveLength(1)
+  expect(browserslist('and_uc 10')).toHaveLength(1)
+})
+
+it('supports Can I Use missing mobile versions', () => {
+  var opts = { mobileToDesktop: true }
+  expect(browserslist('chromeandroid 53', opts)).toEqual(['and_chr 53'])
+  expect(browserslist('and_ff 60', opts)).toEqual(['and_ff 60'])
+  expect(browserslist('ie_mob 9', opts)).toEqual(['ie_mob 9'])
+  expect(browserslist('op_mob 30', opts)).toEqual(['op_mob 30'])
+})
+
+it('missing mobile versions are not aliased by default', () => {
+  expect(browserslist('chromeandroid 53')).not.toEqual(['and_chr 53'])
+  expect(browserslist('and_ff 60')).not.toEqual(['and_ff 60'])
+  expect(() => browserslist('ie_mob 9')).toThrow()
+  expect(() => browserslist('op_mob 30')).toThrow()
 })
