@@ -39,9 +39,9 @@
     "yaspeller-ci": "^1.0.0"
   },
   "scripts": {
-    "spellcheck": "yaspeller-ci README.md CHANGELOG.md",
+    "spell": "yaspeller-ci README.md CHANGELOG.md",
     "lint": "eslint-ci *.js test/*.js benchmark/*.js",
-    "test": "jest --coverage && yarn lint && yarn spellcheck && size-limit"
+    "test": "jest --coverage && yarn lint && yarn spell && size-limit"
   },
   "browser": {
     "./node.js": "./browser.js",
@@ -94,7 +94,7 @@
     "lang": "en",
     "ignoreCapitalization": true,
     "ignoreText": [
-      "\\(by [^ )]+( [^ )]+)*\\)"
+      " \\(by [^)]+\\)."
     ],
     "dictionary": [
       "albiventris",
