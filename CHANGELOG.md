@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.6
+* Add `mobileToDesktop` option (by Nicolò Ribaudo).
+
 ## 4.5.6
 * Make `Node > 5` and `node > 5` queries case insensitive.
 
