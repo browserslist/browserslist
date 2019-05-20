@@ -66,3 +66,11 @@ it('missing mobile versions are not aliased by default', () => {
   expect(() => browserslist('ie_mob 9')).toThrow()
   expect(() => browserslist('op_mob 30')).toThrow()
 })
+
+it('handles transition to evergreen android webview versions', () => {
+  expect(browserslist('android 4.4.4')).toEqual(['android 4.4.3-4.4.4'])
+  expect(() => browserslist('android 5')).toThrow()
+  expect(() => browserslist('android 36')).toThrow()
+  expect(browserslist('android 37')).toEqual(['android 37'])
+  expect(browserslist('android 38')).toEqual(['android 38'])
+})

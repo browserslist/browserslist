@@ -966,19 +966,40 @@ var QUERIES = [
 // Get and convert Can I Use data
 
 (function () {
+  function getVersions (name) {
+    if (name !== 'android') {
+      return agents[name].versions
+    } else {
+      // Match desktop Chrome for evergreen Android WebView versions
+      var firstEvergreenVersion = 37
+      var beforeEvergreen = agents[name].versions.filter(function (v) {
+        return parseInt(v) < firstEvergreenVersion
+      })
+      var afterEvergreen = agents.chrome.versions
+        .slice(0, -3)
+        .filter(function (v) {
+          return parseInt(v) >= firstEvergreenVersion
+        })
+      return beforeEvergreen
+        .concat(afterEvergreen)
+        .concat([null, null, null])
+    }
+  }
+
   for (var name in agents) {
     var browser = agents[name]
+    var versions = getVersions(name)
     browserslist.data[name] = {
       name: name,
-      versions: normalize(agents[name].versions),
-      released: normalize(agents[name].versions.slice(0, -3)),
+      versions: normalize(versions),
+      released: normalize(versions.slice(0, -3)),
       releaseDate: agents[name].release_date
     }
     fillUsage(browserslist.usage.global, name, browser.usage_global)
 
     browserslist.versionAliases[name] = { }
-    for (var i = 0; i < browser.versions.length; i++) {
-      var full = browser.versions[i]
+    for (var i = 0; i < versions.length; i++) {
+      var full = versions[i]
       if (!full) continue
 
       if (full.indexOf('-') !== -1) {
