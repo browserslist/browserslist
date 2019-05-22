@@ -473,7 +473,7 @@ var browserslist = require('browserslist');
 
 // Your CSS/JS build tool code
 var process = function (source, opts) {
-    var browsers = browserslist(opts.browsers, {
+    var browsers = browserslist(opts.overrideBrowserslist, {
         stats: opts.stats,
         path:  opts.file,
         env:   opts.env
