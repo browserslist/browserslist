@@ -33,6 +33,17 @@ function normalize (versions) {
   })
 }
 
+function normalizeElectron (version) {
+  var versionToUse = version
+  if (version.split('.').length === 3) {
+    versionToUse = version
+      .split('.')
+      .slice(0, -1)
+      .join('.')
+  }
+  return versionToUse
+}
+
 function nameMapper (name) {
   return function mapName (version) {
     return name + ' ' + version
@@ -768,10 +779,12 @@ var QUERIES = [
   {
     regexp: /^electron\s+([\d.]+)\s*-\s*([\d.]+)$/i,
     select: function (context, from, to) {
-      if (!e2c[from]) {
+      var fromToUse = normalizeElectron(from)
+      var toToUse = normalizeElectron(to)
+      if (!e2c[fromToUse]) {
         throw new BrowserslistError('Unknown version ' + from + ' of electron')
       }
-      if (!e2c[to]) {
+      if (!e2c[toToUse]) {
         throw new BrowserslistError('Unknown version ' + to + ' of electron')
       }
 
@@ -804,8 +817,9 @@ var QUERIES = [
   {
     regexp: /^electron\s*(>=?|<=?)\s*([\d.]+)$/i,
     select: function (context, sign, version) {
+      var versionToUse = normalizeElectron(version)
       return Object.keys(e2c)
-        .filter(generateFilter(sign, version))
+        .filter(generateFilter(sign, versionToUse))
         .map(function (i) {
           return 'chrome ' + e2c[i]
         })
@@ -856,7 +870,8 @@ var QUERIES = [
   {
     regexp: /^electron\s+([\d.]+)$/i,
     select: function (context, version) {
-      var chrome = e2c[version]
+      var versionToUse = normalizeElectron(version)
+      var chrome = e2c[versionToUse]
       if (!chrome) {
         throw new BrowserslistError(
           'Unknown version ' + version + ' of electron')
