@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.6.1
+* Fix patch version support for Electron (by Kilian Valkhof).
+
 ## 4.6
 * Add `mobileToDesktop` option (by Nicolò Ribaudo).
 
