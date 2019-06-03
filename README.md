@@ -18,15 +18,13 @@ front-end tools. It is used in:
 All tools will find target browsers automatically,
 when you add the following to `package.json`:
 
-```json
-{
+```js
   "browserslist": [
     "last 1 version",
     "> 1%",
     "maintained node versions",
     "not dead"
   ]
-}
 ```
 
 Or in `.browserslistrc` config:
@@ -468,16 +466,16 @@ For example, the query `> 1% in my stats, > 5% in US, 10%` is permitted.
 ## JS API
 
 ```js
-var browserslist = require('browserslist');
+const browserslist = require('browserslist')
 
 // Your CSS/JS build tool code
-var process = function (source, opts) {
-    var browsers = browserslist(opts.overrideBrowserslist, {
-        stats: opts.stats,
-        path:  opts.file,
-        env:   opts.env
-    });
-    // Your code to add features for selected browsers
+function process (source, opts) {
+  const browsers = browserslist(opts.overrideBrowserslist, {
+    stats: opts.stats,
+    path:  opts.file,
+    env:   opts.env
+  })
+  // Your code to add features for selected browsers
 }
 ```
 
@@ -566,7 +564,7 @@ for the duration of the hosting process.
 To clear these caches, use:
 
 ```js
-browserslist.clearCaches();
+browserslist.clearCaches()
 ```
 
 To disable the caching altogether, set the `BROWSERSLIST_DISABLE_CACHE`
