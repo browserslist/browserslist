@@ -127,9 +127,9 @@ from one of this sources:
 
 1. `browserslist` key in `package.json` file in current or parent directories.
    **We recommend this way.**
-2. `BROWSERSLIST` environment variable.
+2. `.browserslistrc` config file in current or parent directories.
 3. `browserslist` config file in current or parent directories.
-4. `.browserslistrc` config file in current or parent directories.
+4. `BROWSERSLIST` environment variable.
 5. If the above methods did not produce a valid result
    Browserslist will use defaults:
    `> 0.5%, last 2 versions, Firefox ESR, not dead`.
