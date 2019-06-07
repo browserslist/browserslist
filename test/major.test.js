@@ -26,6 +26,10 @@ beforeEach(() => {
     },
     firefox: {
       released: []
+    },
+    android: {
+      name: 'android',
+      released: ['4.4', '4.4.3-4.4.4', '67']
     }
   }
 })
@@ -36,6 +40,7 @@ afterEach(() => {
 
 it('selects versions of each browser', () => {
   expect(browserslist('last 2 major versions')).toEqual([
+    'android 67',
     'bb 10',
     'chrome 39',
     'chrome 38',
@@ -48,22 +53,28 @@ it('selects versions of each browser', () => {
 })
 
 it('supports pluralization', () => {
-  expect(browserslist('last 1 major version'))
-    .toEqual(['bb 10', 'chrome 39', 'edge 12', 'ie 11'])
+  expect(browserslist('last 1 major version')).toEqual([
+    'android 67', 'bb 10', 'chrome 39', 'edge 12', 'ie 11'
+  ])
 })
 
 it('is case insensitive', () => {
-  expect(browserslist('Last 01 MaJoR Version'))
-    .toEqual(['bb 10', 'chrome 39', 'edge 12', 'ie 11'])
+  expect(browserslist('Last 01 MaJoR Version')).toEqual([
+    'android 67', 'bb 10', 'chrome 39', 'edge 12', 'ie 11'
+  ])
 })
 
 it('selects versions of a single browser', () => {
-  expect(browserslist('last 2 edge major versions'))
-    .toEqual(['edge 12', 'edge 11.1', 'edge 11.0.1'])
-
-  expect(browserslist('last 1 bb major version'))
-    .toEqual(['bb 10'])
-
-  expect(browserslist('last 3 Chrome major versions'))
-    .toEqual(['chrome 39', 'chrome 38', 'chrome 37'])
+  expect(browserslist('last 2 edge major versions')).toEqual([
+    'edge 12', 'edge 11.1', 'edge 11.0.1'
+  ])
+  expect(browserslist('last 1 bb major version')).toEqual([
+    'bb 10'
+  ])
+  expect(browserslist('last 3 Chrome major versions')).toEqual([
+    'chrome 39', 'chrome 38', 'chrome 37'
+  ])
+  expect(browserslist('last 2 android major versions')).toEqual([
+    'android 67'
+  ])
 })

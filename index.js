@@ -549,15 +549,15 @@ browserslist.coverage = function (browsers, stats) {
 
 var QUERIES = [
   {
-    regexp: /^last\s+(\d+)\s+major versions?$/i,
+    regexp: /^last\s+(\d+)\s+major\s+versions?$/i,
     select: function (context, versions) {
       return Object.keys(agents).reduce(function (selected, name) {
         var data = byName(name)
         if (!data) return selected
-        var array = getMajorVersions(data.released, versions)
-
-        array = array.map(nameMapper(data.name))
-        return selected.concat(array)
+        var list = getMajorVersions(data.released, versions)
+        list = list.map(nameMapper(data.name))
+        if (data.name === 'android') list = filterAndroid(list, versions)
+        return selected.concat(list)
       }, [])
     }
   },
@@ -567,15 +567,15 @@ var QUERIES = [
       return Object.keys(agents).reduce(function (selected, name) {
         var data = byName(name)
         if (!data) return selected
-        var array = data.released.slice(-versions)
-        array = array.map(nameMapper(data.name))
-        if (name === 'android') array = filterAndroid(array, versions)
-        return selected.concat(array)
+        var list = data.released.slice(-versions)
+        list = list.map(nameMapper(data.name))
+        if (data.name === 'android') list = filterAndroid(list, versions)
+        return selected.concat(list)
       }, [])
     }
   },
   {
-    regexp: /^last\s+(\d+)\s+electron\s+major versions?$/i,
+    regexp: /^last\s+(\d+)\s+electron\s+major\s+versions?$/i,
     select: function (context, versions) {
       var validVersions = getMajorVersions(Object.keys(e2c).reverse(), versions)
       return validVersions.map(function (i) {
@@ -584,11 +584,13 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^last\s+(\d+)\s+(\w+)\s+major versions?$/i,
+    regexp: /^last\s+(\d+)\s+(\w+)\s+major\s+versions?$/i,
     select: function (context, versions, name) {
       var data = checkName(name)
       var validVersions = getMajorVersions(data.released, versions)
-      return validVersions.map(nameMapper(data.name))
+      var list = validVersions.map(nameMapper(data.name))
+      if (data.name === 'android') list = filterAndroid(list, versions)
+      return list
     }
   },
   {
@@ -603,9 +605,9 @@ var QUERIES = [
     regexp: /^last\s+(\d+)\s+(\w+)\s+versions?$/i,
     select: function (context, versions, name) {
       var data = checkName(name)
-      var result = data.released.slice(-versions).map(nameMapper(data.name))
-      if (data.name === 'android') result = filterAndroid(result, versions)
-      return result
+      var list = data.released.slice(-versions).map(nameMapper(data.name))
+      if (data.name === 'android') list = filterAndroid(list, versions)
+      return list
     }
   },
   {
@@ -614,12 +616,11 @@ var QUERIES = [
       return Object.keys(agents).reduce(function (selected, name) {
         var data = byName(name)
         if (!data) return selected
-        var array = data.versions.filter(function (v) {
+        var list = data.versions.filter(function (v) {
           return data.released.indexOf(v) === -1
         })
-
-        array = array.map(nameMapper(data.name))
-        return selected.concat(array)
+        list = list.map(nameMapper(data.name))
+        return selected.concat(list)
       }, [])
     }
   },
@@ -658,7 +659,6 @@ var QUERIES = [
     select: function (context, sign, popularity) {
       popularity = parseFloat(popularity)
       var usage = browserslist.usage.global
-
       return Object.keys(usage).reduce(function (result, version) {
         if (sign === '>') {
           if (usage[version] > popularity) {
@@ -683,13 +683,10 @@ var QUERIES = [
     regexp: /^(>=?|<=?)\s*(\d*\.?\d+)%\s+in\s+my\s+stats$/,
     select: function (context, sign, popularity) {
       popularity = parseFloat(popularity)
-
       if (!context.customUsage) {
         throw new BrowserslistError('Custom usage statistics was not provided')
       }
-
       var usage = context.customUsage
-
       return Object.keys(usage).reduce(function (result, version) {
         if (sign === '>') {
           if (usage[version] > popularity) {
@@ -714,16 +711,13 @@ var QUERIES = [
     regexp: /^(>=?|<=?)\s*(\d*\.?\d+)%\s+in\s+((alt-)?\w\w)$/,
     select: function (context, sign, popularity, place) {
       popularity = parseFloat(popularity)
-
       if (place.length === 2) {
         place = place.toUpperCase()
       } else {
         place = place.toLowerCase()
       }
-
       env.loadCountry(browserslist.usage, place)
       var usage = browserslist.usage[place]
-
       return Object.keys(usage).reduce(function (result, version) {
         if (sign === '>') {
           if (usage[version] > popularity) {
@@ -748,7 +742,6 @@ var QUERIES = [
     regexp: /^cover\s+(\d*\.?\d+)%(\s+in\s+(my\s+stats|(alt-)?\w\w))?$/,
     select: function (context, coverage, statMode) {
       coverage = parseFloat(coverage)
-
       var usage = browserslist.usage.global
       if (statMode) {
         if (statMode.match(/^\s+in\s+my\s+stats$/)) {
@@ -770,23 +763,19 @@ var QUERIES = [
           usage = browserslist.usage[place]
         }
       }
-
       var versions = Object.keys(usage).sort(function (a, b) {
         return usage[b] - usage[a]
       })
-
       var coveraged = 0
       var result = []
       var version
       for (var i = 0; i <= versions.length; i++) {
         version = versions[i]
         if (usage[version] === 0) break
-
         coveraged += usage[version]
         result.push(version)
         if (coveraged >= coverage) break
       }
-
       return result
     }
   },
@@ -801,10 +790,8 @@ var QUERIES = [
       if (!e2c[toToUse]) {
         throw new BrowserslistError('Unknown version ' + to + ' of electron')
       }
-
       from = parseFloat(from)
       to = parseFloat(to)
-
       return Object.keys(e2c).filter(function (i) {
         var parsed = parseFloat(i)
         return parsed >= from && parsed <= to
@@ -819,12 +806,10 @@ var QUERIES = [
       var data = checkName(name)
       from = parseFloat(normalizeVersion(data, from, context) || from)
       to = parseFloat(normalizeVersion(data, to, context) || to)
-
       function filter (v) {
         var parsed = parseFloat(v)
         return parsed >= from && parsed <= to
       }
-
       return data.released.filter(filter).map(nameMapper(data.name))
     }
   },
