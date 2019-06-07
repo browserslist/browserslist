@@ -8,6 +8,10 @@ beforeEach(() => {
       name: 'ie',
       released: ['9', '10', '11'],
       versions: ['9', '10', '11']
+    },
+    android: {
+      name: 'android',
+      released: ['4.4', '4.4.3-4.4.4', '67']
     }
   }
 })
@@ -26,4 +30,13 @@ it('supports pluralization', () => {
 
 it('has case insensitive aliases', () => {
   expect(browserslist('Last 01 Explorer Version')).toEqual(['ie 11'])
+})
+
+it('has special logic for android', () => {
+  expect(browserslist('last 4 android versions')).toEqual([
+    'android 67'
+  ])
+  expect(browserslist('last 31 android versions')).toEqual([
+    'android 67', 'android 4.4.3-4.4.4'
+  ])
 })

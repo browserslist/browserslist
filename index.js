@@ -207,6 +207,18 @@ function unknownQuery (query) {
   )
 }
 
+function filterAndroid (list, versions) {
+  var released = browserslist.data.android.released
+  var firstEvergreen = 37
+  var last = released[released.length - 1]
+  var diff = last - firstEvergreen - versions // First Android Evergreen
+  if (diff > 0) {
+    return list.slice(-1)
+  } else {
+    return list.slice(diff - 1)
+  }
+}
+
 /**
  * Resolves queries into a browser list.
  * @param {string|string[]} queries Queries to combine.
@@ -556,8 +568,8 @@ var QUERIES = [
         var data = byName(name)
         if (!data) return selected
         var array = data.released.slice(-versions)
-
         array = array.map(nameMapper(data.name))
+        if (name === 'android') array = filterAndroid(array, versions)
         return selected.concat(array)
       }, [])
     }
@@ -591,7 +603,9 @@ var QUERIES = [
     regexp: /^last\s+(\d+)\s+(\w+)\s+versions?$/i,
     select: function (context, versions, name) {
       var data = checkName(name)
-      return data.released.slice(-versions).map(nameMapper(data.name))
+      var result = data.released.slice(-versions).map(nameMapper(data.name))
+      if (data.name === 'android') result = filterAndroid(result, versions)
+      return result
     }
   },
   {

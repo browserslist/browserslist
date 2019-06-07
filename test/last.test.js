@@ -26,6 +26,10 @@ beforeEach(() => {
     },
     firefox: {
       released: []
+    },
+    android: {
+      name: 'android',
+      released: ['4.4', '4.4.3-4.4.4', '67']
     }
   }
 })
@@ -36,16 +40,23 @@ afterEach(() => {
 
 it('selects versions of each browser', () => {
   expect(browserslist('last 2 versions')).toEqual([
-    'bb 8', 'chrome 39', 'chrome 38', 'edge 12', 'ie 11', 'ie 10'
+    'android 67', 'bb 8', 'chrome 39', 'chrome 38', 'edge 12', 'ie 11', 'ie 10'
+  ])
+})
+
+it('has special logic for android', () => {
+  expect(browserslist('last 31 versions')).toEqual([
+    'android 67', 'android 4.4.3-4.4.4', 'bb 8', 'chrome 39', 'chrome 38',
+    'chrome 37', 'edge 12', 'ie 11', 'ie 10', 'ie 9'
   ])
 })
 
 it('supports pluralization', () => {
   expect(browserslist('last 1 version'))
-    .toEqual(['bb 8', 'chrome 39', 'edge 12', 'ie 11'])
+    .toEqual(['android 67', 'bb 8', 'chrome 39', 'edge 12', 'ie 11'])
 })
 
 it('is case insensitive', () => {
   expect(browserslist('Last 01 Version'))
-    .toEqual(['bb 8', 'chrome 39', 'edge 12', 'ie 11'])
+    .toEqual(['android 67', 'bb 8', 'chrome 39', 'edge 12', 'ie 11'])
 })
