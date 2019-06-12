@@ -200,6 +200,12 @@ You can specify the browser and Node.js versions by queries (case insensitive):
 
 You can add `not ` to any query.
 
+[`caniuse-lite/data/regions`]: https://github.com/ben-eb/caniuse-lite/tree/master/data/regions
+[two-letter country code]:     https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
+[custom usage data]:           #custom-usage-data
+[still maintained]:            https://github.com/nodejs/Release
+[Can I Use]:                   https://caniuse.com/
+
 
 ### Debug
 
@@ -223,23 +229,6 @@ opera 48
 safari 11
 samsung 5
 ```
-
-
-### Notes
-
-Browserslist works with separated versions of browsers.
-You should avoid queries like `Firefox > 0`.
-The list of the specified browsers acts as a white list which means other browsers are ignored.
-
-All queries are based on the [Can I Use] support table,
-e.g. `last 3 iOS versions` might select `8.4, 9.2, 9.3` (mixed major and minor),
-whereas `last 3 Chrome versions` might select `50, 49, 48` (major only).
-
-[`caniuse-lite/data/regions`]: https://github.com/ben-eb/caniuse-lite/tree/master/data/regions
-[two-letter country code]:     https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
-[custom usage data]:           #custom-usage-data
-[still maintained]:            https://github.com/nodejs/Release
-[Can I Use]:                   https://caniuse.com/
 
 
 ### Browsers
