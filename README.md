@@ -397,9 +397,12 @@ In `package.json`:
       "> 1%",
       "ie 10"
     ],
-    "development": [
+    "modern": [
       "last 1 chrome version",
       "last 1 firefox version"
+    ],
+    "ssr": [
+      "node 12"
     ]
   }
 ```
@@ -407,13 +410,16 @@ In `package.json`:
 In `.browserslistrc` config:
 
 ```ini
-[production staging]
+[production]
 > 1%
 ie 10
 
-[development]
+[modern]
 last 1 chrome version
 last 1 firefox version
+
+[ssr]
+node 12
 ```
 
 
