@@ -958,6 +958,13 @@ var QUERIES = [
     }
   },
   {
+    regexp: /^android all$/i,
+    select: function () {
+      /* istanbul ignore next */
+      return []
+    }
+  },
+  {
     regexp: /^dead$/i,
     select: function (context) {
       var dead = ['ie <= 10', 'ie_mob <= 10', 'bb <= 10', 'op_mob <= 12.1']
