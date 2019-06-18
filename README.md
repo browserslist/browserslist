@@ -115,7 +115,7 @@ You can test Browserslist queries in [online demo].
 * Don’t remove browsers just because you don’t know them. Opera Mini has
   100 million users in Africa and it is more popular in the global market
   than Microsoft Edge. Chinese QQ Browsers has more market share than Firefox
-  and desktop Safari altogether.
+  and desktop Safari combined.
 
 
 ## Queries
