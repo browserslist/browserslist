@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.6.3
+* Dirty fix for `android all` error.
+
 ## 4.6.2
 * Fix `last x version` and similar queries for Android (by Tony Ross).
 
