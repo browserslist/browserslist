@@ -961,6 +961,8 @@ var QUERIES = [
     regexp: /^android all$/i,
     select: function () {
       /* istanbul ignore next */
+      console.warn('BrowserslistError: Unknown browser query `android all`')
+      /* istanbul ignore next */
       return []
     }
   },
