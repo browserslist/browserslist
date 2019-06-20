@@ -149,7 +149,7 @@ side query to combine it with.
 
 | Query combiner type | Illustration | Example |
 | ------------------- | :----------: | ------- |
-|`or`/ `,` combiner <br> (union) | ![Union of queries](img/union.svg)  | `> .5% or last 2 versions` <br> `> .5%, last 2 versions` |
+|`or`/`,` combiner <br> (union) | ![Union of queries](img/union.svg)  | `> .5% or last 2 versions` <br> `> .5%, last 2 versions` |
 | `and` combiner <br> (intersection) | ![intersection of queries](img/intersection.svg) | `> .5% and last 2 versions` |
 | `not` combiner <br> (relative complement) | ![Relative complement of queries](img/complement.svg) | `> .5% and not last 2 versions` <br> `> .5% or not last 2 versions` <br> `> .5%, not last 2 versions` |
 
