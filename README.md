@@ -144,7 +144,7 @@ intersection of the previous query: `last 1 version and > 1%`.
 There is 3 different ways to combine queries as depicted below. First you start
 with a single query and then we combine the queries to get our final list.
 
-Obviously you can *not* start with a `not` combiner, since the is no left-hand
+Obviously you can *not* start with a `not` combiner, since there is no left-hand
 side query to combine it with.
 
 | Query combiner type | Illustration | Example |
