@@ -67,6 +67,23 @@ You can test Browserslist queries in [online demo].
 [Babel]:                                     https://github.com/babel/babel/tree/master/packages/babel-preset-env
 [obsolete-webpack-plugin]:                   https://github.com/ElemeFE/obsolete-webpack-plugin
 
+## Table of Contents
+
+1. [Tools](#tools)
+2. [Best Practices](#best-practices)
+3. [Queries](#queries)
+4. [Full List](#full-list)
+5. [Debug](#debug)
+6. [Browsers](#browsers)
+7. [Config File](#config-file)
+8. [Environment Variables](#environment-variables)
+9. [Configuring for Different Environments](#configuring-for-different-environemnts)
+10. [Custom Usage Data](#custom-usage-data)
+11. [JS API](#js-api)
+12. [Coverage by Browser by Browser](#coverage-by-browser)
+13. [Cache](#cache)
+14. [Security Contact](#security-contact)
+
 ## Tools
 
 * [`browserslist-ga`] downloads your website browsers statistics
@@ -382,7 +399,7 @@ by [environment variables]:
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
 
-## Environments
+## Configuring for Different Environments
 
 You can also specify different browser queries for various environments.
 Browserslist will choose query according to `BROWSERSLIST_ENV` or `NODE_ENV`
@@ -503,7 +520,7 @@ browserslist "> 1%, IE 10"
 ```
 
 
-## Coverage
+## Coverage by Browser
 
 You can get total users coverage for selected browsers by JS API:
 
