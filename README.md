@@ -77,10 +77,10 @@ You can test Browserslist queries in [online demo].
 6. [Browsers](#browsers)
 7. [Config File](#config-file)
 8. [Environment Variables](#environment-variables)
-9. [Configuring for Different Environments](#configuring-for-different-environemnts)
+9. [Configuring for Different Environments](#configuring-for-different-environments)
 10. [Custom Usage Data](#custom-usage-data)
 11. [JS API](#js-api)
-12. [Coverage by Browser by Browser](#coverage-by-browser)
+12. [Coverage by Browser](#coverage-by-browser)
 13. [Cache](#cache)
 14. [Security Contact](#security-contact)
 
