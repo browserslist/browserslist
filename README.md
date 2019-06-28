@@ -72,17 +72,12 @@ You can test Browserslist queries in [online demo].
 1. [Tools](#tools)
 2. [Best Practices](#best-practices)
 3. [Queries](#queries)
-4. [Full List](#full-list)
-5. [Debug](#debug)
-6. [Browsers](#browsers)
-7. [Config File](#config-file)
+4. [Config File](#config-file)
+5. [Configuring for Different Environments](#configuring-for-different-environments)
+6. [Custom Usage Data](#custom-usage-data)
+7. [JS API](#js-api)
 8. [Environment Variables](#environment-variables)
-9. [Configuring for Different Environments](#configuring-for-different-environments)
-10. [Custom Usage Data](#custom-usage-data)
-11. [JS API](#js-api)
-12. [Coverage by Browser](#coverage-by-browser)
-13. [Cache](#cache)
-14. [Security Contact](#security-contact)
+9. [Cache](#cache)
 
 ## Tools
 
@@ -275,7 +270,9 @@ Names are case insensitive:
 * `kaios` for KaiOS Browser.
 
 
-## `package.json`
+## Config File
+
+### `package.json`
 
 If you want to reduce config files in project root, you can specify
 browsers in `package.json` with `browserslist` key:
@@ -295,9 +292,9 @@ browsers in `package.json` with `browserslist` key:
 ```
 
 
-## Config File
+### `.browserslistrc`
 
-Browserslist config should be named `.browserslistrc` or `browserslist`
+Separated Browserslist config should be named `.browserslistrc`
 and have browsers queries split by a new line. Comments starts with `#` symbol:
 
 ```yaml
@@ -358,45 +355,6 @@ module.exports = [
   'ie 10'
 ]
 ```
-
-
-## Environment Variables
-
-If some tool use Browserslist inside, you can change browsers settings
-by [environment variables]:
-
-* `BROWSERSLIST` with browsers queries.
-
-   ```sh
-  BROWSERSLIST="> 5%" gulp css
-   ```
-
-* `BROWSERSLIST_CONFIG` with path to config file.
-
-   ```sh
-  BROWSERSLIST_CONFIG=./config/browserslist gulp css
-   ```
-
-* `BROWSERSLIST_ENV` with environments string.
-
-   ```sh
-  BROWSERSLIST_ENV="development" gulp css
-   ```
-
-* `BROWSERSLIST_STATS` with path to the custom usage data
-  for `> 1% in my stats` query.
-
-   ```sh
-  BROWSERSLIST_STATS=./config/usage_data.json gulp css
-   ```
-
-* `BROWSERSLIST_DISABLE_CACHE` if you want to disable config reading cache.
-
-   ```sh
-  BROWSERSLIST_DISABLE_CACHE=1 gulp css
-   ```
-
-[environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
 
 ## Configuring for Different Environments
@@ -519,9 +477,6 @@ For non-JS environment and debug purpose you can use CLI tool:
 browserslist "> 1%, IE 10"
 ```
 
-
-## Coverage by Browser
-
 You can get total users coverage for selected browsers by JS API:
 
 ```js
@@ -565,6 +520,45 @@ These browsers account for 83.1% of all users in custom statistics
 $ browserslist --coverage "> 1% in my stats" --stats=./stats.json
 These browsers account for 83.1% of all users in custom statistics
 ```
+
+
+## Environment Variables
+
+If some tool use Browserslist inside, you can change browsers settings
+by [environment variables]:
+
+* `BROWSERSLIST` with browsers queries.
+
+   ```sh
+  BROWSERSLIST="> 5%" gulp css
+   ```
+
+* `BROWSERSLIST_CONFIG` with path to config file.
+
+   ```sh
+  BROWSERSLIST_CONFIG=./config/browserslist gulp css
+   ```
+
+* `BROWSERSLIST_ENV` with environments string.
+
+   ```sh
+  BROWSERSLIST_ENV="development" gulp css
+   ```
+
+* `BROWSERSLIST_STATS` with path to the custom usage data
+  for `> 1% in my stats` query.
+
+   ```sh
+  BROWSERSLIST_STATS=./config/usage_data.json gulp css
+   ```
+
+* `BROWSERSLIST_DISABLE_CACHE` if you want to disable config reading cache.
+
+   ```sh
+  BROWSERSLIST_DISABLE_CACHE=1 gulp css
+   ```
+
+[environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
 
 ## Cache
