@@ -14,7 +14,6 @@ front-end tools. It is used in:
 * [postcss-normalize]
 * [obsolete-webpack-plugin]
 
-[Browserslist Example] shows how every tool uses Browserslist.
 All tools will find target browsers automatically,
 when you add the following to `package.json`:
 
@@ -47,6 +46,7 @@ Browserslist will take queries from tool option,
 `browserslist` section in `package.json` or environment variables.
 
 You can test Browserslist queries in [online demo].
+[Browserslist Example] shows how every tool uses Browserslist.
 
 [cult-img]: https://cultofmartians.com/assets/badges/badge.svg
 [cult]: https://cultofmartians.com/done.html
