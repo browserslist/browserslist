@@ -291,6 +291,8 @@ browsers in `package.json` with `browserslist` key:
 }
 ```
 
+You can also use a string instead of an array, in order to use [`and` combinators](#query-composition).
+
 
 ### `.browserslistrc`
 
