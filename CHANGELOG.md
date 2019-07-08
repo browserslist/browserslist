@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.6.4
+* Add Firefox 68 to `Firefox ESR` query.
+
 ## 4.6.3
 * Dirty fix for `android all` error.
 
