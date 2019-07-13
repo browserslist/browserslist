@@ -15,9 +15,9 @@ var youngerSixMonthsData = {
     released: ['9', '10', '11'],
     versions: ['9', '10', '11'],
     releaseDate: {
-      '9': createDate(14),
-      '10': createDate(8),
-      '11': createDate(7)
+      9: createDate(14),
+      10: createDate(8),
+      11: createDate(7)
     }
   },
   edge: {
@@ -25,11 +25,11 @@ var youngerSixMonthsData = {
     released: ['14', '15', '16', '17', '18'],
     versions: ['14', '15', '16', '17', '18'],
     releaseDate: {
-      '14': createDate(8),
-      '15': createDate(6),
-      '16': createDate(5),
-      '17': createDate(4),
-      '18': null
+      14: createDate(8),
+      15: createDate(6),
+      16: createDate(5),
+      17: createDate(4),
+      18: null
     }
   },
   bb: {
@@ -46,9 +46,9 @@ var olderSixMonthsData = {
     released: ['9', '10', '11'],
     versions: ['9', '10', '11'],
     releaseDate: {
-      '9': createDate(7),
-      '10': createDate(8),
-      '11': createDate(10)
+      9: createDate(7),
+      10: createDate(8),
+      11: createDate(10)
     }
   },
   edge: {
@@ -56,11 +56,11 @@ var olderSixMonthsData = {
     released: ['14', '15', '16', '17', '18'],
     versions: ['14', '15', '16', '17', '18'],
     releaseDate: {
-      '14': createDate(9),
-      '15': createDate(8),
-      '16': createDate(12),
-      '17': createDate(7),
-      '18': null
+      14: createDate(9),
+      15: createDate(8),
+      16: createDate(12),
+      17: createDate(7),
+      18: null
     }
   },
   bb: {

@@ -9,11 +9,11 @@ var originUsage = browserslist.usage
 beforeEach(() => {
   process.env.BROWSERSLIST_STATS = CUSTOM_STATS
   browserslist.usage = {
-    global: {
+    'global': {
       'ie 5': 50,
       'ie 11': 10
     },
-    US: {
+    'US': {
       'ie 8': 2,
       'ie 9': 4.4
     },
@@ -52,7 +52,7 @@ it('adds browsers by popularity', () => {
 
 it('does not add zero-popularity', () => {
   expect(browserslist('cover 20% in my stats', {
-    stats: { ie: { '11': 10, '10': 0 } } })).toEqual(['ie 11'])
+    stats: { ie: { 11: 10, 10: 0 } } })).toEqual(['ie 11'])
 })
 
 it('throws error on no stats', () => {
