@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.6.5
+* Add Samsung 4 browser to `dead` query.
+* Remove dirty fix for `android all` error.
+
 ## 4.6.4
 * Add Firefox 68 to `Firefox ESR` query.
 
