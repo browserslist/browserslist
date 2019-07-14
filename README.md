@@ -200,10 +200,9 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   all minor/patch releases of last 2 major versions.
 * `since 2015` or `last 2 years`: all versions released since year 2015
   (also `since 2015-03` and `since 2015-03-10`).
-* `dead`: browsers from `last 2 version` query, but with less than 0.5%
-  in global usage statistics and without official support or updates
-  for 24 months. Right now it is `IE 10`, `IE_Mob 10`, `BlackBerry 10`,
-  `BlackBerry 7`, and `OperaMobile 12.1`.
+* `dead`: browsers without official support or updates for 24 months.
+  Right now it is `IE 10`, `IE_Mob 10`, `BlackBerry 10`, `BlackBerry 7`,
+  `Samsung 4` and `OperaMobile 12.1`.
 * `last 2 versions`: the last 2 versions for *each* browser.
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
 * `defaults`: Browserslist’s default browsers
