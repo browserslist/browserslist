@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.6.6
+* Remove Safari from `dead` query.
+
 ## 4.6.5
 * Add Samsung 4 browser to `dead` query.
 * Remove dirty fix for `android all` error.
