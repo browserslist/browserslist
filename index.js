@@ -964,8 +964,6 @@ var QUERIES = [
         'ie <= 10', 'ie_mob <= 10',
         'bb <= 10',
         'op_mob <= 12.1',
-        'safari <= 11',
-        'ios_saf <= 11',
         'samsung 4'
       ]
       return resolve(dead, context)
