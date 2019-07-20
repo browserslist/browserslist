@@ -81,8 +81,8 @@ You can test Browserslist queries in [online demo].
 
 ## Tools
 
-* [`browserslist-ga`] downloads your website browsers statistics
-  to use it in `> 0.5% in my stats` query.
+* [`browserslist-ga`] and [`browserslist-ga-export`] download your website
+  browsers statistics to use it in `> 0.5% in my stats` query.
 * [`browserslist-useragent-regexp`] compiles Browserslist query to a RegExp
   to test browser useragent.
 * [`browserslist-useragent-ruby`] is a Ruby library to checks browser
@@ -95,6 +95,7 @@ You can test Browserslist queries in [online demo].
   with Autoprefixer.
 
 [`browserslist-useragent-ruby`]:   https://github.com/browserslist/browserslist-useragent-ruby
+[`browserslist-ga-export`]:        https://github.com/browserslist/browserslist-ga-export
 [`browserslist-useragent`]:        https://github.com/pastelsky/browserslist-useragent
 [`browserslist-useragent-regexp`]: https://github.com/browserslist/browserslist-useragent-regexp
 [`browserslist-ga`]:               https://github.com/browserslist/browserslist-ga
