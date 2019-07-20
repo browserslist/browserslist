@@ -94,13 +94,13 @@ You can test Browserslist queries in [online demo].
   target browsers. This CLI tool is built-in and available in any project
   with Autoprefixer.
 
+[`browserslist-useragent-regexp`]: https://github.com/browserslist/browserslist-useragent-regexp
 [`browserslist-useragent-ruby`]:   https://github.com/browserslist/browserslist-useragent-ruby
+[`browserslist-browserstack`]:     https://github.com/xeroxinteractive/browserslist-browserstack
 [`browserslist-ga-export`]:        https://github.com/browserslist/browserslist-ga-export
 [`browserslist-useragent`]:        https://github.com/pastelsky/browserslist-useragent
-[`browserslist-useragent-regexp`]: https://github.com/browserslist/browserslist-useragent-regexp
 [`browserslist-ga`]:               https://github.com/browserslist/browserslist-ga
 [`caniuse-api`]:                   https://github.com/Nyalab/caniuse-api
-[`browserslist-browserstack`]:     https://github.com/xeroxinteractive/browserslist-browserstack
 
 
 ## Best Practices
@@ -408,8 +408,10 @@ If you have a website, you can query against the usage statistics of your site.
 npx browserslist-ga
 ```
 
-Of course, you can generate usage statistics file by any other method.
-File format should be like:
+Or you can use [`browserslist-ga-export`] to convert Google Analytics data without giving a password for Google account.
+
+You can generate usage statistics file by any other method. File format should
+be like:
 
 ```js
 {
@@ -425,12 +427,13 @@ File format should be like:
 }
 ```
 
-Note that you can query against your custom usage data
-while also querying against global or regional data.
-For example, the query `> 1% in my stats, > 5% in US, 10%` is permitted.
+Note that you can query against your custom usage data while also querying
+against global or regional data. For example, the query
+`> 1% in my stats, > 5% in US, 10%` is permitted.
 
-[`browserslist-ga`]: https://github.com/browserslist/browserslist-ga
-[Can I Use]:         https://caniuse.com/
+[`browserslist-ga-export`]: https://github.com/browserslist/browserslist-ga-export
+[`browserslist-ga`]:        https://github.com/browserslist/browserslist-ga
+[Can I Use]:                https://caniuse.com/
 
 
 ## JS API
