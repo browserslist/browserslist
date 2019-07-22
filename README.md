@@ -45,7 +45,6 @@ Browserslist will take queries from tool option,
 `browserslist` config, `.browserslistrc` config,
 `browserslist` section in `package.json` or environment variables.
 
-You can test Browserslist queries in [online demo].
 [Browserslist Example] shows how every tool uses Browserslist.
 
 [cult-img]: https://cultofmartians.com/assets/badges/badge.svg
@@ -62,7 +61,6 @@ You can test Browserslist queries in [online demo].
 [postcss-preset-env]:                        https://github.com/jonathantneal/postcss-preset-env
 [postcss-normalize]:                         https://github.com/jonathantneal/postcss-normalize
 [Autoprefixer]:                              https://github.com/postcss/autoprefixer
-[online demo]:                               https://browserl.ist/
 [Can I Use]:                                 https://caniuse.com/
 [Babel]:                                     https://github.com/babel/babel/tree/master/packages/babel-preset-env
 [obsolete-webpack-plugin]:                   https://github.com/ElemeFE/obsolete-webpack-plugin
