@@ -132,7 +132,7 @@ Browserslist will take queries from tool option,
 ## Queries
 
 Browserslist will use browsers and Node.js versions query
-from one of this sources:
+from one of these sources:
 
 1. `browserslist` key in `package.json` file in current or parent directories.
    **We recommend this way.**
