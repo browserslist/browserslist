@@ -71,11 +71,12 @@ Browserslist will take queries from tool option,
 2. [Best Practices](#best-practices)
 3. [Queries](#queries)
 4. [Config File](#config-file)
-5. [Configuring for Different Environments](#configuring-for-different-environments)
-6. [Custom Usage Data](#custom-usage-data)
-7. [JS API](#js-api)
-8. [Environment Variables](#environment-variables)
-9. [Cache](#cache)
+5. [Shareable Configs](#shareable-configs)
+6. [Configuring for Different Environments](#configuring-for-different-environments)
+7. [Custom Usage Data](#custom-usage-data)
+8. [JS API](#js-api)
+9. [Environment Variables](#environment-variables)
+10. [Cache](#cache)
 
 ## Tools
 
