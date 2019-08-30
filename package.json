@@ -43,7 +43,6 @@
   },
   "scripts": {
     "spell": "yarn api && yaspeller-ci *.md",
-    "lint": "eslint-ci *.js test/*.js",
     "test": "jest --coverage && eslint-ci . && size-limit && yarn spell",
     "api": "documentation build *.js -f md -o api.md",
     "clean": "rimraf api.md coverage/"
