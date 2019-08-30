@@ -10,10 +10,7 @@ var env = require('./node') // Will load browser.js in webpack
 var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 var YEAR = 365.259641 * 24 * 60 * 60 * 1000
 
-// Enum values MUST be powers of 2, so combination are safe
-/** @constant {number} */
 var QUERY_OR = 1
-/** @constant {number} */
 var QUERY_AND = 2
 
 function isVersionsMatch (versionA, versionB) {
@@ -265,14 +262,10 @@ function resolve (queries, context) {
           case QUERY_AND:
             if (isExclude) {
               return result.filter(function (j) {
-                // remove result items that are in array
-                // (the relative complement of array in result)
                 return array.indexOf(j) === -1
               })
             } else {
               return result.filter(function (j) {
-                // remove result items not in array
-                // (intersect of result and array)
                 return array.indexOf(j) !== -1
               })
             }
@@ -287,7 +280,6 @@ function resolve (queries, context) {
                 return !filter[j]
               })
             }
-            // union of result and array
             return result.concat(array)
         }
       }
