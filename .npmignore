@@ -3,7 +3,6 @@ npm-debug.log
 yarn-error.log
 yarn.lock
 
-benchmark/
 coverage/
 test/
 .travis.yml

@@ -3,7 +3,7 @@
 var fs = require('fs')
 var path = require('path')
 
-var browserslist = require('..')
+var browserslist = require('../..')
 
 var cases = [
   {
@@ -24,9 +24,6 @@ var cases = [
 ]
 
 cases.forEach(function (test) {
-  if (!fs.existsSync(test.file)) {
-    throw new Error('invalid test')
-  }
   for (var i = 0; i < test.n; i++) {
     var result = browserslist.findConfig(test.file)
     if (!!result !== test.exists) {
