@@ -1,11 +1,12 @@
 node_modules/
-npm-debug.log
 yarn-error.log
 yarn.lock
 
-coverage/
-test/
-.travis.yml
-
 .editorconfig
+test/
+coverage/
+.travis.yml
+api.md
+
+.github/
 img/

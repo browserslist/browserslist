@@ -18,10 +18,12 @@
   "bin": "./cli.js",
   "devDependencies": {
     "@logux/eslint-config": "^31.0.0",
+    "@logux/sharec-config": "^0.4.2",
     "@size-limit/preset-small-lib": "^2.1.1",
     "clean-publish": "^1.1.2",
     "cross-spawn": "^6.0.5",
-    "eslint": "^6.3.0",
+    "documentation": "^12.1.1",
+    "eslint": "^6.2.2",
     "eslint-ci": "^1.0.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-es5": "^1.4.1",
@@ -36,12 +38,15 @@
     "husky": "^3.0.4",
     "jest": "^24.9.0",
     "lint-staged": "^9.2.5",
+    "rimraf": "^3.0.0",
     "yaspeller-ci": "^1.0.1"
   },
   "scripts": {
-    "spell": "yaspeller-ci README.md CHANGELOG.md",
+    "spell": "yarn api && yaspeller-ci *.md",
     "lint": "eslint-ci *.js test/*.js",
-    "test": "jest --coverage && yarn lint && yarn spell && size-limit"
+    "test": "jest --coverage && eslint-ci . && size-limit && yarn spell",
+    "api": "documentation build *.js -f md -o api.md",
+    "clean": "rimraf api.md coverage/"
   },
   "browser": {
     "./node.js": "./browser.js",
@@ -78,18 +83,11 @@
     "rules": {
       "security/detect-unsafe-regex": "off",
       "global-require": "off"
-    },
-    "overrides": [
-      {
-        "files": [
-          "*.test.js"
-        ],
-        "rules": {
-          "es5/no-arrow-functions": "off"
-        }
-      }
-    ]
+    }
   },
+  "eslintIgnore": [
+    "test/fixtures"
+  ],
   "yaspeller": {
     "lang": "en",
     "ignoreCapitalization": true,
@@ -138,7 +136,11 @@
       "useragent",
       "Versioning",
       "webpack",
-      "WebView"
+      "WebView",
+      "browserslist"
     ]
+  },
+  "sharec": {
+    "version": "0.4.2"
   }
 }
