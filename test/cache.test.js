@@ -1,14 +1,14 @@
-var path = require('path')
-var os = require('os')
-var fs = require('fs')
+let { writeFile, remove, mkdir } = require('fs-extra')
+let { tmpdir } = require('os')
+let { join } = require('path')
 
-var browserslist = require('../')
+let browserslist = require('../')
 
-var DIR = path.join(os.tmpdir(), 'browserslist-' + Math.random())
-var CONFIG = path.join(DIR, 'browserslist')
+let DIR = join(tmpdir(), 'browserslist-' + Math.random())
+let CONFIG = join(DIR, 'browserslist')
 
-beforeAll(() => {
-  fs.mkdirSync(DIR)
+beforeAll(async () => {
+  await mkdir(DIR)
 })
 
 afterEach(() => {
@@ -16,33 +16,35 @@ afterEach(() => {
   delete process.env.BROWSERSLIST_DISABLE_CACHE
 })
 
-afterAll(() => {
-  fs.unlinkSync(CONFIG)
-  fs.rmdirSync(DIR)
+afterAll(async () => {
+  await Promise.all([
+    remove(CONFIG),
+    remove(DIR)
+  ])
 })
 
-it('caches configuration but the cache is clearable', () => {
-  fs.writeFileSync(CONFIG, 'ie 8', 'UTF-8')
-  var result1 = browserslist.findConfig(DIR)
+it('caches configuration but the cache is clearable', async () => {
+  await writeFile(CONFIG, 'ie 8', 'UTF-8')
+  let result1 = browserslist.findConfig(DIR)
 
-  fs.writeFileSync(CONFIG, 'chrome 56', 'UTF-8')
-  var result2 = browserslist.findConfig(DIR)
+  await writeFile(CONFIG, 'chrome 56', 'UTF-8')
+  let result2 = browserslist.findConfig(DIR)
 
   expect(result1).toEqual(result2)
 
   browserslist.clearCaches()
-  var result3 = browserslist.findConfig(DIR)
+  let result3 = browserslist.findConfig(DIR)
   expect(result1).not.toEqual(result3)
 })
 
-it('does not use cache when ENV variable set', () => {
+it('does not use cache when ENV variable set', async () => {
   process.env.BROWSERSLIST_DISABLE_CACHE = 1
 
-  fs.writeFileSync(CONFIG, 'ie 8', 'UTF-8')
-  var result1 = browserslist.findConfig(DIR)
+  await writeFile(CONFIG, 'ie 8', 'UTF-8')
+  let result1 = browserslist.findConfig(DIR)
 
-  fs.writeFileSync(CONFIG, 'chrome 56', 'UTF-8')
-  var result2 = browserslist.findConfig(DIR)
+  await writeFile(CONFIG, 'chrome 56', 'UTF-8')
+  let result2 = browserslist.findConfig(DIR)
 
   expect(result1).not.toEqual(result2)
 })

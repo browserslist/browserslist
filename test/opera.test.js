@@ -1,4 +1,4 @@
-var browserslist = require('../')
+let browserslist = require('../')
 
 it('selects opera mini', () => {
   expect(browserslist('op_mini all')).toEqual(['op_mini all'])

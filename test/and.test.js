@@ -1,14 +1,11 @@
-var path = require('path')
+let { join } = require('path')
 
-var browserslist = require('../')
+let browserslist = require('../')
 
-var PACKAGE = path.join(__dirname, 'fixtures', 'package2')
+let PACKAGE = join(__dirname, 'fixtures', 'package2')
 
 it('query composition with AND operator', () => {
-  // old behavior
-  expect(
-    browserslist('ie >= 6, ie <= 7')
-  ).toEqual([
+  expect(browserslist('ie >= 6, ie <= 7')).toEqual([
     'ie 11',
     'ie 10',
     'ie 9',
@@ -18,18 +15,12 @@ it('query composition with AND operator', () => {
     'ie 5.5'
   ])
 
-  // new behavior
-  expect(
-    browserslist('ie >= 6 and ie <= 7')
-  ).toEqual([
+  expect(browserslist('ie >= 6 and ie <= 7')).toEqual([
     'ie 7',
     'ie 6'
   ])
 
-  // and with not
-  expect(
-    browserslist('ie < 11 and not ie 7')
-  ).toEqual([
+  expect(browserslist('ie < 11 and not ie 7')).toEqual([
     'ie 10',
     'ie 9',
     'ie 8',

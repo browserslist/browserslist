@@ -1,7 +1,7 @@
 jest.doMock('path', () => ({ }))
 jest.doMock('../node.js', () => require('../browser'))
 
-var browserslist = require('../')
+let browserslist = require('../')
 
 it('works without path', () => {
   expect(browserslist(undefined)).toEqual(browserslist('defaults'))
@@ -38,7 +38,7 @@ it('has config methods', () => {
 })
 
 it('supports current node version', () => {
-  var versions = browserslist('current node')
+  let versions = browserslist('current node')
   expect(versions).toHaveLength(1)
   expect(versions[0]).toMatch(/node \d+\.\d+\.\d+/)
 })

@@ -1,17 +1,17 @@
-var BrowserslistError = require('../error')
+let BrowserslistError = require('../error')
 
-var originCapture = Error.captureStackTrace
-afterEach(function () {
+let originCapture = Error.captureStackTrace
+afterEach(() => {
   Error.captureStackTrace = originCapture
 })
 
-it('sets stack', function () {
-  var error = new BrowserslistError('test')
+it('sets stack', () => {
+  let error = new BrowserslistError('test')
   expect(typeof error.stack).toEqual('string')
 })
 
-it('works in Firefox', function () {
+it('works in Firefox', () => {
   Error.captureStackTrace = undefined
-  var error = new BrowserslistError('test')
+  let error = new BrowserslistError('test')
   expect(error.stack).toBeUndefined()
 })

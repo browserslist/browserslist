@@ -1,15 +1,15 @@
-var path = require('path')
+let path = require('path')
 
-var browserslist = require('../')
+let browserslist = require('../')
 
-var IE = path.join(__dirname, 'fixtures', 'explorers')
-var FILE = path.join(__dirname, 'fixtures', 'dir', 'test.css')
-var LINK = path.join(__dirname, 'fixtures', 'symlink')
-var CONFIG = path.join(__dirname, 'fixtures', 'env-config', 'test.css')
-var STRING = path.join(__dirname, 'fixtures', 'string', 'package.json')
-var PACKAGE = path.join(__dirname, 'fixtures', 'env-package', 'package.json')
+let IE = path.join(__dirname, 'fixtures', 'explorers')
+let FILE = path.join(__dirname, 'fixtures', 'dir', 'test.css')
+let LINK = path.join(__dirname, 'fixtures', 'symlink')
+let CONFIG = path.join(__dirname, 'fixtures', 'env-config', 'test.css')
+let STRING = path.join(__dirname, 'fixtures', 'string', 'package.json')
+let PACKAGE = path.join(__dirname, 'fixtures', 'env-package', 'package.json')
 
-var DEFAULTS = browserslist(browserslist.defaults)
+let DEFAULTS = browserslist(browserslist.defaults)
 
 afterEach(() => {
   process.env.NODE_ENV = 'test'
@@ -72,7 +72,7 @@ it('reads config by direct path in environment variable', () => {
 })
 
 it('handles undefined stats and path correctly', () => {
-  var config = { stats: undefined, path: undefined }
+  let config = { stats: undefined, path: undefined }
   expect(browserslist([], config)).toEqual([])
 })
 
@@ -134,7 +134,7 @@ it('sorts browsers with version ranges', () => {
 })
 
 it('throws custom error', () => {
-  var error
+  let error
   try {
     browserslist('wrong')
   } catch (e) {
@@ -150,19 +150,19 @@ it('excludes queries', () => {
 })
 
 it('excludes queries for 0 version', () => {
-  var browsers = browserslist(['> 1% in US', 'not last 2 and_chr versions'])
-  var android = browsers.filter(i => i.indexOf('and_chr ') !== -1)
+  let browsers = browserslist(['> 1% in US', 'not last 2 and_chr versions'])
+  let android = browsers.filter(i => i.indexOf('and_chr ') !== -1)
   expect(android).toHaveLength(0)
 })
 
 it('excludes queries for all version', () => {
-  var browsers = browserslist(['> 0% in US', 'not last 1 op_mini versions'])
-  var operaMini = browsers.filter(i => i.indexOf('op_mini ') !== -1)
+  let browsers = browserslist(['> 0% in US', 'not last 1 op_mini versions'])
+  let operaMini = browsers.filter(i => i.indexOf('op_mini ') !== -1)
   expect(operaMini).toHaveLength(0)
 })
 
 it('has actual browsers list in docs', () => {
-  var names = browserslist(['last 1 version']).map(i => i.split(' ')[0])
+  let names = browserslist(['last 1 version']).map(i => i.split(' ')[0])
   expect(names).toEqual([
     'and_chr', 'and_ff', 'and_qq', 'and_uc', 'android', 'baidu', 'bb', 'chrome',
     'edge', 'firefox', 'ie', 'ie_mob', 'ios_saf', 'kaios', 'op_mini', 'op_mob',
@@ -178,8 +178,7 @@ it('throws error on first exclude query', () => {
 })
 
 it('cleans 0 version', () => {
-  expect(browserslist(['> 0%', '> 0% in FI']).indexOf('and_chr 0'))
-    .toEqual(-1)
+  expect(browserslist(['> 0%', '> 0% in FI'])).not.toContain('and_chr 0')
 })
 
 it('uses env options to browserlist config', () => {
@@ -208,20 +207,19 @@ it('uses env options to package.json', () => {
 
 it('uses NODE_ENV to get environment', () => {
   process.env.NODE_ENV = 'test'
-  expect(browserslist(null, { path: CONFIG }))
-    .toEqual(['ie 11', 'ie 10'])
+  expect(browserslist(null, { path: CONFIG })).toEqual(['ie 11', 'ie 10'])
 })
 
 it('uses BROWSERSLIST_ENV to get environment', () => {
   process.env.BROWSERSLIST_ENV = 'development'
-  expect(browserslist(null, { path: CONFIG }))
-    .toEqual(['chrome 55', 'firefox 50'])
+  expect(browserslist(null, { path: CONFIG })).toEqual([
+    'chrome 55', 'firefox 50'
+  ])
 })
 
 it('uses production environment by default', () => {
   delete process.env.NODE_ENV
-  expect(browserslist(null, { path: CONFIG }))
-    .toEqual(['ie 9', 'opera 41'])
+  expect(browserslist(null, { path: CONFIG })).toEqual(['ie 9', 'opera 41'])
 })
 
 it('correctly works with not and one-version browsers', () => {

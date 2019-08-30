@@ -1,15 +1,15 @@
-var fs = require('fs')
+let fs = require('fs')
 
-var browserslist = require('../')
+let browserslist = require('../')
 
-var originData = browserslist.data
+let originData = browserslist.data
 
 function createDate (monthBack) {
-  var releaseTime = Date.now() - monthBack * 30 * 24 * 60 * 60 * 1000
+  let releaseTime = Date.now() - monthBack * 30 * 24 * 60 * 60 * 1000
   return releaseTime / 1000
 }
 
-var youngerSixMonthsData = {
+let youngerSixMonthsData = {
   ie: {
     name: 'ie',
     released: ['9', '10', '11'],
@@ -40,7 +40,7 @@ var youngerSixMonthsData = {
   }
 }
 
-var olderSixMonthsData = {
+let olderSixMonthsData = {
   ie: {
     name: 'ie',
     released: ['9', '10', '11'],
@@ -76,7 +76,7 @@ function findPackage (text) {
 }
 
 function findPackageAndYarn (text) {
-  return /package.json/.test(text) || /yarn.lock/.test(text)
+  return /package.json|yarn.lock/.test(text)
 }
 
 function mockStatSync () {
@@ -85,8 +85,8 @@ function mockStatSync () {
   }
 }
 
-var originSxists = fs.existsSync
-var originStat = fs.statSync
+let originSxists = fs.existsSync
+let originStat = fs.statSync
 
 beforeEach(() => {
   jest.spyOn(console, 'warn').mockImplementation(() => true)

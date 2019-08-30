@@ -1,11 +1,11 @@
-var browserslist = require('../')
+let browserslist = require('../')
 
 it('selects browser by name', () => {
   expect(browserslist('ie 10')).toEqual(['ie 10'])
 })
 
 it('uses case insensitive aliases', () => {
-  var result = browserslist('ie 10')
+  let result = browserslist('ie 10')
   expect(browserslist('Explorer 10')).toEqual(result)
   expect(browserslist('IE 10')).toEqual(result)
 })
@@ -29,8 +29,9 @@ it('uses right browser name in error', () => {
 })
 
 it('ignores unknown versions on request', () => {
-  expect(browserslist('IE 1, IE 9', { ignoreUnknownVersions: true }))
-    .toEqual(['ie 9'])
+  expect(browserslist('IE 1, IE 9', { ignoreUnknownVersions: true })).toEqual([
+    'ie 9'
+  ])
 })
 
 it('works with joined versions from Can I Use', () => {
@@ -53,7 +54,7 @@ it('supports Can I Use cutted versions', () => {
 })
 
 it('supports Can I Use missing mobile versions', () => {
-  var opts = { mobileToDesktop: true }
+  let opts = { mobileToDesktop: true }
   expect(browserslist('chromeandroid 53', opts)).toEqual(['and_chr 53'])
   expect(browserslist('and_ff 60', opts)).toEqual(['and_ff 60'])
   expect(browserslist('ie_mob 9', opts)).toEqual(['ie_mob 9'])

@@ -1,18 +1,18 @@
-var path = require('path')
+let { join } = require('path')
 
-var browserslist = require('../')
+let browserslist = require('../')
 
-var STATS = path.join(__dirname, 'fixtures', 'browserslist-stats.json')
-var CUSTOM_STATS = path.join(__dirname, 'fixtures', 'stats.json')
+let STATS = join(__dirname, 'fixtures', 'browserslist-stats.json')
+let CUSTOM_STATS = join(__dirname, 'fixtures', 'stats.json')
 
-var custom = {
+let custom = {
   ie: {
     8: 3,
     9: 10
   }
 }
 
-var originUsage = browserslist.usage
+let originUsage = browserslist.usage
 
 beforeEach(() => {
   browserslist.usage = {
@@ -66,7 +66,7 @@ it('accepts mystats to load from custom stats with dataByBrowser', () => {
 })
 
 it('throws when no custom stats', () => {
-  expect(function () {
+  expect(() => {
     browserslist.coverage(['ie 8'], 'my stats')
   }).toThrowError(/statistics was not provided/)
 })

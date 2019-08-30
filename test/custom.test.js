@@ -1,11 +1,11 @@
-var path = require('path')
-var fs = require('fs')
+let { readFile } = require('fs-extra')
+let { join } = require('path')
 
-var browserslist = require('../')
+let browserslist = require('../')
 
-var CUSTOM_STATS = path.join(__dirname, 'fixtures', 'stats.json')
-var ANDROID = path.join(__dirname, 'fixtures', 'android-stats.json')
-var STATS = path.join(__dirname, 'fixtures', 'browserslist-stats.json')
+let CUSTOM_STATS = join(__dirname, 'fixtures', 'stats.json')
+let ANDROID = join(__dirname, 'fixtures', 'android-stats.json')
+let STATS = join(__dirname, 'fixtures', 'browserslist-stats.json')
 
 afterEach(() => {
   delete process.env.BROWSERSLIST_STATS
@@ -47,14 +47,13 @@ it('accepts non-space query', () => {
     .toEqual(['ie 11'])
 })
 
-it('takes stats from usage data object', () => {
-  var data = JSON.parse(fs.readFileSync(CUSTOM_STATS))
-  expect(browserslist('> 10% in my stats', { stats: data }))
-    .toEqual(['ie 11'])
+it('takes stats from usage data object', async () => {
+  let data = JSON.parse(await readFile(CUSTOM_STATS))
+  expect(browserslist('> 10% in my stats', { stats: data })).toEqual(['ie 11'])
 })
 
 it('works alongside global usage query', () => {
-  var list = browserslist('> 10% in my stats, > 1%', { stats: CUSTOM_STATS })
+  let list = browserslist('> 10% in my stats, > 1%', { stats: CUSTOM_STATS })
   expect(list.length > 1).toBeTruthy()
 })
 
@@ -63,13 +62,13 @@ it('takes stats from browserslist-stats.json', () => {
 })
 
 it('normalizes versions', () => {
-  var o = { stats: ANDROID }
+  let o = { stats: ANDROID }
   expect(browserslist(['> 3% in my stats'], o)[0]).toMatch(/and_chr \d+/)
   expect(browserslist(['> 3% in my stats', 'not and_chr > 0'], o)).toEqual([])
 })
 
 it('throws error on no stats', () => {
-  expect(function () {
+  expect(() => {
     browserslist('> 5% in my stats')
   }).toThrowError(/statistics was not provided/)
 })

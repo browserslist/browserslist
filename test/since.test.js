@@ -1,7 +1,7 @@
-var browserslist = require('../')
+let browserslist = require('../')
 
-var originData = browserslist.data
-var originWarn = console.warn
+let originData = browserslist.data
+let originWarn = console.warn
 
 beforeEach(() => {
   browserslist.data = {
@@ -15,17 +15,9 @@ beforeEach(() => {
       }
     }
   }
-  console.warn = function () {
-    if (
-      typeof arguments[0] === 'string' &&
-      (
-        /yarn upgrade/.test(arguments[0]) ||
-        /npm update/.test(arguments[0])
-      )
-    ) {
-      return
-    }
-    originWarn.apply(this, arguments)
+  console.warn = function (...args) {
+    if (/(yarn|npm) upgrade/.test(args[0])) return
+    originWarn.apply(this, args)
   }
 })
 

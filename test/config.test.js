@@ -1,21 +1,21 @@
-var path = require('path')
+let { join } = require('path')
 
-var browserslist = require('../')
+let browserslist = require('../')
 
-var RC = path.join(__dirname, 'fixtures', 'rc', 'test.css')
-var FILE = path.join(__dirname, 'fixtures', 'dir', 'test.css')
-var TYPO = path.join(__dirname, 'fixtures', 'typo', 'test.css')
-var BOTH1 = path.join(__dirname, 'fixtures', 'both1', 'test.css')
-var BOTH2 = path.join(__dirname, 'fixtures', 'both2', 'test.css')
-var BOTH3 = path.join(__dirname, 'fixtures', 'both3', 'test.css')
-var WRONG1 = path.join(__dirname, 'fixtures', 'wrong1', 'test.css')
-var WRONG2 = path.join(__dirname, 'fixtures', 'wrong2', 'test.css')
-var BROKEN = path.join(__dirname, 'fixtures', 'broken', 'test.css')
-var STRING = path.join(__dirname, 'fixtures', 'string', 'test.css')
-var PACKAGE = path.join(__dirname, 'fixtures', 'package', 'test.css')
+let RC = join(__dirname, 'fixtures', 'rc', 'test.css')
+let FILE = join(__dirname, 'fixtures', 'dir', 'test.css')
+let TYPO = join(__dirname, 'fixtures', 'typo', 'test.css')
+let BOTH1 = join(__dirname, 'fixtures', 'both1', 'test.css')
+let BOTH2 = join(__dirname, 'fixtures', 'both2', 'test.css')
+let BOTH3 = join(__dirname, 'fixtures', 'both3', 'test.css')
+let WRONG1 = join(__dirname, 'fixtures', 'wrong1', 'test.css')
+let WRONG2 = join(__dirname, 'fixtures', 'wrong2', 'test.css')
+let BROKEN = join(__dirname, 'fixtures', 'broken', 'test.css')
+let STRING = join(__dirname, 'fixtures', 'string', 'test.css')
+let PACKAGE = join(__dirname, 'fixtures', 'package', 'test.css')
 
-var originCwd = process.cwd()
-afterEach(function () {
+let originCwd = process.cwd()
+afterEach(() => {
   process.chdir(originCwd)
 })
 
@@ -32,7 +32,7 @@ it('parses comma', () => {
 })
 
 it('removes comments', () => {
-  var config = '# support list\nie 10#bad\n> 1%'
+  let config = '# support list\nie 10#bad\n> 1%'
   expect(browserslist.parseConfig(config)).toEqual({
     defaults: ['ie 10', '> 1%']
   })
@@ -46,7 +46,7 @@ it('supports sections', () => {
 })
 
 it('throws on duplicate sections', () => {
-  var config = '[test]\nie 10\n[production test]\nie 11'
+  let config = '[test]\nie 10\n[production test]\nie 11'
   expect(() => {
     browserslist.parseConfig(config)
   }).toThrowError(/Duplicate section test in Browserslist config/)

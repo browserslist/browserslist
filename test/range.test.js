@@ -1,6 +1,6 @@
-var browserslist = require('../')
+let browserslist = require('../')
 
-var originData = browserslist.data
+let originData = browserslist.data
 
 beforeEach(() => {
   browserslist.data = {
@@ -25,7 +25,7 @@ it('selects versions with query out of range', () => {
 })
 
 it('raises on an unknown browser', () => {
-  expect(function () {
+  expect(() => {
     browserslist('unknown 4-7')
   }).toThrowError('Unknown browser unknown')
 })

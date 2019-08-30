@@ -1,6 +1,6 @@
-var browserslist = require('../')
+let browserslist = require('../')
 
-var originUsage = browserslist.usage
+let originUsage = browserslist.usage
 
 beforeEach(() => {
   browserslist.usage = {

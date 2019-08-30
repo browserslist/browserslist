@@ -1,4 +1,4 @@
-var browserslist = require('../')
+let browserslist = require('../')
 
 it('converts Electron to Chrome', () => {
   expect(browserslist('electron 1.1')).toEqual(['chrome 50'])
@@ -19,8 +19,9 @@ it('throws on unknown Electron version', () => {
 })
 
 it('converts Electron to Chrome in ranges', () => {
-  expect(browserslist('electron 0.36-1.2'))
-    .toEqual(['chrome 51', 'chrome 50', 'chrome 49', 'chrome 47'])
+  expect(browserslist('electron 0.36-1.2')).toEqual([
+    'chrome 51', 'chrome 50', 'chrome 49', 'chrome 47'
+  ])
 })
 
 it('ignores case in Electron ranges', () => {
@@ -41,8 +42,9 @@ it('throws on unknown Electron range version', () => {
 })
 
 it('converts Electron versions to Chrome', () => {
-  expect(browserslist('electron <= 0.21'))
-    .toEqual(['chrome 40', 'chrome 39'])
+  expect(browserslist('electron <= 0.21')).toEqual([
+    'chrome 40', 'chrome 39'
+  ])
 })
 
 it('ignores case in Electron versions', () => {

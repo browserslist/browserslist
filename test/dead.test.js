@@ -1,4 +1,4 @@
-var browserslist = require('../')
+let browserslist = require('../')
 
 it('selects dead browsers by keywords', () => {
   expect(browserslist('dead')).toContain('ie 10')

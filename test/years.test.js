@@ -1,8 +1,8 @@
-var browserslist = require('../')
+let browserslist = require('../')
 
-var RealDate = Date
-var originData = browserslist.data
-var originWarn = console.warn
+let RealDate = Date
+let originData = browserslist.data
+let originWarn = console.warn
 
 function mockDate (iso) {
   global.Date = function () {
@@ -38,29 +38,21 @@ beforeEach(() => {
       }
     }
   }
-  console.warn = function () {
-    if (
-      typeof arguments[0] === 'string' &&
-      (
-        /yarn upgrade/.test(arguments[0]) ||
-        /npm update/.test(arguments[0])
-      )
-    ) {
-      return
-    }
-    originWarn.apply(this, arguments)
+  console.warn = function (...args) {
+    if (/(yarn|npm) upgrade/.test(args[0])) return
+    originWarn.apply(this, args)
   }
 })
 
 afterEach(() => {
   global.Date = RealDate
   browserslist.data = originData
-  console.warn = originWarn
 })
 
 it('selects versions released within last X years', () => {
-  expect(browserslist('last 2 years'))
-    .toEqual(['edge 16', 'edge 15', 'edge 14'])
+  expect(browserslist('last 2 years')).toEqual([
+    'edge 16', 'edge 15', 'edge 14'
+  ])
 })
 
 it('selects versions released within last year', () => {
@@ -72,6 +64,7 @@ it('supports year fraction', () => {
 })
 
 it('is case insensitive', () => {
-  expect(browserslist('Last 5 years'))
-    .toEqual(['edge 16', 'edge 15', 'edge 14', 'edge 13', 'edge 12', 'ie 11'])
+  expect(browserslist('Last 5 years')).toEqual([
+    'edge 16', 'edge 15', 'edge 14', 'edge 13', 'edge 12', 'ie 11'
+  ])
 })

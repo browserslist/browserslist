@@ -1,4 +1,4 @@
-var browserslist = require('../')
+let browserslist = require('../')
 
 it('selects Node.js version', () => {
   expect(browserslist('node 7.5.0')).toEqual(['node 7.5.0'])
@@ -27,15 +27,15 @@ it('supports selection of Node.js version by major version only', () => {
 })
 
 it('selects maintained Node.js versions', () => {
-  expect(Array.isArray(browserslist('maintained node versions'))).toBe(true)
+  expect(Array.isArray(browserslist('maintained node versions'))).toBeTruthy()
 })
 
 it('supports case insensitive query for maintained Node.js versions', () => {
-  expect(Array.isArray(browserslist('maintained Node versions'))).toBe(true)
+  expect(Array.isArray(browserslist('maintained Node versions'))).toBeTruthy()
 })
 
 it('supports current node version', () => {
-  var versions = browserslist('current node')
+  let versions = browserslist('current node')
   expect(versions).toHaveLength(1)
   expect(versions[0]).toMatch(/node \d+\.\d+\.\d+/)
 })

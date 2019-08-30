@@ -1,10 +1,10 @@
-var path = require('path')
+let { join } = require('path')
 
-var browserslist = require('../')
+let browserslist = require('../')
 
-var CUSTOM_STATS = path.join(__dirname, 'fixtures', 'stats.json')
+let CUSTOM_STATS = join(__dirname, 'fixtures', 'stats.json')
 
-var originUsage = browserslist.usage
+let originUsage = browserslist.usage
 
 beforeEach(() => {
   process.env.BROWSERSLIST_STATS = CUSTOM_STATS
@@ -51,13 +51,13 @@ it('adds browsers by popularity', () => {
 })
 
 it('does not add zero-popularity', () => {
-  expect(browserslist('cover 20% in my stats', {
-    stats: { ie: { 11: 10, 10: 0 } } })).toEqual(['ie 11'])
+  let stats = { stats: { ie: { 11: 10, 10: 0 } } }
+  expect(browserslist('cover 20% in my stats', stats)).toEqual(['ie 11'])
 })
 
 it('throws error on no stats', () => {
   delete process.env.BROWSERSLIST_STATS
-  expect(function () {
+  expect(() => {
     browserslist('cover 70% in my stats')
   }).toThrowError(/statistics was not provided/)
 })
