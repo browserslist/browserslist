@@ -367,35 +367,14 @@ function browserslist (queries, opts) {
   return uniq(result)
 }
 
-/**
- * @typedef {object} BrowserslistQuery
- * @property {number} type A type constant like QUERY_OR @see QUERY_OR.
- * @property {string} queryString A query like "not ie < 11".
- */
-
-/**
- * Parse a browserslist string query
- * @param {string} queries One or more queries as a string
- * @returns {BrowserslistQuery[]} An array of BrowserslistQuery
- */
 function parse (queries) {
   var qs = []
-
   do {
     queries = doMatch(queries, qs)
   } while (queries)
-
   return qs
 }
 
-/**
- * Find query matches in a string. This function is meant to be called
- * repeatedly with the returned query string until there is no more matches.
- * @param {string} string A string with one or more queries.
- * @param {BrowserslistQuery[]} qs Out parameter,
- * will be filled with `BrowserslistQuery`.
- * @returns {string} The rest of the query string minus the matched part.
- */
 function doMatch (string, qs) {
   var or = /^(?:,\s*|\s+OR\s+)(.*)/i
   var and = /^\s+AND\s+(.*)/i
