@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.7
+* Add PhantomJS queries.
+* Improve docs (by Dorian Koehring).
+
 ## 4.6.6
 * Remove Safari from `dead` query.
 
