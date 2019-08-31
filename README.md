@@ -194,6 +194,8 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   `>=`, `<` and `<=` work too. It also works with Node.js.
 * `iOS 7`: the iOS browser version 7 directly.
 * `Firefox ESR`: the latest [Firefox ESR] version.
+* `PhantomJS 2.1` and `PhantomJS 1.9`: selects Safari versions similar
+  to PhantomJS runtime.
 * `unreleased versions` or `unreleased Chrome versions`:
   alpha and beta versions.
 * `last 2 major versions` or `last 2 iOS major versions`:

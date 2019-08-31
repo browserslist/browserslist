@@ -890,6 +890,18 @@ var QUERIES = [
     }
   },
   {
+    regexp: /^phantomjs\s+1.9$/i,
+    select: function () {
+      return ['safari 5']
+    }
+  },
+  {
+    regexp: /^phantomjs\s+2.1$/i,
+    select: function () {
+      return ['safari 6']
+    }
+  },
+  {
     regexp: /^(\w+)\s+(tp|[\d.]+)$/i,
     select: function (context, name, version) {
       if (/^tp$/i.test(version)) version = 'TP'

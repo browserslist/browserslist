@@ -136,7 +136,8 @@
       "Versioning",
       "webpack",
       "WebView",
-      "browserslist"
+      "browserslist",
+      "PhantomJS"
     ]
   },
   "sharec": {
