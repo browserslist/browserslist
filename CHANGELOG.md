@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.7.1
+* Improve caching.
+
 ## 4.7
 * Add PhantomJS queries.
 * Improve docs (by Dorian Koehring).
