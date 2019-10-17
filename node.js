@@ -42,7 +42,8 @@ function isFile (file) {
 }
 
 function eachParent (file, callback) {
-  var loc = path.resolve(file)
+  var dir = isFile(file) ? path.dirname(file) : file
+  var loc = path.resolve(dir)
   do {
     var result = callback(loc)
     if (typeof result !== 'undefined') return result
@@ -243,7 +244,10 @@ module.exports = {
       return configCache[cacheKey]
     }
 
+    var passed = []
     var resolved = eachParent(from, function (dir) {
+      passed.push(dir)
+
       var config = path.join(dir, 'browserslist')
       var pkg = path.join(dir, 'package.json')
       var rc = path.join(dir, '.browserslistrc')
@@ -277,7 +281,9 @@ module.exports = {
       }
     })
     if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
-      configCache[cacheKey] = resolved
+      passed.forEach(function (dir) {
+        configCache[dir] = resolved
+      })
     }
     return resolved
   },
