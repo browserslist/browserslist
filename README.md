@@ -8,7 +8,6 @@ front-end tools. It is used in:
 
 * [Autoprefixer]
 * [Babel]
-* [core-js]
 * [postcss-preset-env]
 * [eslint-plugin-compat]
 * [stylelint-no-unsupported-browser-features]
@@ -65,7 +64,6 @@ Browserslist will take queries from tool option,
 [Can I Use]:                                 https://caniuse.com/
 [Babel]:                                     https://github.com/babel/babel/tree/master/packages/babel-preset-env
 [obsolete-webpack-plugin]:                   https://github.com/ElemeFE/obsolete-webpack-plugin
-[core-js]:                                   https://github.com/zloirock/core-js/tree/master/packages/core-js-compat
 
 ## Table of Contents
 
