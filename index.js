@@ -350,7 +350,7 @@ function browserslist (queries, opts) {
     }
   }
 
-  var result = resolve(queries, context).sort(function (name1, name2) {
+  return uniq(resolve(queries, context)).sort(function (name1, name2) {
     name1 = name1.split(' ')
     name2 = name2.split(' ')
     if (name1[0] === name2[0]) {
@@ -363,8 +363,6 @@ function browserslist (queries, opts) {
       return compare(name1[0], name2[0])
     }
   })
-
-  return uniq(result)
 }
 
 function parse (queries) {
