@@ -84,7 +84,8 @@ function parsePackage (file) {
   var config = JSON.parse(fs.readFileSync(file))
   if (config.browserlist && !config.browserslist) {
     throw new BrowserslistError(
-      '`browserlist` key instead of `browserslist` in ' + file)
+      '`browserlist` key instead of `browserslist` in ' + file
+    )
   }
   var list = config.browserslist
   if (Array.isArray(list) || typeof list === 'string') {
@@ -117,7 +118,8 @@ module.exports = {
     var queries = require(require.resolve(name, { paths: ['.'] }))
     if (!Array.isArray(queries)) {
       throw new BrowserslistError(
-        '`' + name + '` config exports not an array of queries')
+        '`' + name + '` config exports not an array of queries'
+      )
     }
     return queries
   },
@@ -215,7 +217,8 @@ module.exports = {
           sections.forEach(function (section) {
             if (result[section]) {
               throw new BrowserslistError(
-                'Duplicate section ' + section + ' in Browserslist config')
+                'Duplicate section ' + section + ' in Browserslist config'
+              )
             }
             result[section] = []
           })
