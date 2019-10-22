@@ -289,6 +289,8 @@ function resolve (queries, context) {
   }, [])
 }
 
+var cache = { }
+
 /**
  * Return array of browsers by selection queries.
  *
@@ -350,7 +352,10 @@ function browserslist (queries, opts) {
     }
   }
 
-  return uniq(resolve(queries, context)).sort(function (name1, name2) {
+  var cacheKey = JSON.stringify([queries, context])
+  if (cache[cacheKey]) return cache[cacheKey]
+
+  var result = uniq(resolve(queries, context)).sort(function (name1, name2) {
     name1 = name1.split(' ')
     name2 = name2.split(' ')
     if (name1[0] === name2[0]) {
@@ -363,6 +368,10 @@ function browserslist (queries, opts) {
       return compare(name1[0], name2[0])
     }
   })
+  if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
+    cache[cacheKey] = result
+  }
+  return result
 }
 
 function parse (queries) {
