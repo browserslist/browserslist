@@ -258,19 +258,23 @@ module.exports = {
         } catch (e) {
           if (e.name === 'BrowserslistError') throw e
           console.warn(
-            '[Browserslist] Could not parse ' + pkg + '. Ignoring it.')
+            '[Browserslist] Could not parse ' + pkg + '. Ignoring it.'
+          )
         }
       }
 
       if (isFile(config) && pkgBrowserslist) {
         throw new BrowserslistError(
-          dir + ' contains both browserslist and package.json with browsers')
+          dir + ' contains both browserslist and package.json with browsers'
+        )
       } else if (isFile(rc) && pkgBrowserslist) {
         throw new BrowserslistError(
-          dir + ' contains both .browserslistrc and package.json with browsers')
+          dir + ' contains both .browserslistrc and package.json with browsers'
+        )
       } else if (isFile(config) && isFile(rc)) {
         throw new BrowserslistError(
-          dir + ' contains both .browserslistrc and browserslist')
+          dir + ' contains both .browserslistrc and browserslist'
+        )
       } else if (isFile(config)) {
         return module.exports.readConfig(config)
       } else if (isFile(rc)) {
