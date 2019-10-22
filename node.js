@@ -239,13 +239,12 @@ module.exports = {
   findConfig: function findConfig (from) {
     from = path.resolve(from)
 
-    var cacheKey = isFile(from) ? path.dirname(from) : from
-    if (cacheKey in configCache) {
-      return configCache[cacheKey]
-    }
-
     var passed = []
     var resolved = eachParent(from, function (dir) {
+      if (dir in configCache) {
+        return configCache[dir]
+      }
+
       passed.push(dir)
 
       var config = path.join(dir, 'browserslist')
