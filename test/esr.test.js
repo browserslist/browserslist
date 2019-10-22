@@ -1,7 +1,9 @@
 let browserslist = require('../')
 
 it('selects Firefox ESR', () => {
-  expect(browserslist('Firefox ESR')).toEqual(['firefox 68', 'firefox 60'])
+  let versions = browserslist('Firefox ESR')
+  expect(versions.length).toBeGreaterThanOrEqual(1)
+  expect(versions.every(i => /^firefox \d+$/.test(i))).toBeTruthy()
 })
 
 it('uses case insensitive aliases', () => {
