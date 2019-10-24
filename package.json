@@ -11,14 +11,14 @@
   "license": "MIT",
   "repository": "browserslist/browserslist",
   "dependencies": {
-    "caniuse-lite": "^1.0.30001002",
-    "electron-to-chromium": "^1.3.292",
-    "node-releases": "^1.1.37"
+    "caniuse-lite": "^1.0.30001004",
+    "electron-to-chromium": "^1.3.295",
+    "node-releases": "^1.1.38"
   },
   "bin": "./cli.js",
   "devDependencies": {
     "@logux/eslint-config": "^33.0.0",
-    "@logux/sharec-config": "^0.5.4",
+    "@logux/sharec-config": "^0.5.5",
     "@size-limit/preset-small-lib": "^2.1.6",
     "clean-publish": "^1.1.2",
     "cross-spawn": "^7.0.1",
