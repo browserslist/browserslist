@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 4.7.2
 * Add cache for query parsing.
 * Improve config caching (by Kārlis Gaņģis).
+* Update Firefox ESR.
 
 ## 4.7.1
 * Improve caching.
