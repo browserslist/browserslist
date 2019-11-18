@@ -13,19 +13,19 @@ it('uses case insensitive aliases', () => {
 it('raises on unknown name', () => {
   expect(() => {
     browserslist('unknow 10')
-  }).toThrowError('Unknown browser unknow')
+  }).toThrow('Unknown browser unknow')
 })
 
 it('raises on unknown version', () => {
   expect(() => {
     browserslist('IE 1')
-  }).toThrowError('Unknown version 1 of IE')
+  }).toThrow('Unknown version 1 of IE')
 })
 
 it('uses right browser name in error', () => {
   expect(() => {
     browserslist('chrome 70, ie 11, safari 12.2, safari 12')
-  }).toThrowError('Unknown version 12.2 of safari')
+  }).toThrow('Unknown version 12.2 of safari')
 })
 
 it('ignores unknown versions on request', () => {
@@ -64,6 +64,6 @@ it('supports Can I Use missing mobile versions', () => {
 it('missing mobile versions are not aliased by default', () => {
   expect(browserslist('chromeandroid 53')).not.toEqual(['and_chr 53'])
   expect(browserslist('and_ff 60')).not.toEqual(['and_ff 60'])
-  expect(() => browserslist('ie_mob 9')).toThrow()
-  expect(() => browserslist('op_mob 30')).toThrow()
+  expect(() => browserslist('ie_mob 9')).toThrow(/Unknown version 9 of ie_mob/)
+  expect(() => browserslist('op_mob 30')).toThrow(/Unknown version 30/)
 })

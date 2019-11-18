@@ -48,13 +48,13 @@ it('fixes country case', () => {
 })
 
 it('loads country from Can I Use', () => {
-  expect(browserslist('> 1% in RU').length > 0).toBeTruthy()
+  expect(browserslist('> 1% in RU').length > 0).toBe(true)
 })
 
 it('loads continents from Can I Use', () => {
-  expect(browserslist('> 1% in alt-AS').length > 0).toBeTruthy()
+  expect(browserslist('> 1% in alt-AS').length > 0).toBe(true)
 })
 
 it('allows omission of the space between the > and the percentage', () => {
-  expect(browserslist('>10% in US').length > 0).toBeTruthy()
+  expect(browserslist('>10% in US').length > 0).toBe(true)
 })

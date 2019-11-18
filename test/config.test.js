@@ -49,7 +49,7 @@ it('throws on duplicate sections', () => {
   let config = '[test]\nie 10\n[production test]\nie 11'
   expect(() => {
     browserslist.parseConfig(config)
-  }).toThrowError(/Duplicate section test in Browserslist config/)
+  }).toThrow(/Duplicate section test in Browserslist config/)
 })
 
 it('trims whitespaces', () => {
@@ -86,40 +86,40 @@ it('shows warning on broken package.json', () => {
   expect(browserslist.findConfig(BROKEN)).toEqual({
     defaults: ['ie 11', 'ie 10']
   })
-  expect(console.warn).toBeCalled()
+  expect(console.warn).toHaveBeenCalledTimes(1)
 })
 
 it('shows error on key typo', () => {
   expect(() => {
     browserslist.findConfig(TYPO)
-  }).toThrowError(/browserlist/)
+  }).toThrow(/browserlist/)
 })
 
 it('reads from dir wich contains both browserslist and package.json', () => {
   expect(() => {
     browserslist.findConfig(BOTH1)
-  }).toThrowError(/contains both browserslist and package\.json/)
+  }).toThrow(/contains both browserslist and package\.json/)
 })
 
 it('reads from dir wich contains both .browserslistrc and package.json', () => {
   expect(() => {
     browserslist.findConfig(BOTH2)
-  }).toThrowError(/contains both .browserslistrc and package\.json/)
+  }).toThrow(/contains both .browserslistrc and package\.json/)
 })
 
 it('reads from dir wich contains both .browserslistrc and browserslist', () => {
   expect(() => {
     browserslist.findConfig(BOTH3)
-  }).toThrowError(/contains both .browserslistrc and browserslist/)
+  }).toThrow(/contains both .browserslistrc and browserslist/)
 })
 
 it('checks config format', () => {
   expect(() => {
     browserslist.findConfig(WRONG1)
-  }).toThrowError(/Browserslist config should/)
+  }).toThrow(/Browserslist config should/)
   expect(() => {
     browserslist.findConfig(WRONG2)
-  }).toThrowError(/Browserslist config should/)
+  }).toThrow(/Browserslist config should/)
 })
 
 it('reads config with one string', () => {

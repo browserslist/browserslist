@@ -68,15 +68,15 @@ it('accepts mystats to load from custom stats with dataByBrowser', () => {
 it('throws when no custom stats', () => {
   expect(() => {
     browserslist.coverage(['ie 8'], 'my stats')
-  }).toThrowError(/statistics was not provided/)
+  }).toThrow(/statistics was not provided/)
 })
 
 it('loads country usage data from Can I Use', () => {
-  expect(browserslist.coverage(['ie 8', 'ie 9'], 'US') > 0).toBeTruthy()
+  expect(browserslist.coverage(['ie 8', 'ie 9'], 'US') > 0).toBe(true)
 })
 
 it('loads continents usage data from Can I Use', () => {
-  expect(browserslist.coverage(['ie 8', 'ie 9'], 'alt-AS') > 0).toBeTruthy()
+  expect(browserslist.coverage(['ie 8', 'ie 9'], 'alt-AS') > 0).toBe(true)
 })
 
 it('fixes statistics of 0 version', () => {

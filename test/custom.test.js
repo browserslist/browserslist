@@ -14,7 +14,7 @@ afterEach(() => {
 it('throws error on invalid file', () => {
   expect(() => {
     browserslist('', { stats: 'no.json' })
-  }).toThrowError('Can\'t read no.json')
+  }).toThrow('Can\'t read no.json')
 })
 
 it('takes stats file from environment variable', () => {
@@ -54,7 +54,7 @@ it('takes stats from usage data object', async () => {
 
 it('works alongside global usage query', () => {
   let list = browserslist('> 10% in my stats, > 1%', { stats: CUSTOM_STATS })
-  expect(list.length > 1).toBeTruthy()
+  expect(list.length > 1).toBe(true)
 })
 
 it('takes stats from browserslist-stats.json', () => {
@@ -70,5 +70,5 @@ it('normalizes versions', () => {
 it('throws error on no stats', () => {
   expect(() => {
     browserslist('> 5% in my stats')
-  }).toThrowError(/statistics was not provided/)
+  }).toThrow(/statistics was not provided/)
 })

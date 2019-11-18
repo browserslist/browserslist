@@ -32,7 +32,7 @@ it('trims queries', () => {
 })
 
 it('does not accept non-string and non-array parameters', () => {
-  expect(() => browserslist({})).toThrow()
+  expect(() => browserslist({})).toThrow(/an array or string. Got object/)
 })
 
 it('returns unique array', () => {
@@ -79,7 +79,7 @@ it('handles undefined stats and path correctly', () => {
 it('throw a error on wrong path to config', () => {
   expect(() => {
     browserslist(null, { config: IE + '2' })
-  }).toThrowError(/Can't read/)
+  }).toThrow(/Can't read/)
 })
 
 if (!/^win/.test(process.platform)) {
@@ -89,7 +89,7 @@ if (!/^win/.test(process.platform)) {
 }
 
 it('has default selection', () => {
-  expect(browserslist.defaults.length > 0).toBeTruthy()
+  expect(browserslist.defaults.length > 0).toBe(true)
 })
 
 it('uses default selection on empty request and no config', () => {
@@ -111,16 +111,16 @@ it('uses default selection on disabled path', () => {
 it('raises on unknow query', () => {
   expect(() => {
     browserslist('good')
-  }).toThrowError('Unknown browser query `good`')
+  }).toThrow('Unknown browser query `good`')
   expect(() => {
     browserslist('IE === 9')
-  }).toThrowError('Unknown browser query `IE === 9`')
+  }).toThrow('Unknown browser query `IE === 9`')
 })
 
 it('raises on missed version', () => {
   expect(() => {
     browserslist('IE')
-  }).toThrowError('Specify versions in Browserslist query for browser IE')
+  }).toThrow('Specify versions in Browserslist query for browser IE')
 })
 
 it('sorts browsers', () => {
@@ -173,7 +173,7 @@ it('has actual browsers list in docs', () => {
 it('throws error on first exclude query', () => {
   expect(() => {
     browserslist(['not ie 11'])
-  }).toThrowError('Write any browsers query (for instance, `defaults`) ' +
+  }).toThrow('Write any browsers query (for instance, `defaults`) ' +
                     'before `not ie 11`')
 })
 

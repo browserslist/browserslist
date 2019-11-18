@@ -3,7 +3,7 @@ let browserslist = require('../')
 it('selects Firefox ESR', () => {
   let versions = browserslist('Firefox ESR')
   expect(versions.length).toBeGreaterThanOrEqual(1)
-  expect(versions.every(i => /^firefox \d+$/.test(i))).toBeTruthy()
+  expect(versions.every(i => /^firefox \d+$/.test(i))).toBe(true)
 })
 
 it('uses case insensitive aliases', () => {

@@ -11,7 +11,7 @@ it('supports case insensitive Node.js name', () => {
 it('throws on unknown Node.js version', () => {
   expect(() => {
     browserslist('node 3')
-  }).toThrowError(/Unknown version/)
+  }).toThrow(/Unknown version/)
 })
 
 it('return empty array on unknown Node.js version with special flag', () => {
@@ -27,11 +27,11 @@ it('supports selection of Node.js version by major version only', () => {
 })
 
 it('selects maintained Node.js versions', () => {
-  expect(Array.isArray(browserslist('maintained node versions'))).toBeTruthy()
+  expect(Array.isArray(browserslist('maintained node versions'))).toBe(true)
 })
 
 it('supports case insensitive query for maintained Node.js versions', () => {
-  expect(Array.isArray(browserslist('maintained Node versions'))).toBeTruthy()
+  expect(Array.isArray(browserslist('maintained Node versions'))).toBe(true)
 })
 
 it('supports current node version', () => {

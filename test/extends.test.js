@@ -81,23 +81,23 @@ it('throws when external package does not resolve to an array', async () => {
   await mock('browserslist-config-wrong', { not: 'an array' })
   expect(() => {
     browserslist(['extends browserslist-config-wrong'])
-  }).toThrowError(/not an array/)
+  }).toThrow(/not an array/)
 })
 
 it('throws when package does not have browserslist-config- prefix', () => {
   expect(() => {
     browserslist(['extends thing-without-prefix'])
-  }).toThrowError(/needs `browserslist-config-` prefix/)
+  }).toThrow(/needs `browserslist-config-` prefix/)
 })
 
 it('throws when extends package has dot in path', () => {
   expect(() => {
     browserslist(['extends browserslist-config-package/../something'])
-  }).toThrowError(/`.` not allowed/)
+  }).toThrow(/`.` not allowed/)
 })
 
 it('throws when extends package has node_modules in path', () => {
   expect(() => {
     browserslist(['extends browserslist-config-test/node_modules/a'])
-  }).toThrowError(/`node_modules` not allowed/)
+  }).toThrow(/`node_modules` not allowed/)
 })

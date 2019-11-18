@@ -49,7 +49,7 @@ it('uses case insensitive aliases', () => {
 it('raises on unknown browser', () => {
   expect(() => {
     browserslist('unknow > 10')
-  }).toThrowError('Unknown browser unknow')
+  }).toThrow('Unknown browser unknow')
 })
 
 it('works with joined versions from Can I Use', () => {

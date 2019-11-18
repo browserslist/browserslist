@@ -15,7 +15,7 @@ it('supports case insensitive Electron name', () => {
 it('throws on unknown Electron version', () => {
   expect(() => {
     browserslist('electron 0.19')
-  }).toThrowError(/Unknown version/)
+  }).toThrow(/Unknown version/)
 })
 
 it('converts Electron to Chrome in ranges', () => {
@@ -35,10 +35,10 @@ it('supports patch versions in Electron ranges', () => {
 it('throws on unknown Electron range version', () => {
   expect(() => {
     browserslist('electron 0.1-1.2')
-  }).toThrowError(/Unknown version/)
+  }).toThrow(/Unknown version/)
   expect(() => {
     browserslist('electron 0.37-999')
-  }).toThrowError(/Unknown version/)
+  }).toThrow(/Unknown version/)
 })
 
 it('converts Electron versions to Chrome', () => {

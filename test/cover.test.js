@@ -59,5 +59,5 @@ it('throws error on no stats', () => {
   delete process.env.BROWSERSLIST_STATS
   expect(() => {
     browserslist('cover 70% in my stats')
-  }).toThrowError(/statistics was not provided/)
+  }).toThrow(/statistics was not provided/)
 })

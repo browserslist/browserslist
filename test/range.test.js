@@ -27,5 +27,5 @@ it('selects versions with query out of range', () => {
 it('raises on an unknown browser', () => {
   expect(() => {
     browserslist('unknown 4-7')
-  }).toThrowError('Unknown browser unknown')
+  }).toThrow('Unknown browser unknown')
 })
