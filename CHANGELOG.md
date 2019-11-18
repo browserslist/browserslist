@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.7.3
+* Add funding link for `npm fund`.
+
 ## 4.7.2
 * Add cache for query parsing.
 * Improve config caching (by Kārlis Gaņģis).
