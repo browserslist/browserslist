@@ -124,6 +124,41 @@ module.exports = {
     return queries
   },
 
+  loadStat: function loadStat (context, name, data) {
+    if (!context.dangerousExtend) checkExtend(name)
+    // eslint-disable-next-line security/detect-non-literal-require
+    var stats = require(
+      require.resolve(
+        path.join(name, 'browserslist-stats.json'),
+        { paths: ['.'] }
+      )
+    )
+
+    if (stats && 'dataByBrowser' in stats) {
+      stats = stats.dataByBrowser
+    }
+
+    if (typeof stats !== 'object') return undefined
+
+    var normalized = { }
+    for (var i in stats) {
+      var versions = Object.keys(stats[i])
+      if (
+        versions.length === 1 &&
+        data[i] &&
+        data[i].versions.length === 1
+      ) {
+        var normal = Object.keys(data[i].versions)[0]
+        normalized[i] = { }
+        normalized[i][normal] = stats[i][versions[0]]
+      } else {
+        normalized[i] = stats[i]
+      }
+    }
+
+    return normalized
+  },
+
   getStat: function getStat (opts, data) {
     var stats
     if (opts.stats) {
