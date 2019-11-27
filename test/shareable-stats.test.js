@@ -32,7 +32,7 @@ it('takes stats from shareable config', async () => {
   await mock(
     'browserslist-config-test1',
     undefined,
-    { chrome: { 55: 4, 56: 6 } }
+    { dataByBrowser: { chrome: { 55: 4, 56: 6 } } }
   )
   expect(
     browserslist('> 5% in browserslist-config-test1 stats')
@@ -51,35 +51,47 @@ it('takes stats and queries from shareable config', async () => {
 })
 
 it('works with non-prefixed stats with dangerousExtend', async () => {
-  await mock('pkg', undefined, { ie: { 11: 6 } })
+  await mock('pkg', undefined, { and_chr: { 78: 6 } })
   expect(
     browserslist(['> 5% in pkg stats'], { dangerousExtend: true })
-  ).toEqual(['ie 11'])
+  ).toEqual(['and_chr 78'])
 })
 
 it('handles scoped stats with a dot in the name', async () => {
-  await mock('@example.com/browserslist-config', undefined, { ie: { 11: 6 } })
+  await mock(
+    '@example.com/browserslist-config',
+    undefined,
+    { ie: { 8: 5, 11: 4 } }
+  )
   expect(
-    browserslist(['> 5% in @example.com/browserslist-config stats'])
+    browserslist(['< 5% in @example.com/browserslist-config stats'])
   ).toEqual(['ie 11'])
 })
 
 it('handles file in scoped stats', async () => {
-  await mock('@scope/browserslist-config/ie', undefined, { ie: { 11: 6 } })
+  await mock(
+    '@scope/browserslist-config/ie',
+    undefined,
+    { ie: { 8: 2, 11: 5 } }
+  )
   expect(
-    browserslist(['> 5% in @scope/browserslist-config/ie stats'])
+    browserslist(['>= 5% in @scope/browserslist-config/ie stats'])
   ).toEqual(['ie 11'])
 })
 
 it('handles file-less scoped stats', async () => {
-  await mock('@scope/browserslist-config', undefined, { ie: { 11: 6 } })
+  await mock('@scope/browserslist-config', undefined, { ie: { 8: 6, 11: 5 } })
   expect(
-    browserslist(['> 5% in @scope/browserslist-config stats'])
+    browserslist(['<= 5% in @scope/browserslist-config stats'])
   ).toEqual(['ie 11'])
 })
 
 it('handles scoped stats', async () => {
-  await mock('@scope/browserslist-config-test', undefined, { ie: { 11: 6 } })
+  await mock(
+    '@scope/browserslist-config-test',
+    undefined,
+    { ie: { 8: 2, 11: 6 } }
+  )
   expect(
     browserslist(['> 5% in @scope/browserslist-config-test stats'])
   ).toEqual(['ie 11'])
@@ -115,4 +127,15 @@ it('throws when stats has node_modules in path', () => {
   expect(() => {
     browserslist(['> 5% in browserslist-config-test/node_modules/a stats'])
   }).toThrow(/`node_modules` not allowed/)
+})
+
+it('throw if stats undefined', async () => {
+  await mock(
+    'browserslist-config-undefined',
+    undefined,
+    { dataByBrowser: 'not object' }
+  )
+  expect(
+    () => browserslist(['> 5% in browserslist-config-undefined stats'])
+  ).toThrow(/statistics was not provided/)
 })
