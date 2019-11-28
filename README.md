@@ -19,11 +19,9 @@ when you add the following to `package.json`:
 
 ```js
   "browserslist": [
-    "last 2 versions",
-    "> 0.5%",
-    "Firefox ESR",
+    "defaults",
+    "not IE 11",
     "maintained node versions",
-    "not dead"
   ]
 ```
 
@@ -32,11 +30,9 @@ Or in `.browserslistrc` config:
 ```yaml
 # Browsers that we support
 
-last 2 versions
-> 0.5%
-Firefox ESR 
+defaults
+not IE 11
 maintained node versions
-not dead
 ```
 
 Developers set versions list in queries like `last 2 version`
