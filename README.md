@@ -20,7 +20,7 @@ when you add the following to `package.json`:
 ```js
   "browserslist": [
     "last 1 version",
-    "> 1%",
+    "> 0.25%",
     "maintained node versions",
     "not dead"
   ]
@@ -32,7 +32,7 @@ Or in `.browserslistrc` config:
 # Browsers that we support
 
 last 1 version
-> 1%
+> 0.25%
 maintained node versions
 not dead
 ```
@@ -173,6 +173,8 @@ in your terminal._
 
 You can specify the browser and Node.js versions by queries (case insensitive):
 
+* `defaults`: Browserslist’s default browsers
+  (`> 0.5%, last 2 versions, Firefox ESR, not dead`).
 * `> 5%`: browsers versions selected by global usage statistics.
   `>=`, `<` and `<=` work too.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
@@ -207,8 +209,6 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   `Samsung 4` and `OperaMobile 12.1`.
 * `last 2 versions`: the last 2 versions for *each* browser.
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
-* `defaults`: Browserslist’s default browsers
-  (`> 0.5%, last 2 versions, Firefox ESR, not dead`).
 * `not ie <= 8`: exclude browsers selected by previous queries.
 
 You can add `not ` to any query.
