@@ -111,6 +111,32 @@ function latestReleaseTime (agents) {
   return latest * 1000
 }
 
+function normalizeStats (data, stats) {
+  if (stats && 'dataByBrowser' in stats) {
+    stats = stats.dataByBrowser
+  }
+
+  if (typeof stats !== 'object') return undefined
+
+  var normalized = { }
+  for (var i in stats) {
+    var versions = Object.keys(stats[i])
+    if (
+      versions.length === 1 &&
+      data[i] &&
+      data[i].versions.length === 1
+    ) {
+      var normal = Object.keys(data[i].versions)[0]
+      normalized[i] = { }
+      normalized[i][normal] = stats[i][versions[0]]
+    } else {
+      normalized[i] = stats[i]
+    }
+  }
+
+  return normalized
+}
+
 module.exports = {
   loadQueries: function loadQueries (context, name) {
     if (!context.dangerousExtend) checkExtend(name)
@@ -133,30 +159,7 @@ module.exports = {
         { paths: ['.'] }
       )
     )
-
-    if (stats && 'dataByBrowser' in stats) {
-      stats = stats.dataByBrowser
-    }
-
-    if (typeof stats !== 'object') return undefined
-
-    var normalized = { }
-    for (var i in stats) {
-      var versions = Object.keys(stats[i])
-      if (
-        versions.length === 1 &&
-        data[i] &&
-        data[i].versions.length === 1
-      ) {
-        var normal = Object.keys(data[i].versions)[0]
-        normalized[i] = { }
-        normalized[i][normal] = stats[i][versions[0]]
-      } else {
-        normalized[i] = stats[i]
-      }
-    }
-
-    return normalized
+    return normalizeStats(data, stats)
   },
 
   getStat: function getStat (opts, data) {
@@ -171,7 +174,6 @@ module.exports = {
         return isFile(file) ? file : undefined
       })
     }
-
     if (typeof stats === 'string') {
       try {
         stats = JSON.parse(fs.readFileSync(stats))
@@ -179,26 +181,7 @@ module.exports = {
         throw new BrowserslistError('Can\'t read ' + stats)
       }
     }
-
-    if (stats && 'dataByBrowser' in stats) {
-      stats = stats.dataByBrowser
-    }
-
-    if (typeof stats !== 'object') return undefined
-
-    var normalized = { }
-    for (var i in stats) {
-      var versions = Object.keys(stats[i])
-      if (versions.length === 1 && data[i] && data[i].versions.length === 1) {
-        var normal = Object.keys(data[i].versions)[0]
-        normalized[i] = { }
-        normalized[i][normal] = stats[i][versions[0]]
-      } else {
-        normalized[i] = stats[i]
-      }
-    }
-
-    return normalized
+    return normalizeStats(data, stats)
   },
 
   loadConfig: function loadConfig (opts) {
