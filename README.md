@@ -37,7 +37,7 @@ maintained node versions
 
 Developers set versions list in queries like `last 2 version`
 to be free from updating versions manually.
-Browserslist will use [Can I Use] data for this queries.
+Browserslist will use [`caniuse-lite`] with [Can I Use] data for this queries.
 
 Browserslist will take queries from tool option,
 `browserslist` config, `.browserslistrc` config,
@@ -58,6 +58,7 @@ Browserslist will take queries from tool option,
 [Browserslist Example]:                      https://github.com/browserslist/browserslist-example
 [postcss-preset-env]:                        https://github.com/jonathantneal/postcss-preset-env
 [postcss-normalize]:                         https://github.com/jonathantneal/postcss-normalize
+[`caniuse-lite`]:                            https://github.com/ben-eb/caniuse-lite
 [Autoprefixer]:                              https://github.com/postcss/autoprefixer
 [Can I Use]:                                 https://caniuse.com/
 [Babel]:                                     https://github.com/babel/babel/tree/master/packages/babel-preset-env
