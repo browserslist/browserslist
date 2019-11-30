@@ -686,6 +686,41 @@ var QUERIES = [
     }
   },
   {
+    regexp: /^(>=?|<=?)\s*(\d*\.?\d+)%\s+in\s+(\S+)\s+stats$/,
+    select: function (context, sign, popularity, name) {
+      popularity = parseFloat(popularity)
+      var stats = env.loadStat(context, name, browserslist.data)
+      if (stats) {
+        context.customUsage = { }
+        for (var browser in stats) {
+          fillUsage(context.customUsage, browser, stats[browser])
+        }
+      }
+      if (!context.customUsage) {
+        throw new BrowserslistError('Custom usage statistics was not provided')
+      }
+      var usage = context.customUsage
+      return Object.keys(usage).reduce(function (result, version) {
+        if (sign === '>') {
+          if (usage[version] > popularity) {
+            result.push(version)
+          }
+        } else if (sign === '<') {
+          if (usage[version] < popularity) {
+            result.push(version)
+          }
+        } else if (sign === '<=') {
+          if (usage[version] <= popularity) {
+            result.push(version)
+          }
+        } else if (usage[version] >= popularity) {
+          result.push(version)
+        }
+        return result
+      }, [])
+    }
+  },
+  {
     regexp: /^(>=?|<=?)\s*(\d*\.?\d+)%\s+in\s+((alt-)?\w\w)$/,
     select: function (context, sign, popularity, place) {
       popularity = parseFloat(popularity)

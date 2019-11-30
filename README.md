@@ -179,6 +179,8 @@ You can specify the browser and Node.js versions by queries (case insensitive):
 * `> 5% in alt-AS`: uses Asia region usage statistics. List of all region codes
   can be found at [`caniuse-lite/data/regions`].
 * `> 5% in my stats`: uses [custom usage data].
+* `> 5% in browserslist-config-mycompany stats`: uses [custom usage data]
+  from `browserslist-config-mycompany/browserslist-stats.json`.
 * `cover 99.5%`: most popular browsers that provide coverage.
 * `cover 99.5% in US`: same as above, with [two-letter country code].
 * `cover 99.5% in my stats`: uses [custom usage data].
@@ -354,6 +356,10 @@ module.exports = [
   'ie 10'
 ]
 ```
+
+You can also include a `browserslist-stats.json` file as part of your shareable
+config at the root and query it using `> 5% in browserslist-config-mycompany stats`.
+It uses the same format as `extends` and the `dangerousExtend` property as above.
 
 
 ## Configuring for Different Environments
