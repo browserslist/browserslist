@@ -383,8 +383,8 @@ function parse (queries) {
 }
 
 function doMatch (string, qs) {
-  var or = /^(?:,\s*|\s+OR\s+)(.*)/i
-  var and = /^\s+AND\s+(.*)/i
+  var or = /^(?:,\s*|\s+or\s+)(.*)/i
+  var and = /^\s+and\s+(.*)/i
 
   return find(string, function (parsed, n, max) {
     if (and.test(parsed)) {

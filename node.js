@@ -4,7 +4,7 @@ var fs = require('fs')
 
 var BrowserslistError = require('./error')
 
-var IS_SECTION = /^\s*\[(.+)\]\s*$/
+var IS_SECTION = /^\s*\[(.+)]\s*$/
 var CONFIG_PATTERN = /^browserslist-config-/
 var SCOPED_CONFIG__PATTERN = /@[^/]+\/browserslist-config(-|$|\/)/
 var TIME_TO_UPDATE_CANIUSE = 6 * 30 * 24 * 60 * 60 * 1000
