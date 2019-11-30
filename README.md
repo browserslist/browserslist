@@ -110,18 +110,22 @@ Browserslist will take queries from tool option,
       "defaults"
     ]
   ```
+
 * If you want to change the default set of browsers we recommend to combine
   `last 2 versions`, `not dead` with a usage number like `> 0.2%`. This is
   because `last n versions` on its own does not add popular old versions while
-  only using a percentage above `0.2%` will in the long run make popular browsers
-  even more popular. We might run into a monopoly and stagnation situation, as
-  we had with Internet Explorer 6. Please use this setting with caution.
+  only using a percentage above `0.2%` will in the long run make popular
+  browsers even more popular. We might run into a monopoly and stagnation
+  situation, as we had with Internet Explorer 6. Please use this setting
+  with caution.
 * Select browsers directly (`last 2 Chrome versions`) only if you are making
   a web app for a kiosk with one browser. There are a lot of browsers
-  on the market. If you are making general web app you should respect browsers diversity.
+  on the market. If you are making general web app you should respect
+  browsers diversity.
 * Don’t remove browsers just because you don’t know them. Opera Mini has
-  100 million users in Africa and it is more popular in the global market than Microsoft
-  Edge. Chinese QQ Browsers has more market share than Firefox and desktop Safari combined.
+  100 million users in Africa and it is more popular in the global market
+  than Microsoft Edge. Chinese QQ Browsers has more market share than Firefox
+  and desktop Safari combined.
 
 
 ## Queries
