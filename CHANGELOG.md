@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.8
+* Add `> 5% in browserslist-config-my stats` query (by Andrew Leedham).
+* Improve docs (by Danny van Kooten).
+
 ## 4.7.3
 * Add funding link for `npm fund`.
 
