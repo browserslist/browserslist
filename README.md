@@ -21,6 +21,7 @@ when you add the following to `package.json`:
   "browserslist": [
     "defaults",
     "not IE 11",
+    "not IE_Mob 11",
     "maintained node versions",
   ]
 ```
@@ -32,6 +33,7 @@ Or in `.browserslistrc` config:
 
 defaults
 not IE 11
+not IE_Mob 11
 maintained node versions
 ```
 
