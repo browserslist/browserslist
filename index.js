@@ -825,8 +825,8 @@ var QUERIES = [
     regexp: /^(\w+)\s+([\d.]+)\s*-\s*([\d.]+)$/i,
     select: function (context, name, from, to) {
       var data = checkName(name, context)
-      from = parseFloat(normalizeVersion(data, from, context) || from)
-      to = parseFloat(normalizeVersion(data, to, context) || to)
+      from = parseFloat(normalizeVersion(data, from) || from)
+      to = parseFloat(normalizeVersion(data, to) || to)
       function filter (v) {
         var parsed = parseFloat(v)
         return parsed >= from && parsed <= to
@@ -956,7 +956,7 @@ var QUERIES = [
     select: function (context, name, version) {
       if (/^tp$/i.test(version)) version = 'TP'
       var data = checkName(name, context)
-      var alias = normalizeVersion(data, version, context)
+      var alias = normalizeVersion(data, version)
       if (alias) {
         version = alias
       } else {
@@ -965,7 +965,7 @@ var QUERIES = [
         } else {
           alias = version.replace(/\.0$/, '')
         }
-        alias = normalizeVersion(data, alias, context)
+        alias = normalizeVersion(data, alias)
         if (alias) {
           version = alias
         } else if (context.ignoreUnknownVersions) {
