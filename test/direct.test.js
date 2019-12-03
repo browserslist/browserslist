@@ -59,6 +59,10 @@ it('supports Can I Use missing mobile versions', () => {
   expect(browserslist('and_ff 60', opts)).toEqual(['and_ff 60'])
   expect(browserslist('ie_mob 9', opts)).toEqual(['ie_mob 9'])
   expect(browserslist('op_mob 30', opts)).toEqual(['op_mob 30'])
+  expect(browserslist('chromeandroid >= 52 and chromeandroid < 54', opts))
+    .toEqual(['and_chr 53', 'and_chr 52'])
+  expect(browserslist('and_chr 52-53', opts))
+    .toEqual(['and_chr 53', 'and_chr 52'])
 })
 
 it('missing mobile versions are not aliased by default', () => {
