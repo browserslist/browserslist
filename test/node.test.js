@@ -55,6 +55,9 @@ it('supports comparison operator', () => {
     'node 4.1.0',
     'node 4.0.0',
 
+    'node 0.12.0',
+    'node 0.11.0',
+    'node 0.10.0',
     'node 0.9.0',
     'node 0.8.0',
     'node 0.7.0',
@@ -62,10 +65,7 @@ it('supports comparison operator', () => {
     'node 0.5.0',
     'node 0.4.0',
     'node 0.3.0',
-    'node 0.2.0',
-    'node 0.12.0',
-    'node 0.11.0',
-    'node 0.10.0'
+    'node 0.2.0'
   ])
 
   expect(browserslist('node < 5')).toEqual([
@@ -80,6 +80,9 @@ it('supports comparison operator', () => {
     'node 4.1.0',
     'node 4.0.0',
 
+    'node 0.12.0',
+    'node 0.11.0',
+    'node 0.10.0',
     'node 0.9.0',
     'node 0.8.0',
     'node 0.7.0',
@@ -87,10 +90,7 @@ it('supports comparison operator', () => {
     'node 0.5.0',
     'node 0.4.0',
     'node 0.3.0',
-    'node 0.2.0',
-    'node 0.12.0',
-    'node 0.11.0',
-    'node 0.10.0'
+    'node 0.2.0'
   ])
 
   expect(browserslist('Node <= 5')).toHaveLength(22)

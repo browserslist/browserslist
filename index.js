@@ -7,7 +7,7 @@ var e2c = require('electron-to-chromium/versions')
 var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
 
-var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
+var FLOAT_RANGE = /^\d+(\.\d+){0,2}?(-\d+(\.\d+){0,2}?)*$/
 var YEAR = 365.259641 * 24 * 60 * 60 * 1000
 
 var QUERY_OR = 1
@@ -138,9 +138,9 @@ function compare (a, b) {
 
 function compareSemver (a, b) {
   return (
-    compare(a[0], b[0]) ||
-    compare(a[1], b[1]) ||
-    compare(a[2], b[2])
+    compare(parseInt(a[0]), parseInt(b[0])) ||
+    compare(parseInt(a[1] || '0'), parseInt(b[1] || '0')) ||
+    compare(parseInt(a[2] || '0'), parseInt(b[2] || '0'))
   )
 }
 
@@ -399,11 +399,13 @@ function browserslist (queries, opts) {
     name1 = name1.split(' ')
     name2 = name2.split(' ')
     if (name1[0] === name2[0]) {
-      if (FLOAT_RANGE.test(name1[1]) && FLOAT_RANGE.test(name2[1])) {
-        return parseFloat(name2[1]) - parseFloat(name1[1])
-      } else {
-        return compare(name2[1], name1[1])
-      }
+      // here we assume that caniuse version ranges never overlaps,
+      // so it is safe to use the left of the range
+      // eslint-disable-next-line max-len
+      var version1 = FLOAT_RANGE.test(name1[1]) ? name1[1].split('-')[0] : name1[1]
+      // eslint-disable-next-line max-len
+      var version2 = FLOAT_RANGE.test(name2[1]) ? name2[1].split('-')[0] : name2[1]
+      return compareSemver(version2.split('.'), version1.split('.'))
     } else {
       return compare(name1[0], name2[0])
     }
