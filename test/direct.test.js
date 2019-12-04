@@ -63,6 +63,8 @@ it('supports Can I Use missing mobile versions', () => {
     .toEqual(['and_chr 53', 'and_chr 52'])
   expect(browserslist('and_chr 52-53', opts))
     .toEqual(['and_chr 53', 'and_chr 52'])
+  expect(browserslist('android 4.4-38', opts))
+    .toEqual(['android 38', 'android 37', 'android 4.4.3-4.4.4', 'android 4.4'])
 })
 
 it('missing mobile versions are not aliased by default', () => {
