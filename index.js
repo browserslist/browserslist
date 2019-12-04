@@ -154,16 +154,8 @@ function resolveVersion (data, version) {
   }
 }
 
-function normalizeVersion (data, version, context) {
+function normalizeVersion (data, version) {
   var resolved = resolveVersion(data, version)
-  if (
-    !resolved &&
-    context.mobileToDesktop &&
-    browserslist.desktopNames[data.name]
-  ) {
-    var alias = checkName(browserslist.desktopNames[data.name])
-    resolved = resolveVersion(alias, version)
-  }
   if (resolved) {
     return resolved
   } else if (data.versions.length === 1) {
@@ -173,10 +165,10 @@ function normalizeVersion (data, version, context) {
   }
 }
 
-function filterByYear (since) {
+function filterByYear (since, context) {
   since = since / 1000
   return Object.keys(agents).reduce(function (selected, name) {
-    var data = byName(name)
+    var data = byName(name, context)
     if (!data) return selected
     var versions = Object.keys(data.releaseDate).filter(function (v) {
       return data.releaseDate[v] >= since
@@ -185,14 +177,30 @@ function filterByYear (since) {
   }, [])
 }
 
-function byName (name) {
+function replaceDataName (data, name) {
+  return {
+    name: name,
+    versions: data.versions,
+    released: data.released,
+    releaseData: data.releaseDate
+  }
+}
+
+function byName (name, context) {
   name = name.toLowerCase()
   name = browserslist.aliases[name] || name
+  if (context.mobileToDesktop &&
+    browserslist.desktopNames[name]) {
+    return replaceDataName(
+      browserslist.data[browserslist.desktopNames[name]],
+      name
+    )
+  }
   return browserslist.data[name]
 }
 
-function checkName (name) {
-  var data = byName(name)
+function checkName (name, context) {
+  var data = byName(name, context)
   if (!data) throw new BrowserslistError('Unknown browser ' + name)
   return data
 }
@@ -252,7 +260,7 @@ function resolve (queries, context) {
         var array = type.select.apply(browserslist, args).map(function (j) {
           var parts = j.split(' ')
           if (parts[1] === '0') {
-            return parts[0] + ' ' + byName(parts[0]).versions[0]
+            return parts[0] + ' ' + byName(parts[0], context).versions[0]
           } else {
             return j
           }
@@ -530,7 +538,7 @@ var QUERIES = [
     regexp: /^last\s+(\d+)\s+major\s+versions?$/i,
     select: function (context, versions) {
       return Object.keys(agents).reduce(function (selected, name) {
-        var data = byName(name)
+        var data = byName(name, context)
         if (!data) return selected
         var list = getMajorVersions(data.released, versions)
         list = list.map(nameMapper(data.name))
@@ -543,7 +551,7 @@ var QUERIES = [
     regexp: /^last\s+(\d+)\s+versions?$/i,
     select: function (context, versions) {
       return Object.keys(agents).reduce(function (selected, name) {
-        var data = byName(name)
+        var data = byName(name, context)
         if (!data) return selected
         var list = data.released.slice(-versions)
         list = list.map(nameMapper(data.name))
@@ -564,7 +572,7 @@ var QUERIES = [
   {
     regexp: /^last\s+(\d+)\s+(\w+)\s+major\s+versions?$/i,
     select: function (context, versions, name) {
-      var data = checkName(name)
+      var data = checkName(name, context)
       var validVersions = getMajorVersions(data.released, versions)
       var list = validVersions.map(nameMapper(data.name))
       if (data.name === 'android') list = filterAndroid(list, versions)
@@ -582,7 +590,7 @@ var QUERIES = [
   {
     regexp: /^last\s+(\d+)\s+(\w+)\s+versions?$/i,
     select: function (context, versions, name) {
-      var data = checkName(name)
+      var data = checkName(name, context)
       var list = data.released.slice(-versions).map(nameMapper(data.name))
       if (data.name === 'android') list = filterAndroid(list, versions)
       return list
@@ -590,9 +598,9 @@ var QUERIES = [
   },
   {
     regexp: /^unreleased\s+versions$/i,
-    select: function () {
+    select: function (context) {
       return Object.keys(agents).reduce(function (selected, name) {
-        var data = byName(name)
+        var data = byName(name, context)
         if (!data) return selected
         var list = data.versions.filter(function (v) {
           return data.released.indexOf(v) === -1
@@ -611,7 +619,7 @@ var QUERIES = [
   {
     regexp: /^unreleased\s+(\w+)\s+versions?$/i,
     select: function (context, name) {
-      var data = checkName(name)
+      var data = checkName(name, context)
       return data.versions.filter(function (v) {
         return data.released.indexOf(v) === -1
       }).map(nameMapper(data.name))
@@ -620,7 +628,7 @@ var QUERIES = [
   {
     regexp: /^last\s+(\d*.?\d+)\s+years?$/i,
     select: function (context, years) {
-      return filterByYear(Date.now() - YEAR * years)
+      return filterByYear(Date.now() - YEAR * years, context)
     }
   },
   {
@@ -629,7 +637,7 @@ var QUERIES = [
       year = parseInt(year)
       month = parseInt(month || '01') - 1
       date = parseInt(date || '01')
-      return filterByYear(Date.UTC(year, month, date, 0, 0, 0))
+      return filterByYear(Date.UTC(year, month, date, 0, 0, 0), context)
     }
   },
   {
@@ -816,9 +824,9 @@ var QUERIES = [
   {
     regexp: /^(\w+)\s+([\d.]+)\s*-\s*([\d.]+)$/i,
     select: function (context, name, from, to) {
-      var data = checkName(name)
-      from = parseFloat(normalizeVersion(data, from, context) || from)
-      to = parseFloat(normalizeVersion(data, to, context) || to)
+      var data = checkName(name, context)
+      from = parseFloat(normalizeVersion(data, from) || from)
+      to = parseFloat(normalizeVersion(data, to) || to)
       function filter (v) {
         var parsed = parseFloat(v)
         return parsed >= from && parsed <= to
@@ -855,7 +863,7 @@ var QUERIES = [
   {
     regexp: /^(\w+)\s*(>=?|<=?)\s*([\d.]+)$/,
     select: function (context, name, sign, version) {
-      var data = checkName(name)
+      var data = checkName(name, context)
       var alias = browserslist.versionAliases[data.name][version]
       if (alias) {
         version = alias
@@ -947,8 +955,8 @@ var QUERIES = [
     regexp: /^(\w+)\s+(tp|[\d.]+)$/i,
     select: function (context, name, version) {
       if (/^tp$/i.test(version)) version = 'TP'
-      var data = checkName(name)
-      var alias = normalizeVersion(data, version, context)
+      var data = checkName(name, context)
+      var alias = normalizeVersion(data, version)
       if (alias) {
         version = alias
       } else {
@@ -957,7 +965,7 @@ var QUERIES = [
         } else {
           alias = version.replace(/\.0$/, '')
         }
-        alias = normalizeVersion(data, alias, context)
+        alias = normalizeVersion(data, alias)
         if (alias) {
           version = alias
         } else if (context.ignoreUnknownVersions) {
@@ -997,7 +1005,7 @@ var QUERIES = [
   {
     regexp: /^(\w+)$/i,
     select: function (context, name) {
-      if (byName(name)) {
+      if (byName(name, context)) {
         throw new BrowserslistError(
           'Specify versions in Browserslist query for browser ' + name)
       } else {
