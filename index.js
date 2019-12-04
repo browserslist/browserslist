@@ -210,7 +210,7 @@ function normalizeAndroidVersions (androidVersions, chromeVersions) {
   var firstEvergreen = 37
   var last = chromeVersions[chromeVersions.length - 1]
   return androidVersions
-    .filter(function (version) { return /^[2-4]\.|3|4/.test(version) })
+    .filter(function (version) { return /^(?:[2-4]\.|[34]$)/.test(version) })
     .concat(chromeVersions.slice(firstEvergreen - last - 1))
 }
 
