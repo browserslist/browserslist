@@ -29,7 +29,8 @@ beforeEach(() => {
     },
     android: {
       name: 'android',
-      released: ['4.4', '4.4.3-4.4.4', '39']
+      released: ['4.4', '4.4.3-4.4.4', '39'],
+      versions: ['4.4', '4.4.3-4.4.4', '39']
     }
   }
 })
@@ -76,5 +77,12 @@ it('selects versions of a single browser', () => {
   ])
   expect(browserslist('last 2 android major versions')).toEqual([
     'android 39'
+  ])
+})
+
+it('supports Can I Use missing mobile versions', () => {
+  let opts = { mobileToDesktop: true }
+  expect(browserslist('last 2 android major versions', opts)).toEqual([
+    'android 39', 'android 38'
   ])
 })
