@@ -8,7 +8,7 @@ var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
 
 var YEAR = 365.259641 * 24 * 60 * 60 * 1000
-var ANDROID_EVERFIRST_GREEN = 37
+var ANDROID_EVERGREEN_FIRST = 37
 
 var QUERY_OR = 1
 var QUERY_AND = 2
@@ -207,7 +207,7 @@ function byName (name, context) {
 }
 
 function normalizeAndroidVersions (androidVersions, chromeVersions) {
-  var firstEvergreen = ANDROID_EVERFIRST_GREEN
+  var firstEvergreen = ANDROID_EVERGREEN_FIRST
   var last = chromeVersions[chromeVersions.length - 1]
   return androidVersions
     .filter(function (version) { return /^(?:[2-4]\.|[34]$)/.test(version) })
@@ -246,7 +246,7 @@ function filterAndroid (list, versions, context) {
     return list
   }
   var released = browserslist.data.android.released
-  var firstEvergreen = ANDROID_EVERFIRST_GREEN
+  var firstEvergreen = ANDROID_EVERGREEN_FIRST
   var last = released[released.length - 1]
   var diff = last - firstEvergreen - versions // First Android Evergreen
   if (diff > 0) {
