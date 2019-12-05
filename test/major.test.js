@@ -29,7 +29,8 @@ beforeEach(() => {
     },
     android: {
       name: 'android',
-      released: ['4.4', '4.4.3-4.4.4', '67']
+      released: ['4.4', '4.4.3-4.4.4', '39'],
+      versions: ['4.4', '4.4.3-4.4.4', '39']
     }
   }
 })
@@ -40,7 +41,7 @@ afterEach(() => {
 
 it('selects versions of each browser', () => {
   expect(browserslist('last 2 major versions')).toEqual([
-    'android 67',
+    'android 39',
     'bb 10',
     'chrome 39',
     'chrome 38',
@@ -54,13 +55,13 @@ it('selects versions of each browser', () => {
 
 it('supports pluralization', () => {
   expect(browserslist('last 1 major version')).toEqual([
-    'android 67', 'bb 10', 'chrome 39', 'edge 12', 'ie 11'
+    'android 39', 'bb 10', 'chrome 39', 'edge 12', 'ie 11'
   ])
 })
 
 it('is case insensitive', () => {
   expect(browserslist('Last 01 MaJoR Version')).toEqual([
-    'android 67', 'bb 10', 'chrome 39', 'edge 12', 'ie 11'
+    'android 39', 'bb 10', 'chrome 39', 'edge 12', 'ie 11'
   ])
 })
 
@@ -75,6 +76,13 @@ it('selects versions of a single browser', () => {
     'chrome 39', 'chrome 38', 'chrome 37'
   ])
   expect(browserslist('last 2 android major versions')).toEqual([
-    'android 67'
+    'android 39'
+  ])
+})
+
+it('supports Can I Use missing mobile versions', () => {
+  let opts = { mobileToDesktop: true }
+  expect(browserslist('last 2 android major versions', opts)).toEqual([
+    'android 39', 'android 38'
   ])
 })

@@ -7,8 +7,8 @@ var e2c = require('electron-to-chromium/versions')
 var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
 
-var FLOAT_RANGE = /^\d+(\.\d+)?(-\d+(\.\d+)?)*$/
 var YEAR = 365.259641 * 24 * 60 * 60 * 1000
+var ANDROID_EVERGREEN_FIRST = 37
 
 var QUERY_OR = 1
 var QUERY_AND = 2
@@ -138,9 +138,9 @@ function compare (a, b) {
 
 function compareSemver (a, b) {
   return (
-    compare(a[0], b[0]) ||
-    compare(a[1], b[1]) ||
-    compare(a[2], b[2])
+    compare(parseInt(a[0]), parseInt(b[0])) ||
+    compare(parseInt(a[1] || '0'), parseInt(b[1] || '0')) ||
+    compare(parseInt(a[2] || '0'), parseInt(b[2] || '0'))
   )
 }
 
@@ -177,9 +177,9 @@ function filterByYear (since, context) {
   }, [])
 }
 
-function replaceDataName (data, name) {
+function cloneData (data) {
   return {
-    name: name,
+    name: data.name,
     versions: data.versions,
     released: data.released,
     releaseData: data.releaseDate
@@ -191,12 +191,40 @@ function byName (name, context) {
   name = browserslist.aliases[name] || name
   if (context.mobileToDesktop &&
     browserslist.desktopNames[name]) {
-    return replaceDataName(
-      browserslist.data[browserslist.desktopNames[name]],
-      name
-    )
+    var desktopData =
+      browserslist.data[browserslist.desktopNames[name]]
+    if (name === 'android') {
+      return normalizeAndroidData(cloneData(
+        browserslist.data[name]
+      ), desktopData)
+    } else {
+      var cloned = cloneData(desktopData)
+      cloned.name = name
+      return cloned
+    }
   }
   return browserslist.data[name]
+}
+
+function normalizeAndroidVersions (androidVersions, chromeVersions) {
+  var firstEvergreen = ANDROID_EVERGREEN_FIRST
+  var last = chromeVersions[chromeVersions.length - 1]
+  return androidVersions
+    .filter(function (version) { return /^(?:[2-4]\.|[34]$)/.test(version) })
+    .concat(chromeVersions.slice(firstEvergreen - last - 1))
+}
+
+function normalizeAndroidData (
+  androidData,
+  chromeData
+) {
+  androidData.released = normalizeAndroidVersions(
+    androidData.released,
+    chromeData.released)
+  androidData.versions = normalizeAndroidVersions(
+    androidData.versions,
+    chromeData.versions)
+  return androidData
 }
 
 function checkName (name, context) {
@@ -212,9 +240,13 @@ function unknownQuery (query) {
   )
 }
 
-function filterAndroid (list, versions) {
+function filterAndroid (list, versions, context) {
+  // todo: remove filterAndroid when mobileToDesktop defaults to true
+  if (context.mobileToDesktop) {
+    return list
+  }
   var released = browserslist.data.android.released
-  var firstEvergreen = 37
+  var firstEvergreen = ANDROID_EVERGREEN_FIRST
   var last = released[released.length - 1]
   var diff = last - firstEvergreen - versions // First Android Evergreen
   if (diff > 0) {
@@ -367,11 +399,12 @@ function browserslist (queries, opts) {
     name1 = name1.split(' ')
     name2 = name2.split(' ')
     if (name1[0] === name2[0]) {
-      if (FLOAT_RANGE.test(name1[1]) && FLOAT_RANGE.test(name2[1])) {
-        return parseFloat(name2[1]) - parseFloat(name1[1])
-      } else {
-        return compare(name2[1], name1[1])
-      }
+      // assumptions on caniuse data
+      // 1) version ranges never overlaps
+      // 2) if version is not a range, it never contains `-`
+      var version1 = name1[1].split('-')[0]
+      var version2 = name2[1].split('-')[0]
+      return compareSemver(version2.split('.'), version1.split('.'))
     } else {
       return compare(name1[0], name2[0])
     }
@@ -463,7 +496,9 @@ browserslist.desktopNames = {
   and_chr: 'chrome',
   and_ff: 'firefox',
   ie_mob: 'ie',
-  op_mob: 'opera'
+  op_mob: 'opera',
+  // Android has extra processing logic compared to browsers above
+  android: 'chrome'
 }
 
 // Aliases to work with joined versions like `ios_saf 7.0-7.1`
@@ -542,7 +577,9 @@ var QUERIES = [
         if (!data) return selected
         var list = getMajorVersions(data.released, versions)
         list = list.map(nameMapper(data.name))
-        if (data.name === 'android') list = filterAndroid(list, versions)
+        if (data.name === 'android') {
+          list = filterAndroid(list, versions, context)
+        }
         return selected.concat(list)
       }, [])
     }
@@ -555,7 +592,9 @@ var QUERIES = [
         if (!data) return selected
         var list = data.released.slice(-versions)
         list = list.map(nameMapper(data.name))
-        if (data.name === 'android') list = filterAndroid(list, versions)
+        if (data.name === 'android') {
+          list = filterAndroid(list, versions, context)
+        }
         return selected.concat(list)
       }, [])
     }
@@ -575,7 +614,9 @@ var QUERIES = [
       var data = checkName(name, context)
       var validVersions = getMajorVersions(data.released, versions)
       var list = validVersions.map(nameMapper(data.name))
-      if (data.name === 'android') list = filterAndroid(list, versions)
+      if (data.name === 'android') {
+        list = filterAndroid(list, versions, context)
+      }
       return list
     }
   },
@@ -592,7 +633,9 @@ var QUERIES = [
     select: function (context, versions, name) {
       var data = checkName(name, context)
       var list = data.released.slice(-versions).map(nameMapper(data.name))
-      if (data.name === 'android') list = filterAndroid(list, versions)
+      if (data.name === 'android') {
+        list = filterAndroid(list, versions, context)
+      }
       return list
     }
   },
