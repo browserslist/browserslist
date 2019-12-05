@@ -1013,8 +1013,8 @@ var QUERIES = [
   },
   {
     regexp: /^defaults$/i,
-    select: function () {
-      return browserslist(browserslist.defaults)
+    select: function (context) {
+      return resolve(browserslist.defaults, context)
     }
   },
   {
