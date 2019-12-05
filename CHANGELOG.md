@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.8.2
+* Fix `Cannot convert undefined or null to object` (by Antoine Clausse).
+* Fix `mobileToDesktop` in `defaults` (by Huáng Jùnliàng).
+
 ## 4.8.1
 * Fix Chrome and `mobileToDesktop` (by Huáng Jùnliàng).
 
