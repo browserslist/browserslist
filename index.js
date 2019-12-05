@@ -182,7 +182,7 @@ function cloneData (data) {
     name: data.name,
     versions: data.versions,
     released: data.released,
-    releaseData: data.releaseDate
+    releaseDate: data.releaseDate
   }
 }
 
