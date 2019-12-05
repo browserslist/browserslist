@@ -11,8 +11,7 @@ beforeEach(() => {
     },
     android: {
       name: 'android',
-      released: ['4.2-4.3', '4.4',
-        '4.4.3-4.4.4', '37'],
+      released: ['4.2-4.3', '4.4', '4.4.3-4.4.4', '37'],
       versions: ['4.2-4.3', '4.4', '4.4.3-4.4.4', '37']
     }
   }
@@ -31,10 +30,9 @@ it('selects versions with query out of range', () => {
 })
 
 it('selects a range of android browsers', () => {
-  expect(browserslist('android 4.3-37'))
-    .toEqual([
-      'android 37', 'android 4.4.3-4.4.4', 'android 4.4', 'android 4.2-4.3'
-    ])
+  expect(browserslist('android 4.3-37')).toEqual([
+    'android 37', 'android 4.4.3-4.4.4', 'android 4.4', 'android 4.2-4.3'
+  ])
 })
 
 it('raises on an unknown browser', () => {
