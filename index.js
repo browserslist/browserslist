@@ -189,16 +189,12 @@ function cloneData (data) {
 function byName (name, context) {
   name = name.toLowerCase()
   name = browserslist.aliases[name] || name
-  if (context.mobileToDesktop &&
-    browserslist.desktopNames[name]) {
-    var desktopData =
-      browserslist.data[browserslist.desktopNames[name]]
+  if (context.mobileToDesktop && browserslist.desktopNames[name]) {
+    var desktop = browserslist.data[browserslist.desktopNames[name]]
     if (name === 'android') {
-      return normalizeAndroidData(cloneData(
-        browserslist.data[name]
-      ), desktopData)
+      return normalizeAndroidData(cloneData(browserslist.data[name]), desktop)
     } else {
-      var cloned = cloneData(desktopData)
+      var cloned = cloneData(desktop)
       cloned.name = name
       return cloned
     }
@@ -214,17 +210,10 @@ function normalizeAndroidVersions (androidVersions, chromeVersions) {
     .concat(chromeVersions.slice(firstEvergreen - last - 1))
 }
 
-function normalizeAndroidData (
-  androidData,
-  chromeData
-) {
-  androidData.released = normalizeAndroidVersions(
-    androidData.released,
-    chromeData.released)
-  androidData.versions = normalizeAndroidVersions(
-    androidData.versions,
-    chromeData.versions)
-  return androidData
+function normalizeAndroidData (android, chrome) {
+  android.released = normalizeAndroidVersions(android.released, chrome.released)
+  android.versions = normalizeAndroidVersions(android.versions, chrome.versions)
+  return android
 }
 
 function checkName (name, context) {
@@ -241,14 +230,10 @@ function unknownQuery (query) {
 }
 
 function filterAndroid (list, versions, context) {
-  // todo: remove filterAndroid when mobileToDesktop defaults to true
-  if (context.mobileToDesktop) {
-    return list
-  }
+  if (context.mobileToDesktop) return list
   var released = browserslist.data.android.released
-  var firstEvergreen = ANDROID_EVERGREEN_FIRST
   var last = released[released.length - 1]
-  var diff = last - firstEvergreen - versions // First Android Evergreen
+  var diff = last - ANDROID_EVERGREEN_FIRST - versions
   if (diff > 0) {
     return list.slice(-1)
   } else {
@@ -497,8 +482,7 @@ browserslist.desktopNames = {
   and_ff: 'firefox',
   ie_mob: 'ie',
   op_mob: 'opera',
-  // Android has extra processing logic compared to browsers above
-  android: 'chrome'
+  android: 'chrome' // has extra processing logic
 }
 
 // Aliases to work with joined versions like `ios_saf 7.0-7.1`
