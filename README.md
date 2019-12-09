@@ -81,6 +81,8 @@ Browserslist will take queries from tool option,
 
 ## Tools
 
+* [`browserl.ist`](https://browserl.ist/) is an online tool to check
+  what browsers will be selected by some query.
 * [`browserslist-ga`] and [`browserslist-ga-export`] download your website
   browsers statistics to use it in `> 0.5% in my stats` query.
 * [`browserslist-useragent-regexp`] compiles Browserslist query to a RegExp
