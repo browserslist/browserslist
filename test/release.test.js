@@ -117,7 +117,7 @@ it('shows warning', () => {
   browserslist('last 2 versions')
   expect(console.warn).toHaveBeenCalledWith(
     'Browserslist: caniuse-lite is outdated. ' +
-    'Please run next command `npm update`'
+    'Please run the following command: `npm update`'
   )
 })
 
@@ -146,6 +146,6 @@ it('detects yarn', () => {
   browserslist('last 2 versions')
   expect(console.warn).toHaveBeenCalledWith(
     'Browserslist: caniuse-lite is outdated. ' +
-    'Please run next command `yarn upgrade`'
+    'Please run the following command: `yarn upgrade`'
   )
 })
