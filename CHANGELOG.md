@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.8.3
+* Fix warning message (by Anton Ivanov).
+
 ## 4.8.2
 * Fix `Cannot convert undefined or null to object` (by Antoine Clausse).
 * Fix `mobileToDesktop` in `defaults` (by Huáng Jùnliàng).
