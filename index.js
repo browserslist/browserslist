@@ -1021,7 +1021,8 @@ var QUERIES = [
     regexp: /^dead$/i,
     select: function (context) {
       var dead = [
-        'ie <= 10', 'ie_mob <= 10',
+        'ie <= 10',
+        'ie_mob <= 11',
         'bb <= 10',
         'op_mob <= 12.1',
         'samsung 4'
