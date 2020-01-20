@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.8.4
+* Fix released versions detection for queries like `last N browsers`.
+* Add IE 11 Mobile to `dead` browsers.
+
 ## 4.8.3
 * Fix warning message (by Anton Ivanov).
 
