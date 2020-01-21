@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.8.5
+* Fix `last N browsers` again after new `caniuse-db` API changes.
+
 ## 4.8.4
 * Fix released versions detection for queries like `last N browsers`.
 * Add IE 11 Mobile to `dead` browsers.
