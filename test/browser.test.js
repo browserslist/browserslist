@@ -24,6 +24,11 @@ it('selects versions of browser', () => {
   expect(browserslist('last 2 ie versions')).toEqual(['ie 11', 'ie 10'])
 })
 
+it('does not include unreleased versions', () => {
+  browserslist.data = originData
+  expect(browserslist('last 2 safari versions')).not.toContain('safari TP')
+})
+
 it('supports pluralization', () => {
   expect(browserslist('last 1 ie version')).toEqual(['ie 11'])
 })
