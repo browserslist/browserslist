@@ -51,10 +51,10 @@ it('takes stats and queries from shareable config', async () => {
 })
 
 it('works with non-prefixed stats with dangerousExtend', async () => {
-  await mock('pkg', undefined, { and_chr: { 78: 6 } })
+  await mock('pkg', undefined, { chrome: { 78: 6 } })
   expect(
     browserslist(['> 5% in pkg stats'], { dangerousExtend: true })
-  ).toEqual(['and_chr 78'])
+  ).toEqual(['chrome 78'])
 })
 
 it('handles scoped stats with a dot in the name', async () => {
