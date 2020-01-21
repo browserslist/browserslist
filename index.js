@@ -1051,7 +1051,7 @@ var QUERIES = [
     browserslist.data[name] = {
       name: name,
       versions: normalize(agents[name].versions),
-      released: normalize(agents[name].versions.slice(0, -2)),
+      released: normalize(agents[name].versions.slice(0, -3)),
       releaseDate: agents[name].release_date
     }
     fillUsage(browserslist.usage.global, name, browser.usage_global)
