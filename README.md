@@ -37,7 +37,7 @@ not IE_Mob 11
 maintained node versions
 ```
 
-Developers set versions list in queries like `last 2 version`
+Developers set their version lists using queries like `last 2 version`
 to be free from updating versions manually.
 Browserslist will use [`caniuse-lite`] with [Can I Use] data for this queries.
 
@@ -116,9 +116,9 @@ Browserslist will take queries from tool option,
     ]
   ```
 
-* If you want to change the default set of browsers we recommend to combine
+* If you want to change the default set of browsers, we recommend combining
   `last 2 versions`, `not dead` with a usage number like `> 0.2%`. This is
-  because `last n versions` on its own does not add popular old versions while
+  because `last n versions` on its own does not add popular old versions, while
   only using a percentage above `0.2%` will in the long run make popular
   browsers even more popular. We might run into a monopoly and stagnation
   situation, as we had with Internet Explorer 6. Please use this setting
@@ -537,8 +537,8 @@ These browsers account for 83.1% of all users in custom statistics
 
 ## Environment Variables
 
-If some tool use Browserslist inside, you can change browsers settings
-by [environment variables]:
+If a tool uses Browserslist inside, you can change the Browserslist settings
+with [environment variables]:
 
 * `BROWSERSLIST` with browsers queries.
 
