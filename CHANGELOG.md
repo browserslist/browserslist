@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.8.6
+* Fix `Unknown version 10 of op_mob` error in `mobileToDesktop` option.
+
 ## 4.8.5
 * Fix `last N browsers` again after new `caniuse-db` API changes.
 
