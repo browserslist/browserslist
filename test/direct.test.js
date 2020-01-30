@@ -73,3 +73,8 @@ it('missing mobile versions are not aliased by default', () => {
   expect(() => browserslist('ie_mob 9')).toThrow(/Unknown version 9 of ie_mob/)
   expect(() => browserslist('op_mob 30')).toThrow(/Unknown version 30/)
 })
+
+it('works for all browsers', () => {
+  let first = browserslist(['> 0%', 'dead'])
+  browserslist(first, { mobileToDesktop: true })
+})

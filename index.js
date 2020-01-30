@@ -186,6 +186,21 @@ function cloneData (data) {
   }
 }
 
+function mapVersions (data, map) {
+  data.versions = data.versions.map(function (i) {
+    return map[i] || i
+  })
+  data.released = data.versions.map(function (i) {
+    return map[i] || i
+  })
+  var fixedDate = { }
+  for (var i in data.releaseDate) {
+    fixedDate[map[i] || i] = data.releaseDate[i]
+  }
+  data.releaseDate = fixedDate
+  return data
+}
+
 function byName (name, context) {
   name = name.toLowerCase()
   name = browserslist.aliases[name] || name
@@ -196,6 +211,9 @@ function byName (name, context) {
     } else {
       var cloned = cloneData(desktop)
       cloned.name = name
+      if (name === 'op_mob') {
+        cloned = mapVersions(cloned, { '10.0-10.1': '10' })
+      }
       return cloned
     }
   }
