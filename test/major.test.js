@@ -43,6 +43,7 @@ it('selects versions of each browser', () => {
   expect(browserslist('last 2 major versions')).toEqual([
     'android 39',
     'bb 10',
+    'bb 8',
     'chrome 39',
     'chrome 38',
     'edge 12',
@@ -77,6 +78,18 @@ it('selects versions of a single browser', () => {
   ])
   expect(browserslist('last 2 android major versions')).toEqual([
     'android 39'
+  ])
+})
+
+it('supports non-sequential version numbers', () => {
+  expect(browserslist('last 2 bb major versions')).toEqual([
+    'bb 10', 'bb 8'
+  ])
+})
+
+it('supports more versions than have been released', () => {
+  expect(browserslist('last 3 bb major versions')).toEqual([
+    'bb 10', 'bb 8'
   ])
 })
 

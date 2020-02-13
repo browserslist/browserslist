@@ -53,7 +53,11 @@ function getMajor (version) {
 
 function getMajorVersions (released, number) {
   if (released.length === 0) return []
-  var minimum = getMajor(released[released.length - 1]) - parseInt(number) + 1
+  var majorVersions = uniq(released.map(getMajor))
+  var minimum = majorVersions[majorVersions.length - number]
+  if (!minimum) {
+    return released
+  }
   var selected = []
   for (var i = released.length - 1; i >= 0; i--) {
     if (minimum > getMajor(released[i])) break
