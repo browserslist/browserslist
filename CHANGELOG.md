@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.8.7
+* Fix `last N major versions` (by Valeriy Trubachev).
+
 ## 4.8.6
 * Fix `Unknown version 10 of op_mob` error in `mobileToDesktop` option.
 
