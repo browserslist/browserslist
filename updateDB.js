@@ -11,7 +11,7 @@ function updateDB () {
 
   fs.readFile(lockfile, 'utf8', function (readError, data) {
     if (readError) {
-      throw new Error(errors.readError)
+      throw readError
     }
 
     var parsedData = JSON.parse(data)
@@ -20,12 +20,12 @@ function updateDB () {
 
     fs.writeFile('package-lock.json', newData, function (writeError) {
       if (writeError) {
-        throw new Error(errors.writeError)
+        throw writeError
       }
 
       exec('npm install', function (installError) {
         if (installError) {
-          throw new Error(errors.installError)
+          throw installError
         }
 
         console.log('caniuse-lite has been successfully updated')
@@ -38,13 +38,6 @@ function getLastVersion () {
   var output = execSync('npm show caniuse-lite version').toString()
   var lastVersion = output.split('\n')[0]
   return lastVersion
-}
-
-var errors = {
-  readError: 'An error occurred while reading package-lock.json, ' +
-              'check that the file exists and is correct',
-  writeError: 'An error occurred while writing package-lock.json',
-  installError: 'An error occurred while install dependencies'
 }
 
 module.exports = updateDB
