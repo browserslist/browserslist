@@ -7,7 +7,7 @@ var BrowserslistError = require('./error')
 
 var UNKNOWN_VERSION = 'unknown version'
 
-var packageManager
+var packageManager = ''
 
 function updateDB () {
   var lockfile = getLockfile()
