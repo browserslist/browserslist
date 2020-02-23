@@ -3,6 +3,7 @@
 var fs = require('fs')
 
 var browserslist = require('./')
+var updateDB = require('./updater')
 var pkg = require('./package.json')
 var args = process.argv.slice(2)
 
@@ -15,7 +16,8 @@ var USAGE = 'Usage:\n' +
             '  ' + pkg.name + ' --coverage=US "QUERIES"\n' +
             '  ' + pkg.name + ' --coverage=US,RU,global "QUERIES"\n' +
             '  ' + pkg.name + ' --env="environment name defined in config"\n' +
-            '  ' + pkg.name + ' --stats="path/to/browserlist/stats/file"'
+            '  ' + pkg.name + ' --stats="path/to/browserlist/stats/file"\n' +
+            '  ' + pkg.name + ' --update-db'
 
 function isArg (arg) {
   return args.some(function (str) {
@@ -32,6 +34,8 @@ if (isArg('--help') || isArg('-h')) {
   process.stdout.write(pkg.description + '.\n\n' + USAGE + '\n')
 } else if (isArg('--version') || isArg('-v')) {
   process.stdout.write(pkg.name + ' ' + pkg.version + '\n')
+} else if (isArg('--update-db')) {
+  updateDB()
 } else {
   var mode = 'browsers'
   var opts = { }
