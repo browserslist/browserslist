@@ -6,6 +6,7 @@ var pkgUp = require('pkg-up')
 var BrowserslistError = require('./error')
 
 var UNKNOWN_VERSION = 'unknown version'
+var PACKAGE_CANIUSE = 'caniuse-lite'
 
 var packageManager = ''
 
@@ -21,14 +22,16 @@ function updateDB () {
     var lastVersion = getLastVersion()
 
     if (currentVersion === lastVersion) {
-      console.log('You have the latest version of caniuse-lite installed')
+      console.log(
+        'You have the latest version of ' + PACKAGE_CANIUSE + ' installed'
+      )
       return
     }
 
     console.log(
       'Current version: ' + currentVersion + '\n' +
       'New version: ' + lastVersion + '\n' +
-      'Updating caniuse-lite...'
+      'Updating ' + PACKAGE_CANIUSE + '...'
     )
 
     fs.writeFile(lockfile, updateLockfile(lockfileRaw), function (writeError) {
@@ -42,7 +45,7 @@ function updateDB () {
           throw commandError
         }
 
-        console.log('caniuse-lite has been successfully updated')
+        console.log(PACKAGE_CANIUSE + ' has been successfully updated')
       })
     })
   })
@@ -103,10 +106,10 @@ function getNpmCaniuseVersion (lockfileRaw) {
 
   if (
     parsedFile.dependencies !== undefined &&
-    parsedFile.dependencies['caniuse-lite'] !== undefined &&
-    parsedFile.dependencies['caniuse-lite'].version !== undefined
+    parsedFile.dependencies[PACKAGE_CANIUSE] !== undefined &&
+    parsedFile.dependencies[PACKAGE_CANIUSE].version !== undefined
   ) {
-    return parsedFile.dependencies['caniuse-lite'].version
+    return parsedFile.dependencies[PACKAGE_CANIUSE].version
   }
 
   return UNKNOWN_VERSION
@@ -119,7 +122,7 @@ function getYarnCaniuseVersion (lockfileRaw) {
   for (var i = 0; i < parsedFile.length; i++) {
     var line = parsedFile[i]
 
-    if (/^caniuse-lite/.test(line)) {
+    if (line.indexOf(PACKAGE_CANIUSE) === 0) {
       foundCaniuse = true
       continue
     }
@@ -148,8 +151,8 @@ function getPnpmCaniuseVersion (lockfileRaw) {
   for (var i = 0; i < parsedFile.length; i++) {
     var line = parsedFile[i]
 
-    if (/\/caniuse-lite/.test(line)) {
-      var rule = /\/caniuse-lite\/([^:]+)/.exec(line)
+    if (line.indexOf('/' + PACKAGE_CANIUSE) >= 0) {
+      var rule = /\/([\d.]+):/.exec(line)
 
       if (rule.length > 1) {
         return rule[1]
@@ -164,13 +167,13 @@ function getPnpmCaniuseVersion (lockfileRaw) {
 
 function getLastVersion () {
   var versions = childProcess
-    .execSync('npm show caniuse-lite version')
+    .execSync('npm show ' + PACKAGE_CANIUSE + ' version')
     .toString()
     .split('\n')
 
   if (versions.length === 0) {
     throw new BrowserslistError(
-      'Error getting the latest version of caniuse-lite'
+      'Error getting the latest version of ' + PACKAGE_CANIUSE
     )
   }
 
@@ -187,7 +190,7 @@ function updateLockfile (lockfileRaw) {
   }
 
   var parsedNpmData = JSON.parse(lockfileRaw)
-  delete parsedNpmData.dependencies['caniuse-lite']
+  delete parsedNpmData.dependencies[PACKAGE_CANIUSE]
   return JSON.stringify(parsedNpmData)
 }
 
@@ -199,7 +202,7 @@ function cleanupYarnLock (lockfileRaw) {
   for (var i = 0; i < parsedFile.length; i++) {
     var line = parsedFile[i]
 
-    if (/^caniuse-lite/.test(line)) {
+    if (line.indexOf(PACKAGE_CANIUSE) === 0) {
       foundCaniuse = true
       continue
     }
@@ -227,7 +230,7 @@ function cleanupPnpmLock (lockfileRaw) {
   for (var i = 0; i < parsedFile.length; i++) {
     var line = parsedFile[i]
 
-    if (/\/caniuse-lite/.test(line)) {
+    if (line.indexOf('/' + PACKAGE_CANIUSE) >= 0) {
       foundCaniuse = true
       continue
     }
