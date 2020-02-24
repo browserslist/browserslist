@@ -5,7 +5,6 @@ var pkgUp = require('pkg-up')
 
 var BrowserslistError = require('./error')
 
-var UNKNOWN_VERSION = 'unknown version'
 var PACKAGE_CANIUSE = 'caniuse-lite'
 
 var packageManager = ''
@@ -112,7 +111,7 @@ function getNpmCaniuseVersion (lockfileRaw) {
     return parsedFile.dependencies[PACKAGE_CANIUSE].version
   }
 
-  return UNKNOWN_VERSION
+  return 'unknown'
 }
 
 function getYarnCaniuseVersion (lockfileRaw) {
@@ -134,7 +133,7 @@ function getYarnCaniuseVersion (lockfileRaw) {
         return rule[1]
       }
 
-      return UNKNOWN_VERSION
+      return 'unknown'
     }
 
     if (foundCaniuse && line === '') {
@@ -142,7 +141,7 @@ function getYarnCaniuseVersion (lockfileRaw) {
     }
   }
 
-  return UNKNOWN_VERSION
+  return 'unknown'
 }
 
 function getPnpmCaniuseVersion (lockfileRaw) {
@@ -158,11 +157,11 @@ function getPnpmCaniuseVersion (lockfileRaw) {
         return rule[1]
       }
 
-      return UNKNOWN_VERSION
+      return 'unknown'
     }
   }
 
-  return UNKNOWN_VERSION
+  return 'unknown'
 }
 
 function getLastVersion () {
