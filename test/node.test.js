@@ -14,6 +14,27 @@ it('throws on unknown Node.js version', () => {
   }).toThrow(/Unknown version/)
 })
 
+it('throws on malformed Node.js version', () => {
+  expect(() => {
+    browserslist('node 8.a')
+  }).toThrow(/Unknown/)
+  expect(() => {
+    browserslist('node 8.8.8.8')
+  }).toThrow(/Unknown/)
+  expect(() => {
+    browserslist('node 8.01')
+  }).toThrow(/Unknown/)
+  expect(() => {
+    browserslist('node 6 - 8.a')
+  }).toThrow(/Unknown/)
+  expect(() => {
+    browserslist('node 6.6.6.6 - 8')
+  }).toThrow(/Unknown/)
+  expect(() => {
+    browserslist('node 6 - 8.01')
+  }).toThrow(/Unknown/)
+})
+
 it('return empty array on unknown Node.js version with special flag', () => {
   expect(browserslist('node 3', { ignoreUnknownVersions: true })).toEqual([])
 })
