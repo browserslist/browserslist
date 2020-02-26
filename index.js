@@ -148,6 +148,43 @@ function compareSemver (a, b) {
   )
 }
 
+// this follows the npm-like semver behavior
+function semverFilterLoose (operator, range) {
+  range = range.split('.').map(parseSimpleInt)
+  if (typeof range[1] === 'undefined') {
+    range[1] = 'x'
+  }
+  // ignore any patch version because we only return minor versions
+  // range[2] = 'x'
+  switch (operator) {
+    case '<=':
+      return function (version) {
+        version = version.split('.').map(parseSimpleInt)
+        return compareSemverLoose(version, range) <= 0
+      }
+    default:
+    case '>=':
+      return function (version) {
+        version = version.split('.').map(parseSimpleInt)
+        return compareSemverLoose(version, range) >= 0
+      }
+  }
+}
+
+// this follows the npm-like semver behavior
+function compareSemverLoose (version, range) {
+  if (version[0] !== range[0]) {
+    return version[0] < range[0] ? -1 : +1
+  }
+  if (range[1] === 'x') {
+    return 0
+  }
+  if (version[1] !== range[1]) {
+    return version[1] < range[1] ? -1 : +1
+  }
+  return 0
+}
+
 function resolveVersion (data, version) {
   if (data.versions.indexOf(version) !== -1) {
     return version
@@ -868,6 +905,31 @@ var QUERIES = [
       }).map(function (i) {
         return 'chrome ' + e2c[i]
       })
+    }
+  },
+  {
+    regexp: /^node\s+([\d.]+)\s*-\s*([\d.]+)$/i,
+    select: function (context, from, to) {
+      var nodeVersions = jsReleases.filter(function (i) {
+        return i.name === 'nodejs'
+      }).map(function (i) {
+        return i.version
+      })
+      var semverRegExp = /^(0|[1-9]\d*)(\.(0|[1-9]\d*)){0,2}$/
+      if (!semverRegExp.test(from)) {
+        throw new BrowserslistError(
+          'Unknown version ' + from + ' of Node.js')
+      }
+      if (!semverRegExp.test(to)) {
+        throw new BrowserslistError(
+          'Unknown version ' + to + ' of Node.js')
+      }
+      return nodeVersions
+        .filter(semverFilterLoose('>=', from))
+        .filter(semverFilterLoose('<=', to))
+        .map(function (v) {
+          return 'node ' + v
+        })
     }
   },
   {
