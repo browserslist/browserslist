@@ -7,52 +7,34 @@ var BrowserslistError = require('./error')
 
 var PACKAGE_CANIUSE = 'caniuse-lite'
 
-var packageManager = ''
-
 function updateDB () {
-  var lockfile = getLockfile()
+  var mainInfo = getMainInfo()
+  var lockfileRaw = fs.readFileSync(mainInfo.lockfile).toString()
 
-  fs.readFile(lockfile, 'utf8', function (readError, lockfileRaw) {
-    if (readError) {
-      throw readError
-    }
+  var currentVersion = getCurrentVersion(lockfileRaw, mainInfo.packageManager)
+  var info = getLastVersionInfo()
 
-    var currentVersion = getCurrentVersion(lockfileRaw)
-    var lastVersion = getLastVersion()
+  console.log(
+    'Current version: ' + currentVersion + '\n' +
+    'New version: ' + info.version + '\n' +
+    'Updating ' + PACKAGE_CANIUSE + '…'
+  )
 
-    if (currentVersion === lastVersion) {
-      console.log(
-        'You have the latest version of ' + PACKAGE_CANIUSE + ' installed'
-      )
-      return
-    }
+  fs.writeFileSync(
+    mainInfo.lockfile,
+    updateLockfile(lockfileRaw, info, mainInfo.packageManager)
+  )
+  childProcess.execSync(mainInfo.packageManager + ' install')
 
-    console.log(
-      'Current version: ' + currentVersion + '\n' +
-      'New version: ' + lastVersion + '\n' +
-      'Updating ' + PACKAGE_CANIUSE + '...'
-    )
-
-    fs.writeFile(lockfile, updateLockfile(lockfileRaw), function (writeError) {
-      if (writeError) {
-        throw writeError
-      }
-
-      var command = getPackageManager(lockfile) + ' install'
-      childProcess.exec(command, function (commandError) {
-        if (commandError) {
-          throw commandError
-        }
-
-        console.log(PACKAGE_CANIUSE + ' has been successfully updated')
-      })
-    })
-  })
+  console.log(PACKAGE_CANIUSE + ' has been successfully updated')
 }
 
-function getLockfile () {
+function getMainInfo () {
   var packagePath = pkgUp.sync()
   var rootDir = path.dirname(packagePath)
+
+  var packageManager = ''
+  var lockfile = ''
 
   var lockfileNpm = path.join(rootDir, 'package-lock.json')
   var lockfileYarn = path.join(rootDir, 'yarn.lock')
@@ -60,35 +42,24 @@ function getLockfile () {
 
   if (fs.existsSync(lockfileNpm)) {
     packageManager = 'npm'
-    return lockfileNpm
-  }
-
-  if (fs.existsSync(lockfileYarn)) {
+    lockfile = lockfileNpm
+  } else if (fs.existsSync(lockfileYarn)) {
     packageManager = 'yarn'
-    return lockfileYarn
-  }
-
-  if (fs.existsSync(lockfilePnpm)) {
+    lockfile = lockfileYarn
+  } else if (fs.existsSync(lockfilePnpm)) {
     packageManager = 'pnpm'
-    return lockfilePnpm
+    lockfile = lockfilePnpm
+  } else {
+    throw new BrowserslistError('Lockfile search error')
   }
 
-  throw new BrowserslistError('Lockfile search error')
+  return {
+    packageManager: packageManager,
+    lockfile: lockfile
+  }
 }
 
-function getPackageManager () {
-  if (packageManager === 'yarn') {
-    return 'yarn'
-  }
-
-  if (packageManager === 'pnpm') {
-    return 'pnpm'
-  }
-
-  return 'npm'
-}
-
-function getCurrentVersion (lockfileRaw) {
+function getCurrentVersion (lockfileRaw, packageManager) {
   if (packageManager === 'yarn') {
     return getYarnCaniuseVersion(lockfileRaw)
   }
@@ -164,33 +135,61 @@ function getPnpmCaniuseVersion (lockfileRaw) {
   return 'unknown'
 }
 
-function getLastVersion () {
-  var versions = childProcess
-    .execSync('npm show ' + PACKAGE_CANIUSE + ' version')
-    .toString()
-    .split('\n')
+function getLastVersionInfo () {
+  try {
+    var raw = childProcess
+      .execSync('npm show ' + PACKAGE_CANIUSE + ' --json')
+      .toString()
 
-  if (versions.length === 0) {
+    return JSON.parse(raw)
+  } catch (e) {
     throw new BrowserslistError(
-      'Error getting the latest version of ' + PACKAGE_CANIUSE
+      'An error occurred getting information about the latest version of ' +
+      PACKAGE_CANIUSE +
+      '.\n' +
+      'Check your Internet connection.'
     )
   }
-
-  return versions[0]
 }
 
-function updateLockfile (lockfileRaw) {
-  if (packageManager === 'yarn') {
-    return cleanupYarnLock(lockfileRaw)
-  }
+function updateLockfile (lockfileRaw, info, packageManager) {
+  var parsedLockfileLines = lockfileRaw.split('\n')
+  var hasNecessaryDeps = false
 
-  if (packageManager === 'pnpm') {
+  if (packageManager === 'npm') {
+    for (var i = 0; i < parsedLockfileLines.length; i++) {
+      if (
+        !hasNecessaryDeps &&
+        parsedLockfileLines[i].indexOf(PACKAGE_CANIUSE) > 0 &&
+        /:\s*{/.test(parsedLockfileLines[i])
+      ) {
+        hasNecessaryDeps = true
+      }
+
+      if (!hasNecessaryDeps) {
+        continue
+      }
+
+      if (parsedLockfileLines[i].indexOf('"version"') > 0) {
+        parsedLockfileLines[i] = parsedLockfileLines[i]
+          .replace(/:\s*"([^"]+)"/, ': "^' + info.version + '"')
+      } else if (parsedLockfileLines[i].indexOf('"resolved"') > 0) {
+        parsedLockfileLines[i] = parsedLockfileLines[i]
+          .replace(/:\s*"([^"]+)"/, ': "' + info.dist.tarball + '"')
+      } else if (parsedLockfileLines[i].indexOf('"integrity"') > 0) {
+        parsedLockfileLines[i] = parsedLockfileLines[i]
+          .replace(/:\s*"([^"]+)"/, ': "' + info.dist.integrity + '"')
+      } else if (parsedLockfileLines[i].indexOf('}') > 0) {
+        hasNecessaryDeps = false
+      }
+    }
+  } else if (packageManager === 'yarn') {
+    return cleanupYarnLock(lockfileRaw)
+  } else if (packageManager === 'pnpm') {
     return cleanupPnpmLock(lockfileRaw)
   }
 
-  var parsedNpmData = JSON.parse(lockfileRaw)
-  delete parsedNpmData.dependencies[PACKAGE_CANIUSE]
-  return JSON.stringify(parsedNpmData)
+  return parsedLockfileLines.join('\n')
 }
 
 function cleanupYarnLock (lockfileRaw) {
