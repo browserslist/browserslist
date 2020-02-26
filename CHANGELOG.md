@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.9
+* Add `node X-Y` query support (by Yuping Zuo).
+
 ## 4.8.7
 * Fix `last N major versions` (by Valeriy Trubachev).
 
