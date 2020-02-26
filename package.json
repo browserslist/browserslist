@@ -16,7 +16,7 @@
   "repository": "browserslist/browserslist",
   "scripts": {
     "spell": "yarn api && yaspeller-ci *.md",
-    "test": "jest --coverage && eslint-ci . && size-limit && yarn spell",
+    "test": "jest-ci --coverage && eslint-ci . && size-limit && yarn spell",
     "api": "documentation build *.js -f md -o api.md",
     "clean": "rimraf api.md coverage/"
   },
@@ -48,6 +48,7 @@
     "fs-extra": "^8.1.0",
     "husky": "^4.2.3",
     "jest": "^25.1.0",
+    "jest-ci": "^0.1.1",
     "lint-staged": "^10.0.8",
     "rimraf": "^3.0.2",
     "size-limit": "^4.0.2",
