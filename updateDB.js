@@ -1,75 +1,95 @@
 var path = require('path')
 var fs = require('fs')
-var childProcess = require('child_process')
-var exec = childProcess.exec
-var execSync = childProcess.execSync
+var findUp = require('find-up')
+var execSync = require('child_process').execSync
 
-var packageManager = 'npm'
+var BrowserslistError = require('./error')
 
 function updateDB () {
-  var lockfile = getLockfile()
+  function getLastVersion () {
+    var output = execSync('npm show caniuse-lite version').toString()
+    var lastVersion = output.split('\n')[0]
 
-  console.log('Installing caniuse-lite ' + getLastVersion())
+    return lastVersion
+  }
 
-  fs.readFile(lockfile, 'utf8', function (readError, data) {
-    if (readError) {
-      throw readError
+  function startsWithTwoSpaces (line) {
+    return /^ {2}/.test(line)
+  }
+
+  var lockfile, packageManager
+
+  var packageJson = findUp.sync('package.json')
+  if (!packageJson) {
+    throw new BrowserslistError('Cannot find package.json')
+  }
+
+  var npmLockfile = path.join(packageJson, '/../package-lock.json')
+  var yarnLockfile = path.join(packageJson, '/../yarn.lock')
+
+  if (fs.existsSync(npmLockfile)) {
+    lockfile = npmLockfile
+    packageManager = 'npm'
+  } else if (fs.existsSync(yarnLockfile)) {
+    lockfile = yarnLockfile
+    packageManager = 'yarn'
+  } else {
+    throw new BrowserslistError(
+      'No lockfile found. Run "yarn install" or "npm install"'
+    )
+  }
+
+  console.log('Fetching caniuse-lite ' + getLastVersion() + '...')
+
+  var parsedContent, newContent
+  var content = fs.readFileSync(lockfile, 'utf8')
+
+  if (packageManager === 'npm') {
+    parsedContent = JSON.parse(content)
+    var browserslist = parsedContent.dependencies.browserslist
+
+    delete parsedContent.dependencies['caniuse-lite']
+
+    if (
+      browserslist &&
+      browserslist.dependencies &&
+      browserslist.dependencies['caniuse-lite']
+    ) {
+      delete browserslist.dependencies['caniuse-lite']
     }
 
-    var newData = updateLockfile(data)
+    newContent = JSON.stringify(parsedContent)
+  } else if (packageManager === 'yarn') {
+    parsedContent = content.split('\n')
 
-    fs.writeFile(path.basename(lockfile), newData, function (writeError) {
-      if (writeError) {
-        throw writeError
+    var line
+    var isPkgDeleting = false
+    var filteredContent = []
+
+    for (var i = 0; i < parsedContent.length; i++) {
+      line = parsedContent[i]
+
+      if (/^caniuse-lite/.test(line)) {
+        isPkgDeleting = true
+        continue
+      } else if (isPkgDeleting && startsWithTwoSpaces(line)) {
+        if (!startsWithTwoSpaces(parsedContent[i + 1])) {
+          isPkgDeleting = false
+        }
+        continue
       }
 
-      exec(packageManager + ' install', function (installError) {
-        if (installError) {
-          throw installError
-        }
+      filteredContent.push(line)
+    }
 
-        console.log('caniuse-lite has been successfully updated')
-      })
-    })
-  })
-}
-
-function getLockfile () {
-  var packageLock = path.resolve(process.cwd(), 'package-lock.json')
-  var yarnLock = path.resolve(process.cwd(), 'yarn.lock')
-  var file = packageLock
-
-  if (fs.existsSync(yarnLock)) {
-    file = yarnLock
-    packageManager = 'yarn'
+    newContent = filteredContent.join('\n')
   }
 
-  return file
-}
+  fs.writeFileSync(path.basename(lockfile), newContent)
 
-function getLastVersion () {
-  var output = execSync('npm show caniuse-lite version').toString()
-  var lastVersion = output.split('\n')[0]
+  execSync(packageManager + ' install')
 
-  return lastVersion
-}
-
-function updateLockfile (data) {
-  var parsedData, newData
-
-  try {
-    parsedData = JSON.parse(data)
-    delete parsedData.dependencies['caniuse-lite']
-    newData = JSON.stringify(parsedData)
-  } catch (error) {
-    parsedData = data.split('\n')
-    var filteredData = parsedData.filter(function (line) {
-      return !/^caniuse-lite/.test(line)
-    })
-    newData = filteredData.join('\n')
-  }
-
-  return newData
+  console.log('Successfully updated caniuse-lite.')
 }
 
 module.exports = updateDB
