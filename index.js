@@ -588,7 +588,7 @@ browserslist.coverage = function (browsers, stats) {
     } else {
       stats = stats.toUpperCase()
     }
-    env.loadCountry(browserslist.usage, stats)
+    env.loadCountry(browserslist.usage, stats, browserslist.data)
     data = browserslist.usage[stats]
   } else {
     if ('dataByBrowser' in stats) {
@@ -823,7 +823,7 @@ var QUERIES = [
       } else {
         place = place.toLowerCase()
       }
-      env.loadCountry(browserslist.usage, place)
+      env.loadCountry(browserslist.usage, place, browserslist.data)
       var usage = browserslist.usage[place]
       return Object.keys(usage).reduce(function (result, version) {
         if (sign === '>') {
@@ -866,7 +866,7 @@ var QUERIES = [
           } else {
             place = place.toLowerCase()
           }
-          env.loadCountry(browserslist.usage, place)
+          env.loadCountry(browserslist.usage, place, browserslist.data)
           usage = browserslist.usage[place]
         }
       }
