@@ -145,10 +145,8 @@ function normalizeUsageData (usageData, data) {
     // caniuse-db returns { 0: "percentage" } for `and_*` regional stats
     if ('0' in browserUsage) {
       var versions = data[browser].versions
-      if (versions.length > 0) {
-        browserUsage[versions[versions.length - 1]] = browserUsage[0]
-        delete browserUsage[0]
-      }
+      browserUsage[versions[versions.length - 1]] = browserUsage[0]
+      delete browserUsage[0]
     }
   }
 }
