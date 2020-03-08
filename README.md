@@ -37,7 +37,7 @@ not IE_Mob 11
 maintained node versions
 ```
 
-Developers set their version lists using queries like `last 2 version`
+Developers set their version lists using queries like `last 2 versions`
 to be free from updating versions manually.
 Browserslist will use [`caniuse-lite`] with [Can I Use] data for this queries.
 
