@@ -46,19 +46,9 @@ function updateDB () {
 
   if (packageManager === 'npm') {
     parsedContent = JSON.parse(content)
-    var browserslist
 
-    if (
-      typeof parsedContent === 'object' &&
-      parsedContent.dependencies &&
-      parsedContent.dependencies.browserslist
-    ) {
+    if (parsedContent && parsedContent.dependencies) {
       delete parsedContent.dependencies['caniuse-lite']
-      browserslist = parsedContent.dependencies.browserslist
-    }
-
-    if (browserslist && browserslist.dependencies) {
-      delete browserslist.dependencies['caniuse-lite']
     }
 
     newContent = JSON.stringify(parsedContent)
