@@ -1,0 +1,7 @@
+{
+  "name": "testpkg1",
+  "private": true,
+  "devDependencies": {
+    "autoprefixer": "^9.7.4"
+  }
+}

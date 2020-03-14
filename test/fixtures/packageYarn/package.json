@@ -1,0 +1,8 @@
+{
+  "name": "package-yarn",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^9.6.0",
+    "postcss-loader": "^3.0.0"
+  }
+}
