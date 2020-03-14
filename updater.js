@@ -8,23 +8,23 @@ var BrowserslistError = require('./error')
 var PACKAGE_CANIUSE = 'caniuse-lite'
 
 function updateDB () {
-  var mainInfo = getMainInfo()
-  var lockfileRaw = fs.readFileSync(mainInfo.lockfile).toString()
+  var info = getMainInfo()
+  var lockfileRaw = fs.readFileSync(info.lockfile).toString()
 
-  var currentVersion = getCurrentVersion(lockfileRaw, mainInfo.packageManager)
-  var info = getLastVersionInfo()
+  var currentVersion = getCurrentVersion(lockfileRaw, info.packageManager)
+  var packageInfo = getLastVersionInfo()
 
   console.log(
     'Current version: ' + currentVersion + '\n' +
-    'New version: ' + info.version + '\n' +
+    'New version: ' + packageInfo.version + '\n' +
     'Updating ' + PACKAGE_CANIUSE + '…'
   )
 
   fs.writeFileSync(
-    mainInfo.lockfile,
-    updateLockfile(lockfileRaw, info, mainInfo.packageManager)
+    info.lockfile,
+    updateLockfile(lockfileRaw, packageInfo, info.packageManager)
   )
-  childProcess.execSync(mainInfo.packageManager + ' install')
+  childProcess.execSync(info.packageManager + ' install')
 
   console.log(PACKAGE_CANIUSE + ' has been successfully updated')
 }
