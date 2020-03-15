@@ -31,6 +31,13 @@ function updateDB () {
 
 function getMainInfo () {
   var packagePath = pkgUp.sync()
+  if (!packagePath) {
+    throw new BrowserslistError(
+      'Cannot find package.json. ' +
+      'Is it a right project to run npx browserslist --update-db?'
+    )
+  }
+
   var rootDir = path.dirname(packagePath)
 
   var packageManager = ''
