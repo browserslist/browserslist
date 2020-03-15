@@ -199,13 +199,13 @@ function updateLockfile (lockfileRaw, info, packageManager) {
 
       if (parsedLockfileLines[j].indexOf('version') > 0) {
         parsedLockfileLines[j] = parsedLockfileLines[j]
-          .replace(/:\s*"([^"]+)"/, '"^' + info.version + '"')
+          .replace(/\s"([^"]+)"/, '"^' + info.version + '"')
       } else if (parsedLockfileLines[j].indexOf('resolved') > 0) {
         parsedLockfileLines[j] = parsedLockfileLines[j]
-          .replace(/:\s*"([^"]+)"/, '"' + info.dist.tarball + '"')
+          .replace(/\s"([^"]+)"/, '"' + info.dist.tarball + '"')
       } else if (parsedLockfileLines[j].indexOf('integrity') > 0) {
         parsedLockfileLines[j] = parsedLockfileLines[j]
-          .replace(/:\s*"([^"]+)"/, '"' + info.dist.integrity + '"')
+          .replace(/\s"([^"]+)"/, '"' + info.dist.integrity + '"')
       } else if (/^$/.test(parsedLockfileLines[j])) {
         hasNecessaryDeps = false
       }
