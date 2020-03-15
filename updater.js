@@ -145,7 +145,7 @@ function updateLockfile (lockfileRaw, info, packageManager) {
 
       if (parsedLockfileLines[i].indexOf('"version"') > 0) {
         parsedLockfileLines[i] = parsedLockfileLines[i]
-          .replace(/:\s*"([^"]+)"/, ': "^' + info.version + '"')
+          .replace(/:\s*"([^"]+)"/, ': "' + info.version + '"')
       } else if (parsedLockfileLines[i].indexOf('"resolved"') > 0) {
         parsedLockfileLines[i] = parsedLockfileLines[i]
           .replace(/:\s*"([^"]+)"/, ': "' + info.dist.tarball + '"')
