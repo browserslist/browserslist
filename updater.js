@@ -60,79 +60,51 @@ function getMainInfo () {
 }
 
 function getCurrentVersion (lockfileRaw, packageManager) {
+  if (packageManager === 'npm') {
+    var parsedFile = JSON.parse(lockfileRaw)
+    if (
+      parsedFile.dependencies !== undefined &&
+      parsedFile.dependencies[PACKAGE_CANIUSE] !== undefined &&
+      parsedFile.dependencies[PACKAGE_CANIUSE].version !== undefined
+    ) {
+      return parsedFile.dependencies[PACKAGE_CANIUSE].version
+    }
+    return null
+  }
+
+  var parsedLockfileLines = lockfileRaw.split('\n')
+  var countLines = parsedLockfileLines.length
   if (packageManager === 'yarn') {
-    return getYarnCaniuseVersion(lockfileRaw)
-  }
-
-  if (packageManager === 'pnpm') {
-    return getPnpmCaniuseVersion(lockfileRaw)
-  }
-
-  return getNpmCaniuseVersion(lockfileRaw)
-}
-
-function getNpmCaniuseVersion (lockfileRaw) {
-  var parsedFile = JSON.parse(lockfileRaw)
-
-  if (
-    parsedFile.dependencies !== undefined &&
-    parsedFile.dependencies[PACKAGE_CANIUSE] !== undefined &&
-    parsedFile.dependencies[PACKAGE_CANIUSE].version !== undefined
-  ) {
-    return parsedFile.dependencies[PACKAGE_CANIUSE].version
-  }
-
-  return 'unknown'
-}
-
-function getYarnCaniuseVersion (lockfileRaw) {
-  var parsedFile = lockfileRaw.split('\n')
-  var foundCaniuse = false
-
-  for (var i = 0; i < parsedFile.length; i++) {
-    var line = parsedFile[i]
-
-    if (line.indexOf(PACKAGE_CANIUSE) === 0) {
-      foundCaniuse = true
-      continue
-    }
-
-    if (foundCaniuse && /version/.test(line)) {
-      var rule = /version "([^"]+)"/.exec(line)
-
-      if (rule.length > 1) {
-        return rule[1]
+    var foundCaniuse = false
+    for (var i = 0; i < countLines; i++) {
+      var row = parsedLockfileLines[i]
+      if (row.indexOf(PACKAGE_CANIUSE) === 0) {
+        foundCaniuse = true
+        continue
       }
 
-      return 'unknown'
-    }
-
-    if (foundCaniuse && line === '') {
-      foundCaniuse = false
-    }
-  }
-
-  return 'unknown'
-}
-
-function getPnpmCaniuseVersion (lockfileRaw) {
-  var parsedFile = lockfileRaw.split('\n')
-
-  for (var i = 0; i < parsedFile.length; i++) {
-    var line = parsedFile[i]
-
-    if (line.indexOf('/' + PACKAGE_CANIUSE) >= 0) {
-      var rule = /\/([\d.]+):/.exec(line)
-
-      if (rule.length > 1) {
-        return rule[1]
+      if (foundCaniuse && /version/.test(row)) {
+        var rowVersion = /version "([^"]+)"/.exec(row)
+        if (rowVersion.length > 1) {
+          return rowVersion[1]
+        }
+        return null
       }
-
-      return 'unknown'
+    }
+  } else if (packageManager === 'pnpm') {
+    for (var j = 0; j < countLines; j++) {
+      var line = parsedLockfileLines[j]
+      if (line.indexOf('/' + PACKAGE_CANIUSE) >= 0) {
+        var rule = /\/([\d.]+):/.exec(line)
+        if (rule.length > 1) {
+          return rule[1]
+        }
+        return null
+      }
     }
   }
 
-  return 'unknown'
+  return null
 }
 
 function getLastVersionInfo () {
