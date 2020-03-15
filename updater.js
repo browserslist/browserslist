@@ -211,37 +211,36 @@ function updateLockfile (lockfileRaw, info, packageManager) {
       }
     }
   } else if (packageManager === 'pnpm') {
-    return cleanupPnpmLock(lockfileRaw)
+    for (var k = 0; k < countLines; k++) {
+      if (parsedLockfileLines[k].indexOf(PACKAGE_CANIUSE + ':') >= 0) {
+        parsedLockfileLines[k] = parsedLockfileLines[k]
+          .replace(/:\s.*$/, ': ' + info.version)
+        continue
+      }
+
+      if (parsedLockfileLines[k].indexOf('/' + PACKAGE_CANIUSE) >= 0) {
+        hasNecessaryDeps = true
+        parsedLockfileLines[k] = parsedLockfileLines[k]
+          .replace(/\/([^/]+)\/[^:]+:/, function (_, packageName) {
+            return '/' + packageName + '/' + info.version + ':'
+          })
+        continue
+      }
+
+      if (!hasNecessaryDeps) {
+        continue
+      }
+
+      if (parsedLockfileLines[k].indexOf('integrity:') >= 0) {
+        parsedLockfileLines[k] = parsedLockfileLines[k]
+          .replace(/integrity: .*$/, 'integrity: ' + info.dist.integrity)
+      } else if (hasNecessaryDeps && /\s\//.test(parsedLockfileLines[k])) {
+        hasNecessaryDeps = false
+      }
+    }
   }
 
   return parsedLockfileLines.join('\n')
-}
-
-function cleanupPnpmLock (lockfileRaw) {
-  var parsedFile = lockfileRaw.split('\n')
-  var newData = []
-  var foundCaniuse = false
-
-  for (var i = 0; i < parsedFile.length; i++) {
-    var line = parsedFile[i]
-
-    if (line.indexOf('/' + PACKAGE_CANIUSE) >= 0) {
-      foundCaniuse = true
-      continue
-    }
-
-    if (foundCaniuse && !/^\s+\/|\t\//.test(line)) {
-      continue
-    }
-
-    if (foundCaniuse) {
-      foundCaniuse = false
-    }
-
-    newData.push(line)
-  }
-
-  return newData.join('\n')
 }
 
 module.exports = updateDB
