@@ -154,6 +154,7 @@ function getLastVersionInfo () {
 
 function updateLockfile (lockfileRaw, info, packageManager) {
   var parsedLockfileLines = lockfileRaw.split('\n')
+  var countLines = parsedLockfileLines.length
   var hasNecessaryDeps = false
 
   if (packageManager === 'npm') {
@@ -184,40 +185,36 @@ function updateLockfile (lockfileRaw, info, packageManager) {
       }
     }
   } else if (packageManager === 'yarn') {
-    return cleanupYarnLock(lockfileRaw)
+    for (var j = 0; j < countLines; j++) {
+      if (
+        parsedLockfileLines[j].indexOf(PACKAGE_CANIUSE) >= 0 &&
+        parsedLockfileLines[j].indexOf('@') > 0
+      ) {
+        hasNecessaryDeps = true
+      }
+
+      if (!hasNecessaryDeps) {
+        continue
+      }
+
+      if (parsedLockfileLines[j].indexOf('version') > 0) {
+        parsedLockfileLines[j] = parsedLockfileLines[j]
+          .replace(/:\s*"([^"]+)"/, '"^' + info.version + '"')
+      } else if (parsedLockfileLines[j].indexOf('resolved') > 0) {
+        parsedLockfileLines[j] = parsedLockfileLines[j]
+          .replace(/:\s*"([^"]+)"/, '"' + info.dist.tarball + '"')
+      } else if (parsedLockfileLines[j].indexOf('integrity') > 0) {
+        parsedLockfileLines[j] = parsedLockfileLines[j]
+          .replace(/:\s*"([^"]+)"/, '"' + info.dist.integrity + '"')
+      } else if (/^$/.test(parsedLockfileLines[j])) {
+        hasNecessaryDeps = false
+      }
+    }
   } else if (packageManager === 'pnpm') {
     return cleanupPnpmLock(lockfileRaw)
   }
 
   return parsedLockfileLines.join('\n')
-}
-
-function cleanupYarnLock (lockfileRaw) {
-  var parsedFile = lockfileRaw.split('\n')
-  var newData = []
-  var foundCaniuse = false
-
-  for (var i = 0; i < parsedFile.length; i++) {
-    var line = parsedFile[i]
-
-    if (line.indexOf(PACKAGE_CANIUSE) === 0) {
-      foundCaniuse = true
-      continue
-    }
-
-    if (foundCaniuse && line !== '') {
-      continue
-    }
-
-    if (foundCaniuse) {
-      foundCaniuse = false
-      continue
-    }
-
-    newData.push(line)
-  }
-
-  return newData.join('\n')
 }
 
 function cleanupPnpmLock (lockfileRaw) {
