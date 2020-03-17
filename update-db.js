@@ -69,6 +69,8 @@ function getMainInfo () {
 }
 
 function getCurrentVersion (lockfileRaw, packageManager) {
+  var raw = lockfileRaw.split('\n').join('')
+
   if (packageManager === 'npm') {
     var parsedFile = JSON.parse(lockfileRaw)
     if (
@@ -77,29 +79,15 @@ function getCurrentVersion (lockfileRaw, packageManager) {
     ) {
       return parsedFile.dependencies[PACKAGE_CANIUSE].version
     }
-    return null
-  }
-
-  var lines = lockfileRaw.split('\n')
-  if (packageManager === 'yarn') {
-    for (var i = 0; i < lines.length; i++) {
-      if (lines[i].indexOf(PACKAGE_CANIUSE + '@') >= 0) {
-        var rowVersion = /version "([^"]+)"/.exec(lines[i + 1])
-        if (rowVersion.length > 1) {
-          return rowVersion[1]
-        }
-        return null
-      }
+  } else if (packageManager === 'yarn') {
+    var info = /caniuse-lite@[^:]+:\s+version\s+"([^"]+)"/.exec(raw)
+    if (info[1]) {
+      return info[1]
     }
   } else if (packageManager === 'pnpm') {
-    for (var j = 0; j < lines.length; j++) {
-      if (lines[j].indexOf('/' + PACKAGE_CANIUSE) >= 0) {
-        var rule = /\/([\d.]+):/.exec(lines[j])
-        if (rule.length > 1) {
-          return rule[1]
-        }
-        return null
-      }
+    var infoVer = /\/caniuse-lite\/([^:]+):/.exec(raw)
+    if (infoVer[1]) {
+      return infoVer[1]
     }
   }
 
