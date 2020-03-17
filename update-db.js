@@ -124,16 +124,16 @@ function getLastVersionInfo () {
 }
 
 function updateLockfile (lockfileRaw, info, packageManager) {
-  var parsedLockfileLines = lockfileRaw.split('\n')
-  var countLines = parsedLockfileLines.length
+  var lines = lockfileRaw.split('\n')
+  var countLines = lines.length
   var hasNecessaryDeps = false
 
   if (packageManager === 'npm') {
-    for (var i = 0; i < parsedLockfileLines.length; i++) {
+    for (var i = 0; i < lines.length; i++) {
       if (
         !hasNecessaryDeps &&
-        parsedLockfileLines[i].indexOf(PACKAGE_CANIUSE) > 0 &&
-        /:\s*{/.test(parsedLockfileLines[i])
+        lines[i].indexOf(PACKAGE_CANIUSE) > 0 &&
+        /:\s*{/.test(lines[i])
       ) {
         hasNecessaryDeps = true
       }
@@ -142,42 +142,42 @@ function updateLockfile (lockfileRaw, info, packageManager) {
         continue
       }
 
-      if (parsedLockfileLines[i].indexOf('"version"') > 0) {
-        parsedLockfileLines[i] = parsedLockfileLines[i]
+      if (lines[i].indexOf('"version"') > 0) {
+        lines[i] = lines[i]
           .replace(/:\s*"([^"]+)"/, ': "' + info.version + '"')
-      } else if (parsedLockfileLines[i].indexOf('"resolved"') > 0) {
-        parsedLockfileLines[i] = parsedLockfileLines[i]
+      } else if (lines[i].indexOf('"resolved"') > 0) {
+        lines[i] = lines[i]
           .replace(/:\s*"([^"]+)"/, ': "' + info.dist.tarball + '"')
-      } else if (parsedLockfileLines[i].indexOf('"integrity"') > 0) {
-        parsedLockfileLines[i] = parsedLockfileLines[i]
+      } else if (lines[i].indexOf('"integrity"') > 0) {
+        lines[i] = lines[i]
           .replace(/:\s*"([^"]+)"/, ': "' + info.dist.integrity + '"')
-      } else if (parsedLockfileLines[i].indexOf('}') > 0) {
+      } else if (lines[i].indexOf('}') > 0) {
         hasNecessaryDeps = false
       }
     }
   } else if (packageManager === 'yarn') {
     for (var j = 0; j < countLines; j++) {
-      if (parsedLockfileLines[j].indexOf(PACKAGE_CANIUSE + '@') >= 0) {
-        parsedLockfileLines[j + 1] = parsedLockfileLines[j + 1]
+      if (lines[j].indexOf(PACKAGE_CANIUSE + '@') >= 0) {
+        lines[j + 1] = lines[j + 1]
           .replace(/version "[^"]+"/, 'version "' + info.version + '"')
-        parsedLockfileLines[j + 2] = parsedLockfileLines[j + 2]
+        lines[j + 2] = lines[j + 2]
           .replace(/resolved "[^"]+"/, 'resolved "' + info.dist.tarball + '"')
-        parsedLockfileLines[j + 3] = parsedLockfileLines[j + 3]
+        lines[j + 3] = lines[j + 3]
           .replace(/integrity .+/, 'integrity ' + info.dist.integrity)
         j += 4
       }
     }
   } else if (packageManager === 'pnpm') {
     for (var k = 0; k < countLines; k++) {
-      if (parsedLockfileLines[k].indexOf(PACKAGE_CANIUSE + ':') >= 0) {
-        parsedLockfileLines[k] = parsedLockfileLines[k]
+      if (lines[k].indexOf(PACKAGE_CANIUSE + ':') >= 0) {
+        lines[k] = lines[k]
           .replace(/:\s.*$/, ': ' + info.version)
         continue
       }
 
-      if (parsedLockfileLines[k].indexOf('/' + PACKAGE_CANIUSE) >= 0) {
+      if (lines[k].indexOf('/' + PACKAGE_CANIUSE) >= 0) {
         hasNecessaryDeps = true
-        parsedLockfileLines[k] = parsedLockfileLines[k]
+        lines[k] = lines[k]
           .replace(/\/([^/]+)\/[^:]+:/, function (_, packageName) {
             return '/' + packageName + '/' + info.version + ':'
           })
@@ -188,16 +188,16 @@ function updateLockfile (lockfileRaw, info, packageManager) {
         continue
       }
 
-      if (parsedLockfileLines[k].indexOf('integrity:') >= 0) {
-        parsedLockfileLines[k] = parsedLockfileLines[k]
+      if (lines[k].indexOf('integrity:') >= 0) {
+        lines[k] = lines[k]
           .replace(/integrity: .*$/, 'integrity: ' + info.dist.integrity)
-      } else if (hasNecessaryDeps && /\s\//.test(parsedLockfileLines[k])) {
+      } else if (hasNecessaryDeps && /\s\//.test(lines[k])) {
         hasNecessaryDeps = false
       }
     }
   }
 
-  return parsedLockfileLines.join('\n')
+  return lines.join('\n')
 }
 
 module.exports = updateDB
