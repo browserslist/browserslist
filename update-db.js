@@ -161,28 +161,14 @@ function updateLockfile (lockfileRaw, info, packageManager) {
     }
   } else if (packageManager === 'yarn') {
     for (var j = 0; j < countLines; j++) {
-      if (
-        parsedLockfileLines[j].indexOf(PACKAGE_CANIUSE) >= 0 &&
-        parsedLockfileLines[j].indexOf('@') > 0
-      ) {
-        hasNecessaryDeps = true
-      }
-
-      if (!hasNecessaryDeps) {
-        continue
-      }
-
-      if (parsedLockfileLines[j].indexOf('version') > 0) {
-        parsedLockfileLines[j] = parsedLockfileLines[j]
-          .replace(/\s"([^"]+)"/, '"^' + info.version + '"')
-      } else if (parsedLockfileLines[j].indexOf('resolved') > 0) {
-        parsedLockfileLines[j] = parsedLockfileLines[j]
-          .replace(/\s"([^"]+)"/, '"' + info.dist.tarball + '"')
-      } else if (parsedLockfileLines[j].indexOf('integrity') > 0) {
-        parsedLockfileLines[j] = parsedLockfileLines[j]
-          .replace(/\s"([^"]+)"/, '"' + info.dist.integrity + '"')
-      } else if (/^$/.test(parsedLockfileLines[j])) {
-        hasNecessaryDeps = false
+      if (parsedLockfileLines[j].indexOf(PACKAGE_CANIUSE + '@') >= 0) {
+        parsedLockfileLines[j + 1] = parsedLockfileLines[j + 1]
+          .replace(/version "[^"]+"/, 'version "' + info.version + '"')
+        parsedLockfileLines[j + 2] = parsedLockfileLines[j + 2]
+          .replace(/resolved "[^"]+"/, 'resolved "' + info.dist.tarball + '"')
+        parsedLockfileLines[j + 3] = parsedLockfileLines[j + 3]
+          .replace(/integrity .+/, 'integrity ' + info.dist.integrity)
+        j += 4
       }
     }
   } else if (packageManager === 'pnpm') {
