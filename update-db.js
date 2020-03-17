@@ -124,39 +124,15 @@ function getLastVersionInfo () {
 }
 
 function updateLockfile (lockfileRaw, info, packageManager) {
-  var lines = lockfileRaw.split('\n')
-  var countLines = lines.length
-  var hasNecessaryDeps = false
-
   if (packageManager === 'npm') {
-    for (var i = 0; i < lines.length; i++) {
-      if (
-        !hasNecessaryDeps &&
-        lines[i].indexOf(PACKAGE_CANIUSE) > 0 &&
-        /:\s*{/.test(lines[i])
-      ) {
-        hasNecessaryDeps = true
-      }
+    var lockJson = JSON.parse(lockfileRaw)
+    lockJson = deletePackageInfoNpm(lockJson)
+    return JSON.stringify(lockJson, null, '  ')
+  }
 
-      if (!hasNecessaryDeps) {
-        continue
-      }
-
-      if (lines[i].indexOf('"version"') > 0) {
-        lines[i] = lines[i]
-          .replace(/:\s*"([^"]+)"/, ': "' + info.version + '"')
-      } else if (lines[i].indexOf('"resolved"') > 0) {
-        lines[i] = lines[i]
-          .replace(/:\s*"([^"]+)"/, ': "' + info.dist.tarball + '"')
-      } else if (lines[i].indexOf('"integrity"') > 0) {
-        lines[i] = lines[i]
-          .replace(/:\s*"([^"]+)"/, ': "' + info.dist.integrity + '"')
-      } else if (lines[i].indexOf('}') > 0) {
-        hasNecessaryDeps = false
-      }
-    }
-  } else if (packageManager === 'yarn') {
-    for (var j = 0; j < countLines; j++) {
+  var lines = lockfileRaw.split('\n')
+  if (packageManager === 'yarn') {
+    for (var j = 0; j < lines.length; j++) {
       if (lines[j].indexOf(PACKAGE_CANIUSE + '@') >= 0) {
         lines[j + 1] = lines[j + 1]
           .replace(/version "[^"]+"/, 'version "' + info.version + '"')
@@ -168,7 +144,8 @@ function updateLockfile (lockfileRaw, info, packageManager) {
       }
     }
   } else if (packageManager === 'pnpm') {
-    for (var k = 0; k < countLines; k++) {
+    var hasNecessaryDeps = false
+    for (var k = 0; k < lines.length; k++) {
       if (lines[k].indexOf(PACKAGE_CANIUSE + ':') >= 0) {
         lines[k] = lines[k].replace(/: .*$/, ': ' + info.version)
       } else if (lines[k].indexOf('/' + PACKAGE_CANIUSE) >= 0) {
@@ -184,6 +161,18 @@ function updateLockfile (lockfileRaw, info, packageManager) {
   }
 
   return lines.join('\n')
+}
+
+function deletePackageInfoNpm (node) {
+  if (node.dependencies) {
+    delete node.dependencies[PACKAGE_CANIUSE]
+
+    Object.keys(node.dependencies).forEach(function (key) {
+      node.dependencies[key] = deletePackageInfoNpm(node.dependencies[key])
+    })
+  }
+
+  return node
 }
 
 module.exports = updateDB
