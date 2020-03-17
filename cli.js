@@ -3,7 +3,7 @@
 var fs = require('fs')
 
 var browserslist = require('./')
-var updateDB = require('./updater')
+var updateDB = require('./update-db')
 var pkg = require('./package.json')
 var args = process.argv.slice(2)
 
