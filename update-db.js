@@ -59,7 +59,9 @@ function getMainInfo () {
     packageManager = 'pnpm'
     lockfile = lockfilePnpm
   } else {
-    throw new BrowserslistError('Lockfile search error')
+    throw new BrowserslistError(
+      'No lockfile found. Run "npm install", "yarn install" or "pnpm install"'
+    )
   }
 
   return {
