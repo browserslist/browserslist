@@ -14,8 +14,10 @@ function updateDB () {
   var currentVersion = getCurrentVersion(lockfileRaw, info.packageManager)
   var packageInfo = getLastVersionInfo()
 
+  if (currentVersion !== null) {
+    console.log('Current version: ' + currentVersion)
+  }
   console.log(
-    'Current version: ' + currentVersion + '\n' +
     'New version: ' + packageInfo.version + '\n' +
     'Updating ' + PACKAGE_CANIUSE + '…'
   )
