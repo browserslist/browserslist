@@ -82,18 +82,13 @@ function getCurrentVersion (lockfileRaw, packageManager) {
   }
 
   var parsedLockfileLines = lockfileRaw.split('\n')
-  var countLines = parsedLockfileLines.length
   if (packageManager === 'yarn') {
-    var foundCaniuse = false
-    for (var i = 0; i < countLines; i++) {
-      var row = parsedLockfileLines[i]
-      if (row.indexOf(PACKAGE_CANIUSE) === 0) {
-        foundCaniuse = true
-        continue
-      }
-
-      if (foundCaniuse && /version/.test(row)) {
-        var rowVersion = /version "([^"]+)"/.exec(row)
+    for (var i = 0; i < parsedLockfileLines.length; i++) {
+      if (
+        parsedLockfileLines[i].indexOf(PACKAGE_CANIUSE) === 0 &&
+        /version/.test(parsedLockfileLines[i + 1])
+      ) {
+        var rowVersion = /version "([^"]+)"/.exec(parsedLockfileLines[i + 1])
         if (rowVersion.length > 1) {
           return rowVersion[1]
         }
@@ -101,10 +96,9 @@ function getCurrentVersion (lockfileRaw, packageManager) {
       }
     }
   } else if (packageManager === 'pnpm') {
-    for (var j = 0; j < countLines; j++) {
-      var line = parsedLockfileLines[j]
-      if (line.indexOf('/' + PACKAGE_CANIUSE) >= 0) {
-        var rule = /\/([\d.]+):/.exec(line)
+    for (var j = 0; j < parsedLockfileLines.length; j++) {
+      if (parsedLockfileLines[j].indexOf('/' + PACKAGE_CANIUSE) >= 0) {
+        var rule = /\/([\d.]+):/.exec(parsedLockfileLines[j])
         if (rule.length > 1) {
           return rule[1]
         }
