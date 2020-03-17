@@ -14,7 +14,7 @@ function updateDB () {
   var currentVersion = getCurrentVersion(lockfileRaw, info.packageManager)
   var packageInfo = getLastVersionInfo()
 
-  if (currentVersion !== null) {
+  if (currentVersion != null) {
     console.log('Current version: ' + currentVersion)
   }
   console.log(
@@ -73,22 +73,18 @@ function getCurrentVersion (lockfileRaw, packageManager) {
     var parsedFile = JSON.parse(lockfileRaw)
     if (
       parsedFile.dependencies !== undefined &&
-      parsedFile.dependencies[PACKAGE_CANIUSE] !== undefined &&
-      parsedFile.dependencies[PACKAGE_CANIUSE].version !== undefined
+      parsedFile.dependencies[PACKAGE_CANIUSE] !== undefined
     ) {
       return parsedFile.dependencies[PACKAGE_CANIUSE].version
     }
     return null
   }
 
-  var parsedLockfileLines = lockfileRaw.split('\n')
+  var lines = lockfileRaw.split('\n')
   if (packageManager === 'yarn') {
-    for (var i = 0; i < parsedLockfileLines.length; i++) {
-      if (
-        parsedLockfileLines[i].indexOf(PACKAGE_CANIUSE) === 0 &&
-        /version/.test(parsedLockfileLines[i + 1])
-      ) {
-        var rowVersion = /version "([^"]+)"/.exec(parsedLockfileLines[i + 1])
+    for (var i = 0; i < lines.length; i++) {
+      if (lines[i].indexOf(PACKAGE_CANIUSE + '@') >= 0) {
+        var rowVersion = /version "([^"]+)"/.exec(lines[i + 1])
         if (rowVersion.length > 1) {
           return rowVersion[1]
         }
@@ -96,9 +92,9 @@ function getCurrentVersion (lockfileRaw, packageManager) {
       }
     }
   } else if (packageManager === 'pnpm') {
-    for (var j = 0; j < parsedLockfileLines.length; j++) {
-      if (parsedLockfileLines[j].indexOf('/' + PACKAGE_CANIUSE) >= 0) {
-        var rule = /\/([\d.]+):/.exec(parsedLockfileLines[j])
+    for (var j = 0; j < lines.length; j++) {
+      if (lines[j].indexOf('/' + PACKAGE_CANIUSE) >= 0) {
+        var rule = /\/([\d.]+):/.exec(lines[j])
         if (rule.length > 1) {
           return rule[1]
         }
