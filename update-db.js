@@ -5,8 +5,6 @@ var pkgUp = require('pkg-up')
 
 var BrowserslistError = require('./error')
 
-var PACKAGE_CANIUSE = 'caniuse-lite'
-
 function updateDB () {
   var info = getMainInfo()
   var lockfileRaw = fs.readFileSync(info.lockfile).toString()
@@ -19,7 +17,7 @@ function updateDB () {
   }
   console.log(
     'New version: ' + packageInfo.version + '\n' +
-    'Updating ' + PACKAGE_CANIUSE + '…'
+    'Updating caniuse-lite…'
   )
 
   fs.writeFileSync(
@@ -28,7 +26,7 @@ function updateDB () {
   )
   childProcess.execSync(info.packageManager + ' install')
 
-  console.log(PACKAGE_CANIUSE + ' has been successfully updated')
+  console.log('caniuse-lite has been successfully updated')
 }
 
 function getMainInfo () {
@@ -77,9 +75,9 @@ function getCurrentVersion (lockfileRaw, packageManager) {
     var parsedFile = JSON.parse(lockfileRaw)
     if (
       parsedFile.dependencies !== undefined &&
-      parsedFile.dependencies[PACKAGE_CANIUSE] !== undefined
+      parsedFile.dependencies['caniuse-lite'] !== undefined
     ) {
-      return parsedFile.dependencies[PACKAGE_CANIUSE].version
+      return parsedFile.dependencies['caniuse-lite'].version
     }
   } else if (packageManager === 'yarn') {
     var info = /caniuse-lite@[^:]+:\s+version\s+"([^"]+)"/.exec(raw)
@@ -99,15 +97,14 @@ function getCurrentVersion (lockfileRaw, packageManager) {
 function getLastVersionInfo () {
   try {
     var raw = childProcess
-      .execSync('npm show ' + PACKAGE_CANIUSE + ' --json')
+      .execSync('npm show caniuse-lite --json')
       .toString()
 
     return JSON.parse(raw)
   } catch (e) {
     throw new BrowserslistError(
-      'An error occurred getting information about the latest version of ' +
-      PACKAGE_CANIUSE +
-      '.\n' +
+      'An error occurred getting information ' +
+      'about the latest version of caniuse-lite.\n' +
       'Check your Internet connection.'
     )
   }
@@ -123,7 +120,7 @@ function updateLockfile (lockfileRaw, info, packageManager) {
   var lines = lockfileRaw.split('\n')
   if (packageManager === 'yarn') {
     for (var j = 0; j < lines.length; j++) {
-      if (lines[j].indexOf(PACKAGE_CANIUSE + '@') >= 0) {
+      if (lines[j].indexOf('caniuse-lite@') >= 0) {
         lines[j + 1] = lines[j + 1]
           .replace(/version "[^"]+"/, 'version "' + info.version + '"')
         lines[j + 2] = lines[j + 2]
@@ -136,9 +133,9 @@ function updateLockfile (lockfileRaw, info, packageManager) {
   } else if (packageManager === 'pnpm') {
     var hasNecessaryDeps = false
     for (var k = 0; k < lines.length; k++) {
-      if (lines[k].indexOf(PACKAGE_CANIUSE + ':') >= 0) {
+      if (lines[k].indexOf('caniuse-lite:') >= 0) {
         lines[k] = lines[k].replace(/: .*$/, ': ' + info.version)
-      } else if (lines[k].indexOf('/' + PACKAGE_CANIUSE) >= 0) {
+      } else if (lines[k].indexOf('/caniuse-lite') >= 0) {
         hasNecessaryDeps = true
         lines[k] = lines[k].replace(/\/[^/:]+:/, '/' + info.version + ':')
       } else if (hasNecessaryDeps && lines[k].indexOf('integrity:') >= 0) {
@@ -155,7 +152,7 @@ function updateLockfile (lockfileRaw, info, packageManager) {
 
 function deletePackageInfoNpm (node) {
   if (node.dependencies) {
-    delete node.dependencies[PACKAGE_CANIUSE]
+    delete node.dependencies['caniuse-lite']
 
     Object.keys(node.dependencies).forEach(function (key) {
       node.dependencies[key] = deletePackageInfoNpm(node.dependencies[key])
