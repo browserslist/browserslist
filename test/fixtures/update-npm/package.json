@@ -1,6 +1,6 @@
 {
   "description": "browserslist",
-  "license": "browserslist",
+  "license": "MIT",
   "repository": {},
   "devDependencies": {
     "qs": "^6.6.0",
