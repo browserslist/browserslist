@@ -67,8 +67,7 @@ it('get latest version', async () => {
   let spy = jest.spyOn(childProcess, 'execSync')
     .mockImplementation(() => { throw new Error('') })
 
-  let npmProject = await createNpmProject()
-  process.chdir(npmProject)
+  await createProject('update-npm', 'package-lock.json')
 
   let message = 'An error occurred getting information ' +
     'about the latest version of caniuse-lite.\n' +
@@ -79,8 +78,7 @@ it('get latest version', async () => {
 })
 
 it('prints the latest version', async () => {
-  let npmProject = await createNpmProject()
-  process.chdir(npmProject)
+  await createProject('update-npm', 'package-lock.json')
 
   let message1 = 'Current version: 1.0.30001030'
   let message2 = 'New version: ' + lastPackageInfo.version + '\n' +
@@ -95,8 +93,7 @@ it('prints the latest version', async () => {
 })
 
 it('updates caniuse-lite if the user uses Npm', async () => {
-  let npmProject = await createNpmProject()
-  process.chdir(npmProject)
+  let npmProject = await createProject('update-npm', 'package-lock.json')
 
   updateDB()
 
@@ -110,37 +107,7 @@ it('updates caniuse-lite if the user uses Npm', async () => {
 })
 
 it('missing caniuse-lite if the user uses Npm', async () => {
-  let packageJson = fs.readFileSync(
-    path.resolve(rootDirectory, 'test/fixtures/update-npm-missing/package.json')
-  )
-  let lockFile = fs.readFileSync(
-    path.resolve(
-      rootDirectory,
-      'test/fixtures/update-npm-missing/package-lock.json'
-    )
-  )
-
-  let tree = await fsify([
-    {
-      type: fsify.DIRECTORY,
-      name: 'update-npm-missing',
-      contents: [
-        {
-          type: fsify.FILE,
-          name: 'package.json',
-          contents: packageJson
-        },
-        {
-          type: fsify.FILE,
-          name: 'package-lock.json',
-          contents: lockFile
-        }
-      ]
-    }
-  ])
-
-  let directory = tree[0].name
-  process.chdir(directory)
+  let directory = await createProject('update-npm-missing', 'package-lock.json')
 
   updateDB()
 
@@ -154,34 +121,7 @@ it('missing caniuse-lite if the user uses Npm', async () => {
 })
 
 it('updates caniuse-lite if the user uses Yarn', async () => {
-  let packageJson = fs.readFileSync(
-    path.resolve(rootDirectory, 'test/fixtures/update-yarn/package.json')
-  )
-  let lockFile = fs.readFileSync(
-    path.resolve(rootDirectory, 'test/fixtures/update-yarn/yarn.lock')
-  )
-
-  let tree = await fsify([
-    {
-      type: fsify.DIRECTORY,
-      name: 'update-yarn',
-      contents: [
-        {
-          type: fsify.FILE,
-          name: 'package.json',
-          contents: packageJson
-        },
-        {
-          type: fsify.FILE,
-          name: 'yarn.lock',
-          contents: lockFile
-        }
-      ]
-    }
-  ])
-
-  let directory = tree[0].name
-  process.chdir(directory)
+  let directory = await createProject('update-yarn', 'yarn.lock')
 
   updateDB()
 
@@ -193,34 +133,7 @@ it('updates caniuse-lite if the user uses Yarn', async () => {
 })
 
 it('updates caniuse-lite if the user uses Pnpm', async () => {
-  let packageJson = fs.readFileSync(
-    path.resolve(rootDirectory, 'test/fixtures/update-pnpm/package.json')
-  )
-  let lockFile = fs.readFileSync(
-    path.resolve(rootDirectory, 'test/fixtures/update-pnpm/pnpm-lock.yaml')
-  )
-
-  let tree = await fsify([
-    {
-      type: fsify.DIRECTORY,
-      name: 'update-pnpm',
-      contents: [
-        {
-          type: fsify.FILE,
-          name: 'package.json',
-          contents: packageJson
-        },
-        {
-          type: fsify.FILE,
-          name: 'pnpm-lock.yaml',
-          contents: lockFile
-        }
-      ]
-    }
-  ])
-
-  let directory = tree[0].name
-  process.chdir(directory)
+  let directory = await createProject('update-pnpm', 'pnpm-lock.yaml')
 
   updateDB()
 
@@ -239,18 +152,18 @@ function getLastVersionInfo () {
   return JSON.parse(raw)
 }
 
-async function createNpmProject () {
+async function createProject (folder, lockfile) {
   let packageJson = fs.readFileSync(
-    path.resolve(rootDirectory, 'test/fixtures/update-npm/package.json')
+    path.resolve(rootDirectory, `test/fixtures/${ folder }/package.json`)
   )
-  let lockFile = fs.readFileSync(
-    path.resolve(rootDirectory, 'test/fixtures/update-npm/package-lock.json')
+  let lockfileRaw = fs.readFileSync(
+    path.resolve(rootDirectory, `test/fixtures/${ folder }/${ lockfile }`)
   )
 
   let tree = await fsify([
     {
       type: fsify.DIRECTORY,
-      name: 'update-npm',
+      name: folder,
       contents: [
         {
           type: fsify.FILE,
@@ -259,12 +172,15 @@ async function createNpmProject () {
         },
         {
           type: fsify.FILE,
-          name: 'package-lock.json',
-          contents: lockFile
+          name: lockfile,
+          contents: lockfileRaw
         }
       ]
     }
   ])
 
-  return tree[0].name
+  let directory = tree[0].name
+  process.chdir(directory)
+
+  return directory
 }

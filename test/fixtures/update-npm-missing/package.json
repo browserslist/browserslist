@@ -1,4 +1,7 @@
 {
+  "description": "browserslist",
+  "license": "browserslist",
+  "repository": {},
   "devDependencies": {
     "qs": "^6.6.0"
   }
