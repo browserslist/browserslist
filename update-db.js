@@ -170,28 +170,14 @@ function updateLockfile (lockfileRaw, info, packageManager) {
   } else if (packageManager === 'pnpm') {
     for (var k = 0; k < countLines; k++) {
       if (lines[k].indexOf(PACKAGE_CANIUSE + ':') >= 0) {
-        lines[k] = lines[k]
-          .replace(/:\s.*$/, ': ' + info.version)
-        continue
-      }
-
-      if (lines[k].indexOf('/' + PACKAGE_CANIUSE) >= 0) {
+        lines[k] = lines[k].replace(/: .*$/, ': ' + info.version)
+      } else if (lines[k].indexOf('/' + PACKAGE_CANIUSE) >= 0) {
         hasNecessaryDeps = true
-        lines[k] = lines[k]
-          .replace(/\/([^/]+)\/[^:]+:/, function (_, packageName) {
-            return '/' + packageName + '/' + info.version + ':'
-          })
-        continue
-      }
-
-      if (!hasNecessaryDeps) {
-        continue
-      }
-
-      if (lines[k].indexOf('integrity:') >= 0) {
+        lines[k] = lines[k].replace(/\/[^/:]+:/, '/' + info.version + ':')
+      } else if (hasNecessaryDeps && lines[k].indexOf('integrity:') >= 0) {
         lines[k] = lines[k]
           .replace(/integrity: .*$/, 'integrity: ' + info.dist.integrity)
-      } else if (hasNecessaryDeps && /\s\//.test(lines[k])) {
+      } else if (hasNecessaryDeps && /\s+\//.test(lines[k])) {
         hasNecessaryDeps = false
       }
     }
