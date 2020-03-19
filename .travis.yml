@@ -6,6 +6,6 @@ node_js:
   - "10"
   - "8"
 before_install:
-  - npm install -g pnpm
+  - yarn global add pnpm --prefix /usr/local
 install:
   - yarn install --ignore-engines
