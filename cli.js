@@ -9,16 +9,16 @@ var pkg = require('./package.json')
 var args = process.argv.slice(2)
 
 var USAGE = 'Usage:\n' +
-            '  ' + pkg.name + '\n' +
-            '  ' + pkg.name + ' "QUERIES"\n' +
-            '  ' + pkg.name + ' --json "QUERIES"\n' +
-            '  ' + pkg.name + ' --config="path/to/browserlist/file"\n' +
-            '  ' + pkg.name + ' --coverage "QUERIES"\n' +
-            '  ' + pkg.name + ' --coverage=US "QUERIES"\n' +
-            '  ' + pkg.name + ' --coverage=US,RU,global "QUERIES"\n' +
-            '  ' + pkg.name + ' --env="environment name defined in config"\n' +
-            '  ' + pkg.name + ' --stats="path/to/browserlist/stats/file"\n' +
-            '  ' + pkg.name + ' --update-db'
+            '  npx browserslist\n' +
+            '  npx browserslist "QUERIES"\n' +
+            '  npx browserslist --json "QUERIES"\n' +
+            '  npx browserslist --config="path/to/browserlist/file"\n' +
+            '  npx browserslist --coverage "QUERIES"\n' +
+            '  npx browserslist --coverage=US "QUERIES"\n' +
+            '  npx browserslist --coverage=US,RU,global "QUERIES"\n' +
+            '  npx browserslist --env="environment name defined in config"\n' +
+            '  npx browserslist --stats="path/to/browserlist/stats/file"\n' +
+            '  npx browserslist --update-db'
 
 function isArg (arg) {
   return args.some(function (str) {
@@ -27,14 +27,14 @@ function isArg (arg) {
 }
 
 function error (msg) {
-  process.stderr.write(pkg.name + ': ' + msg + '\n')
+  process.stderr.write('browserslist: ' + msg + '\n')
   process.exit(1)
 }
 
 if (isArg('--help') || isArg('-h')) {
   process.stdout.write(pkg.description + '.\n\n' + USAGE + '\n')
 } else if (isArg('--version') || isArg('-v')) {
-  process.stdout.write(pkg.name + ' ' + pkg.version + '\n')
+  process.stdout.write('browserslist ' + pkg.version + '\n')
 } else if (isArg('--update-db')) {
   updateDb(function (str) {
     process.stdout.write(str)
