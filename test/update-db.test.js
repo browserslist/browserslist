@@ -1,46 +1,29 @@
-let { promisify } = require('util')
+let { remove, copy, readFile, ensureDir } = require('fs-extra')
 let { execSync } = require('child_process')
-let createFsify = require('fsify')
 let { tmpdir } = require('os')
 let { join } = require('path')
-let fs = require('fs')
+let nanoid = require('nanoid/non-secure')
 
 let updateDd = require('../update-db')
 
-let readFile = promisify(fs.readFile)
-let fsify = createFsify({
-  cwd: tmpdir(),
-  persistent: false,
-  force: true
+let testdir
+
+afterEach(async () => {
+  process.chdir(join(__dirname, '..'))
+  await remove(testdir)
 })
 
-async function createProject (name, lockfile) {
-  let fixture = join(__dirname, 'fixtures', name)
-  let pkgContent = await readFile(join(fixture, 'package.json'))
-  let lockfileContent = await readFile(join(fixture, lockfile))
+async function chdir (fixture, ...files) {
+  testdir = join(tmpdir(), `browserslist-${ fixture }-${ nanoid() }`)
+  await ensureDir(testdir)
 
-  let tree = await fsify([
-    {
-      type: fsify.DIRECTORY,
-      name,
-      contents: [
-        {
-          type: fsify.FILE,
-          name: 'package.json',
-          contents: pkgContent
-        },
-        {
-          type: fsify.FILE,
-          name: lockfile,
-          contents: lockfileContent
-        }
-      ]
-    }
-  ])
+  let from = join(__dirname, 'fixtures', fixture)
+  await Promise.all(files.map(async i => {
+    await copy(join(from, i), join(testdir, i))
+  }))
 
-  let fakedir = tree[0].name
-  process.chdir(fakedir)
-  return fakedir
+  process.chdir(testdir)
+  return testdir
 }
 
 function runUpdate () {
@@ -53,22 +36,8 @@ function runUpdate () {
 
 let caniuse = JSON.parse(execSync('npm show caniuse-lite --json').toString())
 
-afterEach(() => {
-  process.chdir(join(__dirname, '..'))
-})
-
 it('throws on missing package.json', async () => {
-  let tree = await fsify([
-    {
-      type: fsify.DIRECTORY,
-      name: 'update-missing-package',
-      contents: []
-    }
-  ])
-
-  let directory = tree[0].name
-  process.chdir(directory)
-
+  await chdir('update-missing')
   expect(runUpdate).toThrow(
     'Cannot find package.json. ' +
     'Is it a right project to run npx browserslist --update-db?'
@@ -76,30 +45,14 @@ it('throws on missing package.json', async () => {
 })
 
 it('throws on missing lockfile', async () => {
-  let tree = await fsify([
-    {
-      type: fsify.DIRECTORY,
-      name: 'update-missing-lockfile',
-      contents: [
-        {
-          type: fsify.FILE,
-          name: 'package.json',
-          contents: '{}'
-        }
-      ]
-    }
-  ])
-
-  let directory = tree[0].name
-  process.chdir(directory)
-
+  await chdir('update-missing', 'package.json')
   expect(runUpdate).toThrow(
     'No lockfile found. Run "npm install", "yarn install" or "pnpm install"'
   )
 })
 
-it('updates caniuse-lite if the user uses npm', async () => {
-  let dir = await createProject('update-npm', 'package-lock.json')
+it('updates caniuse-lite for npm', async () => {
+  let dir = await chdir('update-npm', 'package.json', 'package-lock.json')
 
   expect(runUpdate()).toEqual(
     'Current version: 1.0.30001030\n' +
@@ -112,8 +65,8 @@ it('updates caniuse-lite if the user uses npm', async () => {
   expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
 })
 
-it('missing caniuse-lite if the user uses npm', async () => {
-  let dir = await createProject('update-npm-missing', 'package-lock.json')
+it('updates caniuse-lite without previous version', async () => {
+  let dir = await chdir('update-missing', 'package.json', 'package-lock.json')
 
   expect(runUpdate()).toEqual(
     `New version: ${ caniuse.version }\n` +
@@ -125,8 +78,8 @@ it('missing caniuse-lite if the user uses npm', async () => {
   expect(lock.dependencies['caniuse-lite']).toBeUndefined()
 })
 
-it('updates caniuse-lite if the user uses yarn', async () => {
-  let dir = await createProject('update-yarn', 'yarn.lock')
+it('updates caniuse-lite for yarn', async () => {
+  let dir = await chdir('update-yarn', 'package.json', 'yarn.lock')
 
   expect(runUpdate()).toEqual(
     'Current version: 1.0.30001035\n' +
@@ -142,8 +95,8 @@ it('updates caniuse-lite if the user uses yarn', async () => {
   )
 })
 
-it('updates caniuse-lite if the user uses pnpm', async () => {
-  let dir = await createProject('update-pnpm', 'pnpm-lock.yaml')
+it('updates caniuse-lite for pnpm', async () => {
+  let dir = await chdir('update-pnpm', 'package.json', 'pnpm-lock.yaml')
 
   expect(runUpdate()).toEqual(
     'Current version: 1.0.30001035\n' +
