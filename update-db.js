@@ -83,7 +83,7 @@ function updateLockfile (lock, latest) {
           lines[i] = lines[i].replace(/: .*$/, ': ' + latest.version)
         } else if (lines[i].indexOf('/caniuse-lite') >= 0) {
           lines[i] = lines[i].replace(/\/[^/:]+:/, '/' + latest.version + ':')
-          for (; i < lines.length; i++) {
+          for (i = i + 1; i < lines.length; i++) {
             if (lines[i].indexOf('integrity: ') !== -1) {
               lines[i] = lines[i].replace(
                 /integrity: .+/, 'integrity: ' + latest.dist.integrity
