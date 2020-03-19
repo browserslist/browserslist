@@ -5,7 +5,7 @@ let { tmpdir } = require('os')
 let { join } = require('path')
 let fs = require('fs')
 
-let updateDB = require('../update-db')
+let updateDd = require('../update-db')
 
 let readFile = promisify(fs.readFile)
 let fsify = createFsify({
@@ -43,8 +43,12 @@ async function createProject (name, lockfile) {
   return fakedir
 }
 
-function isInstalled (tool) {
-  return execSync(`whereis ${ tool }`).toString().trim() !== 'pnpm:'
+function runUpdate () {
+  let out = ''
+  updateDd(str => {
+    out += str
+  })
+  return out
 }
 
 let caniuse = JSON.parse(execSync('npm show caniuse-lite --json').toString())
@@ -65,7 +69,7 @@ it('throws on missing package.json', async () => {
   let directory = tree[0].name
   process.chdir(directory)
 
-  expect(() => updateDB()).toThrow(
+  expect(runUpdate).toThrow(
     'Cannot find package.json. ' +
     'Is it a right project to run npx browserslist --update-db?'
   )
@@ -89,32 +93,20 @@ it('throws on missing lockfile', async () => {
   let directory = tree[0].name
   process.chdir(directory)
 
-  expect(() => updateDB()).toThrow(
+  expect(runUpdate).toThrow(
     'No lockfile found. Run "npm install", "yarn install" or "pnpm install"'
-  )
-})
-
-it('prints the latest version', async () => {
-  jest.spyOn(console, 'log').mockImplementation(() => true)
-  await createProject('update-npm', 'package-lock.json')
-
-  updateDB()
-
-  expect(console.log).toHaveBeenNthCalledWith(
-    1, 'Current version: 1.0.30001030'
-  )
-  expect(console.log).toHaveBeenNthCalledWith(
-    2, `New version: ${ caniuse.version }\nUpdating caniuse-lite…`
-  )
-  expect(console.log).toHaveBeenNthCalledWith(
-    3, 'caniuse-lite has been successfully updated'
   )
 })
 
 it('updates caniuse-lite if the user uses npm', async () => {
   let dir = await createProject('update-npm', 'package-lock.json')
 
-  updateDB()
+  expect(runUpdate()).toEqual(
+    'Current version: 1.0.30001030\n' +
+    `New version: ${ caniuse.version }\n` +
+    'Updating caniuse-lite…\n' +
+    'caniuse-lite has been successfully updated'
+  )
 
   let lock = JSON.parse(await readFile(join(dir, 'package-lock.json')))
   expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
@@ -123,7 +115,11 @@ it('updates caniuse-lite if the user uses npm', async () => {
 it('missing caniuse-lite if the user uses npm', async () => {
   let dir = await createProject('update-npm-missing', 'package-lock.json')
 
-  updateDB()
+  expect(runUpdate()).toEqual(
+    `New version: ${ caniuse.version }\n` +
+    'Updating caniuse-lite…\n' +
+    'caniuse-lite has been successfully updated'
+  )
 
   let lock = JSON.parse(await readFile(join(dir, 'package-lock.json')))
   expect(lock.dependencies['caniuse-lite']).toBeUndefined()
@@ -132,7 +128,12 @@ it('missing caniuse-lite if the user uses npm', async () => {
 it('updates caniuse-lite if the user uses yarn', async () => {
   let dir = await createProject('update-yarn', 'yarn.lock')
 
-  updateDB()
+  expect(runUpdate()).toEqual(
+    'Current version: 1.0.30001035\n' +
+    `New version: ${ caniuse.version }\n` +
+    'Updating caniuse-lite…\n' +
+    'caniuse-lite has been successfully updated'
+  )
 
   let lock = (await readFile(join(dir, 'yarn.lock'))).toString()
   expect(lock).toContain(
@@ -141,13 +142,16 @@ it('updates caniuse-lite if the user uses yarn', async () => {
   )
 })
 
-if (isInstalled('pnpm')) {
-  it('updates caniuse-lite if the user uses pnpm', async () => {
-    let dir = await createProject('update-pnpm', 'pnpm-lock.yaml')
+it('updates caniuse-lite if the user uses pnpm', async () => {
+  let dir = await createProject('update-pnpm', 'pnpm-lock.yaml')
 
-    updateDB()
+  expect(runUpdate()).toEqual(
+    'Current version: 1.0.30001035\n' +
+    `New version: ${ caniuse.version }\n` +
+    'Updating caniuse-lite…\n' +
+    'caniuse-lite has been successfully updated'
+  )
 
-    let lock = (await readFile(join(dir, 'pnpm-lock.yaml'))).toString()
-    expect(lock).toContain(`/caniuse-lite/${ caniuse.version }:`)
-  })
-}
+  let lock = (await readFile(join(dir, 'pnpm-lock.yaml'))).toString()
+  expect(lock).toContain(`/caniuse-lite/${ caniuse.version }:`)
+})

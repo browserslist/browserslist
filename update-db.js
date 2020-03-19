@@ -109,7 +109,7 @@ function deletePackage (node) {
   return node
 }
 
-module.exports = function updateDB () {
+module.exports = function updateDB (print) {
   var lock = detectLockfile()
   lock.content = fs.readFileSync(lock.file).toString()
 
@@ -117,15 +117,15 @@ module.exports = function updateDB () {
   var latest = getLastestInfo()
 
   if (typeof current === 'string') {
-    console.log('Current version: ' + current)
+    print('Current version: ' + current + '\n')
   }
-  console.log(
+  print(
     'New version: ' + latest.version + '\n' +
-    'Updating caniuse-lite…'
+    'Updating caniuse-lite…\n'
   )
 
   fs.writeFileSync(lock.file, updateLockfile(lock, latest))
   childProcess.execSync(lock.mode + ' install')
 
-  console.log('caniuse-lite has been successfully updated')
+  print('caniuse-lite has been successfully updated')
 }

@@ -3,8 +3,9 @@
 var fs = require('fs')
 
 var browserslist = require('./')
-var updateDB = require('./update-db')
+var updateDb = require('./update-db')
 var pkg = require('./package.json')
+
 var args = process.argv.slice(2)
 
 var USAGE = 'Usage:\n' +
@@ -35,7 +36,9 @@ if (isArg('--help') || isArg('-h')) {
 } else if (isArg('--version') || isArg('-v')) {
   process.stdout.write(pkg.name + ' ' + pkg.version + '\n')
 } else if (isArg('--update-db')) {
-  updateDB()
+  updateDb(function (str) {
+    process.stdout.write(str)
+  })
 } else {
   var mode = 'browsers'
   var opts = { }
