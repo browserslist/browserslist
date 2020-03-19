@@ -1,0 +1,12 @@
+{
+  "requires": true,
+  "lockfileVersion": 1,
+  "dependencies": {
+    "qs": {
+      "version": "6.9.1",
+      "resolved": "https://registry.npmjs.org/qs/-/qs-6.9.1.tgz",
+      "integrity": "sha512-Cxm7/SS/y/Z3MHWSxXb8lIFqgqBowP5JMlTUFyJN88y0SGQhVmZnqFK/PeuMX9LzUyWsqqhNxIyg0jlzq946yA==",
+      "dev": true
+    }
+  }
+}

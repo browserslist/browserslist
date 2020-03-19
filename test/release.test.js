@@ -75,10 +75,6 @@ function findPackage (text) {
   return /package.json/.test(text)
 }
 
-function findPackageAndYarn (text) {
-  return /package.json|yarn.lock/.test(text)
-}
-
 function mockStatSync () {
   return {
     isFile: () => true
@@ -117,7 +113,7 @@ it('shows warning', () => {
   browserslist('last 2 versions')
   expect(console.warn).toHaveBeenCalledWith(
     'Browserslist: caniuse-lite is outdated. ' +
-    'Please run the following command: `npm update`'
+    'Please run the following command: `npx browserslist --update-db`'
   )
 })
 
@@ -137,15 +133,4 @@ it('shows warning only once', () => {
   browserslist('last 2 versions')
   browserslist('last 2 versions')
   expect(console.warn).toHaveBeenCalledTimes(1)
-})
-
-it('detects yarn', () => {
-  browserslist.data = olderSixMonthsData
-  fs.existsSync = findPackageAndYarn
-  fs.statSync = mockStatSync
-  browserslist('last 2 versions')
-  expect(console.warn).toHaveBeenCalledWith(
-    'Browserslist: caniuse-lite is outdated. ' +
-    'Please run the following command: `yarn upgrade`'
-  )
 })
