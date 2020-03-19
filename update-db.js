@@ -84,9 +84,9 @@ function updateLockfile (lock, latest) {
         } else if (lines[i].indexOf('/caniuse-lite') >= 0) {
           lines[i] = lines[i].replace(/\/[^/:]+:/, '/' + latest.version + ':')
           for (; i < lines.length; i++) {
-            if (lines[i].indexOf('integrity:') !== -1) {
+            if (lines[i].indexOf('integrity: ') !== -1) {
               lines[i] = lines[i].replace(
-                /integrity: .*$/, 'integrity: ' + latest.dist.integrity
+                /integrity: .+/, 'integrity: ' + latest.dist.integrity
               )
             } else if (lines[i].indexOf(' /') !== -1) {
               break
