@@ -9,7 +9,13 @@ beforeEach(() => {
       'ie 9': 5,
       'ie 10': 10.1,
       'ie 11': 75
+    },
+    XX: {
+      'and_chr 0': 100
     }
+  }
+  browserslist.data.and_chr = {
+    versions: ['80']
   }
 })
 
@@ -57,4 +63,8 @@ it('loads continents from Can I Use', () => {
 
 it('allows omission of the space between the > and the percentage', () => {
   expect(browserslist('>10% in US').length > 0).toBe(true)
+})
+
+it('normalize incorrect caniuse versions for and_*', () => {
+  expect(browserslist('> 50% in XX')).toEqual(['and_chr 80'])
 })
