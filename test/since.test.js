@@ -16,7 +16,7 @@ beforeEach(() => {
     }
   }
   console.warn = function (...args) {
-    if (/(yarn|npm) upgrade/.test(args[0])) return
+    if (args[0].includes('--update-db')) return
     originWarn.apply(this, args)
   }
 })
