@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.10
+* Add `npx browserslist --update-db` (by Ivan Solovev).
+
 ## 4.9.1
 * Normalize incorrect Can I Use regional data (by Huáng Jùnliàng).
 
