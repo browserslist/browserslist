@@ -73,7 +73,7 @@ if (isArg('--help') || isArg('-h')) {
       }
     } else if (name === '--json') {
       mode = 'json'
-    } else if (name === '--mobileToDesktop' || name === '-m') {
+    } else if (name === '--mobileToDesktop') {
       opts.mobileToDesktop = true
     } else {
       error('Unknown arguments ' + args[i] + '.\n\n' + USAGE)
