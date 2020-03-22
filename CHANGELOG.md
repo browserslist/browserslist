@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.11
+* Add `npx browserslist --mobile-to-desktop` (by James Ross).
+
 ## 4.10
 * Add `npx browserslist --update-db` (by Ivan Solovev).
 
