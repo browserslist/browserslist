@@ -18,7 +18,7 @@ var USAGE = 'Usage:\n' +
             '  npx browserslist --coverage=US,RU,global "QUERIES"\n' +
             '  npx browserslist --env="environment name defined in config"\n' +
             '  npx browserslist --stats="path/to/browserlist/stats/file"\n' +
-            '  npx browserslist --mobileToDesktop\n' +
+            '  npx browserslist --mobile-to-desktop\n' +
             '  npx browserslist --update-db'
 
 function isArg (arg) {
@@ -73,7 +73,7 @@ if (isArg('--help') || isArg('-h')) {
       }
     } else if (name === '--json') {
       mode = 'json'
-    } else if (name === '--mobileToDesktop') {
+    } else if (name === '--mobile-to-desktop') {
       opts.mobileToDesktop = true
     } else {
       error('Unknown arguments ' + args[i] + '.\n\n' + USAGE)
