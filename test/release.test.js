@@ -112,8 +112,8 @@ it('shows warning', () => {
   fs.statSync = mockStatSync
   browserslist('last 2 versions')
   expect(console.warn).toHaveBeenCalledWith(
-    'Browserslist: caniuse-lite is outdated. ' +
-    'Please run the following command: `npx browserslist --update-db`'
+    'Browserslist: caniuse-lite is outdated. Please run:\n' +
+    'npx browserslist@latest --update-db'
   )
 })
 
