@@ -1,8 +1,8 @@
 let { remove, copy, readFile, ensureDir } = require('fs-extra')
 let { execSync } = require('child_process')
+let { nanoid } = require('nanoid/non-secure')
 let { tmpdir } = require('os')
 let { join } = require('path')
-let nanoid = require('nanoid/non-secure')
 
 let updateDd = require('../update-db')
 
