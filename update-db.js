@@ -19,12 +19,13 @@ function detectLockfile () {
   var lockfileYarn = path.join(rootDir, 'yarn.lock')
   var lockfilePnpm = path.join(rootDir, 'pnpm-lock.yaml')
 
-  if (fs.existsSync(lockfileNpm)) {
+  /* istanbul ignore next */
+  if (fs.existsSync(lockfilePnpm)) {
+    return { mode: 'pnpm', file: lockfilePnpm }
+  } else if (fs.existsSync(lockfileNpm)) {
     return { mode: 'npm', file: lockfileNpm }
   } else if (fs.existsSync(lockfileYarn)) {
     return { mode: 'yarn', file: lockfileYarn }
-  } else if (fs.existsSync(lockfilePnpm)) {
-    return { mode: 'pnpm', file: lockfilePnpm }
   } else {
     throw new BrowserslistError(
       'No lockfile found. Run "npm install", "yarn install" or "pnpm install"'
@@ -34,16 +35,17 @@ function detectLockfile () {
 
 function getCurrentVersion (lock) {
   var match
-  if (lock.mode === 'npm') {
+  /* istanbul ignore if */
+  if (lock.mode === 'pnpm') {
+    match = /\/caniuse-lite\/([^:]+):/.exec(lock.content)
+    if (match[1]) return match[1]
+  } else if (lock.mode === 'npm') {
     var dependencies = JSON.parse(lock.content).dependencies
     if (dependencies && dependencies['caniuse-lite']) {
       return dependencies['caniuse-lite'].version
     }
   } else if (lock.mode === 'yarn') {
     match = /caniuse-lite@[^:]+:\n\s+version\s+"([^"]+)"/.exec(lock.content)
-    if (match[1]) return match[1]
-  } else if (lock.mode === 'pnpm') {
-    match = /\/caniuse-lite\/([^:]+):/.exec(lock.content)
     if (match[1]) return match[1]
   }
   return null
@@ -62,22 +64,8 @@ function updateLockfile (lock, latest) {
   } else {
     var lines = lock.content.split('\n')
     var i
-    if (lock.mode === 'yarn') {
-      for (i = 0; i < lines.length; i++) {
-        if (lines[i].indexOf('caniuse-lite@') !== -1) {
-          lines[i + 1] = lines[i + 1].replace(
-            /version "[^"]+"/, 'version "' + latest.version + '"'
-          )
-          lines[i + 2] = lines[i + 2].replace(
-            /resolved "[^"]+"/, 'resolved "' + latest.dist.tarball + '"'
-          )
-          lines[i + 3] = lines[i + 3].replace(
-            /integrity .+/, 'integrity ' + latest.dist.integrity
-          )
-          i += 4
-        }
-      }
-    } else if (lock.mode === 'pnpm') {
+    /* istanbul ignore if */
+    if (lock.mode === 'pnpm') {
       for (i = 0; i < lines.length; i++) {
         if (lines[i].indexOf('caniuse-lite:') >= 0) {
           lines[i] = lines[i].replace(/: .*$/, ': ' + latest.version)
@@ -92,6 +80,21 @@ function updateLockfile (lock, latest) {
               break
             }
           }
+        }
+      }
+    } else if (lock.mode === 'yarn') {
+      for (i = 0; i < lines.length; i++) {
+        if (lines[i].indexOf('caniuse-lite@') !== -1) {
+          lines[i + 1] = lines[i + 1].replace(
+            /version "[^"]+"/, 'version "' + latest.version + '"'
+          )
+          lines[i + 2] = lines[i + 2].replace(
+            /resolved "[^"]+"/, 'resolved "' + latest.dist.tarball + '"'
+          )
+          lines[i + 3] = lines[i + 3].replace(
+            /integrity .+/, 'integrity ' + latest.dist.integrity
+          )
+          i += 4
         }
       }
     }

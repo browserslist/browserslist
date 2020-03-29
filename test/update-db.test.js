@@ -34,6 +34,10 @@ function runUpdate () {
   return out
 }
 
+function isInstalled (cmd) {
+  return execSync(`whereis ${ cmd }`).toString().trim() !== `${ cmd }:`
+}
+
 let caniuse = JSON.parse(execSync('npm show caniuse-lite --json').toString())
 
 it('throws on missing package.json', async () => {
@@ -95,16 +99,18 @@ it('updates caniuse-lite for yarn', async () => {
   )
 })
 
-it('updates caniuse-lite for pnpm', async () => {
-  let dir = await chdir('update-pnpm', 'package.json', 'pnpm-lock.yaml')
+if (isInstalled('pnpm') || process.env.CI) {
+  it('updates caniuse-lite for pnpm', async () => {
+    let dir = await chdir('update-pnpm', 'package.json', 'pnpm-lock.yaml')
 
-  expect(runUpdate()).toEqual(
-    'Current version: 1.0.30001035\n' +
-    `New version: ${ caniuse.version }\n` +
-    'Updating caniuse-lite…\n' +
-    'caniuse-lite has been successfully updated'
-  )
+    expect(runUpdate()).toEqual(
+      'Current version: 1.0.30001035\n' +
+      `New version: ${ caniuse.version }\n` +
+      'Updating caniuse-lite…\n' +
+      'caniuse-lite has been successfully updated'
+    )
 
-  let lock = (await readFile(join(dir, 'pnpm-lock.yaml'))).toString()
-  expect(lock).toContain(`/caniuse-lite/${ caniuse.version }:`)
-})
+    let lock = (await readFile(join(dir, 'pnpm-lock.yaml'))).toString()
+    expect(lock).toContain(`/caniuse-lite/${ caniuse.version }:`)
+  })
+}
