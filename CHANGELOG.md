@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.11.1
+* FIx Node.js 6 support.
+
 ## 4.11
 * Add `npx browserslist --mobile-to-desktop` (by James Ross).
 
