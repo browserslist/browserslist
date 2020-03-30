@@ -48,8 +48,8 @@
     "husky": "^4.2.3",
     "jest": "^25.2.4",
     "jest-ci": "^0.1.1",
-    "lint-staged": "^10.0.10",
-    "nanoid": "^3.0.1",
+    "lint-staged": "^10.1.0",
+    "nanoid": "^3.0.2",
     "rimraf": "^3.0.2",
     "size-limit": "^4.4.2",
     "yaspeller-ci": "^1.0.2"
