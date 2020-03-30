@@ -6,8 +6,9 @@ let { join } = require('path')
 
 let updateDd = require('../update-db')
 
-let testdir
+jest.setTimeout(10000)
 
+let testdir
 afterEach(async () => {
   process.chdir(join(__dirname, '..'))
   await remove(testdir)
