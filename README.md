@@ -68,16 +68,24 @@ Browserslist will take queries from tool option,
 
 ## Table of Contents
 
-1. [Tools](#tools)
-2. [Best Practices](#best-practices)
-3. [Queries](#queries)
-4. [Config File](#config-file)
-5. [Shareable Configs](#shareable-configs)
-6. [Configuring for Different Environments](#configuring-for-different-environments)
-7. [Custom Usage Data](#custom-usage-data)
-8. [JS API](#js-api)
-9. [Environment Variables](#environment-variables)
-10. [Cache](#cache)
+* [Tools](#tools)
+* [Best Practices](#best-practices)
+* [Queries](#queries)
+  * [Query Composition](#query-composition)
+  * [Full List](#full-list)
+  * [Debug](#debug)
+  * [Browsers](#browsers)
+* [Config File](#config-file)
+  * [`package.json`](#packagejson)
+  * [`.browserslistrc`](#browserslistrc)
+* [Shareable Configs](#shareable-configs)
+* [Configuring for Different Environments](#configuring-for-different-environments)
+* [Custom Usage Data](#custom-usage-data)
+* [JS API](#js-api)
+* [Environment Variables](#environment-variables)
+* [Cache](#cache)
+* [Security Contact](#security-contact)
+* [For Enterprise](#for-enterprise)
 
 ## Tools
 
@@ -599,8 +607,12 @@ Tidelift will coordinate the fix and disclosure.
 
 [Tidelift security contact]: https://tidelift.com/security
 
-## For enterprise
+## For Enterprise
 
 Available as part of the Tidelift Subscription.
 
-The maintainers of `browserslist` and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. [Learn more.](https://tidelift.com/subscription/pkg/npm-browserslist?utm_source=npm-browserslist&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
+The maintainers of `browserslist` and thousands of other packages are working
+with Tidelift to deliver commercial support and maintenance for the open source
+dependencies you use to build your applications. Save time, reduce risk,
+and improve code health, while paying the maintainers of the exact dependencies
+you use. [Learn more.](https://tidelift.com/subscription/pkg/npm-browserslist?utm_source=npm-browserslist&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)

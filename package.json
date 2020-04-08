@@ -144,7 +144,8 @@
       "webpack",
       "WebView",
       "browserslist",
-      "PhantomJS"
+      "PhantomJS",
+      "maintainers"
     ]
   },
   "sharec": {
