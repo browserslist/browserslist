@@ -1,10 +1,9 @@
 language: node_js
 cache: yarn
 node_js:
+  - 10.0
+  - 12
   - node
-  - "12"
-  - "10"
-  - "8"
 before_install:
   - yarn global add pnpm --ignore-engines
 install:
