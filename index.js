@@ -424,7 +424,8 @@ function browserslist (queries, opts) {
   var context = {
     ignoreUnknownVersions: opts.ignoreUnknownVersions,
     dangerousExtend: opts.dangerousExtend,
-    mobileToDesktop: opts.mobileToDesktop
+    mobileToDesktop: opts.mobileToDesktop,
+    env: opts.env
   }
 
   env.oldDataWarning(browserslist.data)

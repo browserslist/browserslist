@@ -77,12 +77,13 @@ it('handles relative queries with local overrides', async () => {
   expect(result).toEqual(['ie 10'])
 })
 
-it('throws when external package does not resolve to an array', async () => {
-  await mock('browserslist-config-wrong', { not: 'an array' })
-  expect(() => {
-    browserslist(['extends browserslist-config-wrong'])
-  }).toThrow(/not an array/)
-})
+it('throws when external package does not resolve to an array or an object',
+  async () => {
+    await mock('browserslist-config-wrong', 'some string')
+    expect(() => {
+      browserslist(['extends browserslist-config-wrong'])
+    }).toThrow(/not an array of queries or an object/)
+  })
 
 it('throws when package does not have browserslist-config- prefix', () => {
   expect(() => {
@@ -100,4 +101,21 @@ it('throws when extends package has node_modules in path', () => {
   expect(() => {
     browserslist(['extends browserslist-config-test/node_modules/a'])
   }).toThrow(/`node_modules` not allowed/)
+})
+
+it('works with shareable config contains env', async () => {
+  process.env.NODE_ENV = 'test'
+  await mock('browserslist-config-with-env', {
+    test: ['ie 10']
+  })
+  let result = browserslist(['extends browserslist-config-with-env'])
+  expect(result).toEqual(['ie 10'])
+})
+
+it('works with shareable config contains defaults env', async () => {
+  await mock('browserslist-config-with-env', {
+    defaults: ['ie 10']
+  })
+  let result = browserslist(['extends browserslist-config-with-env'])
+  expect(result).toEqual(['ie 10'])
 })
