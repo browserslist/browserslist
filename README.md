@@ -126,6 +126,11 @@ Browserslist will take queries from tool option,
     ]
   ```
 
+* If you're targeting modern browsers, we recommend using `balanced`. This set
+  cuts the bloat by selecting only browsers that still receive security updates.
+  It requires 75% less poly-filling than the `default` set while providing a
+  good global coverage (> 85%).
+  [(analysis)](https://github.com/browserslist/browserslist/issues/435#issuecomment-575407090)
 * If you want to change the default set of browsers, we recommend combining
   `last 2 versions`, `not dead` with a usage number like `> 0.2%`. This is
   because `last n versions` on its own does not add popular old versions, while
@@ -155,7 +160,7 @@ from one of these sources:
 4. `BROWSERSLIST` environment variable.
 5. If the above methods did not produce a valid result
    Browserslist will use defaults:
-   `> 0.5%, last 2 versions, Firefox ESR, not dead`.
+   `> 0.5%, last 2 versions, safe, not dead`.
 
 
 ### Query Composition
@@ -187,7 +192,9 @@ in your terminal._
 You can specify the browser and Node.js versions by queries (case insensitive):
 
 * `defaults`: Browserslist’s default browsers
-  (`> 0.5%, last 2 versions, Firefox ESR, not dead`).
+  (`> 0.5%, last 2 versions, safe, not dead`).
+* `balanced`: target modern (updated) browsers (`last 2 versions, safe, not
+  unsafe, not < 0.1%`).
 * `> 5%`: browsers versions selected by global usage statistics.
   `>=`, `<` and `<=` work too.
 * `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
@@ -222,6 +229,10 @@ You can specify the browser and Node.js versions by queries (case insensitive):
 * `dead`: browsers without official support or updates for 24 months.
   Right now it is `IE 10`, `IE_Mob 10`, `BlackBerry 10`, `BlackBerry 7`,
   `Samsung 4` and `OperaMobile 12.1`.
+* `safe`: browsers that are not part of `last 2 versions` anymore but that are
+  still receiving security patches.
+* `unsafe`: browsers that are still part of `last 2 versions` but that are not
+  receiving security patches anymore.
 * `last 2 versions`: the last 2 versions for *each* browser.
 * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
 * `not ie <= 8`: exclude browsers selected by previous queries.

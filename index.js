@@ -514,7 +514,7 @@ browserslist.usage = {
 browserslist.defaults = [
   '> 0.5%',
   'last 2 versions',
-  'Firefox ESR',
+  'safe',
   'not dead'
 ]
 
@@ -1102,6 +1102,18 @@ var QUERIES = [
     }
   },
   {
+    regexp: /^balanced$/i,
+    select: function (context) {
+      var balanced = [
+        'last 2 versions',
+        'safe',
+        'not unsafe',
+        'not < 0.1%'
+      ]
+      return resolve(balanced, context)
+    }
+  },
+  {
     regexp: /^dead$/i,
     select: function (context) {
       var dead = [
@@ -1112,6 +1124,30 @@ var QUERIES = [
         'samsung 4'
       ]
       return resolve(dead, context)
+    }
+  },
+  {
+    // Not in `last 2 versions` but still receive _security_ updates.
+    regexp: /^safe$/i,
+    select: function (context) {
+      var safe = [
+        'firefox esr', // Long-Term-Support
+        'ios_saf 12', // Still active
+        'edge 18' // Still active
+      ]
+      return resolve(safe, context)
+    }
+  },
+  {
+    // In `last 2 versions` but doesn't receive _security_ updates.
+    regexp: /^unsafe$/i,
+    select: function (context) {
+      var unsafe = [
+        'ie 11', // No more security fixes
+        'ie_mob 11', // Almost dead
+        'op_mob 46' // Outdated, now based on Chrome
+      ]
+      return resolve(unsafe, context)
     }
   },
   {
