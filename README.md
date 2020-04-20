@@ -373,8 +373,25 @@ module.exports = [
 ```
 
 You can also include a `browserslist-stats.json` file as part of your shareable
-config at the root and query it using `> 5% in browserslist-config-mycompany stats`.
-It uses the same format as `extends` and the `dangerousExtend` property as above.
+config at the root and query it using
+`> 5% in browserslist-config-mycompany stats`. It uses the same format
+as `extends` and the `dangerousExtend` property as above.
+
+You can export configs for different environments and select environment
+by `BROWSERSLIST_ENV` or `env` option in your tool:
+
+```js
+module.exports = {
+  development: [
+    'last 1 version'
+  ],
+  production: [
+    'last 1 version',
+    '> 1%',
+    'ie 10'
+  ]
+}
+```
 
 
 ## Configuring for Different Environments
@@ -606,6 +623,7 @@ To report a security vulnerability, please use the [Tidelift security contact].
 Tidelift will coordinate the fix and disclosure.
 
 [Tidelift security contact]: https://tidelift.com/security
+
 
 ## For Enterprise
 
