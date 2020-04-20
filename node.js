@@ -156,12 +156,22 @@ module.exports = {
     if (!context.dangerousExtend) checkExtend(name)
     // eslint-disable-next-line security/detect-non-literal-require
     var queries = require(require.resolve(name, { paths: ['.'] }))
-    if (!Array.isArray(queries)) {
+    if (!queries) {
       throw new BrowserslistError(
-        '`' + name + '` config exports not an array of queries'
+        '`' + name + '` config doesn\'t export a configuration'
       )
     }
-    return queries
+    if (Array.isArray(queries)) {
+      return queries
+    }
+    if (typeof queries === 'object') {
+      if (!queries.defaults) queries.defaults = []
+      return pickEnv(queries, context, name)
+    }
+    throw new BrowserslistError(
+      '`' + name + '` config exports not an array of queries' +
+      ' or an object of envs'
+    )
   },
 
   loadStat: function loadStat (context, name, data) {
