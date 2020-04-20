@@ -30,6 +30,7 @@
     "@logux/eslint-config": "^35.0.4",
     "@logux/sharec-config": "^0.5.7",
     "@size-limit/preset-small-lib": "^4.4.5",
+    "ci-job-number": "^1.2.2",
     "clean-publish": "^1.1.7",
     "cross-spawn": "^7.0.2",
     "eslint": "^6.8.0",
