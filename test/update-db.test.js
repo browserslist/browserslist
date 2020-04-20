@@ -102,7 +102,7 @@ it('updates caniuse-lite for yarn', async () => {
   )
 })
 
-if (isInstalled('pnpm') || (process.env.CI && !NODE_8)) {
+if (!NODE_8 && (isInstalled('pnpm') || process.env.CI)) {
   it('updates caniuse-lite for pnpm', async () => {
     let dir = await chdir('update-pnpm', 'package.json', 'pnpm-lock.yaml')
 
