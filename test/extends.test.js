@@ -127,3 +127,11 @@ it('works with shareable config contains defaults env', async () => {
   let result = browserslist(['extends browserslist-config-with-defaults'])
   expect(result).toEqual(['ie 10'])
 })
+
+it('throws when external package resolve to nullable',
+  async () => {
+    await mock('browserslist-config-null', null)
+    expect(() => {
+      browserslist(['extends browserslist-config-null'])
+    }).toThrow(/onfig doesn't export a configuration/)
+  })
