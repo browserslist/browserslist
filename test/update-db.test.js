@@ -1,11 +1,12 @@
 let { remove, copy, readFile, ensureDir } = require('fs-extra')
-let ciJobNumber = require('ci-job-number')
 let { execSync } = require('child_process')
 let { nanoid } = require('nanoid/non-secure')
 let { tmpdir } = require('os')
 let { join } = require('path')
 
 let updateDd = require('../update-db')
+
+const NODE_8 = process.version.startsWith('v8.')
 
 jest.setTimeout(10000)
 
@@ -101,7 +102,7 @@ it('updates caniuse-lite for yarn', async () => {
   )
 })
 
-if (isInstalled('pnpm') || (process.env.CI && ciJobNumber() === 1)) {
+if (isInstalled('pnpm') || (process.env.CI && !NODE_8)) {
   it('updates caniuse-lite for pnpm', async () => {
     let dir = await chdir('update-pnpm', 'package.json', 'pnpm-lock.yaml')
 
