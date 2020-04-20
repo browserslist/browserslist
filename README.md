@@ -170,9 +170,10 @@ There is 3 different ways to combine queries as depicted below. First you start
 with a single query and then we combine the queries to get our final list.
 
 Obviously you can *not* start with a `not` combiner, since there is no left-hand
-side query to combine it with. The handside is always relsolved as `and` combiner even if `or` is used (this is an API implementation specificity).
+side query to combine it with. The left-hand is always resolved as `and`
+combiner even if `or` is used (this is an API implementation specificity).
 
-`and` combiner has precedance over `or` combiner.
+`and` combiner has precedence over `or` combiner.
 
 | Query combiner type | Illustration | Example |
 | ------------------- | :----------: | ------- |
