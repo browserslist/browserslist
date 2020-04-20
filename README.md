@@ -170,13 +170,15 @@ There is 3 different ways to combine queries as depicted below. First you start
 with a single query and then we combine the queries to get our final list.
 
 Obviously you can *not* start with a `not` combiner, since there is no left-hand
-side query to combine it with.
+side query to combine it with. The handside is always relsolved as `and` combiner even if `or` is used (this is an API implementation specificity).
+
+`and` combiner has precedance over `or` combiner.
 
 | Query combiner type | Illustration | Example |
 | ------------------- | :----------: | ------- |
 |`or`/`,` combiner <br> (union) | ![Union of queries](img/union.svg)  | `> .5% or last 2 versions` <br> `> .5%, last 2 versions` |
 | `and` combiner <br> (intersection) | ![intersection of queries](img/intersection.svg) | `> .5% and last 2 versions` |
-| `not` combiner <br> (relative complement) | ![Relative complement of queries](img/complement.svg) | `> .5% and not last 2 versions` <br> `> .5% or not last 2 versions` <br> `> .5%, not last 2 versions` |
+| `not` combiner <br> (relative complement) | ![Relative complement of queries](img/complement.svg) | All those three are equivalent to the first one <br> `> .5% and not last 2 versions` <br> `> .5% or not last 2 versions` <br> `> .5%, not last 2 versions` |
 
 _A quick way to test your query is to do `npx browserslist '> 0.5%, not IE 11'`
 in your terminal._
@@ -311,7 +313,8 @@ browsers in `package.json` with `browserslist` key:
 ### `.browserslistrc`
 
 Separated Browserslist config should be named `.browserslistrc`
-and have browsers queries split by a new line. Comments starts with `#` symbol:
+and have browsers queries split by a new line.
+Each line is combined with the `or` combiner. Comments starts with `#` symbol:
 
 ```yaml
 # Browsers that we support
