@@ -103,6 +103,14 @@ it('throws when extends package has node_modules in path', () => {
   }).toThrow(/`node_modules` not allowed/)
 })
 
+it('works with shareable config doesn\'t contains defaults env', async () => {
+  await mock('browserslist-config-with-env-a', {
+    someEnv: ['ie 10']
+  })
+  let result = browserslist(['extends browserslist-config-with-env-a'])
+  expect(result).toEqual([])
+})
+
 it('works with shareable config contains env', async () => {
   process.env.NODE_ENV = 'test'
   await mock('browserslist-config-with-env', {
