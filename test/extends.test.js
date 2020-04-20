@@ -112,18 +112,18 @@ it('works with shareable config doesn\'t contains defaults env', async () => {
 })
 
 it('works with shareable config contains env', async () => {
-  process.env.NODE_ENV = 'test'
-  await mock('browserslist-config-with-env', {
-    test: ['ie 10']
+  process.env.NODE_ENV = 'someEnv'
+  await mock('browserslist-config-with-env-b', {
+    someEnv: ['ie 10']
   })
-  let result = browserslist(['extends browserslist-config-with-env'])
+  let result = browserslist(['extends browserslist-config-with-env-b'])
   expect(result).toEqual(['ie 10'])
 })
 
 it('works with shareable config contains defaults env', async () => {
-  await mock('browserslist-config-with-env', {
+  await mock('browserslist-config-with-defaults', {
     defaults: ['ie 10']
   })
-  let result = browserslist(['extends browserslist-config-with-env'])
+  let result = browserslist(['extends browserslist-config-with-defaults'])
   expect(result).toEqual(['ie 10'])
 })
