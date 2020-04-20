@@ -77,13 +77,12 @@ it('handles relative queries with local overrides', async () => {
   expect(result).toEqual(['ie 10'])
 })
 
-it('throws when external package does not resolve to an array or an object',
-  async () => {
-    await mock('browserslist-config-wrong', 'some string')
-    expect(() => {
-      browserslist(['extends browserslist-config-wrong'])
-    }).toThrow(/not an array of queries or an object/)
-  })
+it('throws on external package with empty export', async () => {
+  await mock('browserslist-config-wrong', 'some string')
+  expect(() => {
+    browserslist(['extends browserslist-config-wrong'])
+  }).toThrow(/not an array of queries or an object/)
+})
 
 it('throws when package does not have browserslist-config- prefix', () => {
   expect(() => {
@@ -128,10 +127,9 @@ it('works with shareable config contains defaults env', async () => {
   expect(result).toEqual(['ie 10'])
 })
 
-it('throws when external package resolve to nullable',
-  async () => {
-    await mock('browserslist-config-null', null)
-    expect(() => {
-      browserslist(['extends browserslist-config-null'])
-    }).toThrow(/onfig doesn't export a configuration/)
-  })
+it('throws when external package resolve to nullable', async () => {
+  await mock('browserslist-config-null', null)
+  expect(() => {
+    browserslist(['extends browserslist-config-null'])
+  }).toThrow(/config exports not an array/)
+})
