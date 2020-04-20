@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.12
+* Add environments to shared configs (by Yevgeny Petukhov).
+* Fix docs (by Dmitry Statsenko and Thomas Pozzo di Borgo).
+
 ## 4.11.1
 * FIx Node.js 6 support.
 
