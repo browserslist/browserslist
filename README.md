@@ -17,12 +17,12 @@ front-end tools. It is used in:
 All tools will find target browsers automatically,
 when you add the following to `package.json`:
 
-```js
+```json
   "browserslist": [
     "defaults",
     "not IE 11",
     "not IE_Mob 11",
-    "maintained node versions",
+    "maintained node versions"
   ]
 ```
 
