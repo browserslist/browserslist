@@ -240,7 +240,7 @@ You can add `not ` to any query.
 
 ### Debug
 
-Run `npx browserslist` in project directory to see what browsers was selected
+Run `npx browserslist defaults` in project directory to see what browsers was selected
 by your queries.
 
 ```sh
