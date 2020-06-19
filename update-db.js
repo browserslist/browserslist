@@ -1,12 +1,19 @@
 var childProcess = require('child_process')
-var pkgUp = require('pkg-up')
+var escalade = require('escalade/sync')
 var path = require('path')
 var fs = require('fs')
 
 var BrowserslistError = require('./error')
 
+// eslint-disable-next-line consistent-return
+function filterPkg (dir, names) {
+  if (names.indexOf('package.json') !== -1) {
+    return path.join(dir, 'package.json')
+  }
+}
+
 function detectLockfile () {
-  var packagePath = pkgUp.sync()
+  var packagePath = escalade('.', filterPkg)
   if (!packagePath) {
     throw new BrowserslistError(
       'Cannot find package.json. ' +
