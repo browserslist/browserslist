@@ -5,11 +5,11 @@ var fs = require('fs')
 
 var BrowserslistError = require('./error')
 
-// eslint-disable-next-line consistent-return
 function filterPkg (dir, names) {
   if (names.indexOf('package.json') !== -1) {
     return path.join(dir, 'package.json')
   }
+  return ''
 }
 
 function detectLockfile () {

@@ -22,7 +22,7 @@
   "dependencies": {
     "caniuse-lite": "^1.0.30001043",
     "electron-to-chromium": "^1.3.413",
-    "escalade": "^2.0.0",
+    "escalade": "^3.0.0",
     "node-releases": "^1.1.53"
   },
   "bin": "./cli.js",
