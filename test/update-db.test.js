@@ -1,7 +1,7 @@
 let { remove, copy, readFile, ensureDir } = require('fs-extra')
 let { execSync } = require('child_process')
 let { nanoid } = require('nanoid/non-secure')
-let { tmpdir, homedir } = require('os')
+let { homedir } = require('os')
 let { join } = require('path')
 
 let updateDd = require('../update-db')
@@ -17,7 +17,7 @@ afterEach(async () => {
 })
 
 async function chdir (fixture, ...files) {
-  testdir = join(homedir(), tmpdir(), `browserslist-${ fixture }-${ nanoid() }`)
+  testdir = join(homedir(), `browserslist-test-${ fixture }-${ nanoid() }`)
   await ensureDir(testdir)
 
   let from = join(__dirname, 'fixtures', fixture)
