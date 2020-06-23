@@ -5,26 +5,21 @@ var fs = require('fs')
 
 var BrowserslistError = require('./error')
 
-function filterPkg (dir, names) {
-  if (names.indexOf('package.json') !== -1) {
-    return path.join(dir, 'package.json')
-  }
-  return ''
-}
-
 function detectLockfile () {
-  var packagePath = escalade('.', filterPkg)
-  if (!packagePath) {
+  var packageDir = escalade('.', function (dir, names) {
+    return names.indexOf('package.json') !== -1 ? dir : ''
+  })
+
+  if (!packageDir) {
     throw new BrowserslistError(
       'Cannot find package.json. ' +
       'Is it a right project to run npx browserslist --update-db?'
     )
   }
 
-  var rootDir = path.dirname(packagePath)
-  var lockfileNpm = path.join(rootDir, 'package-lock.json')
-  var lockfileYarn = path.join(rootDir, 'yarn.lock')
-  var lockfilePnpm = path.join(rootDir, 'pnpm-lock.yaml')
+  var lockfileNpm = path.join(packageDir, 'package-lock.json')
+  var lockfileYarn = path.join(packageDir, 'yarn.lock')
+  var lockfilePnpm = path.join(packageDir, 'pnpm-lock.yaml')
 
   /* istanbul ignore next */
   if (fs.existsSync(lockfilePnpm)) {
