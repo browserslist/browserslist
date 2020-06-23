@@ -2510,6 +2510,11 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
+escalade@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/escalade/-/escalade-3.0.0.tgz#79b81f3c4bebb9c1727f0adba4b0f9d0ff050ca9"
+  integrity sha512-mA6h4UpYVBSxD7uq6y9RDtiYd9EMyuzITP1WgPKH2Gd0cDtnGP4LUrIoteH+BWRJfCXl94J/0dNfjUa45Oh+hQ==
+
 escape-html@^1.0.3, escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
