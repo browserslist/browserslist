@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.12.1
+* Update `package.json` scanning tool for `--update-db` (by Luke Edwards).
+* Improve docs (by Mukundan Senthil).
+
 ## 4.12
 * Add environments to shared configs (by Yevgeny Petukhov).
 * Fix docs (by Dmitry Statsenko and Thomas Pozzo di Borgo).
