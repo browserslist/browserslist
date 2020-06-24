@@ -43,7 +43,7 @@ it('throws on unknown Electron range version', () => {
 
 it('converts Electron versions to Chrome', () => {
   expect(browserslist('electron <= 0.21')).toEqual([
-    'chrome 40', 'chrome 39'
+    'chrome 41', 'chrome 39'
   ])
 })
 

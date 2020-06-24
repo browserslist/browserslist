@@ -20,10 +20,10 @@
     "clean": "rimraf api.md coverage/"
   },
   "dependencies": {
-    "caniuse-lite": "^1.0.30001043",
-    "electron-to-chromium": "^1.3.413",
-    "escalade": "^3.0.0",
-    "node-releases": "^1.1.53"
+    "caniuse-lite": "^1.0.30001088",
+    "electron-to-chromium": "^1.3.481",
+    "escalade": "^3.0.1",
+    "node-releases": "^1.1.58"
   },
   "engines": {
     "node": "^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7"
@@ -32,9 +32,9 @@
   "devDependencies": {
     "@logux/eslint-config": "^35.0.4",
     "@logux/sharec-config": "^0.5.7",
-    "@size-limit/preset-small-lib": "^4.4.5",
+    "@size-limit/preset-small-lib": "^4.5.2",
     "clean-publish": "^1.1.7",
-    "cross-spawn": "^7.0.2",
+    "cross-spawn": "^7.0.3",
     "eslint": "^6.8.0",
     "eslint-ci": "^1.0.0",
     "eslint-config-standard": "^14.1.1",
@@ -51,10 +51,10 @@
     "husky": "^4.2.5",
     "jest": "^25.4.0",
     "jest-ci": "^0.1.1",
-    "lint-staged": "^10.1.6",
-    "nanoid": "^3.1.3",
+    "lint-staged": "^10.2.11",
+    "nanoid": "^3.1.10",
     "rimraf": "^3.0.2",
-    "size-limit": "^4.4.5",
+    "size-limit": "^4.5.2",
     "yaspeller-ci": "^1.0.2"
   },
   "browser": {
@@ -80,7 +80,7 @@
   "size-limit": [
     {
       "path": "index.js",
-      "limit": "12 KB"
+      "limit": "13 KB"
     }
   ],
   "lint-staged": {

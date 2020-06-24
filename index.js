@@ -646,7 +646,7 @@ var QUERIES = [
   {
     regexp: /^last\s+(\d+)\s+electron\s+major\s+versions?$/i,
     select: function (context, versions) {
-      var validVersions = getMajorVersions(Object.keys(e2c).reverse(), versions)
+      var validVersions = getMajorVersions(Object.keys(e2c), versions)
       return validVersions.map(function (i) {
         return 'chrome ' + e2c[i]
       })
