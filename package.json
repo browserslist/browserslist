@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "caniuse-lite": "^1.0.30001088",
-    "electron-to-chromium": "^1.3.481",
+    "electron-to-chromium": "^1.3.483",
     "escalade": "^3.0.1",
     "node-releases": "^1.1.58"
   },
