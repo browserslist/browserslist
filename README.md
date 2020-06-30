@@ -202,6 +202,7 @@ You can specify the browser and Node.js versions by queries (case insensitive):
 * `cover 99.5%`: most popular browsers that provide coverage.
 * `cover 99.5% in US`: same as above, with [two-letter country code].
 * `cover 99.5% in my stats`: uses [custom usage data].
+* `feature rtcpeerconnection`: browsers with support for specific features.
 * `maintained node versions`: all Node.js versions, which are [still maintained]
   by Node.js Foundation.
 * `node 10` and `node 10.4`: selects latest Node.js `10.x.x`

@@ -888,6 +888,18 @@ var QUERIES = [
     }
   },
   {
+    regexp: /^feature\s+(\w+)$/,
+    select: function (context, feature) {
+      var usage = browserslist.usage[feature]
+      return Object.keys(usage).reduce(function (result, version) {
+        if (usage[version] !== 'n') {
+          result.push(version)
+        }
+        return result
+      }, [])
+    }
+  },
+  {
     regexp: /^electron\s+([\d.]+)\s*-\s*([\d.]+)$/i,
     select: function (context, from, to) {
       var fromToUse = normalizeElectron(from)
