@@ -21,7 +21,7 @@ it('throws on sharable config', () => {
 it('throws on country statistics', () => {
   expect(() => {
     browserslist('> 1% in US')
-  }).toThrow(/Country statistics is not supported/)
+  }).toThrow(/Country statistics are not supported/)
 })
 
 it('throws on config path', () => {
