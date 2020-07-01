@@ -893,7 +893,7 @@ var QUERIES = [
       env.loadFeature(browserslist.usage, feature)
       var usage = browserslist.usage[feature]
       return Object.keys(usage).reduce(function (result, version) {
-        if (usage[version] !== 'n') {
+        if (usage[version].indexOf('n') === -1) {
           result.push(version)
         }
         return result
