@@ -890,6 +890,7 @@ var QUERIES = [
   {
     regexp: /^feature\s+(\w+)$/,
     select: function (context, feature) {
+      env.loadFeature(browserslist.usage, feature)
       var usage = browserslist.usage[feature]
       return Object.keys(usage).reduce(function (result, version) {
         if (usage[version] !== 'n') {

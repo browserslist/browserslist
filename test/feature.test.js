@@ -3,12 +3,7 @@ let browserslist = require('..')
 let originUsage = browserslist.usage
 
 beforeEach(() => {
-  browserslist.usage = {
-    rtcpeerconnection: {
-      'and_chr 81': 'y',
-      'firefox 2': 'n'
-    }
-  }
+  browserslist.usage = {}
   browserslist.data.and_chr = {
     versions: ['81']
   }
@@ -18,6 +13,17 @@ afterEach(() => {
   browserslist.usage = originUsage
 })
 
+it('load features from Can I Use', () => {
+  expect(browserslist('feature objectrtc').length > 0).toBe(true)
+})
+
 it('selects browsers by feature', () => {
+  browserslist.usage = {
+    rtcpeerconnection: {
+      'and_chr 81': 'y',
+      'firefox 2': 'n'
+    }
+  }
+
   expect(browserslist('feature rtcpeerconnection')).toEqual(['and_chr 81'])
 })
