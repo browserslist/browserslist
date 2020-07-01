@@ -14,7 +14,7 @@ afterEach(() => {
 })
 
 it('load features from Can I Use', () => {
-  expect(browserslist('feature objectrtc').length > 0).toBe(true)
+  expect(browserslist('supports objectrtc').length > 0).toBe(true)
 })
 
 it('selects browsers by feature', () => {
@@ -25,5 +25,5 @@ it('selects browsers by feature', () => {
     }
   }
 
-  expect(browserslist('feature rtcpeerconnection')).toEqual(['and_chr 81'])
+  expect(browserslist('supports rtcpeerconnection')).toEqual(['and_chr 81'])
 })

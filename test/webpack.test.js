@@ -26,7 +26,7 @@ it('throws on country statistics', () => {
 
 it('throws on feature statistics', () => {
   expect(() => {
-    browserslist('feature rtcpeerconnection')
+    browserslist('supports rtcpeerconnection')
   }).toThrow(/Feature statistics are not supported/)
 })
 

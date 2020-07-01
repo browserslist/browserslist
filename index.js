@@ -888,7 +888,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^feature\s+(\w+)$/,
+    regexp: /^supports\s+(\w+)$/,
     select: function (context, feature) {
       env.loadFeature(browserslist.usage, feature)
       var usage = browserslist.usage[feature]
