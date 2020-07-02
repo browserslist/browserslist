@@ -148,7 +148,8 @@
       "WebView",
       "browserslist",
       "PhantomJS",
-      "maintainers"
+      "maintainers",
+      "ES"
     ]
   },
   "sharec": {
