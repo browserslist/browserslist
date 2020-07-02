@@ -7,13 +7,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 4.12.1
 * Update `package.json` scanning tool for `--update-db` (by Luke Edwards).
 * Improve docs (by Mukundan Senthil).
+* Drop Node.js 13.0-13.6 support because of ES modules bug in that versions.
 
 ## 4.12
 * Add environments to shared configs (by Yevgeny Petukhov).
 * Fix docs (by Dmitry Statsenko and Thomas Pozzo di Borgo).
 
 ## 4.11.1
-* FIx Node.js 6 support.
+* Fix Node.js 6 support.
 
 ## 4.11
 * Add `npx browserslist --mobile-to-desktop` (by James Ross).
