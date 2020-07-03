@@ -27,3 +27,14 @@ it('selects browsers by feature', () => {
 
   expect(browserslist('supports rtcpeerconnection')).toEqual(['and_chr 81'])
 })
+
+it('selects browsers by feature with dashes in its name', () => {
+  browserslist.cache = {
+    'arrow-functions': {
+      'and_chr 81': 'y',
+      'ie 11': 'n'
+    }
+  }
+
+  expect(browserslist('supports arrow-functions')).toEqual(['and_chr 81'])
+})

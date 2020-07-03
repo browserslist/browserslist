@@ -889,7 +889,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^supports\s+(\w+)$/,
+    regexp: /^supports\s+([\w-]+)$/,
     select: function (context, feature) {
       env.loadFeature(browserslist.cache, feature)
       var features = browserslist.cache[feature]
