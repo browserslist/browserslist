@@ -1,16 +1,16 @@
 let browserslist = require('..')
 
-let originUsage = browserslist.usage
+let originCache = browserslist.cache
 
 beforeEach(() => {
-  browserslist.usage = {}
+  browserslist.cache = {}
   browserslist.data.and_chr = {
     versions: ['81']
   }
 })
 
 afterEach(() => {
-  browserslist.usage = originUsage
+  browserslist.cache = originCache
 })
 
 it('load features from Can I Use', () => {
@@ -18,7 +18,7 @@ it('load features from Can I Use', () => {
 })
 
 it('selects browsers by feature', () => {
-  browserslist.usage = {
+  browserslist.cache = {
     rtcpeerconnection: {
       'and_chr 81': 'y',
       'firefox 2': 'n'

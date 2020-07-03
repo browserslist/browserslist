@@ -353,6 +353,8 @@ module.exports = {
     dataTimeChecked = false
     filenessCache = { }
     configCache = { }
+
+    this.cache = { }
   },
 
   oldDataWarning: function oldDataWarning (agentsObj) {
