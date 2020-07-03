@@ -238,17 +238,17 @@ module.exports = {
     }
   },
 
-  loadFeature: function loadFeature (usage, code) {
-    code = code.replace(/[^\w-]/g, '')
-    if (!usage[code]) {
-      // eslint-disable-next-line security/detect-non-literal-require
-      var compressed = require('caniuse-lite/data/features/' + code + '.js')
-      var usageData = feature(compressed).stats
-      usage[code] = { }
-      for (var i in usageData) {
-        for (var j in usageData[i]) {
-          usage[code][i + ' ' + j] = usageData[i][j]
-        }
+  loadFeature: function loadFeature (features, name) {
+    name = name.replace(/[^\w-]/g, '')
+    if (features[name]) return
+
+    // eslint-disable-next-line security/detect-non-literal-require
+    var compressed = require('caniuse-lite/data/features/' + name + '.js')
+    var stats = feature(compressed).stats
+    features[name] = { }
+    for (var i in stats) {
+      for (var j in stats[i]) {
+        features[name][i + ' ' + j] = stats[i][j]
       }
     }
   },
