@@ -27,8 +27,7 @@ module.exports = {
 
   loadFeature: function loadFeature () {
     throw new BrowserslistError(
-      'Feature statistics are not supported ' +
-      'in client-side build of Browserslist')
+      'Supports queries are not available in client-side build of Browserslist')
   },
 
   currentNode: function currentNode (resolve, context) {

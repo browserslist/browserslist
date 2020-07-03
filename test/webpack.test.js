@@ -27,7 +27,7 @@ it('throws on country statistics', () => {
 it('throws on feature statistics', () => {
   expect(() => {
     browserslist('supports rtcpeerconnection')
-  }).toThrow(/Feature statistics are not supported/)
+  }).toThrow(/Supports queries are not available/)
 })
 
 it('throws on config path', () => {
