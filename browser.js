@@ -25,6 +25,11 @@ module.exports = {
       'in client-side build of Browserslist')
   },
 
+  loadFeature: function loadFeature () {
+    throw new BrowserslistError(
+      'Supports queries are not available in client-side build of Browserslist')
+  },
+
   currentNode: function currentNode (resolve, context) {
     return resolve(['maintained node versions'], context)[0]
   },

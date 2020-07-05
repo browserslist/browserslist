@@ -24,6 +24,12 @@ it('throws on country statistics', () => {
   }).toThrow(/Country statistics are not supported/)
 })
 
+it('throws on feature statistics', () => {
+  expect(() => {
+    browserslist('supports rtcpeerconnection')
+  }).toThrow(/Supports queries are not available/)
+})
+
 it('throws on config path', () => {
   expect(() => {
     browserslist(undefined, { config: './config/.browserslistrc' })

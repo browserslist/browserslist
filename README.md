@@ -202,6 +202,10 @@ You can specify the browser and Node.js versions by queries (case insensitive):
 * `cover 99.5%`: most popular browsers that provide coverage.
 * `cover 99.5% in US`: same as above, with [two-letter country code].
 * `cover 99.5% in my stats`: uses [custom usage data].
+* `supports rtcpeerconnection`: browsers with support for specific features.
+  `rtcpeerconnection` here is the `feat` parameter at the URL of the [Can I Use]
+  page. A list of all available features can be found at
+  [`caniuse-lite/data/features`].
 * `maintained node versions`: all Node.js versions, which are [still maintained]
   by Node.js Foundation.
 * `node 10` and `node 10.4`: selects latest Node.js `10.x.x`
@@ -232,6 +236,7 @@ You can specify the browser and Node.js versions by queries (case insensitive):
 You can add `not ` to any query.
 
 [`caniuse-lite/data/regions`]: https://github.com/ben-eb/caniuse-lite/tree/master/data/regions
+[`caniuse-lite/data/features`]: https://github.com/ben-eb/caniuse-lite/tree/master/data/features
 [two-letter country code]:     https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 [custom usage data]:           #custom-usage-data
 [still maintained]:            https://github.com/nodejs/Release
