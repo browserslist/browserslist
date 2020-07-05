@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.13
+* Added `supports` query to select browsers (by Jesús Leganés-Combarro).
+
 ## 4.12.2
 * Update Firefox ESR.
 
