@@ -165,8 +165,8 @@ An `or` combiner can use the keyword `or` as well as `,`.
 
 `and` query combinations are also supported to perform an
 intersection of all the previous queries: `last 1 version or chrome > 75 and > 1%`,
-which in human words matches:
-`last 1 version of any browser with more than 1% of the market share and every version of chrome higher than 76 with more than 1% market share`.
+which in pseudo code matches:
+`match = (is browser last version OR is chrome since v76) &&  has more than 1% marketshare`
 
 There is 3 different ways to combine queries as depicted below. First you start
 with a single query and then we combine the queries to get our final list.
