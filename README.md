@@ -184,7 +184,6 @@ combiner even if `or` is used (this is an API implementation specificity).
 _A quick way to test your query is to do `npx browserslist '> 0.5%, not IE 11'`
 in your terminal._
 
-
 ### Full List
 
 You can specify the browser and Node.js versions by queries (case insensitive):
@@ -193,44 +192,45 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   (`> 0.5%, last 2 versions, Firefox ESR, not dead`).
 * `> 5%`: browsers versions selected by global usage statistics.
   `>=`, `<` and `<=` work too.
-* `> 5% in US`: uses USA usage statistics. It accepts [two-letter country code].
-* `> 5% in alt-AS`: uses Asia region usage statistics. List of all region codes
-  can be found at [`caniuse-lite/data/regions`].
-* `> 5% in my stats`: uses [custom usage data].
-* `> 5% in browserslist-config-mycompany stats`: uses [custom usage data]
-  from `browserslist-config-mycompany/browserslist-stats.json`.
-* `cover 99.5%`: most popular browsers that provide coverage.
-* `cover 99.5% in US`: same as above, with [two-letter country code].
-* `cover 99.5% in my stats`: uses [custom usage data].
-* `supports rtcpeerconnection`: browsers with support for specific features.
-  `rtcpeerconnection` here is the `feat` parameter at the URL of the [Can I Use]
-  page. A list of all available features can be found at
-  [`caniuse-lite/data/features`].
-* `maintained node versions`: all Node.js versions, which are [still maintained]
-  by Node.js Foundation.
-* `node 10` and `node 10.4`: selects latest Node.js `10.x.x`
-  or `10.4.x` release.
-* `current node`: Node.js version used by Browserslist right now.
-* `extends browserslist-config-mycompany`: take queries from
-  `browserslist-config-mycompany` npm package.
-* `ie 6-8`: selects an inclusive range of versions.
-* `Firefox > 20`: versions of Firefox newer than 20.
-  `>=`, `<` and `<=` work too. It also works with Node.js.
-* `iOS 7`: the iOS browser version 7 directly.
-* `Firefox ESR`: the latest [Firefox ESR] version.
-* `PhantomJS 2.1` and `PhantomJS 1.9`: selects Safari versions similar
-  to PhantomJS runtime.
-* `unreleased versions` or `unreleased Chrome versions`:
-  alpha and beta versions.
-* `last 2 major versions` or `last 2 iOS major versions`:
-  all minor/patch releases of last 2 major versions.
-* `since 2015` or `last 2 years`: all versions released since year 2015
-  (also `since 2015-03` and `since 2015-03-10`).
+  * `> 5% in US`: uses USA usage statistics.
+    It accepts [two-letter country code].
+  * `> 5% in alt-AS`: uses Asia region usage statistics.
+    List of all region codes can be found at [`caniuse-lite/data/regions`].
+  * `> 5% in my stats`: uses [custom usage data].
+  * `> 5% in browserslist-config-mycompany stats`: uses [custom usage data]
+    from `browserslist-config-mycompany/browserslist-stats.json`.
+  * `cover 99.5%`: most popular browsers that provide coverage.
+  * `cover 99.5% in US`: same as above, with [two-letter country code].
+  * `cover 99.5% in my stats`: uses [custom usage data].
 * `dead`: browsers without official support or updates for 24 months.
   Right now it is `IE 10`, `IE_Mob 11`, `BlackBerry 10`, `BlackBerry 7`,
   `Samsung 4` and `OperaMobile 12.1`.
 * `last 2 versions`: the last 2 versions for *each* browser.
-* `last 2 Chrome versions`: the last 2 versions of Chrome browser.
+  * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
+  * `last 2 major versions` or `last 2 iOS major versions`:
+    all minor/patch releases of last 2 major versions.
+* `node 10` and `node 10.4`: selects latest Node.js `10.x.x`
+  or `10.4.x` release.
+  * `current node`: Node.js version used by Browserslist right now.
+  * `maintained node versions`: all Node.js versions, which are [still maintained]
+    by Node.js Foundation.
+* `iOS 7`: the iOS browser version 7 directly.
+  * `Firefox > 20`: versions of Firefox newer than 20.
+    `>=`, `<` and `<=` work too. It also works with Node.js.
+  * `ie 6-8`: selects an inclusive range of versions.
+  * `Firefox ESR`: the latest [Firefox ESR] version.
+  * `PhantomJS 2.1` and `PhantomJS 1.9`: selects Safari versions similar
+    to PhantomJS runtime.
+* `extends browserslist-config-mycompany`: take queries from
+  `browserslist-config-mycompany` npm package.
+* `supports rtcpeerconnection`: browsers with support for specific features.
+  `rtcpeerconnection` here is the `feat` parameter at the URL of the [Can I Use]
+  page. A list of all available features can be found at
+  [`caniuse-lite/data/features`].
+* `since 2015` or `last 2 years`: all versions released since year 2015
+  (also `since 2015-03` and `since 2015-03-10`).
+* `unreleased versions` or `unreleased Chrome versions`:
+  alpha and beta versions.
 * `not ie <= 8`: exclude browsers selected by previous queries.
 
 You can add `not ` to any query.
