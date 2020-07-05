@@ -223,8 +223,8 @@ You can specify the browser and Node.js versions by queries (case insensitive):
     to PhantomJS runtime.
 * `extends browserslist-config-mycompany`: take queries from
   `browserslist-config-mycompany` npm package.
-* `supports rtcpeerconnection`: browsers with support for specific features.
-  `rtcpeerconnection` here is the `feat` parameter at the URL of the [Can I Use]
+* `supports es6-module`: browsers with support for specific features.
+  `es6-module` here is the `feat` parameter at the URL of the [Can I Use]
   page. A list of all available features can be found at
   [`caniuse-lite/data/features`].
 * `since 2015` or `last 2 years`: all versions released since year 2015
