@@ -175,8 +175,6 @@ Obviously you can *not* start with a `not` combiner, since there is no left-hand
 side query to combine it with. The left-hand is always resolved as `and`
 combiner even if `or` is used (this is an API implementation specificity).
 
-`and` combiner has precedence over `or` combiner.
-
 | Query combiner type | Illustration | Example |
 | ------------------- | :----------: | ------- |
 |`or`/`,` combiner <br> (union) | ![Union of queries](img/union.svg)  | `> .5% or last 2 versions` <br> `> .5%, last 2 versions` |
