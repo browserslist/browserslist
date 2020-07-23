@@ -131,6 +131,7 @@
       "JSDoc",
       "jspm",
       "KaiOS",
+      "normalizers",
       "npm",
       "postcss",
       "QQ",

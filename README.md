@@ -519,6 +519,9 @@ Options:
   Can I Use doesn't have data about the specified version. For instance, it
   will return two Chrome for Android versions even if Can I Use has only
   data only about the latest version. Default is `false`.
+* `normalizers`: An array of names of normalizers below and functions
+  that accept a browser and return the normalized versions, which are
+  applied to resolved browsers in order. For instance, `['byEngine', 'toDesktop']`.
 
 For non-JS environment and debug purpose you can use CLI tool:
 

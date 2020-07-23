@@ -315,7 +315,7 @@ function resolve (queries, context) {
     queries = parse(queries)
   }
 
-  return queries.reduce(function (result, query, index) {
+  var list = queries.reduce(function (result, query, index) {
     var selection = query.queryString
 
     var isExclude = selection.indexOf('not ') === 0
@@ -371,6 +371,18 @@ function resolve (queries, context) {
 
     throw unknownQuery(selection)
   }, [])
+
+  if (context.normalizers) {
+    list = context.normalizers.reduce(function (result, normalizer) {
+      normalizer = NORMALIZERS[normalizer] || normalizer
+      if (typeof normalizer !== 'function') {
+        throw new BrowserslistError('Unknown normalizer ' + normalizer)
+      }
+      return result.map(normalizer)
+    }, list)
+  }
+
+  return list
 }
 
 var cache = { }
@@ -395,6 +407,10 @@ var cache = { }
  * @param {boolean} [opts.mobileToDesktop] Alias mobile browsers to the desktop
  *                                         version when Can I Use doesn't have
  *                                         data about the specified version.
+ * @param {(string|function)[]} [opts.normalizers] An array of names of
+ *                                                 normalizers and functions
+ *                                                 that accept a browser and
+ *                                                 return normalized versions.
  * @returns {string[]} Array with browser names in Can I Use.
  *
  * @example
@@ -425,6 +441,7 @@ function browserslist (queries, opts) {
     ignoreUnknownVersions: opts.ignoreUnknownVersions,
     dangerousExtend: opts.dangerousExtend,
     mobileToDesktop: opts.mobileToDesktop,
+    normalizers: opts.normalizers,
     env: opts.env
   }
 
@@ -1141,7 +1158,10 @@ var QUERIES = [
       }
     }
   }
-];
+]
+
+var NORMALIZERS = {
+};
 
 // Get and convert Can I Use data
 

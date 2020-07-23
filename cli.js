@@ -19,6 +19,7 @@ var USAGE = 'Usage:\n' +
             '  npx browserslist --env="environment name defined in config"\n' +
             '  npx browserslist --stats="path/to/browserlist/stats/file"\n' +
             '  npx browserslist --mobile-to-desktop\n' +
+            '  npx browserslist --normalizers=byEngine,toDesktop\n' +
             '  npx browserslist --update-db'
 
 function isArg (arg) {
@@ -75,6 +76,8 @@ if (isArg('--help') || isArg('-h')) {
       mode = 'json'
     } else if (name === '--mobile-to-desktop') {
       opts.mobileToDesktop = true
+    } else if (name === '--normalizers') {
+      opts.normalizers = value.split(',')
     } else {
       error('Unknown arguments ' + args[i] + '.\n\n' + USAGE)
     }
