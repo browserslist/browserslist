@@ -437,6 +437,8 @@ function browserslist (queries, opts) {
     }
   }
 
+  context.deps = env.loadDependencies(opts)
+
   var cacheKey = JSON.stringify([queries, context])
   if (cache[cacheKey]) return cache[cacheKey]
 
@@ -554,6 +556,7 @@ browserslist.parseConfig = env.parseConfig
 browserslist.readConfig = env.readConfig
 browserslist.findConfig = env.findConfig
 browserslist.loadConfig = env.loadConfig
+browserslist.loadDependencies = env.loadDependencies
 
 /**
  * Return browsers market coverage.
@@ -1090,6 +1093,48 @@ var QUERIES = [
         return 'node ' + key.slice(1)
       })
       return resolve(queries, context)
+    }
+  },
+  {
+    regexp: /^project\s+node$/i,
+    select: function (context) {
+      if (!context.deps) {
+        throw new BrowserslistError('Can\'t find package.json')
+      } else if (!context.deps.node) {
+        throw new BrowserslistError(
+          'engines.node is not specified in package.json')
+      }
+      var range = context.deps.node
+
+      var nodeVersions = jsReleases.filter(function (i) {
+        return i.name === 'nodejs'
+      }).map(function (i) {
+        return i.version
+      })
+      return nodeVersions.filter(function (i) {
+        return env.semverSatisfies(i, range)
+      }).map(function (i) {
+        return 'node ' + i
+      })
+    }
+  },
+  {
+    regexp: /^project\s+electron$/i,
+    select: function (context) {
+      if (!context.deps) {
+        throw new BrowserslistError('Can\'t find package.json')
+      } else if (!context.deps.electron) {
+        throw new BrowserslistError(
+          'devDependencies.electron is not specified in package.json')
+      }
+      var range = context.deps.electron
+
+      return Object.keys(e2c).filter(function (i) {
+        // assume patch version zero
+        return env.semverSatisfies(i + '.0', range)
+      }).map(function (i) {
+        return 'chrome ' + e2c[i]
+      })
     }
   },
   {

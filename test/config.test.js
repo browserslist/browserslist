@@ -87,6 +87,9 @@ it('shows warning on broken package.json', () => {
     defaults: ['ie 11', 'ie 10']
   })
   expect(console.warn).toHaveBeenCalledTimes(1)
+
+  browserslist.loadDependencies({ path: BROKEN })
+  expect(console.warn).toHaveBeenCalledTimes(2)
 })
 
 it('shows error on key typo', () => {

@@ -1,4 +1,10 @@
+let { join } = require('path')
+
 let browserslist = require('../')
+
+let DIR = join(__dirname, 'fixtures', 'dir')
+let PACKAGE = join(__dirname, 'fixtures', 'package')
+let PACKAGE_DEPS = join(__dirname, 'fixtures', 'package-deps')
 
 it('selects Node.js version', () => {
   expect(browserslist('node 7.5.0')).toEqual(['node 7.5.0'])
@@ -376,4 +382,25 @@ it('supports semver range', () => {
 
       'node 4.5.0'
     ])
+})
+
+it('reads engines.node from package.json', () => {
+  let opts = { path: PACKAGE_DEPS }
+  expect(browserslist.loadDependencies(opts).node).toEqual(
+    '4.5.x || ^5.7.0 || 6.13.4 - 7.3.5')
+  expect(browserslist(null, opts)).toEqual(expect.arrayContaining(
+    browserslist('node semver 4.5.x || ^5.7.0 || 6.13.4 - 7.3.5')))
+  expect(browserslist('project node', opts)).toEqual(
+    browserslist('node semver 4.5.x || ^5.7.0 || 6.13.4 - 7.3.5'))
+})
+
+it('reads from package.json in parent directories', () => {
+  expect(browserslist.loadDependencies({ path: DIR }).node).toEqual(
+    '< 5')
+})
+
+it('raises if engines.node doesn\'t exist', () => {
+  expect(() => {
+    browserslist('project node', { path: PACKAGE })
+  }).toThrow(/engines\.node/)
 })

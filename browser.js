@@ -45,6 +45,8 @@ module.exports = {
 
   findConfig: noop,
 
+  loadDependencies: noop,
+
   clearCaches: noop,
 
   oldDataWarning: noop

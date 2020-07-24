@@ -36,6 +36,15 @@ it('throws on semver range', () => {
   }).toThrow(/Semver queries are not available/)
 })
 
+it('throws on project version query', () => {
+  expect(() => {
+    browserslist('project node')
+  }).toThrow(/package\.json/)
+  expect(() => {
+    browserslist('project electron')
+  }).toThrow(/package\.json/)
+})
+
 it('throws on config path', () => {
   expect(() => {
     browserslist(undefined, { config: './config/.browserslistrc' })
