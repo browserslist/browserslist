@@ -68,3 +68,18 @@ it('supports last major versions for Electron', () => {
 it('supports unreleased versions for Electron', () => {
   expect(browserslist('unreleased Electron versions')).toHaveLength(0)
 })
+
+it('supports semver range', () => {
+  expect(browserslist('electron semver <= 0.21')).toEqual([
+    'chrome 41',
+    'chrome 39'
+  ])
+
+  expect(browserslist('electron semver < 0.21 || 0.36 - 1.2')).toEqual([
+    'chrome 51',
+    'chrome 50',
+    'chrome 49',
+    'chrome 47',
+    'chrome 39'
+  ])
+})

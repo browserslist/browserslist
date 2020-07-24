@@ -214,6 +214,10 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   * `current node`: Node.js version used by Browserslist right now.
   * `maintained node versions`: all Node.js versions, which are [still maintained]
     by Node.js Foundation.
+  * `node semver ^10.0.0`: all versions satisfying the [semver](https://www.npmjs.com/package/semver) range
+* `electron semver ^1.0.0`: all Electron versions satisfying the semver range.
+  Note Browserslist has information only about major versions, so the patch
+  version will be assumed as zero, i.e., >= 2.1.1 will not select 2.1.0.
 * `iOS 7`: the iOS browser version 7 directly.
   * `Firefox > 20`: versions of Firefox newer than 20.
     `>=`, `<` and `<=` work too. It also works with Node.js.

@@ -328,3 +328,52 @@ it('supports range selection', () => {
     'node 6.6.0'
   ])
 })
+
+it('supports semver range', () => {
+  expect(browserslist('node semver < 5')).toEqual([
+    'node 4.9.0',
+    'node 4.8.0',
+    'node 4.7.0',
+    'node 4.6.0',
+    'node 4.5.0',
+    'node 4.4.0',
+    'node 4.3.0',
+    'node 4.2.0',
+    'node 4.1.0',
+    'node 4.0.0',
+
+    'node 0.12.0',
+    'node 0.11.0',
+    'node 0.10.0',
+    'node 0.9.0',
+    'node 0.8.0',
+    'node 0.7.0',
+    'node 0.6.0',
+    'node 0.5.0',
+    'node 0.4.0',
+    'node 0.3.0',
+    'node 0.2.0'
+  ])
+
+  expect(browserslist('node semver 4.5.x || ^5.7.0 || 6.13.4 - 7.3.5'))
+    .toEqual([
+      'node 7.3.0',
+      'node 7.2.0',
+      'node 7.1.0',
+      'node 7.0.0',
+
+      'node 6.17.0',
+      'node 6.16.0',
+      'node 6.15.0',
+      'node 6.14.0',
+
+      'node 5.12.0',
+      'node 5.11.0',
+      'node 5.10.0',
+      'node 5.9.0',
+      'node 5.8.0',
+      'node 5.7.0',
+
+      'node 4.5.0'
+    ])
+})

@@ -1003,6 +1003,32 @@ var QUERIES = [
     }
   },
   {
+    regexp: /^electron\s+semver\s+(.+)$/i,
+    select: function (context, range) {
+      return Object.keys(e2c).filter(function (i) {
+        // assume patch version zero
+        return env.semverSatisfies(i + '.0', range)
+      }).map(function (i) {
+        return 'chrome ' + e2c[i]
+      })
+    }
+  },
+  {
+    regexp: /^node\s+semver\s+(.+)$/i,
+    select: function (context, range) {
+      var nodeVersions = jsReleases.filter(function (i) {
+        return i.name === 'nodejs'
+      }).map(function (i) {
+        return i.version
+      })
+      return nodeVersions.filter(function (i) {
+        return env.semverSatisfies(i, range)
+      }).map(function (i) {
+        return 'node ' + i
+      })
+    }
+  },
+  {
     regexp: /^(firefox|ff|fx)\s+esr$/i,
     select: function () {
       return ['firefox 68', 'firefox 78']

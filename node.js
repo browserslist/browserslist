@@ -1,5 +1,6 @@
 var feature = require('caniuse-lite/dist/unpacker/feature').default
 var region = require('caniuse-lite/dist/unpacker/region').default
+var semverSatisfies = require('semver/functions/satisfies')
 var path = require('path')
 var fs = require('fs')
 
@@ -375,5 +376,7 @@ module.exports = {
 
   currentNode: function currentNode () {
     return 'node ' + process.versions.node
-  }
+  },
+
+  semverSatisfies: semverSatisfies
 }
