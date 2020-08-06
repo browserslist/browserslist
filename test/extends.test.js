@@ -39,7 +39,7 @@ it('works with non-prefixed package with dangerousExtend', async () => {
   expect(result).toEqual(['edge 12', 'ie 11'])
 })
 
-it('works with non-prefixed package with DANGEROUS_EXTEND set via env var', async () => {
+it('supports BROWSERSLIST_DANGEROUS_EXTEND', async () => {
   process.env.BROWSERSLIST_DANGEROUS_EXTEND = 1
   await mock('pkg', ['ie 11'])
   let result = browserslist(['extends pkg', 'edge 12'])

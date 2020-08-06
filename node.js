@@ -153,8 +153,10 @@ function normalizeUsageData (usageData, data) {
 }
 
 module.exports = {
-  loadQueries: function loadQueries (context, name) {
-    if (!context.dangerousExtend && !process.env.BROWSERSLIST_DANGEROUS_EXTEND) checkExtend(name)
+  loadQueries: function loadQueries (ctx, name) {
+    if (!ctx.dangerousExtend && !process.env.BROWSERSLIST_DANGEROUS_EXTEND) {
+      checkExtend(name)
+    }
     // eslint-disable-next-line security/detect-non-literal-require
     var queries = require(require.resolve(name, { paths: ['.'] }))
     if (queries) {
@@ -162,7 +164,7 @@ module.exports = {
         return queries
       } else if (typeof queries === 'object') {
         if (!queries.defaults) queries.defaults = []
-        return pickEnv(queries, context, name)
+        return pickEnv(queries, ctx, name)
       }
     }
     throw new BrowserslistError(
@@ -171,8 +173,10 @@ module.exports = {
     )
   },
 
-  loadStat: function loadStat (context, name, data) {
-    if (!context.dangerousExtend && !process.env.BROWSERSLIST_DANGEROUS_EXTEND) checkExtend(name)
+  loadStat: function loadStat (ctx, name, data) {
+    if (!ctx.dangerousExtend && !process.env.BROWSERSLIST_DANGEROUS_EXTEND) {
+      checkExtend(name)
+    }
     // eslint-disable-next-line security/detect-non-literal-require
     var stats = require(
       require.resolve(
