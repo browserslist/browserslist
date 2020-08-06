@@ -607,6 +607,12 @@ with [environment variables]:
   BROWSERSLIST_DISABLE_CACHE=1 gulp css
    ```
 
+* `BROWSERSLIST_DANGEROUSEXTEND` if you want to disable security naming convention checks for extends feature package names
+
+   ```sh
+  BROWSERSLIST_DANGEROUSEXTEND=1
+   ```
+
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
 
