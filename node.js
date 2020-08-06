@@ -154,7 +154,7 @@ function normalizeUsageData (usageData, data) {
 
 module.exports = {
   loadQueries: function loadQueries (context, name) {
-    if (!context.dangerousExtend || process.env.BROWSERSLIST_DANGEROUSEXTEND) checkExtend(name)
+    if (!context.dangerousExtend || process.env.BROWSERSLIST_DANGEROUS_EXTEND) checkExtend(name)
     // eslint-disable-next-line security/detect-non-literal-require
     var queries = require(require.resolve(name, { paths: ['.'] }))
     if (queries) {
