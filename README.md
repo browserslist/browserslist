@@ -579,38 +579,39 @@ with [environment variables]:
 * `BROWSERSLIST` with browsers queries.
 
    ```sh
-  BROWSERSLIST="> 5%" webpack css
+  BROWSERSLIST="> 5%" npx webpack
    ```
 
 * `BROWSERSLIST_CONFIG` with path to config file.
 
    ```sh
-  BROWSERSLIST_CONFIG=./config/browserslist webpack css
+  BROWSERSLIST_CONFIG=./config/browserslist npx webpack
    ```
 
 * `BROWSERSLIST_ENV` with environments string.
 
    ```sh
-  BROWSERSLIST_ENV="development" webpack css
+  BROWSERSLIST_ENV="development" npx webpack
    ```
 
 * `BROWSERSLIST_STATS` with path to the custom usage data
   for `> 1% in my stats` query.
 
    ```sh
-  BROWSERSLIST_STATS=./config/usage_data.json webpack css
+  BROWSERSLIST_STATS=./config/usage_data.json npx webpack
    ```
 
 * `BROWSERSLIST_DISABLE_CACHE` if you want to disable config reading cache.
 
    ```sh
-  BROWSERSLIST_DISABLE_CACHE=1 webpack css
+  BROWSERSLIST_DISABLE_CACHE=1 npx webpack
    ```
 
-* `BROWSERSLIST_DANGEROUS_EXTEND` to disable security sharable config name check.
+* `BROWSERSLIST_DANGEROUS_EXTEND` to disable security shareable config
+  name check.
 
    ```sh
-  BROWSERSLIST_DANGEROUSEXTEND=1 webpack css
+  BROWSERSLIST_DANGEROUS_EXTEND=1 npx webpack
    ```
 
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
