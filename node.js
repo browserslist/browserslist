@@ -172,7 +172,7 @@ module.exports = {
   },
 
   loadStat: function loadStat (context, name, data) {
-    if (!context.dangerousExtend || process.env.BROWSERSLIST_DANGEROUSEXTEND) checkExtend(name)
+    if (!context.dangerousExtend || process.env.BROWSERSLIST_DANGEROUS_EXTEND) checkExtend(name)
     // eslint-disable-next-line security/detect-non-literal-require
     var stats = require(
       require.resolve(
