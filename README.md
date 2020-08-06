@@ -607,7 +607,7 @@ with [environment variables]:
   BROWSERSLIST_DISABLE_CACHE=1
    ```
 
-* `BROWSERSLIST_DANGEROUSEXTEND` if you want to disable security naming convention checks for extends feature package names
+* `BROWSERSLIST_DANGEROUS_EXTEND` to disable security sharable config name check.
 
    ```sh
   BROWSERSLIST_DANGEROUSEXTEND=1
