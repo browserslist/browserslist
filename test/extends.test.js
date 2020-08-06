@@ -16,6 +16,7 @@ async function mock (name, exports) {
 afterEach(async () => {
   await Promise.all(mocked.map(dir => remove(dir)))
   mocked = []
+  delete process.env.BROWSERSLIST_DANGEROUS_EXTEND
 })
 
 it('uses package', async () => {
@@ -37,6 +38,14 @@ it('works with non-prefixed package with dangerousExtend', async () => {
   })
   expect(result).toEqual(['edge 12', 'ie 11'])
 })
+
+it('works with non-prefixed package with DANGEROUS_EXTEND set via env var', async () => {
+  process.env.BROWSERSLIST_DANGEROUS_EXTEND = 1
+  await mock('pkg', ['ie 11'])
+  let result = browserslist(['extends pkg', 'edge 12'])
+  expect(result).toEqual(['edge 12', 'ie 11'])
+})
+
 
 it('handles scoped packages', async () => {
   await mock('@scope/browserslist-config-test', ['ie 11'])
