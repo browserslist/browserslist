@@ -358,7 +358,7 @@ validation by using the or `BROWSERSLIST_DANGEROUS_EXTEND` environment variable
 or `dangerousExtend` option.
 
 ```sh
-BROWSERSLIST_DANGEROUS_EXTEND npx webpack
+BROWSERSLIST_DANGEROUS_EXTEND=1 npx webpack
 ```
 
 Because this uses `npm`'s resolution, you can also reference specific files
