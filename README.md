@@ -579,32 +579,32 @@ with [environment variables]:
 * `BROWSERSLIST` with browsers queries.
 
    ```sh
-  BROWSERSLIST="> 5%" gulp css
+  BROWSERSLIST="> 5%"
    ```
 
 * `BROWSERSLIST_CONFIG` with path to config file.
 
    ```sh
-  BROWSERSLIST_CONFIG=./config/browserslist gulp css
+  BROWSERSLIST_CONFIG=./config/browserslist
    ```
 
 * `BROWSERSLIST_ENV` with environments string.
 
    ```sh
-  BROWSERSLIST_ENV="development" gulp css
+  BROWSERSLIST_ENV="development"
    ```
 
 * `BROWSERSLIST_STATS` with path to the custom usage data
   for `> 1% in my stats` query.
 
    ```sh
-  BROWSERSLIST_STATS=./config/usage_data.json gulp css
+  BROWSERSLIST_STATS=./config/usage_data.json
    ```
 
 * `BROWSERSLIST_DISABLE_CACHE` if you want to disable config reading cache.
 
    ```sh
-  BROWSERSLIST_DISABLE_CACHE=1 gulp css
+  BROWSERSLIST_DISABLE_CACHE=1
    ```
 
 * `BROWSERSLIST_DANGEROUSEXTEND` if you want to disable security naming convention checks for extends feature package names
