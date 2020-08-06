@@ -46,7 +46,6 @@ it('works with non-prefixed package with DANGEROUS_EXTEND set via env var', asyn
   expect(result).toEqual(['edge 12', 'ie 11'])
 })
 
-
 it('handles scoped packages', async () => {
   await mock('@scope/browserslist-config-test', ['ie 11'])
   let result = browserslist(['extends @scope/browserslist-config-test'])
