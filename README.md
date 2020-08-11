@@ -192,7 +192,7 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   (`> 0.5%, last 2 versions, Firefox ESR, not dead`).
 * `> 5%`: browsers versions selected by global usage statistics.
   `>=`, `<` and `<=` work too.
-  * `> 0%`: all browsers
+  * `> 0%`: all browsers.
   * `> 5% in US`: uses USA usage statistics.
     It accepts [two-letter country code].
   * `> 5% in alt-AS`: uses Asia region usage statistics.
