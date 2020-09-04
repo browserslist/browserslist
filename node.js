@@ -372,9 +372,10 @@ module.exports = {
     if (latest !== 0 && latest < halfYearAgo) {
       console.warn(
         'Browserslist: caniuse-lite is outdated. Please run:\n' +
-        'npx browserslist@latest --update-db\n\n' +
-        'See for details:\n' +
-        'https://github.com/browserslist/browserslist#what-is---update-db-for'
+        'npx browserslist@latest --update-db\n' +
+        '\n' +
+        'Why you should do it regularly:\n' +
+        'https://github.com/browserslist/browserslist#browsers-data-updating'
       )
     }
   },

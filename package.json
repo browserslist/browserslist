@@ -150,7 +150,8 @@
       "PhantomJS",
       "maintainers",
       "ES",
-      "deduplication"
+      "deduplication",
+      "pnpm"
     ]
   },
   "sharec": {

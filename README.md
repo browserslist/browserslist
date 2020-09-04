@@ -70,7 +70,7 @@ Browserslist will take queries from tool option,
 
 * [Tools](#tools)
 * [Best Practices](#best-practices)
-* [What is `--update-db` for?](#what-is---update-db-for)
+* [Browsers Data Updating](#browsers-data-updating)
 * [Queries](#queries)
   * [Query Composition](#query-composition)
   * [Full List](#full-list)
@@ -143,45 +143,46 @@ Browserslist will take queries from tool option,
   than Microsoft Edge. Chinese QQ Browsers has more market share than Firefox
   and desktop Safari combined.
 
-## What is `--update-db` for?
 
-`--update-db` is a script which will update your lock file with the latest
-version of `caniuse-lite`. Due to how npm architecture is setup, you may have a
-situation where you have multiple versions of a single dependency required.
+## Browsers Data Updating
 
-For example:
+`npx browserslist@latest --update-db` updates `caniuse-lite` version
+in your npm, yarn or pnpm lock file.
 
-Imagine you begin a project and you add `autoprefixer` as a dependency.
-npm looks for the latest `caniuse-lite version` (3.0.1) and adds it to
+You need to do it regularly for two reasons:
+
+1. To use the latest browser’s versions and statistics in queries like
+   `last 2 versions` or `>1%`. For example, if you created your project
+   2 years ago and did not update your dependencies, `last 1 version`
+   will return 2 year old browsers.
+2. `caiuse-lite` deduplication: to synchronize version in different tools.
+
+> What is deduplication?
+
+Due to how npm architecture is setup, you may have a situation
+where you have multiple versions of a single dependency required.
+
+Imagine you begin a project, and you add `autoprefixer` as a dependency.
+npm looks for the latest `caniuse-lite` version (1.0.30000700) and adds it to
 `package-lock.json` under `autoprefixer` dependencies.
 
-A year later, you decide to add `babel-preset-env`. At this moment, we have a
-new version of `canuse-lite` (3.0.50). npm took the latest version and added it
-to your lock file under `babel-preset-env` dependencies.
+A year later, you decide to add Babel. At this moment, we have a
+new version of `canuse-lite` (1.0.30000900). npm took the latest version
+and added it to your lock file under `@babel/preset-env` dependencies.
 
 Now your lock file looks like this:
 
-```lock
-autoprefixer 8.5.3
-  browserslist 4.3.9
-    caniuse-lite 3.0.1
-babel-preset-env
-  browserslist 4.5.1
-    caniuse-lite 3.0.50
+```ocaml
+autoprefixer 7.1.4
+  browserslist 3.1.1
+    caniuse-lite 1.0.30000700
+@babel/preset-env 7.10.0
+  browserslist 4.13.0
+    caniuse-lite 1.0.30000900
 ```
 
 As you can see, we now have two versions of `caniuse-lite` installed.
 
-> Why does the script update the lock file?
-
-There are two reasons for this script.
-
-One is to ensure that data on queries like `last 2 versions` or `> 1%` are
-still valid. For example, if you created your project 2 years ago and did
-not update your dependencies, `last 2 versions` will return 2 year old browsers.
-
-The other is `caniuse-lite` deduplication. `--update-db` will guarantee that all
-branches in your lock file have the same `caniuse-lite` version.
 
 ## Queries
 
