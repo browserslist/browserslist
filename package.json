@@ -149,7 +149,8 @@
       "browserslist",
       "PhantomJS",
       "maintainers",
-      "ES"
+      "ES",
+      "deduplication"
     ]
   },
   "sharec": {
