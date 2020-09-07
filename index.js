@@ -489,7 +489,7 @@ function doMatch (string, qs) {
 
 function find (string, predicate) {
   for (var n = 1, max = string.length; n <= max; n++) {
-    var parsed = string.substr(-n, n)
+    var parsed = String.prototype.substring(string, max - n)
     if (predicate(parsed, n, max)) {
       return string.slice(0, -n)
     }
