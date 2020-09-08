@@ -53,7 +53,7 @@ function getCurrentVersion (lock) {
   return null
 }
 
-function getLastestInfo () {
+function getLatestInfo () {
   return JSON.parse(
     childProcess.execSync('npm show caniuse-lite --json').toString()
   )
@@ -119,7 +119,7 @@ module.exports = function updateDB (print) {
   lock.content = fs.readFileSync(lock.file).toString()
 
   var current = getCurrentVersion(lock)
-  var latest = getLastestInfo()
+  var latest = getLatestInfo()
 
   if (typeof current === 'string') {
     print('Current version: ' + current + '\n')
