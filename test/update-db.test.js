@@ -64,8 +64,10 @@ it('updates caniuse-lite for npm', async () => {
   expect(runUpdate()).toEqual(
     'Current version: 1.0.30001030\n' +
     `New version: ${ caniuse.version }\n` +
-    'Updating caniuse-lite…\n' +
-    'caniuse-lite has been successfully updated'
+    'Removing old caniuse-lite from lock file…\n' +
+    'Installing new caniuse-lite version…\n' +
+    '$ npm install\n' +
+    'caniuse-lite has been successfully updated\n'
   )
 
   let lock = JSON.parse(await readFile(join(dir, 'package-lock.json')))
@@ -77,8 +79,10 @@ it('updates caniuse-lite without previous version', async () => {
 
   expect(runUpdate()).toEqual(
     `New version: ${ caniuse.version }\n` +
-    'Updating caniuse-lite…\n' +
-    'caniuse-lite has been successfully updated'
+    'Removing old caniuse-lite from lock file…\n' +
+    'Installing new caniuse-lite version…\n' +
+    '$ npm install\n' +
+    'caniuse-lite has been successfully updated\n'
   )
 
   let lock = JSON.parse(await readFile(join(dir, 'package-lock.json')))
@@ -91,8 +95,10 @@ it('updates caniuse-lite for yarn', async () => {
   expect(runUpdate()).toEqual(
     'Current version: 1.0.30001035\n' +
     `New version: ${ caniuse.version }\n` +
-    'Updating caniuse-lite…\n' +
-    'caniuse-lite has been successfully updated'
+    'Removing old caniuse-lite from lock file…\n' +
+    'Installing new caniuse-lite version…\n' +
+    '$ yarn install\n' +
+    'caniuse-lite has been successfully updated\n'
   )
 
   let lock = (await readFile(join(dir, 'yarn.lock'))).toString()
@@ -109,8 +115,10 @@ if (!NODE_8 && (isInstalled('pnpm') || process.env.CI)) {
     expect(runUpdate()).toEqual(
       'Current version: 1.0.30001035\n' +
       `New version: ${ caniuse.version }\n` +
-      'Updating caniuse-lite…\n' +
-      'caniuse-lite has been successfully updated'
+      'Removing old caniuse-lite from lock file…\n' +
+      'Installing new caniuse-lite version…\n' +
+      '$ pnpm install\n' +
+      'caniuse-lite has been successfully updated\n'
     )
 
     let lock = (await readFile(join(dir, 'pnpm-lock.yaml'))).toString()
