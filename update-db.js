@@ -47,7 +47,7 @@ function getCurrentVersion (lock) {
       return dependencies['caniuse-lite'].version
     }
   } else if (lock.mode === 'yarn') {
-    match = /caniuse-lite@[^:]+:\n\s+version\s+"([^"]+)"/.exec(lock.content)
+    match = /caniuse-lite@[^:]+:\r?\n\s+version\s+"([^"]+)"/.exec(lock.content)
     if (match[1]) return match[1]
   }
   return null
