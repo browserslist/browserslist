@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.14.2
+* Fixed `--update-db` on Windows (by James Ross).
+* Improved `--update-db` output.
+
 ## 4.14.1
 * Added `--update-db` explanation (by Justin Zelinsky).
 
