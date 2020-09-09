@@ -68,8 +68,12 @@ function getMajorVersions (released, number) {
 
 function uniq (array) {
   var filtered = []
-  for (var i = 0; i < array.length; i++) {
-    if (filtered.indexOf(array[i]) === -1) filtered.push(array[i])
+  if (Array.isArray(array)) {
+    array.forEach(function (item) {
+      if (filtered.indexOf(item) === -1) {
+        filtered.push(item)
+      }
+    })
   }
   return filtered
 }
@@ -345,14 +349,15 @@ function resolve (queries, context) {
         switch (query.type) {
           case QUERY_AND:
             if (isExclude) {
-              return result.filter(function (j) {
+              result.filter(function (j) {
                 return array.indexOf(j) === -1
               })
             } else {
-              return result.filter(function (j) {
+              result.filter(function (j) {
                 return array.indexOf(j) !== -1
               })
             }
+            break
           case QUERY_OR:
           default:
             if (isExclude) {
@@ -360,17 +365,21 @@ function resolve (queries, context) {
               array.forEach(function (j) {
                 filter[j] = true
               })
-              return result.filter(function (j) {
+              result.filter(function (j) {
                 return !filter[j]
               })
             }
-            return result.concat(array)
         }
+        return result.concat(array)
       }
     }
-
-    throw unknownQuery(selection)
-  }, [])
+    if (selection !== null && selection !== '') {
+      // thrown with unprocessed queri(es) remained
+      throw unknownQuery(selection)
+    } else {
+      return null
+    }
+  })
 }
 
 var cache = { }

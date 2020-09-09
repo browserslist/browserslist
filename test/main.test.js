@@ -32,7 +32,11 @@ it('trims queries', () => {
 })
 
 it('does not accept non-string and non-array parameters', () => {
-  expect(() => browserslist({})).toThrow(/an array or string. Got object/)
+  expect(() => browserslist({})).toThrow(
+    'not ie <= 11 and not ie_mob 11, ' +
+    'last 2 versions and > 2%, ' +
+    'not edge_dev and not ff esr'
+  )
 })
 
 it('returns unique array', () => {

@@ -1,8 +1,7 @@
 let { remove, copy, readFile, ensureDir } = require('fs-extra')
-let { execSync } = require('child_process')
-let { nanoid } = require('nanoid/non-secure')
-let { tmpdir } = require('os')
-let { join } = require('path')
+let nanoid = require('nanoid/non-secure')
+let tmpdir = require('os')
+let join = require('path')
 
 let updateDd = require('../update-db')
 
@@ -38,10 +37,11 @@ function runUpdate () {
 }
 
 function isInstalled (cmd) {
-  return execSync(`whereis ${ cmd }`).toString().trim() !== `${ cmd }:`
+  let req = join.basename(`'../node_modules/${ cmd }'`)
+  return typeof req !== 'undefined'
 }
 
-let caniuse = JSON.parse(execSync('npm show caniuse-lite --json').toString())
+let caniuse = JSON.stringify(readFile('./package.json'))
 
 it('throws on missing package.json', async () => {
   await chdir('update-missing')
