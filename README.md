@@ -70,6 +70,7 @@ Browserslist will take queries from tool option,
 
 * [Tools](#tools)
 * [Best Practices](#best-practices)
+* [Browsers Data Updating](#browsers-data-updating)
 * [Queries](#queries)
   * [Query Composition](#query-composition)
   * [Full List](#full-list)
@@ -141,6 +142,46 @@ Browserslist will take queries from tool option,
   100 million users in Africa and it is more popular in the global market
   than Microsoft Edge. Chinese QQ Browsers has more market share than Firefox
   and desktop Safari combined.
+
+
+## Browsers Data Updating
+
+`npx browserslist@latest --update-db` updates `caniuse-lite` version
+in your npm, yarn or pnpm lock file.
+
+You need to do it regularly for two reasons:
+
+1. To use the latest browser’s versions and statistics in queries like
+   `last 2 versions` or `>1%`. For example, if you created your project
+   2 years ago and did not update your dependencies, `last 1 version`
+   will return 2 year old browsers.
+2. `caiuse-lite` deduplication: to synchronize version in different tools.
+
+> What is deduplication?
+
+Due to how npm architecture is setup, you may have a situation
+where you have multiple versions of a single dependency required.
+
+Imagine you begin a project, and you add `autoprefixer` as a dependency.
+npm looks for the latest `caniuse-lite` version (1.0.30000700) and adds it to
+`package-lock.json` under `autoprefixer` dependencies.
+
+A year later, you decide to add Babel. At this moment, we have a
+new version of `canuse-lite` (1.0.30000900). npm took the latest version
+and added it to your lock file under `@babel/preset-env` dependencies.
+
+Now your lock file looks like this:
+
+```ocaml
+autoprefixer 7.1.4
+  browserslist 3.1.1
+    caniuse-lite 1.0.30000700
+@babel/preset-env 7.10.0
+  browserslist 4.13.0
+    caniuse-lite 1.0.30000900
+```
+
+As you can see, we now have two versions of `caniuse-lite` installed.
 
 
 ## Queries
@@ -361,10 +402,11 @@ naming or prefixing the module with `@scope/browserslist-config`, such as
 `@scope/browserslist-config` or `@scope/browserslist-config-mycompany`.
 
 If you don’t accept Browserslist queries from users, you can disable the
-validation by using the `dangerousExtend` option:
+validation by using the or `BROWSERSLIST_DANGEROUS_EXTEND` environment variable
+or `dangerousExtend` option.
 
-```js
-browserslist(queries, { path, dangerousExtend: true })
+```sh
+BROWSERSLIST_DANGEROUS_EXTEND=1 npx webpack
 ```
 
 Because this uses `npm`'s resolution, you can also reference specific files
@@ -586,32 +628,39 @@ with [environment variables]:
 * `BROWSERSLIST` with browsers queries.
 
    ```sh
-  BROWSERSLIST="> 5%" gulp css
+  BROWSERSLIST="> 5%" npx webpack
    ```
 
 * `BROWSERSLIST_CONFIG` with path to config file.
 
    ```sh
-  BROWSERSLIST_CONFIG=./config/browserslist gulp css
+  BROWSERSLIST_CONFIG=./config/browserslist npx webpack
    ```
 
 * `BROWSERSLIST_ENV` with environments string.
 
    ```sh
-  BROWSERSLIST_ENV="development" gulp css
+  BROWSERSLIST_ENV="development" npx webpack
    ```
 
 * `BROWSERSLIST_STATS` with path to the custom usage data
   for `> 1% in my stats` query.
 
    ```sh
-  BROWSERSLIST_STATS=./config/usage_data.json gulp css
+  BROWSERSLIST_STATS=./config/usage_data.json npx webpack
    ```
 
 * `BROWSERSLIST_DISABLE_CACHE` if you want to disable config reading cache.
 
    ```sh
-  BROWSERSLIST_DISABLE_CACHE=1 gulp css
+  BROWSERSLIST_DISABLE_CACHE=1 npx webpack
+   ```
+
+* `BROWSERSLIST_DANGEROUS_EXTEND` to disable security shareable config
+  name check.
+
+   ```sh
+  BROWSERSLIST_DANGEROUS_EXTEND=1 npx webpack
    ```
 
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable

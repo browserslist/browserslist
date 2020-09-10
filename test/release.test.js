@@ -113,7 +113,10 @@ it('shows warning', () => {
   browserslist('last 2 versions')
   expect(console.warn).toHaveBeenCalledWith(
     'Browserslist: caniuse-lite is outdated. Please run:\n' +
-    'npx browserslist@latest --update-db'
+    'npx browserslist@latest --update-db\n' +
+    '\n' +
+    'Why you should do it regularly:\n' +
+    'https://github.com/browserslist/browserslist#browsers-data-updating'
   )
 })
 

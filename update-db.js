@@ -47,13 +47,13 @@ function getCurrentVersion (lock) {
       return dependencies['caniuse-lite'].version
     }
   } else if (lock.mode === 'yarn') {
-    match = /caniuse-lite@[^:]+:\n\s+version\s+"([^"]+)"/.exec(lock.content)
+    match = /caniuse-lite@[^:]+:\r?\n\s+version\s+"([^"]+)"/.exec(lock.content)
     if (match[1]) return match[1]
   }
   return null
 }
 
-function getLastestInfo () {
+function getLatestInfo () {
   return JSON.parse(
     childProcess.execSync('npm show caniuse-lite --json').toString()
   )
@@ -119,18 +119,29 @@ module.exports = function updateDB (print) {
   lock.content = fs.readFileSync(lock.file).toString()
 
   var current = getCurrentVersion(lock)
-  var latest = getLastestInfo()
+  var latest = getLatestInfo()
 
   if (typeof current === 'string') {
     print('Current version: ' + current + '\n')
   }
   print(
     'New version: ' + latest.version + '\n' +
-    'Updating caniuse-lite…\n'
+    'Removing old caniuse-lite from lock file…\n'
   )
 
   fs.writeFileSync(lock.file, updateLockfile(lock, latest))
-  childProcess.execSync(lock.mode + ' install')
 
-  print('caniuse-lite has been successfully updated')
+  print(
+    'Installing new caniuse-lite version…\n' +
+    '$ ' + lock.mode + ' install\n'
+  )
+  try {
+    childProcess.execSync(lock.mode + ' install')
+  } catch (e) /* istanbul ignore next */ {
+    print(e.stack)
+    print('\nProblem with `' + lock.mode + ' install` call. Run it manually.\n')
+    process.exit(1)
+  }
+
+  print('caniuse-lite has been successfully updated\n')
 }

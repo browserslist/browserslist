@@ -1,6 +1,16 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.14.2
+* Fixed `--update-db` on Windows (by James Ross).
+* Improved `--update-db` output.
+
+## 4.14.1
+* Added `--update-db` explanation (by Justin Zelinsky).
+
+## 4.14
+* Add `BROWSERSLIST_DANGEROUS_EXTEND` support (by Timo Mayer).
+
 ## 4.13
 * Added `supports` query to select browsers (by Jesús Leganés-Combarro).
 
