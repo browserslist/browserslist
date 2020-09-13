@@ -24,6 +24,14 @@ function isEolReleased (name) {
   })
 }
 
+function getNodeVersions () {
+  return jsReleases.filter(function (i) {
+    return i.name === 'nodejs'
+  }).map(function (i) {
+    return i.version
+  })
+}
+
 function normalize (versions) {
   return versions.filter(function (version) {
     return typeof version === 'string'
@@ -437,6 +445,8 @@ function browserslist (queries, opts) {
     }
   }
 
+  context.deps = env.loadDependencies(opts)
+
   var cacheKey = JSON.stringify([queries, context])
   if (cache[cacheKey]) return cache[cacheKey]
 
@@ -554,6 +564,7 @@ browserslist.parseConfig = env.parseConfig
 browserslist.readConfig = env.readConfig
 browserslist.findConfig = env.findConfig
 browserslist.loadConfig = env.loadConfig
+browserslist.loadDependencies = env.loadDependencies
 
 /**
  * Return browsers market coverage.
@@ -926,11 +937,6 @@ var QUERIES = [
   {
     regexp: /^node\s+([\d.]+)\s*-\s*([\d.]+)$/i,
     select: function (context, from, to) {
-      var nodeVersions = jsReleases.filter(function (i) {
-        return i.name === 'nodejs'
-      }).map(function (i) {
-        return i.version
-      })
       var semverRegExp = /^(0|[1-9]\d*)(\.(0|[1-9]\d*)){0,2}$/
       if (!semverRegExp.test(from)) {
         throw new BrowserslistError(
@@ -940,12 +946,10 @@ var QUERIES = [
         throw new BrowserslistError(
           'Unknown version ' + to + ' of Node.js')
       }
-      return nodeVersions
+      return getNodeVersions()
         .filter(semverFilterLoose('>=', from))
         .filter(semverFilterLoose('<=', to))
-        .map(function (v) {
-          return 'node ' + v
-        })
+        .map(nameMapper('node'))
     }
   },
   {
@@ -975,16 +979,9 @@ var QUERIES = [
   {
     regexp: /^node\s*(>=?|<=?)\s*([\d.]+)$/i,
     select: function (context, sign, version) {
-      var nodeVersions = jsReleases.filter(function (i) {
-        return i.name === 'nodejs'
-      }).map(function (i) {
-        return i.version
-      })
-      return nodeVersions
+      return getNodeVersions()
         .filter(generateSemverFilter(sign, version))
-        .map(function (v) {
-          return 'node ' + v
-        })
+        .map(nameMapper('node'))
     }
   },
   {
@@ -1000,6 +997,25 @@ var QUERIES = [
         .map(function (v) {
           return data.name + ' ' + v
         })
+    }
+  },
+  {
+    regexp: /^electron\s+semver\s+(.+)$/i,
+    select: function (context, range) {
+      return Object.keys(e2c).filter(function (i) {
+        // assume patch version zero
+        return env.semverSatisfies(i + '.0', range)
+      }).map(function (i) {
+        return 'chrome ' + e2c[i]
+      })
+    }
+  },
+  {
+    regexp: /^node\s+semver\s+(.+)$/i,
+    select: function (context, range) {
+      return getNodeVersions().filter(function (i) {
+        return env.semverSatisfies(i, range)
+      }).map(nameMapper('node'))
     }
   },
   {
@@ -1029,11 +1045,8 @@ var QUERIES = [
   {
     regexp: /^node\s+(\d+(\.\d+)?(\.\d+)?)$/i,
     select: function (context, version) {
-      var nodeReleases = jsReleases.filter(function (i) {
-        return i.name === 'nodejs'
-      })
-      var matched = nodeReleases.filter(function (i) {
-        return isVersionsMatch(i.version, version)
+      var matched = getNodeVersions().filter(function (i) {
+        return isVersionsMatch(i, version)
       })
       if (matched.length === 0) {
         if (context.ignoreUnknownVersions) {
@@ -1043,7 +1056,7 @@ var QUERIES = [
             'Unknown version ' + version + ' of Node.js')
         }
       }
-      return ['node ' + matched[matched.length - 1].version]
+      return ['node ' + matched[matched.length - 1]]
     }
   },
   {
@@ -1064,6 +1077,41 @@ var QUERIES = [
         return 'node ' + key.slice(1)
       })
       return resolve(queries, context)
+    }
+  },
+  {
+    regexp: /^project\s+node$/i,
+    select: function (context) {
+      if (!context.deps) {
+        throw new BrowserslistError('Can\'t find package.json')
+      } else if (!context.deps.node) {
+        throw new BrowserslistError(
+          'engines.node is not specified in package.json')
+      }
+      var range = context.deps.node
+
+      return getNodeVersions().filter(function (i) {
+        return env.semverSatisfies(i, range)
+      }).map(nameMapper('node'))
+    }
+  },
+  {
+    regexp: /^project\s+electron$/i,
+    select: function (context) {
+      if (!context.deps) {
+        throw new BrowserslistError('Can\'t find package.json')
+      } else if (!context.deps.electron) {
+        throw new BrowserslistError(
+          'devDependencies.electron is not specified in package.json')
+      }
+      var range = context.deps.electron
+
+      return Object.keys(e2c).filter(function (i) {
+        // assume patch version zero
+        return env.semverSatisfies(i + '.0', range)
+      }).map(function (i) {
+        return 'chrome ' + e2c[i]
+      })
     }
   },
   {

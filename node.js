@@ -1,5 +1,6 @@
 var feature = require('caniuse-lite/dist/unpacker/feature').default
 var region = require('caniuse-lite/dist/unpacker/region').default
+var semverSatisfies = require('semver/functions/satisfies')
 var path = require('path')
 var fs = require('fs')
 
@@ -15,6 +16,7 @@ var FORMAT = 'Browserslist config should be a string or an array ' +
 var dataTimeChecked = false
 var filenessCache = { }
 var configCache = { }
+var packageCache = { }
 function checkExtend (name) {
   var use = ' Use `dangerousExtend` option to disable.'
   if (!CONFIG_PATTERN.test(name) && !SCOPED_CONFIG__PATTERN.test(name)) {
@@ -81,8 +83,60 @@ function pickEnv (config, opts) {
   return config[name] || config.defaults
 }
 
+function parsePackageDependencies (file, pkg) {
+  if (!pkg) {
+    pkg = JSON.parse(fs.readFileSync(file))
+  }
+
+  var deps = { }
+  if (pkg.engines) {
+    deps.node = pkg.engines.node
+  }
+  if (pkg.devDependencies) {
+    deps.electron = pkg.devDependencies.electron
+  }
+
+  if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
+    packageCache[file] = deps
+  }
+  return deps
+}
+
+function findPackageDependencies (from) {
+  from = path.resolve(from)
+
+  var passed = []
+  var resolved = eachParent(from, function (dir) {
+    if (dir in packageCache) {
+      return packageCache[dir]
+    }
+
+    passed.push(dir)
+    var pkg = path.join(dir, 'package.json')
+
+    var deps
+    if (isFile(pkg)) {
+      try {
+        deps = parsePackageDependencies(pkg)
+      } catch (e) {
+        console.warn(
+          '[Browserslist] Could not parse ' + pkg + '. Ignoring it.'
+        )
+      }
+    }
+    return deps
+  })
+  if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
+    passed.forEach(function (dir) {
+      packageCache[dir] = resolved
+    })
+  }
+  return resolved
+}
+
 function parsePackage (file) {
   var config = JSON.parse(fs.readFileSync(file))
+  parsePackageDependencies(file, config) // cache
   if (config.browserlist && !config.browserslist) {
     throw new BrowserslistError(
       '`browserlist` key instead of `browserslist` in ' + file
@@ -226,6 +280,20 @@ module.exports = {
     }
   },
 
+  loadDependencies: function loadDependencies (opts) {
+    if (opts.config || process.env.BROWSERSLIST_CONFIG) {
+      var file = opts.config || process.env.BROWSERSLIST_CONFIG
+      if (path.basename(file) === 'package.json') {
+        return parsePackageDependencies(file)
+      }
+    }
+    if (opts.path) {
+      return findPackageDependencies(opts.path)
+    } else {
+      return undefined
+    }
+  },
+
   loadCountry: function loadCountry (usage, country, data) {
     var code = country.replace(/[^\w-]/g, '')
     if (!usage[code]) {
@@ -357,6 +425,7 @@ module.exports = {
     dataTimeChecked = false
     filenessCache = { }
     configCache = { }
+    packageCache = { }
 
     this.cache = { }
   },
@@ -382,5 +451,7 @@ module.exports = {
 
   currentNode: function currentNode () {
     return 'node ' + process.versions.node
-  }
+  },
+
+  semverSatisfies: semverSatisfies
 }

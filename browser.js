@@ -30,6 +30,11 @@ module.exports = {
       'Supports queries are not available in client-side build of Browserslist')
   },
 
+  semverSatisfies: function semverSatisfies () {
+    throw new BrowserslistError(
+      'Semver queries are not available in client-side build of Browserslist')
+  },
+
   currentNode: function currentNode (resolve, context) {
     return resolve(['maintained node versions'], context)[0]
   },
@@ -39,6 +44,8 @@ module.exports = {
   readConfig: noop,
 
   findConfig: noop,
+
+  loadDependencies: noop,
 
   clearCaches: noop,
 

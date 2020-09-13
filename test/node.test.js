@@ -1,4 +1,10 @@
+let { join } = require('path')
+
 let browserslist = require('../')
+
+let DIR = join(__dirname, 'fixtures', 'dir')
+let PACKAGE = join(__dirname, 'fixtures', 'package')
+let PACKAGE_DEPS = join(__dirname, 'fixtures', 'package-deps')
 
 it('selects Node.js version', () => {
   expect(browserslist('node 7.5.0')).toEqual(['node 7.5.0'])
@@ -327,4 +333,74 @@ it('supports range selection', () => {
     // include 6.6.0 as patch versions are ignored
     'node 6.6.0'
   ])
+})
+
+it('supports semver range', () => {
+  expect(browserslist('node semver < 5')).toEqual([
+    'node 4.9.0',
+    'node 4.8.0',
+    'node 4.7.0',
+    'node 4.6.0',
+    'node 4.5.0',
+    'node 4.4.0',
+    'node 4.3.0',
+    'node 4.2.0',
+    'node 4.1.0',
+    'node 4.0.0',
+
+    'node 0.12.0',
+    'node 0.11.0',
+    'node 0.10.0',
+    'node 0.9.0',
+    'node 0.8.0',
+    'node 0.7.0',
+    'node 0.6.0',
+    'node 0.5.0',
+    'node 0.4.0',
+    'node 0.3.0',
+    'node 0.2.0'
+  ])
+
+  expect(browserslist('node semver 4.5.x || ^5.7.0 || 6.13.4 - 7.3.5'))
+    .toEqual([
+      'node 7.3.0',
+      'node 7.2.0',
+      'node 7.1.0',
+      'node 7.0.0',
+
+      'node 6.17.0',
+      'node 6.16.0',
+      'node 6.15.0',
+      'node 6.14.0',
+
+      'node 5.12.0',
+      'node 5.11.0',
+      'node 5.10.0',
+      'node 5.9.0',
+      'node 5.8.0',
+      'node 5.7.0',
+
+      'node 4.5.0'
+    ])
+})
+
+it('reads engines.node from package.json', () => {
+  let opts = { path: PACKAGE_DEPS }
+  expect(browserslist.loadDependencies(opts).node).toEqual(
+    '4.5.x || ^5.7.0 || 6.13.4 - 7.3.5')
+  expect(browserslist(null, opts)).toEqual(expect.arrayContaining(
+    browserslist('node semver 4.5.x || ^5.7.0 || 6.13.4 - 7.3.5')))
+  expect(browserslist('project node', opts)).toEqual(
+    browserslist('node semver 4.5.x || ^5.7.0 || 6.13.4 - 7.3.5'))
+})
+
+it('reads from package.json in parent directories', () => {
+  expect(browserslist.loadDependencies({ path: DIR }).node).toEqual(
+    '< 5')
+})
+
+it('raises if engines.node doesn\'t exist', () => {
+  expect(() => {
+    browserslist('project node', { path: PACKAGE })
+  }).toThrow(/engines\.node/)
 })

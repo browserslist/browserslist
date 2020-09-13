@@ -1,4 +1,9 @@
+let { join } = require('path')
+
 let browserslist = require('../')
+
+let PACKAGE = join(__dirname, 'fixtures', 'package')
+let PACKAGE_DEPS = join(__dirname, 'fixtures', 'package-deps')
 
 it('converts Electron to Chrome', () => {
   expect(browserslist('electron 1.1')).toEqual(['chrome 50'])
@@ -67,4 +72,34 @@ it('supports last major versions for Electron', () => {
 
 it('supports unreleased versions for Electron', () => {
   expect(browserslist('unreleased Electron versions')).toHaveLength(0)
+})
+
+it('supports semver range', () => {
+  expect(browserslist('electron semver <= 0.21')).toEqual([
+    'chrome 41',
+    'chrome 39'
+  ])
+
+  expect(browserslist('electron semver < 0.21 || 0.36 - 1.2')).toEqual([
+    'chrome 51',
+    'chrome 50',
+    'chrome 49',
+    'chrome 47',
+    'chrome 39'
+  ])
+})
+
+it('reads devDependencies.electron from package.json', () => {
+  let opts = { path: PACKAGE_DEPS }
+  expect(browserslist.loadDependencies(opts).electron).toEqual('<= 0.21')
+  expect(browserslist(null, opts)).toEqual(expect.arrayContaining(
+    browserslist('electron semver <= 0.21')))
+  expect(browserslist('project electron', opts)).toEqual(expect.arrayContaining(
+    browserslist('electron semver <= 0.21')))
+})
+
+it('raises if devDependencies.electron doesn\'t exist', () => {
+  expect(() => {
+    browserslist('project electron', { path: PACKAGE })
+  }).toThrow(/devDependencies\.electron/)
 })
