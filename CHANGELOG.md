@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.14.3
+* Update Firefox ESR.
+
 ## 4.14.2
 * Fixed `--update-db` on Windows (by James Ross).
 * Improved `--update-db` output.
