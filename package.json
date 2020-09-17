@@ -20,9 +20,9 @@
     "clean": "rimraf api.md coverage/"
   },
   "dependencies": {
-    "caniuse-lite": "^1.0.30001125",
-    "electron-to-chromium": "^1.3.564",
-    "escalade": "^3.0.2",
+    "caniuse-lite": "^1.0.30001131",
+    "electron-to-chromium": "^1.3.570",
+    "escalade": "^3.1.0",
     "node-releases": "^1.1.61"
   },
   "engines": {
@@ -42,7 +42,7 @@
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^23.18.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prefer-let": "^1.0.2",
+    "eslint-plugin-prefer-let": "^1.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-security": "^1.4.0",
     "eslint-plugin-standard": "^4.0.1",
@@ -51,7 +51,7 @@
     "husky": "^4.3.0",
     "jest": "^25.5.4",
     "jest-ci": "^0.1.1",
-    "lint-staged": "^10.3.0",
+    "lint-staged": "^10.4.0",
     "nanoid": "^3.1.12",
     "rimraf": "^3.0.2",
     "size-limit": "^4.6.0",
