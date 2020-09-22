@@ -668,7 +668,7 @@ var QUERIES = [
   {
     regexp: /^last\s+(\d+)\s+electron\s+versions?$/i,
     select: function (context, versions) {
-      return Object.keys(e2c).reverse().slice(-versions).map(function (i) {
+      return Object.keys(e2c).slice(-versions).map(function (i) {
         return 'chrome ' + e2c[i]
       })
     }
