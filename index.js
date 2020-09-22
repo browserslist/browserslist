@@ -1169,6 +1169,8 @@ var QUERIES = [
       }
     }
   }
+
+  browserslist.versionAliases.op_mob['59'] = '58'
 }())
 
 module.exports = browserslist
