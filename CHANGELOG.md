@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.14.4
+* Fixed `Unknown version 59 of op_mob` error.
+
 ## 4.14.3
 * Update Firefox ESR.
 
