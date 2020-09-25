@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.14.5
+* Fixed `last 2 electron versions` query (by Sergey Melyukov).
+
 ## 4.14.4
 * Fixed `Unknown version 59 of op_mob` error.
 
