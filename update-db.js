@@ -61,7 +61,7 @@ function getLatestInfo (lock) {
   } else {
     return JSON.parse(
       childProcess.execSync('yarn info caniuse-lite --json').toString()
-    )
+    ).data
   }
 }
 
