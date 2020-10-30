@@ -53,10 +53,16 @@ function getCurrentVersion (lock) {
   return null
 }
 
-function getLatestInfo () {
-  return JSON.parse(
-    childProcess.execSync('npm show caniuse-lite --json').toString()
-  )
+function getLatestInfo (lock) {
+  if (lock.mode !== 'yarn') {
+    return JSON.parse(
+      childProcess.execSync('npm show caniuse-lite --json').toString()
+    )
+  } else {
+    return JSON.parse(
+      childProcess.execSync('yarn info caniuse-lite --json').toString()
+    )
+  }
 }
 
 function updateLockfile (lock, latest) {
@@ -119,7 +125,7 @@ module.exports = function updateDB (print) {
   lock.content = fs.readFileSync(lock.file).toString()
 
   var current = getCurrentVersion(lock)
-  var latest = getLatestInfo()
+  var latest = getLatestInfo(lock)
 
   if (typeof current === 'string') {
     print('Current version: ' + current + '\n')
