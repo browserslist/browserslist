@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.14.6
+* Fixed Yarn support n `--update-db` (by Ivan Storck).
+* Fixed npm 7 support in `--update-db`.
+
 ## 4.14.5
 * Fixed `last 2 electron versions` query (by Sergey Melyukov).
 
