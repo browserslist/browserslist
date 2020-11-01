@@ -64,9 +64,11 @@ it('updates caniuse-lite for npm', async () => {
   expect(runUpdate()).toEqual(
     'Current version: 1.0.30001030\n' +
     `New version: ${ caniuse.version }\n` +
-    'Removing old caniuse-lite from lock file…\n' +
-    'Installing new caniuse-lite version…\n' +
-    '$ npm install\n' +
+    'Removing old caniuse-lite from lock file\n' +
+    'Installing new caniuse-lite version\n' +
+    '$ npm install caniuse-lite\n' +
+    'Cleaning package.json dependencies from caniuse-lite\n' +
+    '$ npm uninstall caniuse-lite\n' +
     'caniuse-lite has been successfully updated\n'
   )
 
@@ -79,9 +81,11 @@ it('updates caniuse-lite without previous version', async () => {
 
   expect(runUpdate()).toEqual(
     `New version: ${ caniuse.version }\n` +
-    'Removing old caniuse-lite from lock file…\n' +
-    'Installing new caniuse-lite version…\n' +
-    '$ npm install\n' +
+    'Removing old caniuse-lite from lock file\n' +
+    'Installing new caniuse-lite version\n' +
+    '$ npm install caniuse-lite\n' +
+    'Cleaning package.json dependencies from caniuse-lite\n' +
+    '$ npm uninstall caniuse-lite\n' +
     'caniuse-lite has been successfully updated\n'
   )
 
@@ -95,9 +99,11 @@ it('updates caniuse-lite for yarn', async () => {
   expect(runUpdate()).toEqual(
     'Current version: 1.0.30001035\n' +
     `New version: ${ caniuse.version }\n` +
-    'Removing old caniuse-lite from lock file…\n' +
-    'Installing new caniuse-lite version…\n' +
-    '$ yarn install\n' +
+    'Removing old caniuse-lite from lock file\n' +
+    'Installing new caniuse-lite version\n' +
+    '$ yarn add caniuse-lite\n' +
+    'Cleaning package.json dependencies from caniuse-lite\n' +
+    '$ yarn remove caniuse-lite\n' +
     'caniuse-lite has been successfully updated\n'
   )
 
@@ -115,9 +121,11 @@ if (!NODE_8 && (isInstalled('pnpm') || process.env.CI)) {
     expect(runUpdate()).toEqual(
       'Current version: 1.0.30001035\n' +
       `New version: ${ caniuse.version }\n` +
-      'Removing old caniuse-lite from lock file…\n' +
-      'Installing new caniuse-lite version…\n' +
-      '$ pnpm install\n' +
+      'Removing old caniuse-lite from lock file\n' +
+      'Installing new caniuse-lite version\n' +
+      '$ pnpm install caniuse-lite\n' +
+      'Cleaning package.json dependencies from caniuse-lite\n' +
+      '$ pnpm uninstall caniuse-lite\n' +
       'caniuse-lite has been successfully updated\n'
     )
 

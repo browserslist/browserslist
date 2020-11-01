@@ -126,22 +126,30 @@ module.exports = function updateDB (print) {
   }
   print(
     'New version: ' + latest.version + '\n' +
-    'Removing old caniuse-lite from lock file…\n'
+    'Removing old caniuse-lite from lock file\n'
   )
 
   fs.writeFileSync(lock.file, updateLockfile(lock, latest))
 
+  var install = lock.mode === 'yarn' ? 'yarn add' : lock.mode + ' install'
   print(
-    'Installing new caniuse-lite version…\n' +
-    '$ ' + lock.mode + ' install\n'
+    'Installing new caniuse-lite version\n' +
+    '$ ' + install + ' caniuse-lite\n'
   )
   try {
-    childProcess.execSync(lock.mode + ' install')
+    childProcess.execSync(install + ' caniuse-lite')
   } catch (e) /* istanbul ignore next */ {
     print(e.stack)
     print('\nProblem with `' + lock.mode + ' install` call. Run it manually.\n')
     process.exit(1)
   }
+
+  var del = lock.mode === 'yarn' ? 'yarn remove' : lock.mode + ' uninstall'
+  print(
+    'Cleaning package.json dependencies from caniuse-lite\n' +
+    '$ ' + del + ' caniuse-lite\n'
+  )
+  childProcess.execSync(del + ' caniuse-lite')
 
   print('caniuse-lite has been successfully updated\n')
 }
