@@ -82,7 +82,7 @@ function getBrowsersList () {
 function diffBrowsersLists (old, current) {
   return Object.keys(old)
     .sort()
-    .flatMap(function (browser) {
+    .map(function (browser) {
       var intersection = old[browser].filter(function (version) {
         return current[browser].indexOf(version) !== -1
       })
@@ -97,7 +97,9 @@ function diffBrowsersLists (old, current) {
       }).concat(addedVersions.map(function (version) {
         return '+ ' + browser + ' ' + version
       }))
-    }).join('\n')
+    })
+    .reduce(function (result, array) { return result.concat(array) }, [])
+    .join('\n')
 }
 
 function updateLockfile (lock, latest) {
