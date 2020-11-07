@@ -65,6 +65,41 @@ function getLatestInfo (lock) {
   }
 }
 
+function getBrowsersList () {
+  return childProcess.execSync('npx browserslist').toString()
+    .trim()
+    .split('\n')
+    .map(function (line) { return line.trim().split(' ') })
+    .reduce(function (result, entry) {
+      if (!result[entry[0]]) {
+        result[entry[0]] = []
+      }
+      result[entry[0]].push(entry[1])
+      return result
+    }, {})
+}
+
+function diffBrowsersLists (old, current) {
+  return Object.keys(old)
+    .sort()
+    .flatMap(function (browser) {
+      var intersection = old[browser].filter(function (version) {
+        return current[browser].indexOf(version) !== -1
+      })
+      var addedVersions = current[browser].filter(function (version) {
+        return intersection.indexOf(version) === -1
+      })
+      var removedVersions = old[browser].filter(function (version) {
+        return intersection.indexOf(version) === -1
+      })
+      return removedVersions.map(function (version) {
+        return '- ' + browser + ' ' + version
+      }).concat(addedVersions.map(function (version) {
+        return '+ ' + browser + ' ' + version
+      }))
+    }).join('\n')
+}
+
 function updateLockfile (lock, latest) {
   if (lock.mode === 'npm') {
     var fixed = deletePackage(JSON.parse(lock.content))
@@ -126,6 +161,13 @@ module.exports = function updateDB (print) {
 
   var current = getCurrentVersion(lock)
   var latest = getLatestInfo(lock)
+  var browsersListRetrievalError
+  var oldBrowsersList
+  try {
+    oldBrowsersList = getBrowsersList()
+  } catch (e) {
+    browsersListRetrievalError = e
+  }
 
   if (typeof current === 'string') {
     print('Current version: ' + current + '\n')
@@ -158,4 +200,32 @@ module.exports = function updateDB (print) {
   childProcess.execSync(del + ' caniuse-lite')
 
   print('caniuse-lite has been successfully updated\n')
+
+  var currentBrowsersList
+  if (!browsersListRetrievalError) {
+    try {
+      currentBrowsersList = getBrowsersList()
+    } catch (e) /* istanbul ignore next */ {
+      browsersListRetrievalError = e
+    }
+  }
+
+  if (browsersListRetrievalError) {
+    print(browsersListRetrievalError.stack)
+    print(
+      '\nProblem with browsers list retrieval. ' +
+      'Target browser changes won\'t be shown.\n'
+    )
+  } else {
+    var targetBrowserChanges = diffBrowsersLists(
+      oldBrowsersList,
+      currentBrowsersList
+    )
+    if (targetBrowserChanges) {
+      print('\nTarget browser changes:\n')
+      print(targetBrowserChanges + '\n')
+    } else {
+      print('\nNo target browser changes\n')
+    }
+  }
 }

@@ -1,0 +1,13 @@
+{
+  "description": "browserslist",
+  "license": "MIT",
+  "repository": {},
+  "devDependencies": {
+    "autoprefixer": "^9.7.4",
+    "postcss-preset-env": "^6.7.0",
+    "qs": "^6.6.0"
+  },
+  "browserslist": [
+    "erroneous query"
+  ]
+}

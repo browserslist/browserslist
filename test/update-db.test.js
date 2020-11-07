@@ -61,7 +61,7 @@ it('throws on missing lockfile', async () => {
 it('updates caniuse-lite for npm', async () => {
   let dir = await chdir('update-npm', 'package.json', 'package-lock.json')
 
-  expect(runUpdate()).toEqual(
+  expect(runUpdate()).toContain(
     'Current version: 1.0.30001030\n' +
     `New version: ${ caniuse.version }\n` +
     'Removing old caniuse-lite from lock file\n' +
@@ -79,7 +79,7 @@ it('updates caniuse-lite for npm', async () => {
 it('updates caniuse-lite without previous version', async () => {
   let dir = await chdir('update-missing', 'package.json', 'package-lock.json')
 
-  expect(runUpdate()).toEqual(
+  expect(runUpdate()).toContain(
     `New version: ${ caniuse.version }\n` +
     'Removing old caniuse-lite from lock file\n' +
     'Installing new caniuse-lite version\n' +
@@ -96,7 +96,7 @@ it('updates caniuse-lite without previous version', async () => {
 it('updates caniuse-lite for yarn', async () => {
   let dir = await chdir('update-yarn', 'package.json', 'yarn.lock')
 
-  expect(runUpdate()).toEqual(
+  expect(runUpdate()).toContain(
     'Current version: 1.0.30001035\n' +
     `New version: ${ caniuse.version }\n` +
     'Removing old caniuse-lite from lock file\n' +
@@ -118,7 +118,7 @@ if (!NODE_8 && (isInstalled('pnpm') || process.env.CI)) {
   it('updates caniuse-lite for pnpm', async () => {
     let dir = await chdir('update-pnpm', 'package.json', 'pnpm-lock.yaml')
 
-    expect(runUpdate()).toEqual(
+    expect(runUpdate()).toContain(
       'Current version: 1.0.30001035\n' +
       `New version: ${ caniuse.version }\n` +
       'Removing old caniuse-lite from lock file\n' +
@@ -133,3 +133,56 @@ if (!NODE_8 && (isInstalled('pnpm') || process.env.CI)) {
     expect(lock).toContain(`/caniuse-lite/${ caniuse.version }:`)
   })
 }
+
+it('shows target browser changes', async () => {
+  let dir = await chdir('browserslist-diff',
+    'package.json', 'package-lock.json')
+
+  expect(runUpdate()).toEqual(
+    'Current version: 1.0.30001030\n' +
+    `New version: ${ caniuse.version }\n` +
+    'Removing old caniuse-lite from lock file\n' +
+    'Installing new caniuse-lite version\n' +
+    '$ npm install caniuse-lite\n' +
+    'Cleaning package.json dependencies from caniuse-lite\n' +
+    '$ npm uninstall caniuse-lite\n' +
+    'caniuse-lite has been successfully updated\n' +
+    '\n' +
+    'Target browser changes:\n' +
+    '- chrome 83\n' +
+    '+ chrome 86\n' +
+    '- edge 84\n' +
+    '+ edge 86\n' +
+    '- firefox 80\n' +
+    '- firefox 79\n' +
+    '- firefox 78\n' +
+    '+ firefox 82\n' +
+    '+ firefox 81\n' +
+    '+ firefox 68\n' +
+    '- ios_saf 14.0\n' +
+    '- ios_saf 13.0-13.1\n' +
+    '- ios_saf 12.0-12.1\n' +
+    '+ ios_saf 14\n' +
+    '- opera 70\n' +
+    '- opera 69\n' +
+    '+ opera 72\n' +
+    '+ opera 71\n'
+  )
+
+  let lock = JSON.parse(await readFile(join(dir, 'package-lock.json')))
+  expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
+})
+
+it('shows error when browsers list can\'t be retrieved', async () => {
+  let dir = await chdir('browserslist-diff-error',
+    'package.json', 'package-lock.json')
+
+  expect(runUpdate())
+    .toContain(
+      'Problem with browsers list retrieval. ' +
+      'Target browser changes won\'t be shown.\n'
+    )
+
+  let lock = JSON.parse(await readFile(join(dir, 'package-lock.json')))
+  expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
+})
