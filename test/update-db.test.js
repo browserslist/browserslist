@@ -101,9 +101,30 @@ it('updates caniuse-lite for yarn', async () => {
     `New version: ${ caniuse.version }\n` +
     'Removing old caniuse-lite from lock file\n' +
     'Installing new caniuse-lite version\n' +
-    '$ yarn add caniuse-lite\n' +
+    '$ yarn add -W caniuse-lite\n' +
     'Cleaning package.json dependencies from caniuse-lite\n' +
-    '$ yarn remove caniuse-lite\n' +
+    '$ yarn remove -W caniuse-lite\n' +
+    'caniuse-lite has been successfully updated\n'
+  )
+
+  let lock = (await readFile(join(dir, 'yarn.lock'))).toString()
+  expect(lock).toContain(
+    'caniuse-lite@^1.0.30001030:\n' +
+    `  version "${ caniuse.version }"`
+  )
+})
+
+it('updates caniuse-lite for yarn with workspaces', async () => {
+  let dir = await chdir('update-yarn-workspaces', 'package.json', 'yarn.lock')
+
+  expect(runUpdate()).toEqual(
+    'Current version: 1.0.30001156\n' +
+    `New version: ${ caniuse.version }\n` +
+    'Removing old caniuse-lite from lock file\n' +
+    'Installing new caniuse-lite version\n' +
+    '$ yarn add -W caniuse-lite\n' +
+    'Cleaning package.json dependencies from caniuse-lite\n' +
+    '$ yarn remove -W caniuse-lite\n' +
     'caniuse-lite has been successfully updated\n'
   )
 
