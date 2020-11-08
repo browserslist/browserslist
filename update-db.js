@@ -69,7 +69,9 @@ function getBrowsersList () {
   return childProcess.execSync('npx browserslist').toString()
     .trim()
     .split('\n')
-    .map(function (line) { return line.trim().split(' ') })
+    .map(function (line) {
+      return line.trim().split(' ')
+    })
     .reduce(function (result, entry) {
       if (!result[entry[0]]) {
         result[entry[0]] = []
@@ -98,7 +100,9 @@ function diffBrowsersLists (old, current) {
         return '+ ' + browser + ' ' + version
       }))
     })
-    .reduce(function (result, array) { return result.concat(array) }, [])
+    .reduce(function (result, array) {
+      return result.concat(array)
+    }, [])
     .join('\n')
 }
 
