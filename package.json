@@ -15,9 +15,7 @@
   "license": "MIT",
   "repository": "browserslist/browserslist",
   "scripts": {
-    "spell": "yaspeller-ci *.md",
-    "test": "jest-ci --coverage && eslint-ci . && size-limit && yarn spell",
-    "clean": "rimraf api.md coverage/"
+    "test": "jest --coverage && eslint . && size-limit && yaspeller *.md"
   },
   "dependencies": {
     "caniuse-lite": "^1.0.30001156",
@@ -38,7 +36,6 @@
     "clean-publish": "^1.1.8",
     "cross-spawn": "^7.0.3",
     "eslint": "^6.8.0",
-    "eslint-ci": "^1.0.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-es5": "^1.5.0",
     "eslint-plugin-import": "^2.22.1",
@@ -52,12 +49,10 @@
     "fs-extra": "^8.1.0",
     "husky": "^4.3.0",
     "jest": "^25.5.4",
-    "jest-ci": "^0.1.1",
     "lint-staged": "^10.5.1",
     "nanoid": "^3.1.16",
-    "rimraf": "^3.0.2",
     "size-limit": "^4.7.0",
-    "yaspeller-ci": "^1.0.2"
+    "yaspeller": "^7.0.0"
   },
   "browser": {
     "./node.js": "./browser.js",
