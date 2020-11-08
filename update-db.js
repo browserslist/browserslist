@@ -82,23 +82,29 @@ function getBrowsersList () {
 }
 
 function diffBrowsersLists (old, current) {
-  return Object.keys(old)
-    .map(function (browser) {
-      var intersection = old[browser].filter(function (version) {
-        return current[browser].indexOf(version) !== -1
-      })
-      var addedVersions = current[browser].filter(function (version) {
-        return intersection.indexOf(version) === -1
-      })
-      var removedVersions = old[browser].filter(function (version) {
-        return intersection.indexOf(version) === -1
-      })
-      return removedVersions.map(function (version) {
-        return '- ' + browser + ' ' + version
-      }).concat(addedVersions.map(function (version) {
-        return '+ ' + browser + ' ' + version
-      }))
+  var browsers = Object.keys(old).concat(
+    Object.keys(current).filter(function (browser) {
+      return old[browser] === undefined
     })
+  )
+  return browsers.map(function (browser) {
+    var oldVersions = old[browser] || []
+    var currentVersions = current[browser] || []
+    var intersection = oldVersions.filter(function (version) {
+      return currentVersions.indexOf(version) !== -1
+    })
+    var addedVersions = currentVersions.filter(function (version) {
+      return intersection.indexOf(version) === -1
+    })
+    var removedVersions = oldVersions.filter(function (version) {
+      return intersection.indexOf(version) === -1
+    })
+    return removedVersions.map(function (version) {
+      return '- ' + browser + ' ' + version
+    }).concat(addedVersions.map(function (version) {
+      return '+ ' + browser + ' ' + version
+    }))
+  })
     .reduce(function (result, array) {
       return result.concat(array)
     }, [])
