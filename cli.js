@@ -75,6 +75,8 @@ if (isArg('--help') || isArg('-h')) {
       mode = 'json'
     } else if (name === '--mobile-to-desktop') {
       opts.mobileToDesktop = true
+    } else if (name === '--silent') {
+      opts.silent = true
     } else {
       error('Unknown arguments ' + args[i] + '.\n\n' + USAGE)
     }
