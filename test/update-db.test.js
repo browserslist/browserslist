@@ -117,7 +117,7 @@ it('updates caniuse-lite for yarn', async () => {
 it('updates caniuse-lite for yarn with workspaces', async () => {
   let dir = await chdir('update-yarn-workspaces', 'package.json', 'yarn.lock')
 
-  expect(runUpdate()).toEqual(
+  expect(runUpdate()).toContain(
     'Current version: 1.0.30001156\n' +
     `New version: ${ caniuse.version }\n` +
     'Removing old caniuse-lite from lock file\n' +
