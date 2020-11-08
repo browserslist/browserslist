@@ -8,8 +8,8 @@
     "target"
   ],
   "funding": {
-    "type": "tidelift",
-    "url": "https://tidelift.com/funding/github/npm/browserslist"
+    "type": "opencollective",
+    "url": "https://opencollective.com/browserslist"
   },
   "author": "Andrey Sitnik <andrey@sitnik.ru>",
   "license": "MIT",
