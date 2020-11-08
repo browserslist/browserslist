@@ -83,7 +83,6 @@ function getBrowsersList () {
 
 function diffBrowsersLists (old, current) {
   return Object.keys(old)
-    .sort()
     .map(function (browser) {
       var intersection = old[browser].filter(function (version) {
         return current[browser].indexOf(version) !== -1
