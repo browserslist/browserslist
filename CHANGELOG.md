@@ -1,8 +1,14 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.14.7
+* Fixed Yarn Workspaces support to `--update-db` (by Fausto Núñez Alberro).
+* Added browser changes to `--update-db` (by @AleksandrSl).
+* Added color output to `--update-db`.
+* Updated `package.funding` to have link to our Open Collective.
+
 ## 4.14.6
-* Fixed Yarn support n `--update-db` (by Ivan Storck).
+* Fixed Yarn support in `--update-db` (by Ivan Storck).
 * Fixed npm 7 support in `--update-db`.
 
 ## 4.14.5
