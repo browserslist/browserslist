@@ -29,7 +29,6 @@ jobs:
           - 14
           - 12
           - 10
-          - 8
     name: Node.js ${{ matrix.node-version }} Quick
     steps:
       - name: Checkout the repository
@@ -40,6 +39,20 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install pnpm
         run: npm add -g pnpm
+      - name: Install dependencies
+        run: yarn install --ignore-engines
+      - name: Run unit tests
+        run: npx jest
+  short8:
+    runs-on: ubuntu-latest
+    name: Node.js 8 Quick
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+      - name: Install Node.js 8
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: 8
       - name: Install dependencies
         run: yarn install --ignore-engines
       - name: Run unit tests
