@@ -1,9 +1,15 @@
 var childProcess = require('child_process')
+var colorette = require('colorette')
 var escalade = require('escalade/sync')
 var path = require('path')
 var fs = require('fs')
 
 var BrowserslistError = require('./error')
+
+var red = colorette.red
+var bold = colorette.bold
+var green = colorette.green
+var yellow = colorette.yellow
 
 function detectLockfile () {
   var packageDir = escalade('.', function (dir, names) {
@@ -100,9 +106,9 @@ function diffBrowsersLists (old, current) {
       return intersection.indexOf(version) === -1
     })
     return removedVersions.map(function (version) {
-      return '- ' + browser + ' ' + version
+      return red('- ' + browser + ' ' + version)
     }).concat(addedVersions.map(function (version) {
-      return '+ ' + browser + ' ' + version
+      return green('+ ' + browser + ' ' + version)
     }))
   })
     .reduce(function (result, array) {
@@ -181,10 +187,10 @@ module.exports = function updateDB (print) {
   }
 
   if (typeof current === 'string') {
-    print('Current version: ' + current + '\n')
+    print('Current version: ' + bold(red(current)) + '\n')
   }
   print(
-    'New version: ' + latest.version + '\n' +
+    'New version:     ' + bold(green(latest.version)) + '\n' +
     'Removing old caniuse-lite from lock file\n'
   )
 
@@ -193,20 +199,26 @@ module.exports = function updateDB (print) {
   var install = lock.mode === 'yarn' ? 'yarn add -W' : lock.mode + ' install'
   print(
     'Installing new caniuse-lite version\n' +
-    '$ ' + install + ' caniuse-lite\n'
+    yellow('$ ' + install + ' caniuse-lite') + '\n'
   )
   try {
     childProcess.execSync(install + ' caniuse-lite')
   } catch (e) /* istanbul ignore next */ {
-    print(e.stack)
-    print('\nProblem with `' + lock.mode + ' install` call. Run it manually.\n')
+    print(
+      red(
+        '\n' +
+        e.stack + '\n\n' +
+        'Problem with `' + install + '  caniuse-lite` call. ' +
+        'Run it manually.\n'
+      )
+    )
     process.exit(1)
   }
 
   var del = lock.mode === 'yarn' ? 'yarn remove -W' : lock.mode + ' uninstall'
   print(
     'Cleaning package.json dependencies from caniuse-lite\n' +
-    '$ ' + del + ' caniuse-lite\n'
+    yellow('$ ' + del + ' caniuse-lite') + '\n'
   )
   childProcess.execSync(del + ' caniuse-lite')
 
@@ -222,10 +234,13 @@ module.exports = function updateDB (print) {
   }
 
   if (browsersListRetrievalError) {
-    print(browsersListRetrievalError.stack)
     print(
-      '\nProblem with browsers list retrieval. ' +
-      'Target browser changes won\'t be shown.\n'
+      red(
+        '\n' +
+        browsersListRetrievalError.stack + '\n\n' +
+        'Problem with browsers list retrieval.\n' +
+        'Target browser changes won’t be shown.\n'
+      )
     )
   } else {
     var targetBrowserChanges = diffBrowsersLists(
@@ -236,7 +251,7 @@ module.exports = function updateDB (print) {
       print('\nTarget browser changes:\n')
       print(targetBrowserChanges + '\n')
     } else {
-      print('\nNo target browser changes\n')
+      print('\n' + green('No target browser changes') + '\n')
     }
   }
 }

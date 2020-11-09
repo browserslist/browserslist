@@ -1,3 +1,5 @@
+process.env.NO_COLOR = '1'
+
 let { remove, copy, readFile, ensureDir } = require('fs-extra')
 let { execSync } = require('child_process')
 let { nanoid } = require('nanoid/non-secure')
@@ -63,7 +65,7 @@ it('updates caniuse-lite for npm', async () => {
 
   expect(runUpdate()).toContain(
     'Current version: 1.0.30001030\n' +
-    `New version: ${ caniuse.version }\n` +
+    `New version:     ${ caniuse.version }\n` +
     'Removing old caniuse-lite from lock file\n' +
     'Installing new caniuse-lite version\n' +
     '$ npm install caniuse-lite\n' +
@@ -80,7 +82,7 @@ it('updates caniuse-lite without previous version', async () => {
   let dir = await chdir('update-missing', 'package.json', 'package-lock.json')
 
   expect(runUpdate()).toContain(
-    `New version: ${ caniuse.version }\n` +
+    `New version:     ${ caniuse.version }\n` +
     'Removing old caniuse-lite from lock file\n' +
     'Installing new caniuse-lite version\n' +
     '$ npm install caniuse-lite\n' +
@@ -98,7 +100,7 @@ it('updates caniuse-lite for yarn', async () => {
 
   expect(runUpdate()).toContain(
     'Current version: 1.0.30001035\n' +
-    `New version: ${ caniuse.version }\n` +
+    `New version:     ${ caniuse.version }\n` +
     'Removing old caniuse-lite from lock file\n' +
     'Installing new caniuse-lite version\n' +
     '$ yarn add -W caniuse-lite\n' +
@@ -119,7 +121,7 @@ it('updates caniuse-lite for yarn with workspaces', async () => {
 
   expect(runUpdate()).toContain(
     'Current version: 1.0.30001156\n' +
-    `New version: ${ caniuse.version }\n` +
+    `New version:     ${ caniuse.version }\n` +
     'Removing old caniuse-lite from lock file\n' +
     'Installing new caniuse-lite version\n' +
     '$ yarn add -W caniuse-lite\n' +
@@ -141,7 +143,7 @@ if (!NODE_8 && (isInstalled('pnpm') || process.env.CI)) {
 
     expect(runUpdate()).toContain(
       'Current version: 1.0.30001035\n' +
-      `New version: ${ caniuse.version }\n` +
+      `New version:     ${ caniuse.version }\n` +
       'Removing old caniuse-lite from lock file\n' +
       'Installing new caniuse-lite version\n' +
       '$ pnpm install caniuse-lite\n' +
@@ -174,8 +176,8 @@ it('shows error when browsers list can\'t be retrieved', async () => {
 
   expect(runUpdate())
     .toContain(
-      'Problem with browsers list retrieval. ' +
-      'Target browser changes won\'t be shown.\n'
+      'Problem with browsers list retrieval.\n' +
+      'Target browser changes won’t be shown.\n'
     )
 
   let lock = JSON.parse(await readFile(join(dir, 'package-lock.json')))
