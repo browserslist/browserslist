@@ -68,15 +68,20 @@ function pickEnv (config, opts) {
   if (typeof config !== 'object') return config
 
   var name
+
   if (typeof opts.env === 'string') {
     name = opts.env
   } else if (process.env.BROWSERSLIST_ENV) {
     name = process.env.BROWSERSLIST_ENV
-  } else if (process.env.NODE_ENV) {
-    name = process.env.NODE_ENV
-  } else {
-    name = 'production'
   }
+
+  if (name && name !== 'defaults' && !config[name]) {
+    throw new BrowserslistError(
+      'Missing config for Browserslist environment `' + name + '`.'
+    )
+  }
+
+  name = name || process.env.NODE_ENV || 'production'
 
   return config[name] || config.defaults
 }

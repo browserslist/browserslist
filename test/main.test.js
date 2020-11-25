@@ -191,8 +191,12 @@ it('uses env options to browserlist config', () => {
   expect(browserslist(null, { path: CONFIG, env: 'development' }))
     .toEqual(['chrome 55', 'firefox 50'])
 
-  expect(browserslist(null, { path: CONFIG, env: 'test' }))
+  expect(browserslist(null, { path: CONFIG, env: 'defaults' }))
     .toEqual(['ie 11', 'ie 10'])
+
+  expect(() => {
+    browserslist(null, { path: CONFIG, env: 'test' })
+  }).toThrow(/Missing config for Browserslist environment/)
 })
 
 it('uses env options to package.json', () => {
@@ -202,7 +206,12 @@ it('uses env options to package.json', () => {
   expect(browserslist(null, { path: PACKAGE, env: 'development' }))
     .toEqual(['chrome 55', 'firefox 50'])
 
-  expect(browserslist(null, { path: PACKAGE, env: 'test' })).toEqual(DEFAULTS)
+  expect(browserslist(null, { path: PACKAGE, env: 'defaults' }))
+    .toEqual(DEFAULTS)
+
+  expect(() => {
+    browserslist(null, { path: PACKAGE, env: 'test' })
+  }).toThrow(/Missing config for Browserslist environment/)
 })
 
 it('uses NODE_ENV to get environment', () => {
