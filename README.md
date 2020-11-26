@@ -377,6 +377,9 @@ So, if tool process `app/styles/main.css`, you can put config to root,
 
 You can specify direct path in `BROWSERSLIST_CONFIG` environment variables.
 
+### Syntax Highlight
+
+You can add syntax highlighting in `.browserslistrc` and `browserslist` files by installing [browserslist extension](https://marketplace.visualstudio.com/items?itemName=webben.browserslist)
 
 ## Shareable Configs
 
