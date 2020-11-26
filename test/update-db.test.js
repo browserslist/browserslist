@@ -78,6 +78,23 @@ it('updates caniuse-lite for npm', async () => {
   expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
 })
 
+it('skips the update if caniuse-lite is up to date', async () => {
+  let dir = await chdir('update-npm', 'package.json', 'package-lock.json')
+  // update the dir to the current version
+  runUpdate()
+  let lock = JSON.parse(await readFile(join(dir, 'package-lock.json')))
+  expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
+
+  // rerun runUpdate; it should not try to install a new caniuse-lite version
+  expect(runUpdate()).toContain(
+    `Current version: ${ caniuse.version }\n` +
+    `New version:     ${ caniuse.version }\n` +
+    'caniuse-lite is up to date\n'
+  )
+  lock = JSON.parse(await readFile(join(dir, 'package-lock.json')))
+  expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
+})
+
 it('updates caniuse-lite without previous version', async () => {
   let dir = await chdir('update-missing', 'package.json', 'package-lock.json')
 

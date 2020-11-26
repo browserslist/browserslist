@@ -180,6 +180,7 @@ module.exports = function updateDB (print) {
   var latest = getLatestInfo(lock)
   var browsersListRetrievalError
   var oldBrowsersList
+  var currentIsLatest = false
   try {
     oldBrowsersList = getBrowsersList()
   } catch (e) {
@@ -187,10 +188,23 @@ module.exports = function updateDB (print) {
   }
 
   if (typeof current === 'string') {
+    if (current === latest.version) {
+      currentIsLatest = true
+    }
     print('Current version: ' + bold(red(current)) + '\n')
   }
   print(
-    'New version:     ' + bold(green(latest.version)) + '\n' +
+    'New version:     ' + bold(green(latest.version)) + '\n'
+  )
+
+  if (currentIsLatest) {
+    print(
+      'caniuse-lite is up to date\n'
+    )
+    process.exit()
+  }
+
+  print(
     'Removing old caniuse-lite from lock file\n'
   )
 
