@@ -78,7 +78,7 @@ it('updates caniuse-lite for npm', async () => {
   expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
 })
 
-it('skips the update if caniuse-lite is up to date', async () => {
+it('skips the npm update if caniuse-lite is up to date', async () => {
   let dir = await chdir('update-npm', 'package.json', 'package-lock.json')
   // update the dir to the current version
   runUpdate()
@@ -125,8 +125,29 @@ it('updates caniuse-lite for yarn', async () => {
     '$ yarn remove -W caniuse-lite\n' +
     'caniuse-lite has been successfully updated\n'
   )
+  let lock = (await readFile(join(dir, 'yarn.lock'))).toString()
+  expect(lock).toContain(
+    'caniuse-lite@^1.0.30001030:\n' +
+    `  version "${ caniuse.version }"`
+  )
+})
+
+it('skips the yarn update if caniuse-lite is up to date', async () => {
+  let dir = await chdir('update-yarn', 'package.json', 'yarn.lock')
 
   let lock = (await readFile(join(dir, 'yarn.lock'))).toString()
+  runUpdate()
+  expect(lock).toContain(
+    'caniuse-lite@^1.0.30001030:\n' +
+    `  version "${ caniuse.version }"`
+  )
+
+  expect(runUpdate()).toContain(
+    `Current version: ${ caniuse.version }\n` +
+    `New version:     ${ caniuse.version }\n` +
+    'caniuse-lite is up to date\n'
+  )
+  lock = (await readFile(join(dir, 'yarn.lock'))).toString()
   expect(lock).toContain(
     'caniuse-lite@^1.0.30001030:\n' +
     `  version "${ caniuse.version }"`
