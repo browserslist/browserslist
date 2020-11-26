@@ -199,7 +199,7 @@ module.exports = function updateDB (print) {
 
   if (currentIsLatest) {
     print(
-      'caniuse-lite is up to date\n'
+      bold(green('caniuse-lite is up to date')) + '\n'
     )
     process.exit()
   }
