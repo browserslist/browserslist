@@ -155,7 +155,7 @@ You need to do it regularly for two reasons:
    `last 2 versions` or `>1%`. For example, if you created your project
    2 years ago and did not update your dependencies, `last 1 version`
    will return 2 year old browsers.
-2. `caiuse-lite` deduplication: to synchronize version in different tools.
+2. `caniuse-lite` deduplication: to synchronize version in different tools.
 
 > What is deduplication?
 
