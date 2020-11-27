@@ -101,6 +101,7 @@ Browserslist will take queries from tool option,
 * [`browserslist-browserstack`] runs BrowserStack tests for all browsers
   in Browserslist config.
 * [`browserslist-adobe-analytics`] use Adobe Analytics data to target browsers.
+* [`browserslist-vscode`](https://marketplace.visualstudio.com/items?itemName=webben.browserslist) adds syntax highlighting for `.browserslistrc` and `browserslist` files. This is a [Visual Studio Code](https://code.visualstudio.com/) [extension](https://marketplace.visualstudio.com/VSCode).
 * [`caniuse-api`] returns browsers which support some specific feature.
 * Run `npx browserslist` in your project directory to see project’s
   target browsers. This CLI tool is built-in and available in any project
@@ -376,10 +377,6 @@ So, if tool process `app/styles/main.css`, you can put config to root,
 `app/` or `app/styles`.
 
 You can specify direct path in `BROWSERSLIST_CONFIG` environment variables.
-
-### Syntax Highlight
-
-You can add syntax highlighting in `.browserslistrc` and `browserslist` files by installing [browserslist extension](https://marketplace.visualstudio.com/items?itemName=webben.browserslist)
 
 ## Shareable Configs
 
