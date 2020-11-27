@@ -92,6 +92,8 @@ Browserslist will take queries from tool option,
 
 * [`browserl.ist`](https://browserl.ist/) is an online tool to check
   what browsers will be selected by some query.
+* [`browserslist-vscode`] adds `.browserslistrc` syntax highlighting
+  to Visual Studio Code.
 * [`browserslist-ga`] and [`browserslist-ga-export`] download your website
   browsers statistics to use it in `> 0.5% in my stats` query.
 * [`browserslist-useragent-regexp`] compiles Browserslist query to a RegExp
@@ -101,7 +103,6 @@ Browserslist will take queries from tool option,
 * [`browserslist-browserstack`] runs BrowserStack tests for all browsers
   in Browserslist config.
 * [`browserslist-adobe-analytics`] use Adobe Analytics data to target browsers.
-* [`browserslist-vscode`](https://marketplace.visualstudio.com/items?itemName=webben.browserslist) adds syntax highlighting for `.browserslistrc` and `browserslist` files. This is a [Visual Studio Code](https://code.visualstudio.com/) [extension](https://marketplace.visualstudio.com/VSCode).
 * [`caniuse-api`] returns browsers which support some specific feature.
 * Run `npx browserslist` in your project directory to see project’s
   target browsers. This CLI tool is built-in and available in any project
@@ -113,6 +114,7 @@ Browserslist will take queries from tool option,
 [`browserslist-browserstack`]:     https://github.com/xeroxinteractive/browserslist-browserstack
 [`browserslist-ga-export`]:        https://github.com/browserslist/browserslist-ga-export
 [`browserslist-useragent`]:        https://github.com/pastelsky/browserslist-useragent
+[`browserslist-vscode`]:           https://marketplace.visualstudio.com/items?itemName=webben.browserslist
 [`browserslist-ga`]:               https://github.com/browserslist/browserslist-ga
 [`caniuse-api`]:                   https://github.com/Nyalab/caniuse-api
 
