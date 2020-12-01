@@ -15,7 +15,7 @@
   "license": "MIT",
   "repository": "browserslist/browserslist",
   "scripts": {
-    "test": "jest --coverage && eslint . && size-limit && yaspeller *.md"
+    "test": "jest --coverage && eslint . && check-dts && size-limit && yaspeller *.md"
   },
   "dependencies": {
     "caniuse-lite": "^1.0.30001157",
@@ -30,10 +30,15 @@
   "bin": {
     "browserslist": "cli.js"
   },
+  "types": "./index.d.ts",
   "devDependencies": {
     "@logux/eslint-config": "^35.0.4",
     "@logux/sharec-config": "^0.5.7",
     "@size-limit/preset-small-lib": "^4.7.0",
+    "@types/cross-spawn": "^6.0.2",
+    "@types/fs-extra": "^9.0.1",
+    "@types/jest": "^26.0.14",
+    "check-dts": "^0.4.1",
     "clean-publish": "^1.1.8",
     "cross-spawn": "^7.0.3",
     "eslint": "^6.8.0",
@@ -53,6 +58,8 @@
     "lint-staged": "^10.5.1",
     "nanoid": "^3.1.16",
     "size-limit": "^4.7.0",
+    "ts-jest": "^25.5.1",
+    "typescript": "^3.9.4",
     "yaspeller": "^7.0.0"
   },
   "browser": {
@@ -65,6 +72,7 @@
     }
   },
   "jest": {
+    "preset": "ts-jest",
     "testEnvironment": "node",
     "coverageThreshold": {
       "global": {
