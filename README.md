@@ -21,7 +21,6 @@ when you add the following to `package.json`:
   "browserslist": [
     "defaults",
     "not IE 11",
-    "not IE_Mob 11",
     "maintained node versions"
   ]
 ```
@@ -33,7 +32,6 @@ Or in `.browserslistrc` config:
 
 defaults
 not IE 11
-not IE_Mob 11
 maintained node versions
 ```
 
@@ -44,8 +42,6 @@ Browserslist will use [`caniuse-lite`] with [Can I Use] data for this queries
 Browserslist will take queries from tool option,
 `browserslist` config, `.browserslistrc` config,
 `browserslist` section in `package.json` or environment variables.
-
-[Browserslist Example] shows how every tool uses Browserslist.
 
 [cult-img]: https://cultofmartians.com/assets/badges/badge.svg
 [cult]: https://cultofmartians.com/done.html
