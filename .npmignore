@@ -9,3 +9,4 @@ coverage/
 
 .github/
 img/
+tsconfig.json
