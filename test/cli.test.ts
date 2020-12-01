@@ -132,7 +132,8 @@ it('reads browserslist config: env production', async () => {
 })
 
 it('returns usage from config', async () => {
-  expect(await out(CONF, '--coverage')).toContain(coverage(['ie 11', 'ie 10']))
+  let result = coverage(['ie 11', 'ie 10'])
+  expect(await out(CONF, '--coverage')).toContain(`${result}`)
 })
 
 it('supports custom stats', async () => {
