@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.15
+* Add TypeScript types (by Dmitry Semigradsky).
+
 ## 4.14.7
 * Fixed Yarn Workspaces support to `--update-db` (by Fausto Núñez Alberro).
 * Added browser changes to `--update-db` (by @AleksandrSl).
