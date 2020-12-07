@@ -65,7 +65,7 @@ Browserslist will take queries from tool option,
 ## Table of Contents
 
 * [Tools](#tools)
-  * [Syntax highlighting](#syntax-highlighting)
+  * [Text Editors](#text-editors)
 * [Best Practices](#best-practices)
 * [Browsers Data Updating](#browsers-data-updating)
 * [Queries](#queries)
@@ -112,13 +112,13 @@ Browserslist will take queries from tool option,
 [`browserslist-ga`]:               https://github.com/browserslist/browserslist-ga
 [`caniuse-api`]:                   https://github.com/Nyalab/caniuse-api
 
-### Syntax highlighting
 
-* [`browserslist-vscode`] adds `.browserslistrc` syntax highlighting to VSCode.
-* [`vim-browserslist`] adds `.browserslistrc` syntax highlighting for vim.
+### Text Editors
 
-[`browserslist-vscode`]:           https://marketplace.visualstudio.com/items?itemName=webben.browserslist
-[`vim-browserslist`]:              https://github.com/browserslist/vim-browserslist
+These extensions will add syntax highlighting for `.browserslistrc` files.
+
+* [VS Code](https://marketplace.visualstudio.com/items?itemName=webben.browserslist)
+* [Vim](https://github.com/browserslist/vim-browserslist)
 
 ## Best Practices
 

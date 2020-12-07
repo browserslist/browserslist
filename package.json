@@ -157,7 +157,8 @@
       "maintainers",
       "ES",
       "deduplication",
-      "pnpm"
+      "pnpm",
+      "VS"
     ]
   },
   "sharec": {
