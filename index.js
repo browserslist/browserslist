@@ -9,6 +9,7 @@ var env = require('./node') // Will load browser.js in webpack
 
 var YEAR = 365.259641 * 24 * 60 * 60 * 1000
 var ANDROID_EVERGREEN_FIRST = 37
+var ANDROID_CLASSIC_REGEX = /^(?:[2-4]\.|[34]$)/
 
 var QUERY_OR = 1
 var QUERY_AND = 2
@@ -265,7 +266,7 @@ function normalizeAndroidVersions (androidVersions, chromeVersions) {
   var firstEvergreen = ANDROID_EVERGREEN_FIRST
   var last = chromeVersions[chromeVersions.length - 1]
   return androidVersions
-    .filter(function (version) { return /^(?:[2-4]\.|[34]$)/.test(version) })
+    .filter(function (version) { return ANDROID_CLASSIC_REGEX.test(version) })
     .concat(chromeVersions.slice(firstEvergreen - last - 1))
 }
 
@@ -315,7 +316,7 @@ function resolve (queries, context) {
     queries = parse(queries)
   }
 
-  return queries.reduce(function (result, query, index) {
+  var list = queries.reduce(function (result, query, index) {
     var selection = query.queryString
 
     var isExclude = selection.indexOf('not ') === 0
@@ -371,6 +372,18 @@ function resolve (queries, context) {
 
     throw unknownQuery(selection)
   }, [])
+
+  if (context.normalizers) {
+    list = context.normalizers.reduce(function (result, normalizer) {
+      normalizer = NORMALIZERS[normalizer] || normalizer
+      if (typeof normalizer !== 'function') {
+        throw new BrowserslistError('Unknown normalizer ' + normalizer)
+      }
+      return result.map(normalizer)
+    }, list)
+  }
+
+  return list
 }
 
 var cache = { }
@@ -395,6 +408,10 @@ var cache = { }
  * @param {boolean} [opts.mobileToDesktop] Alias mobile browsers to the desktop
  *                                         version when Can I Use doesn't have
  *                                         data about the specified version.
+ * @param {(string|function)[]} [opts.normalizers] An array of names of
+ *                                                 normalizers and functions
+ *                                                 that accept a browser and
+ *                                                 return normalized versions.
  * @returns {string[]} Array with browser names in Can I Use.
  *
  * @example
@@ -425,6 +442,7 @@ function browserslist (queries, opts) {
     ignoreUnknownVersions: opts.ignoreUnknownVersions,
     dangerousExtend: opts.dangerousExtend,
     mobileToDesktop: opts.mobileToDesktop,
+    normalizers: opts.normalizers,
     env: opts.env
   }
 
@@ -544,6 +562,46 @@ browserslist.desktopNames = {
   ie_mob: 'ie',
   op_mob: 'opera',
   android: 'chrome' // has extra processing logic
+}
+
+// Tools such as compat-table only provides compatibility data for
+// popular browsers. Fallback to Chrome for Chromium-based browsers
+// and Firefox for Gecko-based browsers. A number indicates `and_chr`
+browserslist.normalizedVersions = {
+  // From Samsung Internet release notes at
+  // https://developer.samsung.com/internet/release-note.html,
+  // Chrome version page (chrome://version), and the user agent string
+  // Also available at https://github.com/mdn/browser-compat-data/blob/master
+  // /browsers/samsunginternet_android.json
+  'samsung 4': 44,
+  'samsung 5': 51,
+  'samsung 6': 56,
+  'samsung 7': 59,
+  'samsung 8': 63,
+  'samsung 9': 67,
+  'samsung 10': 71,
+  'samsung 11': 75,
+  'samsung 12': 79,
+
+  // From Opera for Android release notes at
+  // https://forums.opera.com/category/20/opera-for-android
+  // Opera version page (opera://version), and the user agent string
+  // Also available at https://github.com/mdn/browser-compat-data/blob/master
+  // /browsers/opera_android.json
+  'op_mob 46': 63,
+
+  // From the kernel version at https://plus.ucweb.com/download/
+  // and the user agent string
+  'and_uc 12': 57,
+
+  // From https://browser.qq.com/ and the user agent string
+  'and_qq 10': 70,
+
+  // From the user agent string
+  'baidu 7': 48,
+
+  // From https://github.com/kaiostech/gecko-b2g and the user agent string
+  'kaios 2': 'and_ff 48'
 }
 
 // Aliases to work with joined versions like `ios_saf 7.0-7.1`
@@ -1141,7 +1199,30 @@ var QUERIES = [
       }
     }
   }
-];
+]
+
+var NORMALIZERS = {
+  byEngine: function (browser) {
+    var major = browser.split('.')[0]
+    var normalized = browserslist.normalizedVersions[major]
+    if (!normalized) {
+      return browser
+    } else if (typeof normalized === 'number') {
+      normalized = 'and_chr ' + normalized
+    }
+    return normalized
+  },
+  toDesktop: function (browser) {
+    browser = browser.split(' ')
+    var name = browser[0]
+    var version = browser[1]
+    if (browserslist.desktopNames[name] &&
+        !(name === 'android' && ANDROID_CLASSIC_REGEX.test(version))) {
+      name = browserslist.desktopNames[name]
+    }
+    return name + ' ' + version
+  }
+};
 
 // Get and convert Can I Use data
 

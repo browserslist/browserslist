@@ -561,10 +561,20 @@ Options:
   Default is `false.`
 * `dangerousExtend`: Disable security checks for `extend` query.
   Default is `false.`
-* `mobileToDesktop`: Use desktop browsers if Can I Use doesn’t have data
-  about this mobile version. For instance, Browserslist will return
-  `chrome 20` on `and_chr 20` query (Can I Use has only data only about
-  latest versions of mobile browsers). Default is `false`.
+* `mobileToDesktop`: Resolve the mobile version using the desktop version when
+  Can I Use doesn't have data about the specified version. For instance, it
+  will return two Chrome for Android versions even if Can I Use has only
+  data only about the latest version. Default is `false`.
+* `normalizers`: An array of names of normalizers below and functions
+  that accept a browser and return the normalized versions, which are
+  applied to resolved browsers in order. For instance, `['byEngine', 'toDesktop']`.
+  * `byEngine`: Normalize Chromium-based browsers to Chrome. For instance,
+    UC Browser, QQ Browser, Baidu browser for Android, and Samsung Internet
+    will return `and_chr` with the version of Chromium they are based on.
+    Note Edge and Opera is not normalized. Gecko-based browsers are
+    also normalized to Firefox, e.g., KaiOS Browser will return `and_ff`.
+  * `toDesktop`: Normalize mobile browsers to desktop browsers.
+    For instance, Browserslist will return `chrome 20` on `and_chr 20`
 
 For non-JS environment and debug purpose you can use CLI tool:
 
