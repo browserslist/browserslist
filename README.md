@@ -65,6 +65,7 @@ Browserslist will take queries from tool option,
 ## Table of Contents
 
 * [Tools](#tools)
+  * [Syntax highlighting](#syntax-highlighting)
 * [Best Practices](#best-practices)
 * [Browsers Data Updating](#browsers-data-updating)
 * [Queries](#queries)
@@ -88,8 +89,6 @@ Browserslist will take queries from tool option,
 
 * [`browserl.ist`](https://browserl.ist/) is an online tool to check
   what browsers will be selected by some query.
-* [`browserslist-vscode`] adds `.browserslistrc` syntax highlighting
-  to Visual Studio Code.
 * [`browserslist-ga`] and [`browserslist-ga-export`] download your website
   browsers statistics to use it in `> 0.5% in my stats` query.
 * [`browserslist-useragent-regexp`] compiles Browserslist query to a RegExp
@@ -110,10 +109,16 @@ Browserslist will take queries from tool option,
 [`browserslist-browserstack`]:     https://github.com/xeroxinteractive/browserslist-browserstack
 [`browserslist-ga-export`]:        https://github.com/browserslist/browserslist-ga-export
 [`browserslist-useragent`]:        https://github.com/pastelsky/browserslist-useragent
-[`browserslist-vscode`]:           https://marketplace.visualstudio.com/items?itemName=webben.browserslist
 [`browserslist-ga`]:               https://github.com/browserslist/browserslist-ga
 [`caniuse-api`]:                   https://github.com/Nyalab/caniuse-api
 
+### Syntax highlighting
+
+* [`browserslist-vscode`] adds `.browserslistrc` syntax highlighting to VSCode.
+* [`vim-browserslist`] adds `.browserslistrc` syntax highlighting for vim.
+
+[`browserslist-vscode`]:           https://marketplace.visualstudio.com/items?itemName=webben.browserslist
+[`vim-browserslist`]:              https://github.com/browserslist/vim-browserslist
 
 ## Best Practices
 
