@@ -425,6 +425,7 @@ function browserslist (queries, opts) {
     ignoreUnknownVersions: opts.ignoreUnknownVersions,
     dangerousExtend: opts.dangerousExtend,
     mobileToDesktop: opts.mobileToDesktop,
+    path: opts.path,
     env: opts.env
   }
 
@@ -1103,6 +1104,12 @@ var QUERIES = [
         }
       }
       return [data.name + ' ' + version]
+    }
+  },
+  {
+    regexp: /^browserslist config$/i,
+    select: function (context) {
+      return browserslist(undefined, context)
     }
   },
   {
