@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.16
+* Add `browserslist config` query.
+
 ## 4.15
 * Add TypeScript types (by Dmitry Semigradsky).
 
