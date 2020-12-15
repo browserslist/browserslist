@@ -273,7 +273,7 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   page. A list of all available features can be found at
   [`caniuse-lite/data/features`].
 * `browserslist config`: the browsers defined in Browserslist config. Useful
-  in the tools to modify user’s config like
+  in Differential Serving to modify user’s config like
   `browserslist config and supports es6-module`.
 * `since 2015` or `last 2 years`: all versions released since year 2015
   (also `since 2015-03` and `since 2015-03-10`).
