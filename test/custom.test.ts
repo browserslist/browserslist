@@ -63,7 +63,8 @@ it('takes stats from browserslist-stats.json', () => {
 
 it('normalizes versions', () => {
   let o = { stats: ANDROID }
-  expect(browserslist(['> 3% in my stats'], o)[0]).toMatch(/and_chr \d+/)
+  expect(browserslist(['> 3% in my stats'], o)[0]).toMatch('and_chr 87')
+  expect(browserslist(['> 3% in my stats'], {...o, mobileToDesktop: true})[0]).toMatch('and_chr 87')
   expect(browserslist(['> 3% in my stats', 'not and_chr > 0'], o)).toEqual([])
 })
 
