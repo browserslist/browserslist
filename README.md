@@ -402,8 +402,7 @@ naming or prefixing the module with `@scope/browserslist-config`, such as
 `@scope/browserslist-config` or `@scope/browserslist-config-mycompany`.
 
 If you don’t accept Browserslist queries from users, you can disable the
-validation by using the or `BROWSERSLIST_DANGEROUS_EXTEND` environment variable
-or `dangerousExtend` option.
+validation by using the or `BROWSERSLIST_DANGEROUS_EXTEND` environment variable.
 
 ```sh
 BROWSERSLIST_DANGEROUS_EXTEND=1 npx webpack
