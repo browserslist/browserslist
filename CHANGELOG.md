@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.16.1
+* Fixed Chrome 4 with `mobileToDesktop` (by Aron Woost).
+
 ## 4.16
 * Add `browserslist config` query.
 
