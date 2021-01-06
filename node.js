@@ -127,7 +127,7 @@ function normalizeStats (data, stats) {
       data[i] &&
       data[i].versions.length === 1
     ) {
-      var normal = Object.keys(data[i].versions)[0]
+      var normal = data[i].versions[0]
       normalized[i] = { }
       normalized[i][normal] = stats[i][versions[0]]
     } else {
