@@ -19,7 +19,7 @@ function detectLockfile () {
   if (!packageDir) {
     throw new BrowserslistError(
       'Cannot find package.json. ' +
-      'Is it a right project to run npx browserslist --update-db?'
+      'Is this the right directory to run `npx browserslist --update-db` in?'
     )
   }
 
@@ -27,48 +27,27 @@ function detectLockfile () {
   var lockfileYarn = path.join(packageDir, 'yarn.lock')
   var lockfilePnpm = path.join(packageDir, 'pnpm-lock.yaml')
 
-  /* istanbul ignore next */
   if (fs.existsSync(lockfilePnpm)) {
     return { mode: 'pnpm', file: lockfilePnpm }
   } else if (fs.existsSync(lockfileNpm)) {
     return { mode: 'npm', file: lockfileNpm }
   } else if (fs.existsSync(lockfileYarn)) {
     return { mode: 'yarn', file: lockfileYarn }
-  } else {
-    throw new BrowserslistError(
-      'No lockfile found. Run "npm install", "yarn install" or "pnpm install"'
-    )
   }
-}
-
-function getCurrentVersion (lock) {
-  var match
-  /* istanbul ignore if */
-  if (lock.mode === 'pnpm') {
-    match = /\/caniuse-lite\/([^:]+):/.exec(lock.content)
-    if (match[1]) return match[1]
-  } else if (lock.mode === 'npm') {
-    var dependencies = JSON.parse(lock.content).dependencies
-    if (dependencies && dependencies['caniuse-lite']) {
-      return dependencies['caniuse-lite'].version
-    }
-  } else if (lock.mode === 'yarn') {
-    match = /caniuse-lite@[^:]+:\r?\n\s+version\s+"([^"]+)"/.exec(lock.content)
-    if (match[1]) return match[1]
-  }
-  return null
+  throw new BrowserslistError(
+    'No lockfile found. Run "npm install", "yarn install" or "pnpm install"'
+  )
 }
 
 function getLatestInfo (lock) {
-  if (lock.mode !== 'yarn') {
-    return JSON.parse(
-      childProcess.execSync('npm show caniuse-lite --json').toString()
-    )
-  } else {
+  if (lock.mode === 'yarn') {
     return JSON.parse(
       childProcess.execSync('yarn info caniuse-lite --json').toString()
     ).data
   }
+  return JSON.parse(
+    childProcess.execSync('npm show caniuse-lite --json').toString()
+  )
 }
 
 function getBrowsersList () {
@@ -117,100 +96,144 @@ function diffBrowsersLists (old, current) {
     .join('\n')
 }
 
-function updateLockfile (lock, latest) {
-  if (lock.mode === 'npm') {
-    var fixed = deletePackage(JSON.parse(lock.content))
-    return JSON.stringify(fixed, null, '  ')
-  } else {
-    var lines = lock.content.split('\n')
-    var i
-    /* istanbul ignore if */
-    if (lock.mode === 'pnpm') {
-      for (i = 0; i < lines.length; i++) {
-        if (lines[i].indexOf('caniuse-lite:') >= 0) {
-          lines[i] = lines[i].replace(/: .*$/, ': ' + latest.version)
-        } else if (lines[i].indexOf('/caniuse-lite') >= 0) {
-          lines[i] = lines[i].replace(/\/[^/:]+:/, '/' + latest.version + ':')
-          for (i = i + 1; i < lines.length; i++) {
-            if (lines[i].indexOf('integrity: ') !== -1) {
-              lines[i] = lines[i].replace(
-                /integrity: .+/, 'integrity: ' + latest.dist.integrity
-              )
-            } else if (lines[i].indexOf(' /') !== -1) {
-              break
-            }
-          }
-        }
-      }
-    } else if (lock.mode === 'yarn') {
-      for (i = 0; i < lines.length; i++) {
-        if (lines[i].indexOf('caniuse-lite@') !== -1) {
-          lines[i + 1] = lines[i + 1].replace(
-            /version "[^"]+"/, 'version "' + latest.version + '"'
-          )
-          lines[i + 2] = lines[i + 2].replace(
-            /resolved "[^"]+"/, 'resolved "' + latest.dist.tarball + '"'
-          )
-          lines[i + 3] = lines[i + 3].replace(
-            /integrity .+/, 'integrity ' + latest.dist.integrity
-          )
-          i += 4
-        }
-      }
-    }
-    return lines.join('\n')
-  }
+function updateNpmLockfile (lock, latest) {
+  var metadata = { latest: latest, versions: [] }
+  var content = deletePackage(JSON.parse(lock.content), metadata)
+  metadata.content = JSON.stringify(content, null, '  ')
+  return metadata
 }
 
-function deletePackage (node) {
+function deletePackage (node, metadata) {
   if (node.dependencies) {
-    delete node.dependencies['caniuse-lite']
+    if (node.dependencies['caniuse-lite']) {
+      var version = node.dependencies['caniuse-lite'].version
+      metadata.versions[version] = true
+      delete node.dependencies['caniuse-lite']
+    }
     for (var i in node.dependencies) {
-      node.dependencies[i] = deletePackage(node.dependencies[i])
+      node.dependencies[i] = deletePackage(node.dependencies[i], metadata)
     }
   }
   return node
 }
 
-module.exports = function updateDB (print) {
-  var lock = detectLockfile()
+var yarnVersionRe = new RegExp('version "(.*?)"')
+
+function updateYarnLockfile (lock, latest) {
+  var blocks = lock.content.split(/(\n{2,})/).map(function (block) {
+    return block.split('\n')
+  })
+  var versions = {}
+  blocks.forEach(function (lines) {
+    if (lines[0].indexOf('caniuse-lite@') !== -1) {
+      var match = yarnVersionRe.exec(lines[1])
+      versions[match[1]] = true
+      if (match[1] !== latest.version) {
+        lines[1] = lines[1].replace(
+          /version "[^"]+"/, 'version "' + latest.version + '"'
+        )
+        lines[2] = lines[2].replace(
+          /resolved "[^"]+"/, 'resolved "' + latest.dist.tarball + '"'
+        )
+        lines[3] = lines[3].replace(
+          /integrity .+/, 'integrity ' + latest.dist.integrity
+        )
+      }
+    }
+  })
+  var content = blocks.map(function (lines) {
+    return lines.join('\n')
+  }).join('')
+  return { content: content, versions: versions }
+}
+
+function updatePnpmLockfile (lock, latest) {
+  var versions = {}
+  var lines = lock.content.split('\n')
+  var i
+  var j
+  var lineParts
+
+  for (i = 0; i < lines.length; i++) {
+    if (lines[i].indexOf('caniuse-lite:') >= 0) {
+      lineParts = lines[i].split(/:\s?/, 2)
+      versions[lineParts[1]] = true
+      lines[i] = lineParts[0] + ': ' + latest.version
+    } else if (lines[i].indexOf('/caniuse-lite') >= 0) {
+      lineParts = lines[i].split(/([/:])/)
+      for (j = 0; j < lineParts.length; j++) {
+        if (lineParts[j].indexOf('caniuse-lite') >= 0) {
+          versions[lineParts[j + 2]] = true
+          lineParts[j + 2] = latest.version
+          break
+        }
+      }
+      lines[i] = lineParts.join('')
+      for (i = i + 1; i < lines.length; i++) {
+        if (lines[i].indexOf('integrity: ') !== -1) {
+          lines[i] = lines[i].replace(
+            /integrity: .+/, 'integrity: ' + latest.dist.integrity
+          )
+        } else if (lines[i].indexOf(' /') !== -1) {
+          break
+        }
+      }
+    }
+  }
+  return { content: lines.join('\n'), versions: versions }
+}
+
+function updateLockfile (lock, latest) {
   lock.content = fs.readFileSync(lock.file).toString()
 
-  var current = getCurrentVersion(lock)
+  if (lock.mode === 'npm') {
+    return updateNpmLockfile(lock, latest)
+  } else if (lock.mode === 'yarn') {
+    return updateYarnLockfile(lock, latest)
+  }
+  return updatePnpmLockfile(lock, latest)
+}
+
+module.exports = function updateDB (print) {
+  var lock = detectLockfile()
   var latest = getLatestInfo(lock)
   var browsersListRetrievalError
   var oldBrowsersList
-  var currentIsLatest = false
   try {
     oldBrowsersList = getBrowsersList()
   } catch (e) {
     browsersListRetrievalError = e
   }
 
-  if (typeof current === 'string') {
-    if (current === latest.version) {
-      currentIsLatest = true
-    }
-    print('Current version: ' + bold(red(current)) + '\n')
-  }
   print(
-    'New version:     ' + bold(green(latest.version)) + '\n'
+    'Latest version:     ' + bold(green(latest.version)) + '\n'
   )
 
-  if (currentIsLatest) {
+  var lockfileData = updateLockfile(lock, latest)
+  var caniuseVersions = Object.keys(lockfileData.versions).sort()
+  if (caniuseVersions.length === 1 &&
+    caniuseVersions[0] === latest.version) {
     print(
+      'Installed version:  ' + bold(green(latest.version)) + '\n' +
       bold(green('caniuse-lite is up to date')) + '\n'
     )
-    process.exit()
+    return
   }
 
+  if (caniuseVersions.length === 0) {
+    caniuseVersions[0] = 'none'
+  }
   print(
+    'Installed version' +
+    (caniuseVersions.length === 1 ? ':  ' : 's: ') +
+    bold(red(caniuseVersions.join(', '))) +
+    '\n' +
     'Removing old caniuse-lite from lock file\n'
   )
+  fs.writeFileSync(lock.file, lockfileData.content)
 
-  fs.writeFileSync(lock.file, updateLockfile(lock, latest))
-
-  var install = lock.mode === 'yarn' ? 'yarn add -W' : lock.mode + ' install'
+  var install = lock.mode === 'yarn' ? 'yarn add -W' : lock.mode +
+   ' install'
   print(
     'Installing new caniuse-lite version\n' +
     yellow('$ ' + install + ' caniuse-lite') + '\n'
@@ -222,7 +245,7 @@ module.exports = function updateDB (print) {
       red(
         '\n' +
         e.stack + '\n\n' +
-        'Problem with `' + install + '  caniuse-lite` call. ' +
+        'Problem with `' + install + ' caniuse-lite` call. ' +
         'Run it manually.\n'
       )
     )
@@ -252,7 +275,7 @@ module.exports = function updateDB (print) {
       red(
         '\n' +
         browsersListRetrievalError.stack + '\n\n' +
-        'Problem with browsers list retrieval.\n' +
+        'Problem with browser list retrieval.\n' +
         'Target browser changes won’t be shown.\n'
       )
     )
