@@ -85,7 +85,7 @@ let originSxists = fs.existsSync
 let originStat = fs.statSync
 
 beforeEach(() => {
-  jest.spyOn(console, 'warn').mockImplementation(() => true)
+  jest.spyOn(console, 'info').mockImplementation(() => true)
 })
 
 afterEach(() => {
@@ -103,7 +103,7 @@ afterAll(() => {
 it('does not print warning', () => {
   browserslist.data = youngerSixMonthsData
   browserslist('last 2 versions')
-  expect(console.warn).toHaveBeenCalledTimes(0)
+  expect(console.info).toHaveBeenCalledTimes(0)
 })
 
 it('shows warning', () => {
@@ -111,7 +111,7 @@ it('shows warning', () => {
   fs.existsSync = findPackage
   fs.statSync = mockStatSync
   browserslist('last 2 versions')
-  expect(console.warn).toHaveBeenCalledWith(
+  expect(console.info).toHaveBeenCalledWith(
     'Browserslist: caniuse-lite is outdated. Please run:\n' +
     'npx browserslist@latest --update-db\n' +
     '\n' +
@@ -126,7 +126,7 @@ it('hides warning on request', () => {
   fs.existsSync = findPackage
   fs.statSync = mockStatSync
   browserslist('last 2 versions')
-  expect(console.warn).toHaveBeenCalledTimes(0)
+  expect(console.info).toHaveBeenCalledTimes(0)
 })
 
 it('shows warning only once', () => {
@@ -135,5 +135,5 @@ it('shows warning only once', () => {
   fs.statSync = mockStatSync
   browserslist('last 2 versions')
   browserslist('last 2 versions')
-  expect(console.warn).toHaveBeenCalledTimes(1)
+  expect(console.info).toHaveBeenCalledTimes(1)
 })

@@ -370,7 +370,7 @@ module.exports = {
     var halfYearAgo = Date.now() - TIME_TO_UPDATE_CANIUSE
 
     if (latest !== 0 && latest < halfYearAgo) {
-      console.warn(
+      console.info(
         'Browserslist: caniuse-lite is outdated. Please run:\n' +
         'npx browserslist@latest --update-db\n' +
         '\n' +
