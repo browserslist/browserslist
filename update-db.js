@@ -232,8 +232,7 @@ module.exports = function updateDB (print) {
   )
   fs.writeFileSync(lock.file, lockfileData.content)
 
-  var install = lock.mode === 'yarn' ? 'yarn add -W' : lock.mode +
-   ' install'
+  var install = (lock.mode === 'yarn' ? 'yarn add -W' : lock.mode) + ' install'
   print(
     'Installing new caniuse-lite version\n' +
     yellow('$ ' + install + ' caniuse-lite') + '\n'
@@ -252,7 +251,7 @@ module.exports = function updateDB (print) {
     process.exit(1)
   }
 
-  var del = lock.mode === 'yarn' ? 'yarn remove -W' : lock.mode + ' uninstall'
+  var del = (lock.mode === 'yarn' ? 'yarn remove -W' : lock.mode) + ' uninstall'
   print(
     'Cleaning package.json dependencies from caniuse-lite\n' +
     yellow('$ ' + del + ' caniuse-lite') + '\n'
