@@ -6,8 +6,7 @@ let { nanoid } = require('nanoid/non-secure')
 let { tmpdir } = require('os')
 let { join } = require('path')
 
-let updateDd = require('../update-db')
-
+let updateDb = require('../update-db')
 const NODE_8 = process.version.startsWith('v8.')
 
 jest.setTimeout(10000)
@@ -33,7 +32,7 @@ async function chdir (fixture, ...files) {
 
 function runUpdate () {
   let out = ''
-  updateDd(str => {
+  updateDb(str => {
     out += str
   })
   return out
@@ -43,13 +42,53 @@ function isInstalled (cmd) {
   return execSync(`whereis ${ cmd }`).toString().trim() !== `${ cmd }:`
 }
 
+function checkRunUpdateContents (installedVersions, system) {
+  let addCmd = system + (system === 'yarn' ? ' add -W' : ' install')
+  let rmCmd = system + (system === 'yarn' ? ' remove -W' : ' uninstall')
+
+  expect(runUpdate()).toContain(
+    `Latest version:     ${ caniuse.version }\n` +
+    'Installed version' +
+    (installedVersions.indexOf(',') !== -1 ? 's:' : ': ') +
+    ` ${ installedVersions }\n` +
+    'Removing old caniuse-lite from lock file\n' +
+    'Installing new caniuse-lite version\n' +
+    `$ ${ addCmd } caniuse-lite\n` +
+    'Cleaning package.json dependencies from caniuse-lite\n' +
+    `$ ${ rmCmd } caniuse-lite\n` +
+    'caniuse-lite has been successfully updated\n'
+  )
+}
+
+function checkRunUpdateNoChanges () {
+  expect(runUpdate()).toContain(
+    `Latest version:     ${ caniuse.version }\n` +
+    `Installed version:  ${ caniuse.version }\n` +
+    'caniuse-lite is up to date\n'
+  )
+}
+
+const yarnLockfileVersions = 'caniuse-lite@^1.0.30000981, ' +
+  'caniuse-lite@^1.0.30001020, caniuse-lite@^1.0.30001030:'
+
+async function checkYarnLockfile (dir) {
+  let contents = (await readFile(join(dir, 'yarn.lock'))).toString()
+  expect(contents).toContain(
+    `${ yarnLockfileVersions }\n`
+  )
+  expect(contents).toContain(
+    `${ yarnLockfileVersions }\n` +
+    `  version "${ caniuse.version }"`
+  )
+}
+
 let caniuse = JSON.parse(execSync('npm show caniuse-lite --json').toString())
 
 it('throws on missing package.json', async () => {
   await chdir('update-missing')
   expect(runUpdate).toThrow(
     'Cannot find package.json. ' +
-    'Is it a right project to run npx browserslist --update-db?'
+    'Is this the right directory to run `npx browserslist --update-db` in?'
   )
 })
 
@@ -59,103 +98,6 @@ it('throws on missing lockfile', async () => {
     'No lockfile found. Run "npm install", "yarn install" or "pnpm install"'
   )
 })
-
-it('updates caniuse-lite for npm', async () => {
-  let dir = await chdir('update-npm', 'package.json', 'package-lock.json')
-
-  expect(runUpdate()).toContain(
-    'Current version: 1.0.30001030\n' +
-    `New version:     ${ caniuse.version }\n` +
-    'Removing old caniuse-lite from lock file\n' +
-    'Installing new caniuse-lite version\n' +
-    '$ npm install caniuse-lite\n' +
-    'Cleaning package.json dependencies from caniuse-lite\n' +
-    '$ npm uninstall caniuse-lite\n' +
-    'caniuse-lite has been successfully updated\n'
-  )
-
-  let lock = JSON.parse(await readFile(join(dir, 'package-lock.json')))
-  expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
-})
-
-it('updates caniuse-lite without previous version', async () => {
-  let dir = await chdir('update-missing', 'package.json', 'package-lock.json')
-
-  expect(runUpdate()).toContain(
-    `New version:     ${ caniuse.version }\n` +
-    'Removing old caniuse-lite from lock file\n' +
-    'Installing new caniuse-lite version\n' +
-    '$ npm install caniuse-lite\n' +
-    'Cleaning package.json dependencies from caniuse-lite\n' +
-    '$ npm uninstall caniuse-lite\n' +
-    'caniuse-lite has been successfully updated\n'
-  )
-
-  let lock = JSON.parse(await readFile(join(dir, 'package-lock.json')))
-  expect(lock.dependencies['caniuse-lite']).toBeUndefined()
-})
-
-it('updates caniuse-lite for yarn', async () => {
-  let dir = await chdir('update-yarn', 'package.json', 'yarn.lock')
-
-  expect(runUpdate()).toContain(
-    'Current version: 1.0.30001035\n' +
-    `New version:     ${ caniuse.version }\n` +
-    'Removing old caniuse-lite from lock file\n' +
-    'Installing new caniuse-lite version\n' +
-    '$ yarn add -W caniuse-lite\n' +
-    'Cleaning package.json dependencies from caniuse-lite\n' +
-    '$ yarn remove -W caniuse-lite\n' +
-    'caniuse-lite has been successfully updated\n'
-  )
-
-  let lock = (await readFile(join(dir, 'yarn.lock'))).toString()
-  expect(lock).toContain(
-    'caniuse-lite@^1.0.30001030:\n' +
-    `  version "${ caniuse.version }"`
-  )
-})
-
-it('updates caniuse-lite for yarn with workspaces', async () => {
-  let dir = await chdir('update-yarn-workspaces', 'package.json', 'yarn.lock')
-
-  expect(runUpdate()).toContain(
-    'Current version: 1.0.30001156\n' +
-    `New version:     ${ caniuse.version }\n` +
-    'Removing old caniuse-lite from lock file\n' +
-    'Installing new caniuse-lite version\n' +
-    '$ yarn add -W caniuse-lite\n' +
-    'Cleaning package.json dependencies from caniuse-lite\n' +
-    '$ yarn remove -W caniuse-lite\n' +
-    'caniuse-lite has been successfully updated\n'
-  )
-
-  let lock = (await readFile(join(dir, 'yarn.lock'))).toString()
-  expect(lock).toContain(
-    'caniuse-lite@^1.0.30001030:\n' +
-    `  version "${ caniuse.version }"`
-  )
-})
-
-if (!NODE_8 && (isInstalled('pnpm') || process.env.CI)) {
-  it('updates caniuse-lite for pnpm', async () => {
-    let dir = await chdir('update-pnpm', 'package.json', 'pnpm-lock.yaml')
-
-    expect(runUpdate()).toContain(
-      'Current version: 1.0.30001035\n' +
-      `New version:     ${ caniuse.version }\n` +
-      'Removing old caniuse-lite from lock file\n' +
-      'Installing new caniuse-lite version\n' +
-      '$ pnpm install caniuse-lite\n' +
-      'Cleaning package.json dependencies from caniuse-lite\n' +
-      '$ pnpm uninstall caniuse-lite\n' +
-      'caniuse-lite has been successfully updated\n'
-    )
-
-    let lock = (await readFile(join(dir, 'pnpm-lock.yaml'))).toString()
-    expect(lock).toContain(`/caniuse-lite/${ caniuse.version }:`)
-  })
-}
 
 it('shows target browser changes', async () => {
   let dir = await chdir('browserslist-diff',
@@ -170,16 +112,89 @@ it('shows target browser changes', async () => {
   expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
 })
 
-it('shows error when browsers list can\'t be retrieved', async () => {
+it('shows an error when browsers list can\'t be retrieved', async () => {
   let dir = await chdir('browserslist-diff-error',
     'package.json', 'package-lock.json')
 
   expect(runUpdate())
     .toContain(
-      'Problem with browsers list retrieval.\n' +
+      'Problem with browser list retrieval.\n' +
       'Target browser changes won’t be shown.\n'
     )
 
   let lock = JSON.parse(await readFile(join(dir, 'package-lock.json')))
   expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
 })
+
+it('updates caniuse-lite without previous version', async () => {
+  let dir = await chdir('update-missing', 'package.json', 'package-lock.json')
+  checkRunUpdateContents('none', 'npm')
+  let lock = JSON.parse(await readFile(join(dir, 'package-lock.json')))
+  expect(lock.dependencies['caniuse-lite']).toBeUndefined()
+})
+
+it('updates caniuse-lite for npm', async () => {
+  let dir = await chdir('update-npm', 'package.json', 'package-lock.json')
+  checkRunUpdateContents('1.0.30001030', 'npm')
+
+  let lock = JSON.parse(await readFile(join(dir, 'package-lock.json')))
+  expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
+})
+
+it('skips the npm update if caniuse-lite is up to date', async () => {
+  let dir = await chdir('update-npm', 'package.json', 'package-lock.json')
+  checkRunUpdateContents('1.0.30001030', 'npm')
+  let lock = JSON.parse(await readFile(join(dir, 'package-lock.json')))
+  expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
+
+  checkRunUpdateNoChanges()
+  lock = JSON.parse(await readFile(join(dir, 'package-lock.json')))
+  expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
+})
+
+it('updates caniuse-lite for yarn', async () => {
+  let dir = await chdir('update-yarn', 'package.json', 'yarn.lock')
+  checkRunUpdateContents('1.0.30001035', 'yarn')
+  checkYarnLockfile(dir)
+})
+
+it('skips the yarn update if caniuse-lite is up to date', async () => {
+  let dir = await chdir('update-yarn', 'package.json', 'yarn.lock')
+  checkRunUpdateContents('1.0.30001035', 'yarn')
+  checkYarnLockfile(dir)
+  checkRunUpdateNoChanges()
+  checkYarnLockfile(dir)
+})
+
+it('updates caniuse-lite for yarn with workspaces', async () => {
+  let dir = await chdir('update-yarn-workspaces', 'package.json', 'yarn.lock')
+  checkRunUpdateContents('1.0.30001156', 'yarn')
+  checkYarnLockfile(dir)
+})
+
+if (!NODE_8 && (isInstalled('pnpm') || process.env.CI)) {
+  let versions = ['1.0.30001000',
+    '1.0.1234',
+    '1.0.3000',
+    '1.0.30001035'
+  ]
+  it('updates caniuse-lite for pnpm', async () => {
+    let dir = await chdir('update-pnpm', 'package.json', 'pnpm-lock.yaml')
+    checkRunUpdateContents(versions.sort().join(', '), 'pnpm')
+
+    let lock = (await readFile(join(dir, 'pnpm-lock.yaml'))).toString()
+    expect(lock).toContain(`/caniuse-lite/${ caniuse.version }:`)
+  })
+
+  it('skips the pnpm update if caniuse-lite is up to date', async () => {
+    let dir = await chdir('update-pnpm', 'package.json', 'pnpm-lock.yaml')
+
+    checkRunUpdateContents(versions.sort().join(', '), 'pnpm')
+    let lock = (await readFile(join(dir, 'pnpm-lock.yaml'))).toString()
+    expect(lock).toContain(`/caniuse-lite/${ caniuse.version }:`)
+
+    checkRunUpdateNoChanges()
+    lock = (await readFile(join(dir, 'pnpm-lock.yaml'))).toString()
+    expect(lock).toContain(`/caniuse-lite/${ caniuse.version }:`)
+  })
+}
