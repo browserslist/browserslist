@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.16.3
+* Fixed `--update-db`.
+
 ## 4.16.2
 * Fixed `--update-db` (by @ialarmedalien).
 
