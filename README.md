@@ -560,9 +560,9 @@ Options:
 * `stats`: custom usage statistics data.
 * `config`: path to config if you want to set it manually.
 * `ignoreUnknownVersions`: do not throw on direct query (like `ie 12`).
-  Default is `false.`
+  Default is `false`.
 * `dangerousExtend`: Disable security checks for `extend` query.
-  Default is `false.`
+  Default is `false`.
 * `mobileToDesktop`: Use desktop browsers if Can I Use doesn’t have data
   about this mobile version. For instance, Browserslist will return
   `chrome 20` on `and_chr 20` query (Can I Use has only data only about
