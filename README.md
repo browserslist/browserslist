@@ -279,7 +279,7 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   (also `since 2015-03` and `since 2015-03-10`).
 * `unreleased versions` or `unreleased Chrome versions`:
   alpha and beta versions.
-* `not ie <= 8`: exclude browsers selected by previous queries.
+* `not ie <= 8`: exclude IE 8 and lower from previous queries.
 
 You can add `not ` to any query.
 
