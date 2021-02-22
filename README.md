@@ -263,7 +263,7 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   * `Firefox > 20`: versions of Firefox newer than 20.
     `>=`, `<` and `<=` work too. It also works with Node.js.
   * `ie 6-8`: selects an inclusive range of versions.
-  * `Firefox ESR`: the latest [Firefox ESR] version.
+  * `Firefox ESR`: the latest [Firefox Extended Support Release].
   * `PhantomJS 2.1` and `PhantomJS 1.9`: selects Safari versions similar
     to PhantomJS runtime.
 * `extends browserslist-config-mycompany`: take queries from
@@ -289,6 +289,7 @@ You can add `not ` to any query.
 [custom usage data]:           #custom-usage-data
 [still maintained]:            https://github.com/nodejs/Release
 [Can I Use]:                   https://caniuse.com/
+[Firefox Extended Support Release]: https://support.mozilla.org/en-US/kb/choosing-firefox-update-channel
 
 
 ### Debug
