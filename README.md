@@ -281,7 +281,7 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   alpha and beta versions.
 * `not ie <= 8`: exclude IE 8 and lower from previous queries.
 
-You can add `not ` to any query.
+You can add `not` to any query.
 
 [`caniuse-lite/data/regions`]: https://github.com/ben-eb/caniuse-lite/tree/master/data/regions
 [`caniuse-lite/data/features`]: https://github.com/ben-eb/caniuse-lite/tree/master/data/features
