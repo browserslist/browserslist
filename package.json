@@ -94,9 +94,16 @@
   "eslintConfig": {
     "extends": "@logux/eslint-config/browser",
     "rules": {
-      "security/detect-unsafe-regex": "off",
       "global-require": "off"
-    }
+    },
+    "overrides": [
+      {
+        "files": "test/**/*",
+        "rules": {
+          "security/detect-unsafe-regex": "off"
+        }
+      }
+    ]
   },
   "eslintIgnore": [
     "test/fixtures"
