@@ -67,7 +67,7 @@ it('normalizes versions', () => {
   expect(browserslist(['> 3% in my stats'], opts)[0]).toMatch(last[0])
   expect(
     browserslist(['> 3% in my stats'], { ...opts, mobileToDesktop: true })[0]
-  ).toMatch('and_chr 88')
+  ).toMatch(last[0])
   expect(
     browserslist(['> 3% in my stats', 'not and_chr > 0'], opts)
   ).toEqual([])
