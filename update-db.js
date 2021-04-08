@@ -135,9 +135,9 @@ function updateYarnLockfile (lock, latest) {
         lines[2] = lines[2].replace(
           /resolved "[^"]+"/, 'resolved "' + latest.dist.tarball + '"'
         )
-        lines[3] = lines[3].replace(
+        lines[3] = latest.dist.integrity ? lines[3].replace(
           /integrity .+/, 'integrity ' + latest.dist.integrity
-        )
+        ) : ''
       }
     }
   })
