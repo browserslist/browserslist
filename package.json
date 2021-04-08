@@ -39,7 +39,7 @@
     "@types/fs-extra": "^9.0.10",
     "@types/jest": "^26.0.22",
     "check-dts": "^0.4.4",
-    "clean-publish": "^1.1.8",
+    "clean-publish": "^2.1.1",
     "cross-spawn": "^7.0.3",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.1",
