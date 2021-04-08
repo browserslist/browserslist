@@ -8,6 +8,7 @@ let { join } = require('path')
 
 let updateDb = require('../update-db')
 const NODE_8 = process.version.startsWith('v8.')
+const NODE_10 = process.version.startsWith('v10.')
 
 jest.setTimeout(10000)
 
@@ -172,12 +173,8 @@ it('updates caniuse-lite for yarn with workspaces', async () => {
   checkYarnLockfile(dir)
 })
 
-if (!NODE_8 && (isInstalled('pnpm') || process.env.CI)) {
-  let versions = ['1.0.30001000',
-    '1.0.1234',
-    '1.0.3000',
-    '1.0.30001035'
-  ]
+if (!NODE_8 && !NODE_10 && (isInstalled('pnpm') || process.env.CI)) {
+  let versions = ['1.0.30001000', '1.0.1234', '1.0.3000', '1.0.30001035']
   it('updates caniuse-lite for pnpm', async () => {
     let dir = await chdir('update-pnpm', 'package.json', 'pnpm-lock.yaml')
     checkRunUpdateContents(versions.sort().join(', '), 'pnpm')
