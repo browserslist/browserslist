@@ -24,7 +24,7 @@ function run (args: any[]) {
       stderr += data.toString()
     })
     cli.on('close', code => {
-      resolve({ code, stdout, stderr })
+      resolve({ code: code || 0, stdout, stderr });
     })
   })
 }
