@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.16.5
+* Fixed unsafe RegExp (by Yeting Li).
+
 ## 4.16.4
 * Fixed unsafe RegExp.
 * Added artifactory support to `--update-db` (by Ittai Baratz).
