@@ -799,7 +799,7 @@ var QUERIES = [
     select: sinceQuery
   },
   {
-    regexp: /^(>=?|<=?)\s*(\d*\.?\d+)%$/,
+    regexp: /^(>=?|<=?)\s*(d+|\d*\.\d+)%$/,
     select: function (context, sign, popularity) {
       popularity = parseFloat(popularity)
       var usage = browserslist.usage.global
@@ -824,7 +824,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^(>=?|<=?)\s*(\d*\.?\d+)%\s+in\s+my\s+stats$/,
+    regexp: /^(>=?|<=?)\s*(d+|\d*\.\d+)%\s+in\s+my\s+stats$/,
     select: function (context, sign, popularity) {
       popularity = parseFloat(popularity)
       if (!context.customUsage) {
@@ -852,7 +852,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^(>=?|<=?)\s*(\d*\.?\d+)%\s+in\s+(\S+)\s+stats$/,
+    regexp: /^(>=?|<=?)\s*(d+|\d*\.\d+)%\s+in\s+(\S+)\s+stats$/,
     select: function (context, sign, popularity, name) {
       popularity = parseFloat(popularity)
       var stats = env.loadStat(context, name, browserslist.data)
@@ -887,7 +887,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^(>=?|<=?)\s*(\d*\.?\d+)%\s+in\s+((alt-)?\w\w)$/,
+    regexp: /^(>=?|<=?)\s*(d+|\d*\.\d+)%\s+in\s+((alt-)?\w\w)$/,
     select: function (context, sign, popularity, place) {
       popularity = parseFloat(popularity)
       if (place.length === 2) {
@@ -918,11 +918,11 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^cover\s+(\d*\.?\d+)%$/,
+    regexp: /^cover\s+(d+|\d*\.\d+)%$/,
     select: coverQuery
   },
   {
-    regexp: /^cover\s+(\d*\.?\d+)%\s+in\s+(my\s+stats|(alt-)?\w\w)$/,
+    regexp: /^cover\s+(d+|\d*\.\d+)%\s+in\s+(my\s+stats|(alt-)?\w\w)$/,
     select: coverQuery
   },
   {
