@@ -24,6 +24,7 @@ function detectLockfile () {
   }
 
   var lockfileNpm = path.join(packageDir, 'package-lock.json')
+  var lockfileShrinkwrap = path.join(packageDir, 'npm-shrinkwrap.json')
   var lockfileYarn = path.join(packageDir, 'yarn.lock')
   var lockfilePnpm = path.join(packageDir, 'pnpm-lock.yaml')
 
@@ -33,6 +34,8 @@ function detectLockfile () {
     return { mode: 'npm', file: lockfileNpm }
   } else if (fs.existsSync(lockfileYarn)) {
     return { mode: 'yarn', file: lockfileYarn }
+  } else if (fs.existsSync(lockfileShrinkwrap)) {
+    return { mode: 'npm', file: lockfileShrinkwrap }
   }
   throw new BrowserslistError(
     'No lockfile found. Run "npm install", "yarn install" or "pnpm install"'

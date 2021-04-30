@@ -153,6 +153,35 @@ it('skips the npm update if caniuse-lite is up to date', async () => {
   expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
 })
 
+it('updates caniuse-lite for npm-shrinkwrap', async () => {
+  let dir = await chdir(
+    'update-npm-shrinkwrap',
+    'package.json',
+    'npm-shrinkwrap.json'
+  )
+  checkRunUpdateContents('1.0.30001030', 'npm')
+
+  let lock = JSON.parse(await readFile(join(dir, 'npm-shrinkwrap.json')))
+  expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
+})
+
+it('skips the npm-shrinkwrap update if caniuse-lite is up to date',
+  async () => {
+    let dir = await chdir(
+      'update-npm-shrinkwrap',
+      'package.json',
+      'npm-shrinkwrap.json'
+    )
+    checkRunUpdateContents('1.0.30001030', 'npm')
+    let lock = JSON.parse(await readFile(join(dir, 'npm-shrinkwrap.json')))
+    expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
+
+    checkRunUpdateNoChanges()
+    lock = JSON.parse(await readFile(join(dir, 'npm-shrinkwrap.json')))
+    expect(lock.dependencies['caniuse-lite'].version).toEqual(caniuse.version)
+  }
+)
+
 it('updates caniuse-lite for yarn', async () => {
   let dir = await chdir('update-yarn', 'package.json', 'yarn.lock')
   checkRunUpdateContents('1.0.30001035', 'yarn')
