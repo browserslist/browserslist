@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.16.6
+* Fixed `npm-shrinkwrap.json` support in `--update-db` (by Geoff Newman).
+
 ## 4.16.5
 * Fixed unsafe RegExp (by Yeting Li).
 
