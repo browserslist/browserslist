@@ -260,11 +260,11 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   * `maintained node versions`: all Node.js versions, which are [still maintained]
     by Node.js Foundation.
 * `iOS 7`: the iOS browser version 7 directly.
-  * `Firefox > 20`: versions of Firefox newer than 20.
+* `Firefox > 20`: versions of Firefox newer than 20.
     `>=`, `<` and `<=` work too. It also works with Node.js.
-  * `ie 6-8`: selects an inclusive range of versions.
-  * `Firefox ESR`: the latest [Firefox Extended Support Release].
-  * `PhantomJS 2.1` and `PhantomJS 1.9`: selects Safari versions similar
+* `ie 6-8`: selects an inclusive range of versions.
+* `Firefox ESR`: the latest [Firefox Extended Support Release].
+* `PhantomJS 2.1` and `PhantomJS 1.9`: selects Safari versions similar
     to PhantomJS runtime.
 * `extends browserslist-config-mycompany`: take queries from
   `browserslist-config-mycompany` npm package.
