@@ -18,9 +18,9 @@
     "test": "jest --coverage && eslint . && check-dts && size-limit && yaspeller *.md"
   },
   "dependencies": {
-    "caniuse-lite": "^1.0.30001219",
+    "caniuse-lite": "^1.0.30001232",
     "colorette": "^1.2.2",
-    "electron-to-chromium": "^1.3.723",
+    "electron-to-chromium": "^1.3.743",
     "escalade": "^3.1.1",
     "node-releases": "^1.1.71"
   },
@@ -34,7 +34,7 @@
   "devDependencies": {
     "@logux/eslint-config": "^35.0.4",
     "@logux/sharec-config": "^0.5.7",
-    "@size-limit/preset-small-lib": "^4.10.2",
+    "@size-limit/preset-small-lib": "^4.11.0",
     "@types/cross-spawn": "^6.0.2",
     "@types/fs-extra": "^9.0.11",
     "@types/jest": "^26.0.23",
@@ -44,7 +44,7 @@
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-es5": "^1.5.0",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jest": "^23.18.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prefer-let": "^1.1.0",
@@ -55,9 +55,9 @@
     "fs-extra": "^8.1.0",
     "jest": "^25.5.4",
     "lint-staged": "^10.5.4",
-    "nanoid": "^3.1.22",
+    "nanoid": "^3.1.23",
     "simple-git-hooks": "^2.4.1",
-    "size-limit": "^4.10.2",
+    "size-limit": "^4.11.0",
     "ts-jest": "^25.5.1",
     "typescript": "^3.9.4",
     "yaspeller": "^7.0.0"
