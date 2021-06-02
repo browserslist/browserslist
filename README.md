@@ -235,7 +235,7 @@ You can specify the browser and Node.js versions by queries (case insensitive):
 
 * `defaults`: Browserslist’s default browsers
   (`> 0.5%, last 2 versions, Firefox ESR, not dead`).
-* **By usage statistics:**
+* By usage statistics:
   * `> 5%`: browsers versions selected by global usage statistics.
   `>=`, `<` and `<=` work too.
   * `> 5% in US`: uses USA usage statistics.
@@ -248,7 +248,7 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   * `cover 99.5%`: most popular browsers that provide coverage.
   * `cover 99.5% in US`: same as above, with [two-letter country code].
   * `cover 99.5% in my stats`: uses [custom usage data].
-* **Last versions:**
+* Last versions:
   * `last 2 versions`: the last 2 versions for *each* browser.
   * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
   * `last 2 major versions` or `last 2 iOS major versions`:
@@ -256,13 +256,13 @@ You can specify the browser and Node.js versions by queries (case insensitive):
 * `dead`: browsers without official support or updates for 24 months.
   Right now it is `IE 10`, `IE_Mob 11`, `BlackBerry 10`, `BlackBerry 7`,
   `Samsung 4` and `OperaMobile 12.1`.
-* **Node.js versions:**
+* Node.js versions:
   * `node 10` and `node 10.4`: selects latest Node.js `10.x.x`
   or `10.4.x` release.
   * `current node`: Node.js version used by Browserslist right now.
   * `maintained node versions`: all Node.js versions, which are [still maintained]
     by Node.js Foundation.
-* **Browsers versions:**
+* Browsers versions:
   * `iOS 7`: the iOS browser version 7 directly.
   * `Firefox > 20`: versions of Firefox newer than 20.
     `>=`, `<` and `<=` work too. It also works with Node.js.
