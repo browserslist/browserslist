@@ -90,8 +90,6 @@ beforeEach(() => {
 
 afterEach(() => {
   jest.clearAllMocks()
-  fs.existsSync = originSxists
-  fs.statSync = originStat
   browserslist.clearCaches()
   delete process.env.BROWSERSLIST_IGNORE_OLD_DATA
 })
@@ -108,8 +106,8 @@ it('does not print warning', () => {
 
 it('shows warning', () => {
   browserslist.data = olderSixMonthsData
-  fs.existsSync = findPackage
-  fs.statSync = mockStatSync
+  jest.spyOn(fs, "existsSync").mockImplementation(findPackage)
+  jest.spyOn(fs, "statSync").mockImplementation(mockStatSync)
   browserslist('last 2 versions')
   expect(console.warn).toHaveBeenCalledWith(
     'Browserslist: caniuse-lite is outdated. Please run:\n' +
@@ -123,16 +121,16 @@ it('shows warning', () => {
 it('hides warning on request', () => {
   process.env.BROWSERSLIST_IGNORE_OLD_DATA = 'true'
   browserslist.data = olderSixMonthsData
-  fs.existsSync = findPackage
-  fs.statSync = mockStatSync
+  jest.spyOn(fs, "existsSync").mockImplementation(findPackage)
+  jest.spyOn(fs, "statSync").mockImplementation(mockStatSync)
   browserslist('last 2 versions')
   expect(console.warn).toHaveBeenCalledTimes(0)
 })
 
 it('shows warning only once', () => {
   browserslist.data = olderSixMonthsData
-  fs.existsSync = findPackage
-  fs.statSync = mockStatSync
+  jest.spyOn(fs, "existsSync").mockImplementation(findPackage)
+  jest.spyOn(fs, "statSync").mockImplementation(mockStatSync)
   browserslist('last 2 versions')
   browserslist('last 2 versions')
   expect(console.warn).toHaveBeenCalledTimes(1)
