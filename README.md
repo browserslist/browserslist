@@ -213,7 +213,7 @@ intersection of all the previous queries:
 `last 1 version or chrome > 75 and > 1%` will select
 (`browser last version` or `Chrome since 76`) and `more than 1% marketshare`.
 
-There is 3 different ways to combine queries as depicted below. First you start
+There are 3 different ways to combine queries as depicted below. First you start
 with a single query and then we combine the queries to get our final list.
 
 Obviously you can *not* start with a `not` combiner, since there is no left-hand
