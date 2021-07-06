@@ -113,6 +113,9 @@ function latestReleaseTime (agents) {
 }
 
 function normalizeStats (data, stats) {
+  if (!data) {
+    data = {};
+  }
   if (stats && 'dataByBrowser' in stats) {
     stats = stats.dataByBrowser
   }
