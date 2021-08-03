@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.16.7
+* Fixed `oudated caniuse-lite` warning text (by Paul Verest).
+* Fixed docs (by Alexander Belov).
+
 ## 4.16.6
 * Fixed `npm-shrinkwrap.json` support in `--update-db` (by Geoff Newman).
 
