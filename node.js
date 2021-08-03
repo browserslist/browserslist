@@ -376,7 +376,8 @@ module.exports = {
       console.warn(
         'Browserslist: caniuse-lite is outdated. Please run:\n' +
         '  npx browserslist@latest --update-db\n' +
-        '  Why you should do it regularly: https://github.com/browserslist/browserslist#browsers-data-updating'
+        '  Why you should do it regularly:' + 
+        'https://github.com/browserslist/browserslist#browsers-data-updating'
       )
     }
   },
