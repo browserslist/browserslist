@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.16.8
+* Update Firefox ESR.
+
 ## 4.16.7
 * Fixed `oudated caniuse-lite` warning text (by Paul Verest).
 * Fixed docs (by Alexander Belov).
