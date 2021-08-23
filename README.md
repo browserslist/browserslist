@@ -98,6 +98,8 @@ Browserslist will take queries from tool option,
 * [`browserslist-browserstack`] runs BrowserStack tests for all browsers
   in Browserslist config.
 * [`browserslist-adobe-analytics`] use Adobe Analytics data to target browsers.
+* [`browserslist-new-relic`] generate a custom usage data file for Browserslist
+  from your New Relic Browser data.
 * [`caniuse-api`] returns browsers which support some specific feature.
 * Run `npx browserslist` in your project directory to see project’s
   target browsers. This CLI tool is built-in and available in any project
@@ -110,6 +112,7 @@ Browserslist will take queries from tool option,
 [`browserslist-ga-export`]:        https://github.com/browserslist/browserslist-ga-export
 [`browserslist-useragent`]:        https://github.com/pastelsky/browserslist-useragent
 [`browserslist-ga`]:               https://github.com/browserslist/browserslist-ga
+[`browserslist-new-relic`]:        https://github.com/syntactic-salt/browserslist-new-relic
 [`caniuse-api`]:                   https://github.com/Nyalab/caniuse-api
 
 
