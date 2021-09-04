@@ -221,13 +221,15 @@ it('updates caniuse-lite for yarn with workspaces', async () => {
   checkYarnLockfile(dir)
 })
 
-it('updates caniuse-lite for yarn v2', async () => {
-  let dir = await chdir('update-yarn-v2', 'package.json', 'yarn.lock')
-  execSync('yarn set version berry')
-  checkRunUpdateYarnv2()
-  checkYarnLockfile(dir, 2)
-  execSync('yarn set version classic')
-})
+if (!NODE_8 && !NODE_10) {
+  it('updates caniuse-lite for yarn v2', async () => {
+    let dir = await chdir('update-yarn-v2', 'package.json', 'yarn.lock')
+    execSync('yarn set version berry')
+    checkRunUpdateYarnv2()
+    checkYarnLockfile(dir, 2)
+    execSync('yarn set version classic')
+  })
+}
 
 if (!NODE_8 && !NODE_10 && (isInstalled('pnpm') || process.env.CI)) {
   let versions = ['1.0.30001000', '1.0.1234', '1.0.3000', '1.0.30001035']
