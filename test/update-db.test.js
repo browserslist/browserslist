@@ -69,17 +69,36 @@ function checkRunUpdateNoChanges () {
   )
 }
 
-const yarnLockfileVersions = 'caniuse-lite@^1.0.30000981, ' +
+function checkRunUpdateYarnv2 () {
+  expect(runUpdate()).toContain(
+    `Latest version:     ${ caniuse.version }\n` +
+    'Updating caniuse-lite version\n' +
+    '$ yarn up -R caniuse-lite\n' +
+    'caniuse-lite has been successfully updated\n'
+  )
+}
+
+const yarnLockfile1Versions = 'caniuse-lite@^1.0.30000981, ' +
   'caniuse-lite@^1.0.30001020, caniuse-lite@^1.0.30001030:'
 
-async function checkYarnLockfile (dir) {
+const yarnLockfile2Versions = '"caniuse-lite@npm:^1.0.30000981, ' +
+  'caniuse-lite@npm:^1.0.30001020, caniuse-lite@npm:^1.0.30001030":'
+
+async function checkYarnLockfile (dir, version) {
+  let yarnLockfileVersions = yarnLockfile1Versions
+  let versionSyntax = `  version "${ caniuse.version }"`
+
+  if (version === 2) {
+    yarnLockfileVersions = yarnLockfile2Versions
+    versionSyntax = `  version: ${ caniuse.version }`
+  }
+
   let contents = (await readFile(join(dir, 'yarn.lock'))).toString()
   expect(contents).toContain(
     `${ yarnLockfileVersions }\n`
   )
   expect(contents).toContain(
-    `${ yarnLockfileVersions }\n` +
-    `  version "${ caniuse.version }"`
+    `${ yarnLockfileVersions }\n` + versionSyntax
   )
 }
 
@@ -201,6 +220,16 @@ it('updates caniuse-lite for yarn with workspaces', async () => {
   checkRunUpdateContents('1.0.30001156', 'yarn')
   checkYarnLockfile(dir)
 })
+
+if (!NODE_8 && !NODE_10) {
+  it('updates caniuse-lite for yarn v2', async () => {
+    let dir = await chdir('update-yarn-v2', 'package.json', 'yarn.lock')
+    execSync('yarn set version berry')
+    checkRunUpdateYarnv2()
+    checkYarnLockfile(dir, 2)
+    execSync('yarn set version classic')
+  })
+}
 
 if (!NODE_8 && !NODE_10 && (isInstalled('pnpm') || process.env.CI)) {
   let versions = ['1.0.30001000', '1.0.1234', '1.0.3000', '1.0.30001035']
