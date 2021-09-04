@@ -56,9 +56,15 @@ function detectLockfileVersion (lock) {
 
 function getLatestInfo (lock) {
   if (lock.mode === 'yarn') {
-    return JSON.parse(
-      childProcess.execSync('yarn info caniuse-lite --json').toString()
-    ).data
+    if (lock.version === 1) {
+      return JSON.parse(
+        childProcess.execSync('yarn info caniuse-lite --json').toString()
+      ).data
+    } else {
+      return JSON.parse(
+        childProcess.execSync('yarn npm info caniuse-lite --json').toString()
+      )
+    }
   }
   return JSON.parse(
     childProcess.execSync('npm show caniuse-lite --json').toString()
