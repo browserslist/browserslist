@@ -33,25 +33,17 @@ function detectLockfile () {
   } else if (fs.existsSync(lockfileNpm)) {
     return { mode: 'npm', file: lockfileNpm }
   } else if (fs.existsSync(lockfileYarn)) {
-    return { mode: 'yarn', file: lockfileYarn }
+    var lock = { mode: 'yarn', file: lockfileYarn }
+    lock.version = 1
+    lock.content = fs.readFileSync(lock.file).toString()
+    lock.version = lock.content.search(/# yarn lockfile v1/g) ? 1 : 2
+    return lock
   } else if (fs.existsSync(lockfileShrinkwrap)) {
     return { mode: 'npm', file: lockfileShrinkwrap }
   }
   throw new BrowserslistError(
     'No lockfile found. Run "npm install", "yarn install" or "pnpm install"'
   )
-}
-
-function detectLockfileVersion (lock) {
-  if (lock.mode === 'yarn') {
-    lock.version = 1
-    lock.content = fs.readFileSync(lock.file).toString()
-    var isVersion1 = lock.content.search(/# yarn lockfile v1/g)
-    if (isVersion1 === -1) {
-      lock.version = 2
-    }
-  }
-  return lock
 }
 
 function getLatestInfo (lock) {
@@ -268,7 +260,6 @@ function updatePackageManually (print, lock, latest) {
 
 module.exports = function updateDB (print) {
   var lock = detectLockfile()
-  lock = detectLockfileVersion(lock)
   var latest = getLatestInfo(lock)
 
   var browsersListRetrievalError

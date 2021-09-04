@@ -69,15 +69,6 @@ function checkRunUpdateNoChanges () {
   )
 }
 
-function checkRunUpdateYarnv2 () {
-  expect(runUpdate()).toContain(
-    `Latest version:     ${ caniuse.version }\n` +
-    'Updating caniuse-lite version\n' +
-    '$ yarn up -R caniuse-lite\n' +
-    'caniuse-lite has been successfully updated\n'
-  )
-}
-
 const yarnLockfile1Versions = 'caniuse-lite@^1.0.30000981, ' +
   'caniuse-lite@^1.0.30001020, caniuse-lite@^1.0.30001030:'
 
@@ -225,7 +216,12 @@ if (!NODE_8 && !NODE_10) {
   it('updates caniuse-lite for yarn v2', async () => {
     let dir = await chdir('update-yarn-v2', 'package.json', 'yarn.lock')
     execSync('yarn set version berry')
-    checkRunUpdateYarnv2()
+    expect(runUpdate()).toContain(
+      `Latest version:     ${ caniuse.version }\n` +
+      'Updating caniuse-lite version\n' +
+      '$ yarn up -R caniuse-lite\n' +
+      'caniuse-lite has been successfully updated\n'
+    )
     checkYarnLockfile(dir, 2)
     execSync('yarn set version classic')
   })
