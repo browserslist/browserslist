@@ -209,23 +209,7 @@ function updateLockfile (lock, latest) {
   return updatePnpmLockfile(lock, latest)
 }
 
-module.exports = function updateDB (print) {
-  var lock = detectLockfile()
-  lock = detectLockfileVersion(lock)
-  var latest = getLatestInfo(lock)
-
-  var browsersListRetrievalError
-  var oldBrowsersList
-  try {
-    oldBrowsersList = getBrowsersList()
-  } catch (e) {
-    browsersListRetrievalError = e
-  }
-
-  print(
-    'Latest version:     ' + bold(green(latest.version)) + '\n'
-  )
-
+function updatePackageManually (print, lock, latest) {
   var lockfileData = updateLockfile(lock, latest)
   var caniuseVersions = Object.keys(lockfileData.versions).sort()
   if (caniuseVersions.length === 1 &&
@@ -274,6 +258,47 @@ module.exports = function updateDB (print) {
     yellow('$ ' + del + ' caniuse-lite') + '\n'
   )
   childProcess.execSync(del + ' caniuse-lite')
+}
+
+module.exports = function updateDB (print) {
+  var lock = detectLockfile()
+  lock = detectLockfileVersion(lock)
+  var latest = getLatestInfo(lock)
+
+  var browsersListRetrievalError
+  var oldBrowsersList
+  try {
+    oldBrowsersList = getBrowsersList()
+  } catch (e) {
+    browsersListRetrievalError = e
+  }
+
+  print(
+    'Latest version:     ' + bold(green(latest.version)) + '\n'
+  )
+
+  if (lock.mode === 'yarn' && lock.version !== 1) {
+    var update = 'yarn up -R'
+    print(
+      'Updating caniuse-lite version\n' +
+      yellow('$ ' + update + ' caniuse-lite') + '\n'
+    )
+    try {
+      childProcess.execSync(update + ' caniuse-lite')
+    } catch (e) /* istanbul ignore next */ {
+      print(
+        red(
+          '\n' +
+          e.stack + '\n\n' +
+          'Problem with `' + update + ' caniuse-lite` call. ' +
+          'Run it manually.\n'
+        )
+      )
+      process.exit(1)
+    }
+  } else {
+    updatePackageManually(print, lock, latest)
+  }
 
   print('caniuse-lite has been successfully updated\n')
 
