@@ -1,8 +1,11 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.17
+* Added `yarn` 3 support to `--update-db` (by Himank Pathak).
+
 ## 4.16.8
-* Update Firefox ESR.
+* Updated Firefox ESR.
 
 ## 4.16.7
 * Fixed `oudated caniuse-lite` warning text (by Paul Verest).
