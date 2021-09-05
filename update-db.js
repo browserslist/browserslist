@@ -34,9 +34,8 @@ function detectLockfile () {
     return { mode: 'npm', file: lockfileNpm }
   } else if (fs.existsSync(lockfileYarn)) {
     var lock = { mode: 'yarn', file: lockfileYarn }
-    lock.version = 1
     lock.content = fs.readFileSync(lock.file).toString()
-    lock.version = lock.content.search(/# yarn lockfile v1/g) ? 1 : 2
+    lock.version = /# yarn lockfile v1/.test(lock.content) ? 1 : 2
     return lock
   } else if (fs.existsSync(lockfileShrinkwrap)) {
     return { mode: 'npm', file: lockfileShrinkwrap }
@@ -197,7 +196,7 @@ function updatePnpmLockfile (lock, latest) {
 }
 
 function updateLockfile (lock, latest) {
-  lock.content = fs.readFileSync(lock.file).toString()
+  if (!lock.content) lock.content = fs.readFileSync(lock.file).toString()
 
   if (lock.mode === 'npm') {
     return updateNpmLockfile(lock, latest)
