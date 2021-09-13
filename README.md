@@ -572,9 +572,11 @@ Options:
 * `dangerousExtend`: Disable security checks for `extend` query.
   Default is `false`.
 * `mobileToDesktop`: Use desktop browsers if Can I Use doesn’t have data
-  about this mobile version. For instance, Browserslist will return
-  `chrome 20` on `and_chr 20` query (Can I Use has only data only about
-  latest versions of mobile browsers). Default is `false`.
+  about this mobile version. Can I Use has only data only about
+  latest versions of mobile browsers. By default, `last 2 and_ff versions`
+  returns `and_ff 90` and with this option it returns `and_ff 91, and_ff 90`.
+  This option may lead to unknown browser version error (in example Can I Use
+  doesn’t have data for `and_ff 91` yet). Default is `false`.
 
 For non-JS environment and debug purpose you can use CLI tool:
 
