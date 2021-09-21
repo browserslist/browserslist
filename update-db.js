@@ -1,15 +1,15 @@
 var childProcess = require('child_process')
-var colorette = require('colorette')
+var nanocolors = require('nanocolors')
 var escalade = require('escalade/sync')
 var path = require('path')
 var fs = require('fs')
 
 var BrowserslistError = require('./error')
 
-var red = colorette.red
-var bold = colorette.bold
-var green = colorette.green
-var yellow = colorette.yellow
+var red = nanocolors.red
+var bold = nanocolors.bold
+var green = nanocolors.green
+var yellow = nanocolors.yellow
 
 function detectLockfile () {
   var packageDir = escalade('.', function (dir, names) {

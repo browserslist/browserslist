@@ -4954,6 +4954,11 @@ nan@^2.12.1:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.2.tgz#f5376400695168f4cc694ac9393d0c9585eeea19"
   integrity sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
 
+nanocolors@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/nanocolors/-/nanocolors-0.1.0.tgz#569dda9116e479aec5ddbbe0509487d6a535a063"
+  integrity sha512-DgrjtCFQJJscwd+koagmsLHPhU9/Z6CSQx3amCLKDZCwOkti0NTgghEDcqz1PEfK6RO9+NKeiETd+/B8HhGtxw==
+
 nanoid@^3.1.23:
   version "3.1.23"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.23.tgz#f744086ce7c2bc47ee0a8472574d5c78e4183a81"
