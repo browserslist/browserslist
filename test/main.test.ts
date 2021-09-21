@@ -139,10 +139,10 @@ it('throws custom error', () => {
   try {
     browserslist('wrong')
   } catch (e) {
-    error = e
+    if (e instanceof Error) error = e
   }
-  expect(error.name).toEqual('BrowserslistError')
-  expect(typeof error.stack).toEqual('string')
+  expect(error?.name).toEqual('BrowserslistError')
+  expect(typeof error?.stack).toEqual('string')
 })
 
 it('excludes queries', () => {
