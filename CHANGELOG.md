@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.17.1
+* Use Nano Colors for color output in `--update-db`.
+
 ## 4.17
 * Added `yarn` 3 support to `--update-db` (by Himank Pathak).
 
