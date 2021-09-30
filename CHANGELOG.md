@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.17.2
+* Reduced package size.
+
 ## 4.17.1
 * Use Nano Colors for color output in `--update-db`.
 
