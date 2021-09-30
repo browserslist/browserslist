@@ -19,9 +19,9 @@
   },
   "dependencies": {
     "caniuse-lite": "^1.0.30001261",
-    "electron-to-chromium": "^1.3.846",
+    "electron-to-chromium": "^1.3.854",
     "escalade": "^3.1.1",
-    "nanocolors": "^0.1.5",
+    "nanocolors": "^0.2.12",
     "node-releases": "^1.1.76"
   },
   "engines": {
@@ -34,7 +34,7 @@
   "devDependencies": {
     "@logux/eslint-config": "^35.0.4",
     "@logux/sharec-config": "^0.5.7",
-    "@size-limit/preset-small-lib": "^5.0.4",
+    "@size-limit/preset-small-lib": "^5.0.5",
     "@types/cross-spawn": "^6.0.2",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^26.0.24",
@@ -55,9 +55,9 @@
     "fs-extra": "^8.1.0",
     "jest": "^25.5.4",
     "lint-staged": "^10.5.4",
-    "nanoid": "^3.1.25",
+    "nanoid": "^3.1.28",
     "simple-git-hooks": "^2.6.1",
-    "size-limit": "^5.0.4",
+    "size-limit": "^5.0.5",
     "ts-jest": "^25.5.1",
     "typescript": "^3.9.4",
     "yaspeller": "^7.0.0"
