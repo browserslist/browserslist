@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.17.3
+* Use `clean-publish` for color output in `--update-db`.
+
 ## 4.17.2
 * Reduced package size.
 
