@@ -1,15 +1,10 @@
 var childProcess = require('child_process')
-var nanocolors = require('nanocolors')
 var escalade = require('escalade/sync')
+var pico = require('picocolors')
 var path = require('path')
 var fs = require('fs')
 
 var BrowserslistError = require('./error')
-
-var red = nanocolors.red
-var bold = nanocolors.bold
-var green = nanocolors.green
-var yellow = nanocolors.yellow
 
 function detectLockfile () {
   var packageDir = escalade('.', function (dir, names) {
@@ -97,9 +92,9 @@ function diffBrowsersLists (old, current) {
       return intersection.indexOf(version) === -1
     })
     return removedVersions.map(function (version) {
-      return red('- ' + browser + ' ' + version)
+      return pico.red('- ' + browser + ' ' + version)
     }).concat(addedVersions.map(function (version) {
-      return green('+ ' + browser + ' ' + version)
+      return pico.green('+ ' + browser + ' ' + version)
     }))
   })
     .reduce(function (result, array) {
@@ -212,8 +207,8 @@ function updatePackageManually (print, lock, latest) {
   if (caniuseVersions.length === 1 &&
     caniuseVersions[0] === latest.version) {
     print(
-      'Installed version:  ' + bold(green(latest.version)) + '\n' +
-      bold(green('caniuse-lite is up to date')) + '\n'
+      'Installed version:  ' + pico.bold(pico.green(latest.version)) + '\n' +
+      pico.bold(pico.green('caniuse-lite is up to date')) + '\n'
     )
     return
   }
@@ -224,7 +219,7 @@ function updatePackageManually (print, lock, latest) {
   print(
     'Installed version' +
     (caniuseVersions.length === 1 ? ':  ' : 's: ') +
-    bold(red(caniuseVersions.join(', '))) +
+    pico.bold(pico.red(caniuseVersions.join(', '))) +
     '\n' +
     'Removing old caniuse-lite from lock file\n'
   )
@@ -233,13 +228,13 @@ function updatePackageManually (print, lock, latest) {
   var install = lock.mode === 'yarn' ? 'yarn add -W' : lock.mode + ' install'
   print(
     'Installing new caniuse-lite version\n' +
-    yellow('$ ' + install + ' caniuse-lite') + '\n'
+    pico.yellow('$ ' + install + ' caniuse-lite') + '\n'
   )
   try {
     childProcess.execSync(install + ' caniuse-lite')
   } catch (e) /* istanbul ignore next */ {
     print(
-      red(
+      pico.red(
         '\n' +
         e.stack + '\n\n' +
         'Problem with `' + install + ' caniuse-lite` call. ' +
@@ -252,7 +247,7 @@ function updatePackageManually (print, lock, latest) {
   var del = lock.mode === 'yarn' ? 'yarn remove -W' : lock.mode + ' uninstall'
   print(
     'Cleaning package.json dependencies from caniuse-lite\n' +
-    yellow('$ ' + del + ' caniuse-lite') + '\n'
+    pico.yellow('$ ' + del + ' caniuse-lite') + '\n'
   )
   childProcess.execSync(del + ' caniuse-lite')
 }
@@ -270,20 +265,20 @@ module.exports = function updateDB (print) {
   }
 
   print(
-    'Latest version:     ' + bold(green(latest.version)) + '\n'
+    'Latest version:     ' + pico.bold(pico.green(latest.version)) + '\n'
   )
 
   if (lock.mode === 'yarn' && lock.version !== 1) {
     var update = 'yarn up -R'
     print(
       'Updating caniuse-lite version\n' +
-      yellow('$ ' + update + ' caniuse-lite') + '\n'
+      pico.yellow('$ ' + update + ' caniuse-lite') + '\n'
     )
     try {
       childProcess.execSync(update + ' caniuse-lite')
     } catch (e) /* istanbul ignore next */ {
       print(
-        red(
+        pico.red(
           '\n' +
           e.stack + '\n\n' +
           'Problem with `' + update + ' caniuse-lite` call. ' +
@@ -309,7 +304,7 @@ module.exports = function updateDB (print) {
 
   if (browsersListRetrievalError) {
     print(
-      red(
+      pico.red(
         '\n' +
         browsersListRetrievalError.stack + '\n\n' +
         'Problem with browser list retrieval.\n' +
@@ -325,7 +320,7 @@ module.exports = function updateDB (print) {
       print('\nTarget browser changes:\n')
       print(targetBrowserChanges + '\n')
     } else {
-      print('\n' + green('No target browser changes') + '\n')
+      print('\n' + pico.green('No target browser changes') + '\n')
     }
   }
 }
