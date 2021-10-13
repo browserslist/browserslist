@@ -2,8 +2,6 @@ name: Test
 on:
   push:
   pull_request:
-env:
-  FORCE_COLOR: 2
 jobs:
   full:
     name: Node.js 16 Full
@@ -15,12 +13,15 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
+          cache: yarn
       - name: Install pnpm
         run: yarn global add pnpm
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: yarn install --frozen-lockfile
       - name: Run tests
         run: yarn test
+        env:
+          FORCE_COLOR: 2
   short:
     runs-on: ubuntu-latest
     strategy:
@@ -37,12 +38,15 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+          cache: yarn
       - name: Install pnpm
         run: npm add -g pnpm
       - name: Install dependencies
-        run: yarn install --ignore-engines
+        run: yarn install --frozen-lockfile --ignore-engines
       - name: Run unit tests
         run: npx jest
+        env:
+          FORCE_COLOR: 2
   short8:
     runs-on: ubuntu-latest
     name: Node.js 8 Quick
@@ -53,7 +57,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 8
+          cache: yarn
       - name: Install dependencies
         run: yarn install --ignore-engines
       - name: Run unit tests
         run: npx jest
+        env:
+          FORCE_COLOR: 2
