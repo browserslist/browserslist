@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.17.4
+* Reduced package size.
+
 ## 4.17.3
 * Use `picocolors` for color output in `--update-db`.
 
