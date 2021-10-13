@@ -38,7 +38,7 @@
     "@types/cross-spawn": "^6.0.2",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^26.0.24",
-    "check-dts": "^0.6.0",
+    "check-dts": "^0.6.1",
     "clean-publish": "^3.4.1",
     "cross-spawn": "^7.0.3",
     "eslint": "^6.8.0",
@@ -59,7 +59,7 @@
     "simple-git-hooks": "^2.6.1",
     "size-limit": "^6.0.3",
     "ts-jest": "^25.5.1",
-    "typescript": "^3.9.4",
+    "typescript": "^4.4.4",
     "yaspeller": "^7.2.0"
   },
   "browser": {

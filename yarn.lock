@@ -1620,10 +1620,10 @@ charenc@0.0.2:
   resolved "https://registry.yarnpkg.com/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
   integrity sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=
 
-check-dts@^0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/check-dts/-/check-dts-0.6.0.tgz#27a5ac25f50146b2c777c751785b73b12976eaf4"
-  integrity sha512-bO/jgkb/+PwFYQc47fePOrZ4EineqjmTRoRwv9ct2OXPl24PZXqbc9qaRosyA8NLybGQ8PzRg8ue2bok0+h5+w==
+check-dts@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/check-dts/-/check-dts-0.6.1.tgz#1c31e4d4b8f05242baf03fd99bd71f0551f82933"
+  integrity sha512-2PR5bO3NBD2hQWNf+7/ATK2nTcauuPv+mQJxfasDnhLGZlhbZXpqz+FA0aXo8nScON1QqU266fSObEJa7+jq7Q==
   dependencies:
     fast-glob "^3.2.7"
     nanospinner "^0.3.0"
@@ -6425,10 +6425,10 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@^3.9.4:
-  version "3.9.9"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.9.tgz#e69905c54bc0681d0518bd4d587cc6f2d0b1a674"
-  integrity sha512-kdMjTiekY+z/ubJCATUPlRDl39vXYiMV9iyeMuEuXZh2we6zz80uovNN2WlAxmmdE/Z/YQe+EbOEXB5RHEED3w==
+typescript@^4.4.4:
+  version "4.4.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.4.4.tgz#2cd01a1a1f160704d3101fd5a58ff0f9fcb8030c"
+  integrity sha512-DqGhF5IKoBl8WNf8C1gu8q0xZSInh9j1kJJMqT3a94w1JzVaBU4EXOSMrz9yDqMT0xt3selp83fuFMQ0uzv6qA==
 
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.6"
