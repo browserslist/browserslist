@@ -256,8 +256,8 @@ module.exports = function updateDB (print) {
   var lock = detectLockfile()
   var latest = getLatestInfo(lock)
 
-  if (latest.version.indexOf(',') > -1) {
-    latest.version = latest.version.split(',')[0].trim()
+  if (Array.isArray(latest.version)) {
+    latest.version = latest.version[0]
   }
 
   var browsersListRetrievalError
