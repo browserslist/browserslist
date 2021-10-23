@@ -164,9 +164,11 @@ function updatePnpmLockfile (lock, latest) {
   for (i = 0; i < lines.length; i++) {
     if (lines[i].indexOf('caniuse-lite:') >= 0) {
       lineParts = lines[i].split(/:\s?/, 2)
+      console.log(1, lines[i])
       versions[lineParts[1]] = true
       lines[i] = lineParts[0] + ': ' + latest.version
     } else if (lines[i].indexOf('/caniuse-lite') >= 0) {
+      console.log(1, lines[i])
       lineParts = lines[i].split(/([/:])/)
       for (j = 0; j < lineParts.length; j++) {
         if (lineParts[j].indexOf('caniuse-lite') >= 0) {
@@ -179,7 +181,8 @@ function updatePnpmLockfile (lock, latest) {
       for (i = i + 1; i < lines.length; i++) {
         if (lines[i].indexOf('integrity: ') !== -1) {
           lines[i] = lines[i].replace(
-            /integrity: .+/, 'integrity: ' + latest.dist.integrity
+            /integrity: .+/,
+            'integrity: ' + latest.dist.integrity
           )
         } else if (lines[i].indexOf(' /') !== -1) {
           break
@@ -204,11 +207,13 @@ function updateLockfile (lock, latest) {
 function updatePackageManually (print, lock, latest) {
   var lockfileData = updateLockfile(lock, latest)
   var caniuseVersions = Object.keys(lockfileData.versions).sort()
-  if (caniuseVersions.length === 1 &&
-    caniuseVersions[0] === latest.version) {
+  if (caniuseVersions.length === 1 && caniuseVersions[0] === latest.version) {
     print(
-      'Installed version:  ' + pico.bold(pico.green(latest.version)) + '\n' +
-      pico.bold(pico.green('caniuse-lite is up to date')) + '\n'
+      'Installed version:  ' +
+        pico.bold(pico.green(latest.version)) +
+        '\n' +
+        pico.bold(pico.green('caniuse-lite is up to date')) +
+        '\n'
     )
     return
   }
@@ -218,17 +223,18 @@ function updatePackageManually (print, lock, latest) {
   }
   print(
     'Installed version' +
-    (caniuseVersions.length === 1 ? ':  ' : 's: ') +
-    pico.bold(pico.red(caniuseVersions.join(', '))) +
-    '\n' +
-    'Removing old caniuse-lite from lock file\n'
+      (caniuseVersions.length === 1 ? ':  ' : 's: ') +
+      pico.bold(pico.red(caniuseVersions.join(', '))) +
+      '\n' +
+      'Removing old caniuse-lite from lock file\n'
   )
   fs.writeFileSync(lock.file, lockfileData.content)
 
   var install = lock.mode === 'yarn' ? 'yarn add -W' : lock.mode + ' install'
   print(
     'Installing new caniuse-lite version\n' +
-    pico.yellow('$ ' + install + ' caniuse-lite') + '\n'
+      pico.yellow('$ ' + install + ' caniuse-lite') +
+      '\n'
   )
   try {
     childProcess.execSync(install + ' caniuse-lite')
@@ -236,9 +242,12 @@ function updatePackageManually (print, lock, latest) {
     print(
       pico.red(
         '\n' +
-        e.stack + '\n\n' +
-        'Problem with `' + install + ' caniuse-lite` call. ' +
-        'Run it manually.\n'
+          e.stack +
+          '\n\n' +
+          'Problem with `' +
+          install +
+          ' caniuse-lite` call. ' +
+          'Run it manually.\n'
       )
     )
     process.exit(1)
@@ -247,7 +256,8 @@ function updatePackageManually (print, lock, latest) {
   var del = lock.mode === 'yarn' ? 'yarn remove -W' : lock.mode + ' uninstall'
   print(
     'Cleaning package.json dependencies from caniuse-lite\n' +
-    pico.yellow('$ ' + del + ' caniuse-lite') + '\n'
+      pico.yellow('$ ' + del + ' caniuse-lite') +
+      '\n'
   )
   childProcess.execSync(del + ' caniuse-lite')
 }
@@ -255,10 +265,6 @@ function updatePackageManually (print, lock, latest) {
 module.exports = function updateDB (print) {
   var lock = detectLockfile()
   var latest = getLatestInfo(lock)
-
-  if (Array.isArray(latest.version)) {
-    latest.version = latest.version[0]
-  }
 
   var browsersListRetrievalError
   var oldBrowsersList
@@ -268,15 +274,14 @@ module.exports = function updateDB (print) {
     browsersListRetrievalError = e
   }
 
-  print(
-    'Latest version:     ' + pico.bold(pico.green(latest.version)) + '\n'
-  )
+  print('Latest version:     ' + pico.bold(pico.green(latest.version)) + '\n')
 
   if (lock.mode === 'yarn' && lock.version !== 1) {
     var update = 'yarn up -R'
     print(
       'Updating caniuse-lite version\n' +
-      pico.yellow('$ ' + update + ' caniuse-lite') + '\n'
+        pico.yellow('$ ' + update + ' caniuse-lite') +
+        '\n'
     )
     try {
       childProcess.execSync(update + ' caniuse-lite')
@@ -284,9 +289,12 @@ module.exports = function updateDB (print) {
       print(
         pico.red(
           '\n' +
-          e.stack + '\n\n' +
-          'Problem with `' + update + ' caniuse-lite` call. ' +
-          'Run it manually.\n'
+            e.stack +
+            '\n\n' +
+            'Problem with `' +
+            update +
+            ' caniuse-lite` call. ' +
+            'Run it manually.\n'
         )
       )
       process.exit(1)
@@ -310,9 +318,10 @@ module.exports = function updateDB (print) {
     print(
       pico.red(
         '\n' +
-        browsersListRetrievalError.stack + '\n\n' +
-        'Problem with browser list retrieval.\n' +
-        'Target browser changes won’t be shown.\n'
+          browsersListRetrievalError.stack +
+          '\n\n' +
+          'Problem with browser list retrieval.\n' +
+          'Target browser changes won’t be shown.\n'
       )
     )
   } else {
