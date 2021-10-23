@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.17.5
+* Fixed `--update-db` for some `pnpm` cases.
+
 ## 4.17.4
 * Reduced package size.
 
