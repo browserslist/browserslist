@@ -165,7 +165,19 @@ function updatePnpmLockfile (lock, latest) {
     if (lines[i].indexOf('caniuse-lite:') >= 0) {
       lineParts = lines[i].split(/:\s?/, 2)
       console.log(1, lineParts[1], lines[i])
-      versions[lineParts[1]] = true
+      if (lineParts[1].indexOf('/') >= 0) {
+        var sublineParts = lineParts[1].split(/([/:])/)
+        for (j = 0; j < sublineParts.length; j++) {
+          if (sublineParts[j].indexOf('caniuse-lite') >= 0) {
+            versions[sublineParts[j + 2]] = true
+            sublineParts[j + 2] = latest.version
+            break
+          }
+        }
+        lineParts[1] = sublineParts.join('')
+      } else {
+        versions[lineParts[1]] = true
+      }
       lines[i] = lineParts[0] + ': ' + latest.version
     } else if (lines[i].indexOf('/caniuse-lite') >= 0) {
       console.log(1, lines[i])
