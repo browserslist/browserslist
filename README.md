@@ -174,7 +174,7 @@ npm looks for the latest `caniuse-lite` version (1.0.30000700) and adds it to
 `package-lock.json` under `autoprefixer` dependencies.
 
 A year later, you decide to add Babel. At this moment, we have a
-new version of `canuse-lite` (1.0.30000900). npm took the latest version
+new version of `caniuse-lite` (1.0.30000900). npm took the latest version
 and added it to your lock file under `@babel/preset-env` dependencies.
 
 Now your lock file looks like this:
