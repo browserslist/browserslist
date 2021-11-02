@@ -4,7 +4,7 @@ let browserslist = require('..')
 
 let originData = browserslist.data
 
-function createDate (monthBack) {
+function createDate(monthBack) {
   let releaseTime = Date.now() - monthBack * 30 * 24 * 60 * 60 * 1000
   return releaseTime / 1000
 }
@@ -71,11 +71,11 @@ let olderSixMonthsData = {
   }
 }
 
-function findPackage (text) {
+function findPackage(text) {
   return /package.json/.test(text.toString())
 }
 
-function mockStatSync () {
+function mockStatSync() {
   return {
     isFile: () => true
   }

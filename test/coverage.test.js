@@ -89,7 +89,5 @@ it('fixes statistics of all version', () => {
 
 it('supports custom statistics', () => {
   expect(browserslist.coverage(['ie 9'], custom)).toEqual(10)
-  expect(browserslist.coverage(['ie 9'], { dataByBrowser: custom })).toEqual(
-    10
-  )
+  expect(browserslist.coverage(['ie 9'], { dataByBrowser: custom })).toEqual(10)
 })

@@ -4,7 +4,7 @@ let RealDate = Date
 let originData = browserslist.data
 let originWarn = console.warn
 
-function mockDate (iso) {
+function mockDate(iso) {
   global.Date = function (self) {
     Object.getPrototypeOf(RealDate.prototype).constructor.call(self)
     return new RealDate(iso)

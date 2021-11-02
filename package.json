@@ -32,21 +32,17 @@
   },
   "types": "./index.d.ts",
   "devDependencies": {
-    "@logux/eslint-config": "^35.0.4",
+    "@logux/eslint-config": "^46.1.0",
     "@size-limit/preset-small-lib": "^6.0.4",
     "clean-publish": "^3.4.2",
     "cross-spawn": "^7.0.3",
-    "eslint": "^6.8.0",
-    "eslint-config-standard": "^14.1.1",
+    "eslint": "^8.1.0",
+    "eslint-config-standard": "^16.0.3",
     "eslint-plugin-es5": "^1.5.0",
     "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-jest": "^23.18.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prefer-let": "^1.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-security": "^1.4.0",
-    "eslint-plugin-standard": "^4.0.2",
-    "eslint-plugin-unicorn": "^16.1.1",
+    "eslint-plugin-prefer-let": "^3.0.0",
+    "eslint-plugin-promise": "^5.1.1",
     "fs-extra": "^8.1.0",
     "jest": "^25.5.4",
     "nanoid": "^3.1.30",
@@ -77,20 +73,58 @@
     }
   ],
   "eslintConfig": {
-    "extends": "@logux/eslint-config/browser",
+    "plugins": [
+      "es5"
+    ],
+    "extends": [
+      "@logux/eslint-config",
+      "plugin:es5/no-es2015"
+    ],
     "rules": {
-      "global-require": "off"
+      "prefer-let/prefer-let": "off",
+      "prefer-arrow-callback": "off",
+      "node/global-require": "off",
+      "object-shorthand": "off",
+      "no-console": "off",
+      "no-var": "off"
     },
     "overrides": [
       {
         "files": "test/**/*",
         "rules": {
-          "security/detect-unsafe-regex": "off"
+          "node/no-unsupported-features/es-syntax": "off",
+          "es5/no-shorthand-properties": "off",
+          "es5/no-template-literals": "off",
+          "es5/no-rest-parameters": "off",
+          "es5/no-arrow-functions": "off",
+          "es5/no-destructuring": "off",
+          "es5/no-block-scoping": "off",
+          "es5/no-es6-methods": "off",
+          "es5/no-spread": "off",
+          "es5/no-for-of": "off",
+          "no-console": "off"
+        },
+        "globals": {
+          "beforeEach": "readonly",
+          "afterEach": "readonly",
+          "beforeAll": "readonly",
+          "afterAll": "readonly",
+          "expect": "readonly",
+          "jest": "readonly",
+          "it": "readonly"
         }
       }
     ]
   },
   "eslintIgnore": [
     "test/fixtures"
-  ]
+  ],
+  "prettier": {
+    "arrowParens": "avoid",
+    "jsxSingleQuote": false,
+    "quoteProps": "consistent",
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none"
+  }
 }

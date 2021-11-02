@@ -8,7 +8,7 @@ let CUSTOM_STATS = join(__dirname, 'fixtures', 'stats.json')
 
 let mocked = []
 
-async function mock (name, index, stats) {
+async function mock(name, index, stats) {
   let dir = join(__dirname, '..', 'node_modules', name)
   mocked.push(dir)
   await ensureDir(dir)

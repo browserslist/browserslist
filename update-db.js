@@ -6,7 +6,7 @@ var fs = require('fs')
 
 var BrowserslistError = require('./error')
 
-function detectLockfile () {
+function detectLockfile() {
   var packageDir = escalade('.', function (dir, names) {
     return names.indexOf('package.json') !== -1 ? dir : ''
   })
@@ -14,7 +14,7 @@ function detectLockfile () {
   if (!packageDir) {
     throw new BrowserslistError(
       'Cannot find package.json. ' +
-      'Is this the right directory to run `npx browserslist --update-db` in?'
+        'Is this the right directory to run `npx browserslist --update-db` in?'
     )
   }
 
@@ -40,7 +40,7 @@ function detectLockfile () {
   )
 }
 
-function getLatestInfo (lock) {
+function getLatestInfo(lock) {
   if (lock.mode === 'yarn') {
     if (lock.version === 1) {
       return JSON.parse(
@@ -57,8 +57,10 @@ function getLatestInfo (lock) {
   )
 }
 
-function getBrowsersList () {
-  return childProcess.execSync('npx browserslist').toString()
+function getBrowsersList() {
+  return childProcess
+    .execSync('npx browserslist')
+    .toString()
     .trim()
     .split('\n')
     .map(function (line) {
@@ -73,44 +75,49 @@ function getBrowsersList () {
     }, {})
 }
 
-function diffBrowsersLists (old, current) {
+function diffBrowsersLists(old, current) {
   var browsers = Object.keys(old).concat(
     Object.keys(current).filter(function (browser) {
       return old[browser] === undefined
     })
   )
-  return browsers.map(function (browser) {
-    var oldVersions = old[browser] || []
-    var currentVersions = current[browser] || []
-    var intersection = oldVersions.filter(function (version) {
-      return currentVersions.indexOf(version) !== -1
+  return browsers
+    .map(function (browser) {
+      var oldVersions = old[browser] || []
+      var currentVersions = current[browser] || []
+      var intersection = oldVersions.filter(function (version) {
+        return currentVersions.indexOf(version) !== -1
+      })
+      var addedVersions = currentVersions.filter(function (version) {
+        return intersection.indexOf(version) === -1
+      })
+      var removedVersions = oldVersions.filter(function (version) {
+        return intersection.indexOf(version) === -1
+      })
+      return removedVersions
+        .map(function (version) {
+          return pico.red('- ' + browser + ' ' + version)
+        })
+        .concat(
+          addedVersions.map(function (version) {
+            return pico.green('+ ' + browser + ' ' + version)
+          })
+        )
     })
-    var addedVersions = currentVersions.filter(function (version) {
-      return intersection.indexOf(version) === -1
-    })
-    var removedVersions = oldVersions.filter(function (version) {
-      return intersection.indexOf(version) === -1
-    })
-    return removedVersions.map(function (version) {
-      return pico.red('- ' + browser + ' ' + version)
-    }).concat(addedVersions.map(function (version) {
-      return pico.green('+ ' + browser + ' ' + version)
-    }))
-  })
     .reduce(function (result, array) {
       return result.concat(array)
     }, [])
     .join('\n')
 }
 
-function updateNpmLockfile (lock, latest) {
+function updateNpmLockfile(lock, latest) {
   var metadata = { latest: latest, versions: [] }
   var content = deletePackage(JSON.parse(lock.content), metadata)
   metadata.content = JSON.stringify(content, null, '  ')
   return metadata
 }
 
-function deletePackage (node, metadata) {
+function deletePackage(node, metadata) {
   if (node.dependencies) {
     if (node.dependencies['caniuse-lite']) {
       var version = node.dependencies['caniuse-lite'].version
@@ -124,9 +131,9 @@ function deletePackage (node, metadata) {
   return node
 }
 
-var yarnVersionRe = new RegExp('version "(.*?)"')
+var yarnVersionRe = /version "(.*?)"/
 
-function updateYarnLockfile (lock, latest) {
+function updateYarnLockfile(lock, latest) {
   var blocks = lock.content.split(/(\n{2,})/).map(function (block) {
     return block.split('\n')
   })
@@ -137,24 +144,31 @@ function updateYarnLockfile (lock, latest) {
       versions[match[1]] = true
       if (match[1] !== latest.version) {
         lines[1] = lines[1].replace(
-          /version "[^"]+"/, 'version "' + latest.version + '"'
+          /version "[^"]+"/,
+          'version "' + latest.version + '"'
         )
         lines[2] = lines[2].replace(
-          /resolved "[^"]+"/, 'resolved "' + latest.dist.tarball + '"'
+          /resolved "[^"]+"/,
+          'resolved "' + latest.dist.tarball + '"'
         )
-        lines[3] = latest.dist.integrity ? lines[3].replace(
-          /integrity .+/, 'integrity ' + latest.dist.integrity
-        ) : ''
+        lines[3] = latest.dist.integrity
+          ? lines[3].replace(
+              /integrity .+/,
+              'integrity ' + latest.dist.integrity
+            )
+          : ''
       }
     }
   })
-  var content = blocks.map(function (lines) {
-    return lines.join('\n')
-  }).join('')
+  var content = blocks
+    .map(function (lines) {
+      return lines.join('\n')
+    })
+    .join('')
   return { content: content, versions: versions }
 }
 
-function updatePnpmLockfile (lock, latest) {
+function updatePnpmLockfile(lock, latest) {
   var versions = {}
   var lines = lock.content.split('\n')
   var i
@@ -203,7 +217,7 @@ function updatePnpmLockfile (lock, latest) {
   return { content: lines.join('\n'), versions: versions }
 }
 
-function updateLockfile (lock, latest) {
+function updateLockfile(lock, latest) {
   if (!lock.content) lock.content = fs.readFileSync(lock.file).toString()
 
   if (lock.mode === 'npm') {
@@ -214,7 +228,7 @@ function updateLockfile (lock, latest) {
   return updatePnpmLockfile(lock, latest)
 }
 
-function updatePackageManually (print, lock, latest) {
+function updatePackageManually(print, lock, latest) {
   var lockfileData = updateLockfile(lock, latest)
   var caniuseVersions = Object.keys(lockfileData.versions).sort()
   if (caniuseVersions.length === 1 && caniuseVersions[0] === latest.version) {
@@ -272,7 +286,7 @@ function updatePackageManually (print, lock, latest) {
   childProcess.execSync(del + ' caniuse-lite')
 }
 
-module.exports = function updateDB (print) {
+module.exports = function updateDB(print) {
   var lock = detectLockfile()
   var latest = getLatestInfo(lock)
 

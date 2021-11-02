@@ -7,7 +7,7 @@ let pkg = require('../package.json')
 let STATS = '--stats=' + join(__dirname, 'fixtures/stats.json')
 let CONF = '--config=' + join(__dirname, 'fixtures/env-config/browserslist')
 
-function run (args) {
+function run(args) {
   let opts = {}
   if (typeof args[0] === 'object') {
     opts = args[0]
@@ -29,31 +29,31 @@ function run (args) {
   })
 }
 
-async function err (...args) {
+async function err(...args) {
   let { code, stdout, stderr } = await run(args)
   expect(stdout).toEqual('')
   expect(code).not.toEqual(0)
   return stderr
 }
 
-async function out (...args) {
+async function out(...args) {
   let { code, stdout, stderr } = await run(args)
   expect(stderr).toEqual('')
   expect(code).toEqual(0)
   return stdout
 }
 
-async function arr (...args) {
+async function arr(...args) {
   let stdout = await out(...args)
   return stdout.split('\n').filter(Boolean)
 }
 
-function coverage (query, area) {
+function coverage(query, area) {
   let result = browserslist.coverage(query, area)
   return Math.round(result * 100) / 100.0
 }
 
-function ie8cov (area) {
+function ie8cov(area) {
   return coverage(['ie 8'], area)
 }
 
@@ -89,16 +89,16 @@ it('returns error `unknown browser query`', async () => {
 
 it('returns usage in specified country', async () => {
   expect(await out('--coverage=US', 'ie 8')).toContain(
-    `These browsers account for ${ ie8cov('US') }% of all users in the US`
+    `These browsers account for ${ie8cov('US')}% of all users in the US`
   )
 })
 
 it('returns usage in specified ares', async () => {
   let post = '% of all users '
   expect(await out('--coverage=US,alt-AS,global', 'ie 8')).toContain(
-    `These browsers account for ${ ie8cov('US') + post }in the US\n` +
-      `                           ${ ie8cov('alt-AS') + post }in the ALT-AS\n` +
-      `                           ${ ie8cov() + post }globally\n`
+    `These browsers account for ${ie8cov('US') + post}in the US\n` +
+      `                           ${ie8cov('alt-AS') + post}in the ALT-AS\n` +
+      `                           ${ie8cov() + post}globally\n`
   )
 })
 
@@ -130,7 +130,7 @@ it('reads browserslist config: env production', async () => {
 
 it('returns usage from config', async () => {
   let result = coverage(['ie 11', 'ie 10'])
-  expect(await out(CONF, '--coverage')).toContain(`${ result }`)
+  expect(await out(CONF, '--coverage')).toContain(`${result}`)
 })
 
 it('supports custom stats', async () => {
@@ -160,7 +160,7 @@ it('supports JSON with coverage', async () => {
   expect(await out('--json', '--coverage=US', '"ie 8"')).toEqual(
     '{\n' +
       '  "browsers": [\n    "ie 8"\n  ],\n' +
-      `  "coverage": {\n    "US": ${ ie8cov('US') }\n  }\n` +
+      `  "coverage": {\n    "US": ${ie8cov('US')}\n  }\n` +
       '}\n'
   )
 })

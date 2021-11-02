@@ -5,7 +5,7 @@ let browserslist = require('..')
 
 let mocked = []
 
-async function mock (name, exports) {
+async function mock(name, exports) {
   let dir = join(__dirname, '..', 'node_modules', name)
   mocked.push(dir)
   await ensureDir(dir)

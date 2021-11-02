@@ -27,9 +27,7 @@ it('query composition with AND operator', () => {
 })
 
 it('correctly works with not and one-version browsers as AND query', () => {
-  expect(browserslist('last 1 Baidu version and not <2% in AT')).toHaveLength(
-    0
-  )
+  expect(browserslist('last 1 Baidu version and not <2% in AT')).toHaveLength(0)
 })
 
 it('reads config from package.json', () => {
