@@ -161,7 +161,7 @@ module.exports = {
       checkExtend(name)
     }
     // eslint-disable-next-line security/detect-non-literal-require
-    var queries = require(require.resolve(name, { paths: ['.'] }))
+    var queries = require(require.resolve(name, { paths: ['.', ctx.path] }))
     if (queries) {
       if (Array.isArray(queries)) {
         return queries
