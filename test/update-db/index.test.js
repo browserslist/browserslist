@@ -6,7 +6,7 @@ let { nanoid } = require('nanoid/non-secure')
 let { tmpdir } = require('os')
 let { join } = require('path')
 
-let updateDb = require('../update-db')
+let updateDb = require('../../update-db')
 
 const NODE_8 = process.version.startsWith('v8.')
 const NODE_10 = process.version.startsWith('v10.')
@@ -23,7 +23,7 @@ async function chdir(fixture, ...files) {
   testdir = join(tmpdir(), `browserslist-${fixture}-${nanoid()}`)
   await ensureDir(testdir)
 
-  let from = join(__dirname, 'fixtures', fixture)
+  let from = join(__dirname, '..', 'fixtures', fixture)
   await Promise.all(
     files.map(async i => {
       await copy(join(from, i), join(testdir, i))

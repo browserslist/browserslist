@@ -29,6 +29,26 @@ jobs:
         node-version:
           - 16
           - 14
+    name: Node.js ${{ matrix.node-version }} Quick
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+      - name: Install Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --ignore-engines
+      - name: Run unit tests
+        run: npx jest
+        env:
+          FORCE_COLOR: 2
+  fast:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version:
           - 12
           - 10
           - 8
@@ -44,6 +64,6 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --ignore-engines
       - name: Run unit tests
-        run: npx jest
+        run: npx jest test/*.test.js
         env:
           FORCE_COLOR: 2
