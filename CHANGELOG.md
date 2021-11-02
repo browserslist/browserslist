@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.17.6
+* Fixed sharable config resolution (by Adaline Valentina Simonian).
+
 ## 4.17.5
 * Fixed `--update-db` for some `pnpm` cases.
 
