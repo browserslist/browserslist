@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.18
+* Added `--ignore-unknown-versions` CLI option (by Pig Fang).
+
 ## 4.17.6
 * Fixed sharable config resolution (by Adaline Valentina Simonian).
 
