@@ -14,6 +14,15 @@ beforeEach(() => {
         2: 1483228800, // Sun, 01 Jan 2017 00:00:00 +0000
         3: 1485907200 // Wed, 01 Feb 2017 00:00:00 +0000
       }
+    },
+    safari: {
+      name: 'safari',
+      versions: ['TP'],
+      released: [],
+      releaseDate: {
+        1: 1451606400, // Fri, 01 Jan 2016 00:00:00 +0000
+        TP: null // unreleased
+      }
     }
   }
   console.warn = function (...args) {
@@ -28,11 +37,11 @@ afterEach(() => {
 })
 
 it('selects versions released on year boundaries', () => {
-  expect(browserslist('since 1970')).toEqual(['ie 3', 'ie 2', 'ie 1'])
+  expect(browserslist('since 1970')).toEqual(['ie 3', 'ie 2', 'ie 1', 'safari 1'])
 })
 
 it('is case insensitive', () => {
-  expect(browserslist('Since 1970')).toEqual(['ie 3', 'ie 2', 'ie 1'])
+  expect(browserslist('Since 1970')).toEqual(['ie 3', 'ie 2', 'ie 1', 'safari 1'])
 })
 
 it('selects versions released on year and month boundaries', () => {

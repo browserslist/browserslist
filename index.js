@@ -209,7 +209,8 @@ function filterByYear(since, context) {
     var data = byName(name, context)
     if (!data) return selected
     var versions = Object.keys(data.releaseDate).filter(function (v) {
-      return data.releaseDate[v] >= since
+      var date = data.releaseDate[v]
+      return date !== null && date >= since
     })
     return selected.concat(versions.map(nameMapper(data.name)))
   }, [])
