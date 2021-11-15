@@ -642,7 +642,7 @@ function coverQuery(context, coverage, statMode) {
   coverage = parseFloat(coverage)
   var usage = browserslist.usage.global
   if (statMode) {
-    if (statMode.match(/^my\s+stats$/)) {
+    if (statMode.match(/^my\s+stats$/i)) {
       if (!context.customUsage) {
         throw new BrowserslistError('Custom usage statistics was not provided')
       }
@@ -916,11 +916,11 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^cover\s+(\d+|\d+\.\d+|\.\d+)%$/,
+    regexp: /^cover\s+(\d+|\d+\.\d+|\.\d+)%$/i,
     select: coverQuery
   },
   {
-    regexp: /^cover\s+(\d+|\d+\.\d+|\.\d+)%\s+in\s+(my\s+stats|(alt-)?\w\w)$/,
+    regexp: /^cover\s+(\d+|\d+\.\d+|\.\d+)%\s+in\s+(my\s+stats|(alt-)?\w\w)$/i,
     select: coverQuery
   },
   {

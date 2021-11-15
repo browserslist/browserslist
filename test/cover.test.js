@@ -32,8 +32,16 @@ it('adds at least one browser', () => {
   expect(browserslist('cover 1% in my stats')).toEqual(['ie 11'])
 })
 
+it('is case insensitive for custom stat', () => {
+  expect(browserslist('Cover 1% In My Stats')).toEqual(['ie 11'])
+})
+
 it('global coverage', () => {
   expect(browserslist('cover 0.1%')).toEqual(['ie 5'])
+})
+
+it('is case insensitive for global coverage', () => {
+  expect(browserslist('Cover 0.1%')).toEqual(['ie 5'])
 })
 
 it('country coverage', () => {
@@ -42,6 +50,11 @@ it('country coverage', () => {
 
 it('country coverage alt', () => {
   expect(browserslist('cover 0.1% in alt-us')).toEqual(['ie 8'])
+})
+
+it('is case insensitive for country coverage', () => {
+  expect(browserslist('Cover 0.1% in us')).toEqual(['ie 9'])
+  expect(browserslist('Cover 0.1% in Alt-US')).toEqual(['ie 8'])
 })
 
 it('adds browsers by popularity', () => {
