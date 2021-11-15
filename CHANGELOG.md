@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.18.1
+* Fixed case inventiveness for `cover` queries (by Pig Fang).
+* Fixed `since 1970` query for `null` in release date (by Pig Fang).
+
 ## 4.18
 * Added `--ignore-unknown-versions` CLI option (by Pig Fang).
 
