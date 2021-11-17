@@ -325,29 +325,30 @@ samsung 5
 
 ### Browsers
 
-Names are case insensitive:
+The following table maps browser names & their target devices into identifiers used by browserslist.
 
-* `Android` for Android WebView.
-* `Baidu` for Baidu Browser.
-* `BlackBerry` or `bb` for Blackberry browser.
-* `Chrome` for Google Chrome.
-* `ChromeAndroid` or `and_chr` for Chrome for Android
-* `Edge` for Microsoft Edge.
-* `Electron` for Electron framework. It will be converted to Chrome version.
-* `Explorer` or `ie` for Internet Explorer.
-* `ExplorerMobile` or `ie_mob` for Internet Explorer Mobile.
-* `Firefox` or `ff` for Mozilla Firefox.
-* `FirefoxAndroid` or `and_ff` for Firefox for Android.
-* `iOS` or `ios_saf` for iOS Safari.
-* `Node` for Node.js.
-* `Opera` for Opera.
-* `OperaMini` or `op_mini` for Opera Mini.
-* `OperaMobile` or `op_mob` for Opera Mobile.
-* `QQAndroid` or `and_qq` for QQ Browser for Android.
-* `Safari` for desktop Safari.
-* `Samsung` for Samsung Internet.
-* `UCAndroid` or `and_uc` for UC Browser for Android.
-* `kaios` for KaiOS Browser.
+| Browser Name        | Desktop          | Mobile/Android             | Mobile/iOS               | Other              |
+| ------------------- | ---------------- | -------------------------- | ------------------------ | ------------------ |
+| Android (WebView)   |                  | `Android`                  |                          |                    |
+| Baidu               | `Baidu`          |                            |                          |                    |
+| BlackBerry          |                  |                            |                          | `BlackBerry`, `bb` |
+| Chrome              | `Chrome`         | `ChromeAndroid`,`and_chr`  | ↪︎ `ios_saf`<sup>3</sup> |                    |
+| Edge                | `Edge`           | ↪︎ `and_chrome`            | ↪︎ `ios_saf`<sup>3</sup> |                    |
+| Electron            |                  |                            |                          | `Electron`         |
+| Firefox             | `Firefox`, `ff`  | `FirefoxAndroid`, `and_ff` | ↪︎ `ios_saf`<sup>3</sup> |                    |
+| Internet Explorer   | `Explorer`, `ie` |                            |                          | `ie_mob`           |
+| Node                |                  |                            |                          | `Node`             |
+| KaiOS Browser       |                  |                            |                          | `kaios`            |
+| Opera, Opera Mobile | `Opera`          | `op_mob` <sup>2</sup>      | ↪︎ `ios_saf`<sup>3</sup> |                    |
+| Opera Mini          |                  | `OperaMini`                |                          |                    |
+| QQAndroid           |                  | `and_qq`                   |                          |                    |
+| Safari              | `Safari`         |                            | `iOS`, `ios_saf`         |                    |
+| Samsung Internet    |                  | `Samsung`                  |                          |                    |
+| UC Browser          |                  | `UCAndroid`,`and_uc`       |                          |                    |
+
+- <sup>1</sup> `↪︎ <identifier>` implies that the browser of interest uses the same engine captured by `identifier`, also present in the table.
+- <sup>2</sup> [opera mobile is ~= chrome android](https://github.com/Fyrd/caniuse/issues/5602#issuecomment-792385127)
+- <sup>3</sup> [all ios browsers use webkit](https://en.wikipedia.org/wiki/WebKit)
 
 
 ## Config File
