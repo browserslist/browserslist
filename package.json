@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "caniuse-lite": "^1.0.30001282",
-    "electron-to-chromium": "^1.3.900",
+    "electron-to-chromium": "^1.3.901",
     "escalade": "^3.1.1",
     "node-releases": "^2.0.1",
     "picocolors": "^1.0.0"
@@ -33,7 +33,7 @@
   "types": "./index.d.ts",
   "devDependencies": {
     "@logux/eslint-config": "^46.1.0",
-    "@size-limit/preset-small-lib": "^6.0.4",
+    "@size-limit/preset-small-lib": "^7.0.0",
     "clean-publish": "^3.4.3",
     "cross-spawn": "^7.0.3",
     "eslint": "^8.2.0",
@@ -46,7 +46,7 @@
     "fs-extra": "^8.1.0",
     "jest": "^25.5.4",
     "nanoid": "^3.1.30",
-    "size-limit": "^6.0.4"
+    "size-limit": "^7.0.0"
   },
   "browser": {
     "./node.js": "./browser.js",
