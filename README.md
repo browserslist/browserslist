@@ -101,6 +101,7 @@ Browserslist will take queries from tool option,
 * [`browserslist-new-relic`] generate a custom usage data file for Browserslist
   from your New Relic Browser data.
 * [`caniuse-api`] returns browsers which support some specific feature.
+* [`browserslist-rs`] is a Rust library that does similar work to Browserslist.
 * Run `npx browserslist` in your project directory to see project’s
   target browsers. This CLI tool is built-in and available in any project
   with Autoprefixer.
@@ -114,6 +115,7 @@ Browserslist will take queries from tool option,
 [`browserslist-ga`]:               https://github.com/browserslist/browserslist-ga
 [`browserslist-new-relic`]:        https://github.com/syntactic-salt/browserslist-new-relic
 [`caniuse-api`]:                   https://github.com/Nyalab/caniuse-api
+[`browserslist-rs`]:               https://github.com/g-plane/browserslist-rs
 
 
 ### Text Editors
