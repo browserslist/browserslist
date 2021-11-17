@@ -332,14 +332,14 @@ The following table maps browser names & their target devices into identifiers u
 | Android (WebView) |                  | `Android`                 |                          |                   |
 | Baidu             | `Baidu`          |                           |                          |                   |
 | BlackBerry        |                  |                           |                          | `BlackBerry` `bb` |
-| Chrome            | `Chrome`         | `ChromeAndroid` `and_chr` | ↪︎ `ios_saf`<sup>3</sup>  |                   |
-| Edge              | `Edge`           | ↪︎ `and_chrome`            | ↪︎ `ios_saf`<sup>3</sup>  |                   |
+| Chrome            | `Chrome`         | `ChromeAndroid` `and_chr` | ↪︎ `ios_saf`<sup>2</sup>  |                   |
+| Edge              | `Edge`           | ↪︎ `and_chrome`            | ↪︎ `ios_saf`<sup>2</sup>  |                   |
 | Electron          | `Electron`       |                           |                          |                   |
-| Firefox           | `Firefox` `ff`   | `FirefoxAndroid` `and_ff` | ↪︎ `ios_saf`<sup>3</sup>  |                   |
+| Firefox           | `Firefox` `ff`   | `FirefoxAndroid` `and_ff` | ↪︎ `ios_saf`<sup>2</sup>  |                   |
 | Internet Explorer | `Explorer` `ie`  |                           |                          | `ie_mob`          |
 | Node.js           | `Node`           |                           |                          |                   |
 | [KaiOS Browser]   |                  |                           |                          | `kaios`           |
-| Opera             | `Opera`          | `op_mob` <sup>2</sup>     | ↪︎ `ios_saf`<sup>3</sup>  |                   |
+| Opera             | `Opera`          | `op_mob` <sup>1</sup>     | ↪︎ `ios_saf`<sup>2</sup>  |                   |
 | [Opera Mini]      |                  | `OperaMini`               |                          |                   |
 | [QQ browser]      |                  | `and_qq`                  |                          |                   |
 | Safari            | `Safari`         |                           | `iOS` `ios_saf`          |                   |
@@ -347,8 +347,8 @@ The following table maps browser names & their target devices into identifiers u
 | [UC Browser]      |                  | `UCAndroid` `and_uc`      |                          |                   |
 
 - `↪︎ name` implies that the browser uses the same engine captured by `name`
-- <sup>2</sup> [Opera Mobile ≈ Chrome Android](https://github.com/Fyrd/caniuse/issues/5602#issuecomment-792385127)
-- <sup>3</sup> [all iOS browsers use WebKit](https://en.wikipedia.org/wiki/WebKit)
+- <sup>1</sup> [Opera Mobile ≈ Chrome Android](https://github.com/Fyrd/caniuse/issues/5602#issuecomment-792385127)
+- <sup>2</sup> [all iOS browsers use WebKit](https://en.wikipedia.org/wiki/WebKit)
 
 [KaiOS Browser]: https://medium.com/design-at-kai/what-you-didnt-know-about-kaios-browser-53937ea1636
 [QQ browser]: https://en.wikipedia.org/wiki/QQ_browser
