@@ -346,9 +346,8 @@ The following table maps browser names & their target devices into identifiers u
 | Samsung Internet  |                  | `Samsung`                 |                          |                   |
 | [UC Browser]      |                  | `UCAndroid` `and_uc`      |                          |                   |
 
-- <sup>1</sup> `↪︎ name` implies that the browser of interest uses
-  the same engine captured by `name`
-- <sup>2</sup> [opera mobile is ≈ Chrome Android](https://github.com/Fyrd/caniuse/issues/5602#issuecomment-792385127)
+- `↪︎ name` implies that the browser uses the same engine captured by `name`
+- <sup>2</sup> [Opera Mobile ≈ Chrome Android](https://github.com/Fyrd/caniuse/issues/5602#issuecomment-792385127)
 - <sup>3</sup> [all iOS browsers use WebKit](https://en.wikipedia.org/wiki/WebKit)
 
 [KaiOS Browser]: https://medium.com/design-at-kai/what-you-didnt-know-about-kaios-browser-53937ea1636
