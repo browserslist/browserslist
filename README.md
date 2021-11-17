@@ -327,29 +327,33 @@ samsung 5
 
 The following table maps browser names & their target devices into identifiers used by browserslist.
 
-| Browser Name        | Desktop          | Mobile/Android             | Mobile/iOS               | Other              |
+| Browser Name        | Desktop          | Android                    | iOS                      | Other Mobile       |
 | ------------------- | ---------------- | -------------------------- | ------------------------ | ------------------ |
 | Android (WebView)   |                  | `Android`                  |                          |                    |
 | Baidu               | `Baidu`          |                            |                          |                    |
 | BlackBerry          |                  |                            |                          | `BlackBerry`, `bb` |
 | Chrome              | `Chrome`         | `ChromeAndroid`,`and_chr`  | ↪︎ `ios_saf`<sup>3</sup> |                    |
 | Edge                | `Edge`           | ↪︎ `and_chrome`            | ↪︎ `ios_saf`<sup>3</sup> |                    |
-| Electron            |                  |                            |                          | `Electron`         |
+| Electron            | `Electron`       |                            |                          |                    |
 | Firefox             | `Firefox`, `ff`  | `FirefoxAndroid`, `and_ff` | ↪︎ `ios_saf`<sup>3</sup> |                    |
 | Internet Explorer   | `Explorer`, `ie` |                            |                          | `ie_mob`           |
-| Node                |                  |                            |                          | `Node`             |
-| KaiOS Browser       |                  |                            |                          | `kaios`            |
-| Opera, Opera Mobile | `Opera`          | `op_mob` <sup>2</sup>      | ↪︎ `ios_saf`<sup>3</sup> |                    |
-| Opera Mini          |                  | `OperaMini`                |                          |                    |
-| QQAndroid           |                  | `and_qq`                   |                          |                    |
+| Node.js             | `Node`           |                            |                          |                    |
+| [KaiOS Browser]     |                  |                            |                          | `kaios`            |
+| Opera, Opera Mobile | `Opera`          | `op_mob` <sup>2</sup>      | ↪︎ `ios_saf`<sup>3</sup> |                    |
+| [Opera Mini]        |                  | `OperaMini`                |                          |                    |
+| [QQ browser]        |                  | `and_qq`                   |                          |                    |
 | Safari              | `Safari`         |                            | `iOS`, `ios_saf`         |                    |
 | Samsung Internet    |                  | `Samsung`                  |                          |                    |
-| UC Browser          |                  | `UCAndroid`,`and_uc`       |                          |                    |
+| [UC Browser]        |                  | `UCAndroid`,`and_uc`       |                          |                    |
 
 - <sup>1</sup> `↪︎ <identifier>` implies that the browser of interest uses the same engine captured by `identifier`, also present in the table.
 - <sup>2</sup> [opera mobile is ~= chrome android](https://github.com/Fyrd/caniuse/issues/5602#issuecomment-792385127)
 - <sup>3</sup> [all ios browsers use webkit](https://en.wikipedia.org/wiki/WebKit)
 
+[KaiOS Browser]: https://medium.com/design-at-kai/what-you-didnt-know-about-kaios-browser-53937ea1636
+[QQ browser]: https://en.wikipedia.org/wiki/QQ_browser
+[Opera Mini]: https://en.wikipedia.org/wiki/Opera_Mini
+[UC Browser]: https://en.wikipedia.org/wiki/UC_Browser
 
 ## Config File
 
