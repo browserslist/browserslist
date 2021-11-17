@@ -42,7 +42,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: yarn
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --ignore-engines
+        run: yarn install --frozen-lockfile --ignore-engines --ignore-scripts
       - name: Run unit tests
         run: npx jest test/*.test.js
         env:
