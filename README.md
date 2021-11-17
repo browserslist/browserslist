@@ -87,6 +87,7 @@ Browserslist will take queries from tool option,
 
 ## Tools
 
+* [`browserslist-rs`] is a Browserslist port to Rust.
 * [`browserl.ist`](https://browserl.ist/) is an online tool to check
   what browsers will be selected by some query.
 * [`browserslist-ga`] and [`browserslist-ga-export`] download your website
@@ -101,7 +102,6 @@ Browserslist will take queries from tool option,
 * [`browserslist-new-relic`] generate a custom usage data file for Browserslist
   from your New Relic Browser data.
 * [`caniuse-api`] returns browsers which support some specific feature.
-* [`browserslist-rs`] is a Rust library that does similar work to Browserslist.
 * Run `npx browserslist` in your project directory to see project’s
   target browsers. This CLI tool is built-in and available in any project
   with Autoprefixer.
