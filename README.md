@@ -170,32 +170,6 @@ You need to do it regularly for three reasons:
    size of JS and CSS files and improve website performance.
 3. `caniuse-lite` deduplication: to synchronize version in different tools.
 
-> What is deduplication?
-
-Due to how npm architecture is setup, you may have a situation
-where you have multiple versions of a single dependency required.
-
-Imagine you begin a project, and you add `autoprefixer` as a dependency.
-npm looks for the latest `caniuse-lite` version (1.0.30000700) and adds it to
-`package-lock.json` under `autoprefixer` dependencies.
-
-A year later, you decide to add Babel. At this moment, we have a
-new version of `caniuse-lite` (1.0.30000900). npm took the latest version
-and added it to your lock file under `@babel/preset-env` dependencies.
-
-Now your lock file looks like this:
-
-```ocaml
-autoprefixer 7.1.4
-  browserslist 3.1.1
-    caniuse-lite 1.0.30000700
-@babel/preset-env 7.10.0
-  browserslist 4.13.0
-    caniuse-lite 1.0.30000900
-```
-
-As you can see, we now have two versions of `caniuse-lite` installed.
-
 
 ## Queries
 
