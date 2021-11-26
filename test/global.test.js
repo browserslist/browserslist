@@ -1,8 +1,12 @@
+let { test } = require('uvu')
+let { equal } = require('uvu/assert')
+
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
 let originUsage = browserslist.usage
 
-beforeEach(() => {
+test.before.each(() => {
   browserslist.usage = {
     global: {
       'ie 8': 1,
@@ -13,38 +17,40 @@ beforeEach(() => {
   }
 })
 
-afterEach(() => {
+test.after.each(() => {
   browserslist.usage = originUsage
 })
 
-it('selects browsers by popularity', () => {
-  expect(browserslist('> 10%')).toEqual(['ie 11', 'ie 10'])
+test('selects browsers by popularity', () => {
+  equal(browserslist('> 10%'), ['ie 11', 'ie 10'])
 })
 
-it('selects popularity by more or equal', () => {
-  expect(browserslist('>= 5%')).toEqual(['ie 11', 'ie 10', 'ie 9'])
+test('selects popularity by more or equal', () => {
+  equal(browserslist('>= 5%'), ['ie 11', 'ie 10', 'ie 9'])
 })
 
-it('selects browsers by unpopularity', () => {
-  expect(browserslist('< 5%')).toEqual(['ie 8'])
+test('selects browsers by unpopularity', () => {
+  equal(browserslist('< 5%'), ['ie 8'])
 })
 
-it('selects unpopularity by less or equal', () => {
-  expect(browserslist('<= 5%')).toEqual(['ie 9', 'ie 8'])
+test('selects unpopularity by less or equal', () => {
+  equal(browserslist('<= 5%'), ['ie 9', 'ie 8'])
 })
 
-it('accepts non-space query', () => {
-  expect(browserslist('>10%')).toEqual(['ie 11', 'ie 10'])
+test('accepts non-space query', () => {
+  equal(browserslist('>10%'), ['ie 11', 'ie 10'])
 })
 
-it('works with float', () => {
-  expect(browserslist('> 10.2%')).toEqual(['ie 11'])
+test('works with float', () => {
+  equal(browserslist('> 10.2%'), ['ie 11'])
 })
 
-it('works with float that has a leading dot', () => {
-  expect(browserslist('> .2%')).toEqual(['ie 11', 'ie 10', 'ie 9', 'ie 8'])
+test('works with float that has a leading dot', () => {
+  equal(browserslist('> .2%'), ['ie 11', 'ie 10', 'ie 9', 'ie 8'])
 })
 
-it('allows omission of the space between the > and the percentage', () => {
-  expect(browserslist('>10%')).toEqual(['ie 11', 'ie 10'])
+test('allows omission of the space between the > and the percentage', () => {
+  equal(browserslist('>10%'), ['ie 11', 'ie 10'])
 })
+
+test.run()

@@ -1,3 +1,7 @@
+delete require.cache[require.resolve('..')]
+
+let { test } = require('uvu')
+let { is, equal, match } = require('uvu/assert')
 let { join } = require('path')
 let spawn = require('cross-spawn')
 
@@ -31,15 +35,15 @@ function run(args) {
 
 async function err(...args) {
   let { code, stdout, stderr } = await run(args)
-  expect(stdout).toEqual('')
-  expect(code).not.toEqual(0)
+  is(stdout, '')
+  is.not(code, 0)
   return stderr
 }
 
 async function out(...args) {
   let { code, stdout, stderr } = await run(args)
-  expect(stderr).toEqual('')
-  expect(code).toEqual(0)
+  is(stderr, '')
+  is(code, 0)
   return stdout
 }
 
@@ -57,110 +61,121 @@ function ie8cov(area) {
   return coverage(['ie 8'], area)
 }
 
-it('returns help', async () => {
-  expect(await out('--help')).toContain('Usage:')
-  expect(await out('-h')).toContain('Usage:')
+test('returns help', async () => {
+  match(await out('--help'), 'Usage:')
+  match(await out('-h'), 'Usage:')
 })
 
-it('returns version', async () => {
+test('returns version', async () => {
   let result = pkg.name + ' ' + pkg.version + '\n'
-  expect(await out('--version')).toEqual(result)
-  expect(await out('-v')).toEqual(result)
+  is(await out('--version'), result)
+  is(await out('-v'), result)
 })
 
-it('returns error: `unknown arguments`', async () => {
-  expect(await err('--unknown')).toContain('Unknown arguments')
+test('returns error: `unknown arguments`', async () => {
+  match(await err('--unknown'), 'Unknown arguments')
 })
 
-it('selects last 2 versions', async () => {
-  expect(await arr('last 2 versions')).toEqual(browserslist('last 2 versions'))
+test('selects last 2 versions', async () => {
+  equal(await arr('last 2 versions'), browserslist('last 2 versions'))
 })
 
-it('uses case insensitive aliases', async () => {
-  expect(await arr('Explorer > 10')).toEqual(browserslist('Explorer > 10'))
+test('uses case insensitive aliases', async () => {
+  equal(await arr('Explorer > 10'), browserslist('Explorer > 10'))
 })
 
-it('returns error `unknown browser query`', async () => {
-  expect(await err('unknow')).toEqual(
+test('returns error `unknown browser query`', async () => {
+  is(
+    await err('unknow'),
     'browserslist: Unknown browser query `unknow`. ' +
       'Maybe you are using old Browserslist or made typo in query.\n'
   )
 })
 
-it('returns usage in specified country', async () => {
-  expect(await out('--coverage=US', 'ie 8')).toContain(
+test('returns usage in specified country', async () => {
+  match(
+    await out('--coverage=US', 'ie 8'),
     `These browsers account for ${ie8cov('US')}% of all users in the US`
   )
 })
 
-it('returns usage in specified ares', async () => {
+test('returns usage in specified ares', async () => {
   let post = '% of all users '
-  expect(await out('--coverage=US,alt-AS,global', 'ie 8')).toContain(
+  match(
+    await out('--coverage=US,alt-AS,global', 'ie 8'),
     `These browsers account for ${ie8cov('US') + post}in the US\n` +
       `                           ${ie8cov('alt-AS') + post}in the ALT-AS\n` +
       `                           ${ie8cov() + post}globally\n`
   )
 })
 
-it('returns error: `unknown browser query to get coverage`', async () => {
-  expect(await err('--coverage=UK', 'ie8')).toEqual(
+test('returns error: `unknown browser query to get coverage`', async () => {
+  is(
+    await err('--coverage=UK', 'ie8'),
     'browserslist: Unknown browser query `ie8`. ' +
       'Maybe you are using old Browserslist or made typo in query.\n'
   )
 })
 
-it('reads browserslist config', async () => {
-  expect(await arr(CONF)).toEqual(['ie 11', 'ie 10'])
+test('reads browserslist config', async () => {
+  equal(await arr(CONF), ['ie 11', 'ie 10'])
 })
 
-it('reads browserslist config from current directory', async () => {
+test('reads browserslist config from current directory', async () => {
   let cwd = join(__dirname, 'fixtures')
-  expect(await arr({ cwd })).toEqual(['ie 11', 'ie 10'])
+  equal(await arr({ cwd }), ['ie 11', 'ie 10'])
 })
 
-it('returns error browserslist config', async () => {
-  expect(await err('--config="./unknown_path"')).toEqual(
+test('returns error browserslist config', async () => {
+  is(
+    await err('--config="./unknown_path"'),
     "browserslist: Can't read ./unknown_path config\n"
   )
 })
 
-it('reads browserslist config: env production', async () => {
-  expect(await arr(CONF, '--env="production"')).toEqual(['ie 9', 'opera 41'])
+test('reads browserslist config: env production', async () => {
+  equal(await arr(CONF, '--env="production"'), ['ie 9', 'opera 41'])
 })
 
-it('returns usage from config', async () => {
+test('returns usage from config', async () => {
   let result = coverage(['ie 11', 'ie 10'])
-  expect(await out(CONF, '--coverage')).toContain(`${result}`)
+  match(await out(CONF, '--coverage'), `${result}`)
 })
 
-it('supports custom stats', async () => {
-  expect(await arr(STATS, '> 5% in my stats')).toEqual(['ie 11', 'ie 10'])
+test('supports custom stats', async () => {
+  equal(await arr(STATS, '> 5% in my stats'), ['ie 11', 'ie 10'])
 })
 
-it('supports custom stats in coverage', async () => {
-  expect(await out('--coverage', STATS, '> 5% in my stats')).toEqual(
+test('supports custom stats in coverage', async () => {
+  is(
+    await out('--coverage', STATS, '> 5% in my stats'),
     'These browsers account for 15.7% of all users in custom statistics\n'
   )
 })
 
-it('shows Browserslist error', async () => {
-  expect(await err({ cwd: join(__dirname, 'fixtures', 'wrong1') })).toEqual(
+test('shows Browserslist error', async () => {
+  is(
+    await err({ cwd: join(__dirname, 'fixtures', 'wrong1') }),
     'browserslist: Browserslist config ' +
       'should be a string or an array of strings with browser queries\n'
   )
 })
 
-it('supports JSON', async () => {
-  expect(await out('--json', '"ie 8"')).toEqual(
+test('supports JSON', async () => {
+  is(
+    await out('--json', '"ie 8"'),
     '{\n  "browsers": [\n    "ie 8"\n  ]\n}\n'
   )
 })
 
-it('supports JSON with coverage', async () => {
-  expect(await out('--json', '--coverage=US', '"ie 8"')).toEqual(
+test('supports JSON with coverage', async () => {
+  is(
+    await out('--json', '--coverage=US', '"ie 8"'),
     '{\n' +
       '  "browsers": [\n    "ie 8"\n  ],\n' +
       `  "coverage": {\n    "US": ${ie8cov('US')}\n  }\n` +
       '}\n'
   )
 })
+
+test.run()

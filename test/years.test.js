@@ -1,7 +1,11 @@
+let { test } = require('uvu')
+let { equal } = require('uvu/assert')
+
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
 let RealDate = Date
-let originData = browserslist.data
+let originData = { ...browserslist.data }
 let originWarn = console.warn
 
 function mockDate(iso) {
@@ -14,7 +18,7 @@ function mockDate(iso) {
   }
 }
 
-beforeEach(() => {
+test.before.each(() => {
   mockDate('2018-01-01T00:00:00z')
   browserslist.data = {
     ie: {
@@ -46,34 +50,42 @@ beforeEach(() => {
   }
 })
 
-afterEach(() => {
+test.after.each(() => {
   global.Date = RealDate
   browserslist.data = originData
 })
 
-it('selects versions released within last X years', () => {
-  expect(browserslist('last 2 years')).toEqual([
-    'edge 16',
-    'edge 15',
-    'edge 14'
-  ])
+test('selects versions released within last X years', () => {
+  equal(
+    browserslist('last 2 years'),
+    [
+      'edge 16',
+      'edge 15',
+      'edge 14'
+    ]
+  )
 })
 
-it('selects versions released within last year', () => {
-  expect(browserslist('last 1 year')).toEqual(['edge 16', 'edge 15'])
+test('selects versions released within last year', () => {
+  equal(browserslist('last 1 year'), ['edge 16', 'edge 15'])
 })
 
-it('supports year fraction', () => {
-  expect(browserslist('last 1.4 years')).toEqual(['edge 16', 'edge 15'])
+test('supports year fraction', () => {
+  equal(browserslist('last 1.4 years'), ['edge 16', 'edge 15'])
 })
 
-it('is case insensitive', () => {
-  expect(browserslist('Last 5 years')).toEqual([
-    'edge 16',
-    'edge 15',
-    'edge 14',
-    'edge 13',
-    'edge 12',
-    'ie 11'
-  ])
+test('is case insensitive', () => {
+  equal(
+    browserslist('Last 5 years'),
+    [
+      'edge 16',
+      'edge 15',
+      'edge 14',
+      'edge 13',
+      'edge 12',
+      'ie 11'
+    ]
+  )
 })
+
+test.run()

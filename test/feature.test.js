@@ -1,8 +1,12 @@
+let { test } = require('uvu')
+let { equal, is } = require('uvu/assert')
+
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
 let originCache = browserslist.cache
 
-beforeEach(() => {
+test.before.each(() => {
   browserslist.cache = {}
   browserslist.data.and_chr = {
     name: 'and_chr',
@@ -12,15 +16,15 @@ beforeEach(() => {
   }
 })
 
-afterEach(() => {
+test.after.each(() => {
   browserslist.cache = originCache
 })
 
-it('load features from Can I Use', () => {
-  expect(browserslist('supports objectrtc').length > 0).toBe(true)
+test('load features from Can I Use', () => {
+  is(browserslist('supports objectrtc').length > 0, true)
 })
 
-it('selects browsers by feature', () => {
+test('selects browsers by feature', () => {
   browserslist.cache = {
     rtcpeerconnection: {
       'and_chr 81': 'y',
@@ -28,10 +32,10 @@ it('selects browsers by feature', () => {
     }
   }
 
-  expect(browserslist('supports rtcpeerconnection')).toEqual(['and_chr 81'])
+  equal(browserslist('supports rtcpeerconnection'), ['and_chr 81'])
 })
 
-it('selects browsers by feature with dashes in its name', () => {
+test('selects browsers by feature with dashes in its name', () => {
   browserslist.cache = {
     'arrow-functions': {
       'and_chr 81': 'y',
@@ -39,5 +43,7 @@ it('selects browsers by feature with dashes in its name', () => {
     }
   }
 
-  expect(browserslist('supports arrow-functions')).toEqual(['and_chr 81'])
+  equal(browserslist('supports arrow-functions'), ['and_chr 81'])
 })
+
+test.run()

@@ -1,8 +1,12 @@
+let { test } = require('uvu')
+let { equal } = require('uvu/assert')
+
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
-let originData = browserslist.data
+let originData = { ...browserslist.data }
 
-beforeEach(() => {
+test.before.each(() => {
   browserslist.data = {
     ie: {
       name: 'ie',
@@ -43,72 +47,92 @@ beforeEach(() => {
   }
 })
 
-afterEach(() => {
+test.after.each(() => {
   browserslist.data = originData
 })
 
-it('selects versions of each browser', () => {
-  expect(browserslist('last 2 major versions')).toEqual([
-    'android 39',
-    'bb 10',
-    'bb 8',
-    'chrome 39',
-    'chrome 38',
-    'edge 12',
-    'edge 11.1',
-    'edge 11.0.1',
-    'ie 11',
-    'ie 10'
-  ])
+test('selects versions of each browser', () => {
+  equal(
+    browserslist('last 2 major versions'),
+    [
+      'android 39',
+      'bb 10',
+      'bb 8',
+      'chrome 39',
+      'chrome 38',
+      'edge 12',
+      'edge 11.1',
+      'edge 11.0.1',
+      'ie 11',
+      'ie 10'
+    ]
+  )
 })
 
-it('supports pluralization', () => {
-  expect(browserslist('last 1 major version')).toEqual([
-    'android 39',
-    'bb 10',
-    'chrome 39',
-    'edge 12',
-    'ie 11'
-  ])
+test('supports pluralization', () => {
+  equal(
+    browserslist('last 1 major version'),
+    [
+      'android 39',
+      'bb 10',
+      'chrome 39',
+      'edge 12',
+      'ie 11'
+    ]
+  )
 })
 
-it('is case insensitive', () => {
-  expect(browserslist('Last 01 MaJoR Version')).toEqual([
-    'android 39',
-    'bb 10',
-    'chrome 39',
-    'edge 12',
-    'ie 11'
-  ])
+test('is case insensitive', () => {
+  equal(
+    browserslist('Last 01 MaJoR Version'),
+    [
+      'android 39',
+      'bb 10',
+      'chrome 39',
+      'edge 12',
+      'ie 11'
+    ]
+  )
 })
 
-it('selects versions of a single browser', () => {
-  expect(browserslist('last 2 edge major versions')).toEqual([
-    'edge 12',
-    'edge 11.1',
-    'edge 11.0.1'
-  ])
-  expect(browserslist('last 1 bb major version')).toEqual(['bb 10'])
-  expect(browserslist('last 3 Chrome major versions')).toEqual([
-    'chrome 39',
-    'chrome 38',
-    'chrome 37'
-  ])
-  expect(browserslist('last 2 android major versions')).toEqual(['android 39'])
+test('selects versions of a single browser', () => {
+  equal(
+    browserslist('last 2 edge major versions'),
+    [
+      'edge 12',
+      'edge 11.1',
+      'edge 11.0.1'
+    ]
+  )
+  equal(browserslist('last 1 bb major version'), ['bb 10'])
+  equal(
+    browserslist('last 3 Chrome major versions'),
+    [
+      'chrome 39',
+      'chrome 38',
+      'chrome 37'
+    ]
+  )
+  equal(browserslist('last 2 android major versions'), ['android 39'])
 })
 
-it('supports non-sequential version numbers', () => {
-  expect(browserslist('last 2 bb major versions')).toEqual(['bb 10', 'bb 8'])
+test('supports non-sequential version numbers', () => {
+  equal(browserslist('last 2 bb major versions'), ['bb 10', 'bb 8'])
 })
 
-it('supports more versions than have been released', () => {
-  expect(browserslist('last 3 bb major versions')).toEqual(['bb 10', 'bb 8'])
+test('supports more versions than have been released', () => {
+  equal(browserslist('last 3 bb major versions'), ['bb 10', 'bb 8'])
 })
 
-it('supports Can I Use missing mobile versions', () => {
+test('supports Can I Use missing mobile versions', () => {
   let opts = { mobileToDesktop: true }
-  expect(browserslist('last 2 android major versions', opts)).toEqual([
-    'android 39',
-    'android 38'
-  ])
+  equal(
+    browserslist('last 2 android major versions', opts),
+    [
+      'android 39',
+      'android 38'
+    ]
+  )
 })
+
+test.run()

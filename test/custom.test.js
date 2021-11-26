@@ -1,91 +1,91 @@
+let { test } = require('uvu')
+let { equal, is, throws, match } = require('uvu/assert')
 let { readFile } = require('fs-extra')
 let { join } = require('path')
 
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
+
+let originData = { ...browserslist.data }
+
 
 let CUSTOM_STATS = join(__dirname, 'fixtures', 'stats.json')
 let ANDROID = join(__dirname, 'fixtures', 'android-stats.json')
 let STATS = join(__dirname, 'fixtures', 'browserslist-stats.json')
 
-afterEach(() => {
+test.after.each(() => {
   delete process.env.BROWSERSLIST_STATS
+  browserslist.data = originData
 })
 
-it('throws error on invalid file', () => {
-  expect(() => {
-    browserslist('', { stats: 'no.json' })
-  }).toThrow("Can't read no.json")
+test('throws error on invalid file', () => {
+  throws(() => browserslist('', { stats: 'no.json' }), "Can't read no.json")
 })
 
-it('takes stats file from environment variable', () => {
+test('takes stats file from environment variable', () => {
   process.env.BROWSERSLIST_STATS = CUSTOM_STATS
-  expect(browserslist('> 10% in my stats')).toEqual(['ie 11'])
+  equal(browserslist('> 10% in my stats'), ['ie 11'])
 })
 
-it('takes stats by path', () => {
-  expect(browserslist('> 10% in my stats', { stats: CUSTOM_STATS })).toEqual([
-    'ie 11'
-  ])
+test('takes stats by path', () => {
+  equal(browserslist('> 10% in my stats', { stats: CUSTOM_STATS }), ['ie 11'])
 })
 
-it('selects popularity by more or equal', () => {
-  expect(browserslist('>= 5.3% in my stats', { stats: CUSTOM_STATS })).toEqual([
-    'ie 11',
-    'ie 10'
-  ])
-})
-
-it('selects browsers by unpopularity', () => {
-  expect(browserslist('< 0.5% in my stats', { stats: CUSTOM_STATS })).toEqual([
-    'chrome 34',
-    'ie 8'
-  ])
-})
-
-it('selects unpopularity by less or equal', () => {
-  expect(browserslist('<= 2.3% in my stats', { stats: CUSTOM_STATS })).toEqual([
-    'chrome 36',
-    'chrome 35',
-    'chrome 34',
-    'ie 9',
-    'ie 8'
-  ])
-})
-
-it('accepts non-space query', () => {
-  expect(browserslist('>10% in my stats', { stats: CUSTOM_STATS })).toEqual([
-    'ie 11'
-  ])
-})
-
-it('takes stats from usage data object', async () => {
-  let data = JSON.parse((await readFile(CUSTOM_STATS)).toString())
-  expect(browserslist('> 10% in my stats', { stats: data })).toEqual(['ie 11'])
-})
-
-it('works alongside global usage query', () => {
-  let list = browserslist('> 10% in my stats, > 1%', { stats: CUSTOM_STATS })
-  expect(list.length > 1).toBe(true)
-})
-
-it('takes stats from browserslist-stats.json', () => {
-  expect(browserslist('> 5% in my stats', { path: STATS })).toEqual(['ie 8'])
-})
-
-it('normalizes versions', () => {
-  let opts = { stats: ANDROID }
-  let last = browserslist(['last 1 and_chr version'])
-  expect(browserslist(['> 3% in my stats'], opts)[0]).toMatch(last[0])
-  expect(
-    browserslist(['> 3% in my stats'], { ...opts, mobileToDesktop: true })[0]
-  ).toMatch(last[0])
-  expect(browserslist(['> 3% in my stats', 'not and_chr > 0'], opts)).toEqual(
-    []
+test('selects popularity by more or equal', () => {
+  equal(
+    browserslist('>= 5.3% in my stats', { stats: CUSTOM_STATS }),
+    ['ie 11', 'ie 10']
   )
 })
 
-it('throws error on no stats', () => {
-  expect(() => {
-    browserslist('> 5% in my stats')
-  }).toThrow(/statistics was not provided/)
+test('selects browsers by unpopularity', () => {
+  equal(
+    browserslist('< 0.5% in my stats', { stats: CUSTOM_STATS }),
+    ['chrome 34', 'ie 8']
+  )
 })
+
+test('selects unpopularity by less or equal', () => {
+  equal(
+    browserslist('<= 2.3% in my stats', { stats: CUSTOM_STATS }),
+    [
+      'chrome 36',
+      'chrome 35',
+      'chrome 34',
+      'ie 9',
+      'ie 8'
+    ]
+  )
+})
+
+test('accepts non-space query', () => {
+  equal(browserslist('>10% in my stats', { stats: CUSTOM_STATS }), ['ie 11'])
+})
+
+test('takes stats from usage data object', async () => {
+  let data = JSON.parse((await readFile(CUSTOM_STATS)).toString())
+  equal(browserslist('> 10% in my stats', { stats: data }), ['ie 11'])
+})
+
+test('works alongside global usage query', () => {
+  let list = browserslist('> 10% in my stats, > 1%', { stats: CUSTOM_STATS })
+  is(list.length > 1, true)
+})
+
+test('takes stats from browserslist-stats.json', () => {
+  equal(browserslist('> 5% in my stats', { path: STATS }), ['ie 8'])
+})
+
+test('normalizes versions', () => {
+  let opts = { stats: ANDROID }
+  let last = browserslist(['last 1 and_chr version'], undefined, true)
+  match(browserslist(['> 3% in my stats'], opts)[0], last[0])
+  match(browserslist(['> 3% in my stats'], { ...opts, mobileToDesktop: true })[0], last[0])
+  equal(browserslist(['> 3% in my stats', 'not and_chr > 0'], opts), [])
+})
+
+test('throws error on no stats', () => {
+  throws(() => browserslist('> 5% in my stats'), /statistics was not provided/)
+})
+
+test.run()

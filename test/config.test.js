@@ -1,5 +1,8 @@
+let { test } = require('uvu')
+let { is, equal, throws } = require('uvu/assert')
 let { join } = require('path')
 
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
 let RC = join(__dirname, 'fixtures', 'rc', 'test.css')
@@ -14,116 +17,107 @@ let BROKEN = join(__dirname, 'fixtures', 'broken', 'test.css')
 let STRING = join(__dirname, 'fixtures', 'string', 'test.css')
 let PACKAGE = join(__dirname, 'fixtures', 'package', 'test.css')
 
+let originWarn = console.warn
+let warnCallCount = 0
+test.before.each(() => {
+  warnCallCount = 0
+  console.warn = () => {
+    warnCallCount++
+    return true
+  }
+})
+
 let originCwd = process.cwd()
-afterEach(() => {
+test.after.each(() => {
   process.chdir(originCwd)
+  console.warn = originWarn
 })
 
-it('parses queries', () => {
-  expect(browserslist.parseConfig('ie 10\n> 1%')).toEqual({
-    defaults: ['ie 10', '> 1%']
-  })
+test('parses queries', () => {
+  equal(
+    browserslist.parseConfig('ie 10\n> 1%'),
+    { defaults: ['ie 10', '> 1%'] }
+  )
 })
 
-it('parses comma', () => {
-  expect(browserslist.parseConfig('ie 10, > 1%')).toEqual({
-    defaults: ['ie 10', '> 1%']
-  })
+test('parses comma', () => {
+  equal(
+    browserslist.parseConfig('ie 10, > 1%'),
+    { defaults: ['ie 10', '> 1%'] }
+  )
 })
 
-it('removes comments', () => {
+test('removes comments', () => {
   let config = '# support list\nie 10#bad\n> 1%'
-  expect(browserslist.parseConfig(config)).toEqual({
-    defaults: ['ie 10', '> 1%']
-  })
+  equal(
+    browserslist.parseConfig(config),
+    { defaults: ['ie 10', '> 1%'] }
+  )
 })
 
-it('supports sections', () => {
-  expect(browserslist.parseConfig('ie 10\n[test]\nie 11')).toEqual({
-    defaults: ['ie 10'],
-    test: ['ie 11']
-  })
+test('supports sections', () => {
+  equal(
+    browserslist.parseConfig('ie 10\n[test]\nie 11'),
+    { defaults: ['ie 10'], test: ['ie 11'] }
+  )
 })
 
-it('throws on duplicate sections', () => {
+test('throws on duplicate sections', () => {
   let config = '[test]\nie 10\n[production test]\nie 11'
-  expect(() => {
-    browserslist.parseConfig(config)
-  }).toThrow(/Duplicate section test in Browserslist config/)
+  throws(() => { browserslist.parseConfig(config) }, /Duplicate section test in Browserslist config/)
 })
 
-it('trims whitespaces', () => {
-  expect(browserslist.parseConfig('ie 9\n\n [ test] \n \n  > 1%\n')).toEqual({
-    defaults: ['ie 9'],
-    test: ['> 1%']
-  })
+test('trims whitespaces', () => {
+  equal(
+    browserslist.parseConfig('ie 9\n\n [ test] \n \n  > 1%\n'),
+    { defaults: ['ie 9'], test: ['> 1%'] }
+  )
 })
 
-it('returns undefined on no config', () => {
-  expect(browserslist.findConfig(__dirname)).not.toBeDefined()
+test('returns undefined on no config', () => {
+  equal(browserslist.findConfig(__dirname), undefined)
 })
 
-it('reads config', () => {
-  expect(browserslist.findConfig(FILE)).toEqual({
-    defaults: ['ie 11', 'ie 10']
-  })
+test('reads config', () => {
+  equal(browserslist.findConfig(FILE), { defaults: ['ie 11', 'ie 10'] })
 })
 
-it('reads .browserslistrc config', () => {
-  expect(browserslist.findConfig(RC)).toEqual({
-    defaults: ['ie 11']
-  })
+test('reads .browserslistrc config', () => {
+  equal(browserslist.findConfig(RC), { defaults: ['ie 11'] })
 })
 
-it('reads config from package.json', () => {
-  expect(browserslist.findConfig(PACKAGE)).toEqual({
-    defaults: ['ie 9', 'ie 10']
-  })
+test('reads config from package.json', () => {
+  equal(browserslist.findConfig(PACKAGE), { defaults: ['ie 9', 'ie 10'] })
 })
 
-it('shows warning on broken package.json', () => {
-  jest.spyOn(console, 'warn').mockImplementation(() => true)
-  expect(browserslist.findConfig(BROKEN)).toEqual({
-    defaults: ['ie 11', 'ie 10']
-  })
-  expect(console.warn).toHaveBeenCalledTimes(1)
+test('shows warning on broken package.json', () => {
+  equal(browserslist.findConfig(BROKEN), { defaults: ['ie 11', 'ie 10'] })
+  is(warnCallCount, 1)
 })
 
-it('shows error on key typo', () => {
-  expect(() => {
-    browserslist.findConfig(TYPO)
-  }).toThrow(/browserlist/)
+test('shows error on key typo', () => {
+  throws(() => { browserslist.findConfig(TYPO) }, /browserlist/)
 })
 
-it('reads from dir wich contains both browserslist and package.json', () => {
-  expect(() => {
-    browserslist.findConfig(BOTH1)
-  }).toThrow(/contains both browserslist and package\.json/)
+test('reads from dir wich contains both browserslist and package.json', () => {
+  throws(() => { browserslist.findConfig(BOTH1) }, /contains both browserslist and package\.json/)
 })
 
-it('reads from dir wich contains both .browserslistrc and package.json', () => {
-  expect(() => {
-    browserslist.findConfig(BOTH2)
-  }).toThrow(/contains both .browserslistrc and package\.json/)
+test('reads from dir wich contains both .browserslistrc and package.json', () => {
+  throws(() => { browserslist.findConfig(BOTH2) }, /contains both .browserslistrc and package\.json/)
 })
 
-it('reads from dir wich contains both .browserslistrc and browserslist', () => {
-  expect(() => {
-    browserslist.findConfig(BOTH3)
-  }).toThrow(/contains both .browserslistrc and browserslist/)
+test('reads from dir wich contains both .browserslistrc and browserslist', () => {
+  throws(() => { browserslist.findConfig(BOTH3) }, /contains both .browserslistrc and browserslist/)
 })
 
-it('checks config format', () => {
-  expect(() => {
-    browserslist.findConfig(WRONG1)
-  }).toThrow(/Browserslist config should/)
-  expect(() => {
-    browserslist.findConfig(WRONG2)
-  }).toThrow(/Browserslist config should/)
+test('checks config format', () => {
+  throws(() => { browserslist.findConfig(WRONG1) }, /Browserslist config should/)
+  throws(() => { browserslist.findConfig(WRONG2) }, /Browserslist config should/)
 })
 
-it('reads config with one string', () => {
-  expect(browserslist.findConfig(STRING)).toEqual({
-    defaults: 'ie 9, ie 8'
-  })
+test('reads config with one string', () => {
+  equal(browserslist.findConfig(STRING), { defaults: 'ie 9, ie 8' })
 })
+
+test.run()

@@ -1,8 +1,12 @@
+let { test } = require('uvu')
+let { equal } = require('uvu/assert')
+
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
-let originData = browserslist.data
+let originData = { ...browserslist.data }
 
-beforeEach(() => {
+test.before.each(() => {
   browserslist.data = {
     ie: {
       name: 'ie',
@@ -25,19 +29,21 @@ beforeEach(() => {
   }
 })
 
-afterEach(() => {
+test.after.each(() => {
   browserslist.data = originData
 })
 
-it('selects unreleased versions of each browser', () => {
-  expect(browserslist('unreleased versions')).toEqual(['chrome 40', 'edge 13'])
+test('selects unreleased versions of each browser', () => {
+  equal(browserslist('unreleased versions'), ['chrome 40', 'edge 13'])
 })
 
-it('selects unreleased versions of specific browser', () => {
-  expect(browserslist('unreleased Edge versions')).toEqual(['edge 13'])
+test('selects unreleased versions of specific browser', () => {
+  equal(browserslist('unreleased Edge versions'), ['edge 13'])
 })
 
-it('is case insensitive', () => {
-  expect(browserslist('Unreleased Versions')).toEqual(['chrome 40', 'edge 13'])
-  expect(browserslist('Unreleased Chrome versions')).toEqual(['chrome 40'])
+test('is case insensitive', () => {
+  equal(browserslist('Unreleased Versions'), ['chrome 40', 'edge 13'])
+  equal(browserslist('Unreleased Chrome versions'), ['chrome 40'])
 })
+
+test.run()

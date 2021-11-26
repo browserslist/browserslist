@@ -1,5 +1,10 @@
+delete require.cache[require.resolve('..')]
+
+let { test } = require('uvu')
+let { equal, is } = require('uvu/assert')
 let fs = require('fs')
 
+let { spyOn } = require('./utils')
 let browserslist = require('..')
 
 let originData = browserslist.data
@@ -81,53 +86,63 @@ function mockStatSync() {
   }
 }
 
-beforeEach(() => {
-  jest.spyOn(console, 'warn').mockImplementation(() => true)
+let originConsoleWarn = console.warn
+let originExistsSync = fs.existsSync
+let originStatSync = fs.statSync
+
+test.before.each(() => {
+  spyOn(console, 'warn', () => true)
 })
 
-afterEach(() => {
-  jest.clearAllMocks()
+test.after.each(() => {
+  console.warn = originConsoleWarn
+  fs.existsSync = originExistsSync
+  fs.statSync = originStatSync
+
   browserslist.clearCaches()
   delete process.env.BROWSERSLIST_IGNORE_OLD_DATA
 })
 
-afterAll(() => {
+test.after(() => {
   browserslist.data = originData
 })
 
-it('does not print warning', () => {
+test('does not print warning', () => {
   browserslist.data = youngerSixMonthsData
   browserslist('last 2 versions')
-  expect(console.warn).toHaveBeenCalledTimes(0)
+  is(console.warn.called, false)
 })
 
-it('shows warning', () => {
+test('shows warning', () => {
   browserslist.data = olderSixMonthsData
-  jest.spyOn(fs, 'existsSync').mockImplementation(findPackage)
-  jest.spyOn(fs, 'statSync').mockImplementation(mockStatSync)
+  spyOn(fs, 'existsSync', findPackage)
+  spyOn(fs, 'statSync', mockStatSync)
   browserslist('last 2 versions')
-  expect(console.warn).toHaveBeenCalledWith(
-    'Browserslist: caniuse-lite is outdated. Please run:\n' +
+  equal(
+    console.warn.callArgs,
+    ['Browserslist: caniuse-lite is outdated. Please run:\n' +
       '  npx browserslist@latest --update-db\n' +
       '  Why you should do it regularly: ' +
-      'https://github.com/browserslist/browserslist#browsers-data-updating'
+      'https://github.com/browserslist/browserslist#browsers-data-updating']
   )
 })
 
-it('hides warning on request', () => {
+test('hides warning on request', () => {
   process.env.BROWSERSLIST_IGNORE_OLD_DATA = 'true'
   browserslist.data = olderSixMonthsData
-  jest.spyOn(fs, 'existsSync').mockImplementation(findPackage)
-  jest.spyOn(fs, 'statSync').mockImplementation(mockStatSync)
+  spyOn(fs, 'existsSync', findPackage)
+  spyOn(fs, 'statSync', mockStatSync)
   browserslist('last 2 versions')
-  expect(console.warn).toHaveBeenCalledTimes(0)
+  is(console.warn.calledTimes, 0)
 })
 
-it('shows warning only once', () => {
+test('shows warning only once', () => {
   browserslist.data = olderSixMonthsData
-  jest.spyOn(fs, 'existsSync').mockImplementation(findPackage)
-  jest.spyOn(fs, 'statSync').mockImplementation(mockStatSync)
+  spyOn(fs, 'existsSync', findPackage)
+  spyOn(fs, 'statSync', mockStatSync)
   browserslist('last 2 versions')
   browserslist('last 2 versions')
-  expect(console.warn).toHaveBeenCalledTimes(1)
+  is(console.warn.calledTimes, 1)
 })
+
+test.run()

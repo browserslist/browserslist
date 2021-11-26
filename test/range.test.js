@@ -1,8 +1,12 @@
+let { test } = require('uvu')
+let { equal, throws } = require('uvu/assert')
+
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
-let originData = browserslist.data
+let originData = { ...browserslist.data }
 
-beforeEach(() => {
+test.before.each(() => {
   browserslist.data = {
     ie: {
       name: 'ie',
@@ -19,29 +23,32 @@ beforeEach(() => {
   }
 })
 
-afterEach(() => {
+test.after.each(() => {
   browserslist.data = originData
 })
 
-it('selects a range of browsers', () => {
-  expect(browserslist('ie 8-10')).toEqual(['ie 10', 'ie 9', 'ie 8'])
+test('selects a range of browsers', () => {
+  equal(browserslist('ie 8-10'), ['ie 10', 'ie 9', 'ie 8'])
 })
 
-it('selects versions with query out of range', () => {
-  expect(browserslist('ie 1-12')).toEqual(['ie 11', 'ie 10', 'ie 9', 'ie 8'])
+test('selects versions with query out of range', () => {
+  equal(browserslist('ie 1-12'), ['ie 11', 'ie 10', 'ie 9', 'ie 8'])
 })
 
-it('selects a range of android browsers', () => {
-  expect(browserslist('android 4.3-37')).toEqual([
-    'android 37',
-    'android 4.4.3-4.4.4',
-    'android 4.4',
-    'android 4.2-4.3'
-  ])
+test('selects a range of android browsers', () => {
+  equal(
+    browserslist('android 4.3-37'),
+    [
+      'android 37',
+      'android 4.4.3-4.4.4',
+      'android 4.4',
+      'android 4.2-4.3'
+    ]
+  )
 })
 
-it('raises on an unknown browser', () => {
-  expect(() => {
-    browserslist('unknown 4-7')
-  }).toThrow('Unknown browser unknown')
+test('raises on an unknown browser', () => {
+  throws(() => browserslist('unknown 4-7'), 'Unknown browser unknown')
 })
+
+test.run()

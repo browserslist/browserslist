@@ -1,11 +1,17 @@
+let { test } = require('uvu')
+let { equal } = require('uvu/assert')
+
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
-it('converts PhantomJS to Safari', () => {
-  expect(browserslist('phantomjs 2.1')).toEqual(['safari 6'])
-  expect(browserslist('phantomjs 1.9')).toEqual(['safari 5'])
+test('converts PhantomJS to Safari', () => {
+  equal(browserslist('phantomjs 2.1'), ['safari 6'])
+  equal(browserslist('phantomjs 1.9'), ['safari 5'])
 })
 
-it('supports case insensitive PhantomJS name', () => {
-  expect(browserslist('PhantomJS 2.1')).toEqual(['safari 6'])
-  expect(browserslist('PhantomJS 1.9')).toEqual(['safari 5'])
+test('supports case insensitive PhantomJS name', () => {
+  equal(browserslist('PhantomJS 2.1'), ['safari 6'])
+  equal(browserslist('PhantomJS 1.9'), ['safari 5'])
 })
+
+test.run()

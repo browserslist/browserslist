@@ -1,6 +1,9 @@
+let { test } = require('uvu')
+let { equal, throws } = require('uvu/assert')
 let { ensureDir, writeFile, remove } = require('fs-extra')
 let { join } = require('path')
 
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
 let STATS = join(__dirname, 'fixtures', 'browserslist-stats.json')
@@ -22,110 +25,109 @@ async function mock(name, index, stats) {
   }
 }
 
-afterEach(async () => {
+test.after.each(async () => {
   await Promise.all(mocked.map(dir => remove(dir)))
   mocked = []
   delete process.env.BROWSERSLIST_STATS
 })
 
-it('takes stats from shareable config', async () => {
+test('takes stats from shareable config', async () => {
   await mock('browserslist-config-test1', undefined, {
     dataByBrowser: { chrome: { 55: 4, 56: 6 } }
   })
-  expect(browserslist('> 5% in browserslist-config-test1 stats')).toEqual([
-    'chrome 56'
-  ])
+  equal(browserslist('> 5% in browserslist-config-test1 stats'), ['chrome 56'])
 })
 
-it('takes stats and queries from shareable config', async () => {
+test('takes stats and queries from shareable config', async () => {
   await mock(
     'browserslist-config-test2',
     ['> 1% in browserslist-config-test2 stats'],
     { ie: { 8: 1, 11: 2 } }
   )
-  expect(browserslist('extends browserslist-config-test2')).toEqual(['ie 11'])
+  equal(browserslist('extends browserslist-config-test2'), ['ie 11'])
 })
 
-it('works with non-prefixed stats with dangerousExtend', async () => {
+test('works with non-prefixed stats with dangerousExtend', async () => {
   await mock('pkg', undefined, { chrome: { 78: 6 } })
-  expect(
-    browserslist(['> 5% in pkg stats'], { dangerousExtend: true })
-  ).toEqual(['chrome 78'])
-})
-
-it('handles scoped stats with a dot in the name', async () => {
-  await mock('@example.com/browserslist-config', undefined, {
-    ie: { 8: 5, 11: 4 }
-  })
-  expect(
-    browserslist(['< 5% in @example.com/browserslist-config stats'])
-  ).toEqual(['ie 11'])
-})
-
-it('handles file in scoped stats', async () => {
-  await mock('@scope/browserslist-config/ie', undefined, {
-    ie: { 8: 2, 11: 5 }
-  })
-  expect(
-    browserslist(['>= 5% in @scope/browserslist-config/ie stats'])
-  ).toEqual(['ie 11'])
-})
-
-it('handles file-less scoped stats', async () => {
-  await mock('@scope/browserslist-config', undefined, { ie: { 8: 6, 11: 5 } })
-  expect(browserslist(['<= 5% in @scope/browserslist-config stats'])).toEqual([
-    'ie 11'
-  ])
-})
-
-it('handles scoped stats', async () => {
-  await mock('@scope/browserslist-config-test', undefined, {
-    ie: { 8: 2, 11: 6 }
-  })
-  expect(
-    browserslist(['> 5% in @scope/browserslist-config-test stats'])
-  ).toEqual(['ie 11'])
-})
-
-it('ignores passed stats', async () => {
-  expect(() =>
-    browserslist('> 5% in browserslist-config-test3 stats', { stats: STATS })
-  ).toThrow(/Cannot resolve module/)
-})
-
-it('ignores environment variable stats', async () => {
-  process.env.BROWSERSLIST_STATS = CUSTOM_STATS
-  expect(() => browserslist('> 5% in browserslist-config-test4 stats')).toThrow(
-    /Cannot resolve module/
+  equal(
+    browserslist(['> 5% in pkg stats'], { dangerousExtend: true }),
+    ['chrome 78']
   )
 })
 
-it('throws when stats does not have browserslist-config- prefix', () => {
-  expect(() => {
-    browserslist(['> 5% in thing-without-prefix stats'])
-  }).toThrow(/needs `browserslist-config-` prefix/)
+test('handles scoped stats with a dot in the name', async () => {
+  await mock('@example.com/browserslist-config', undefined, {
+    ie: { 8: 5, 11: 4 }
+  })
+  equal(
+    browserslist(['< 5% in @example.com/browserslist-config stats']),
+    ['ie 11']
+  )
 })
 
-it('throws when stats has dot in path', () => {
-  expect(() => {
-    browserslist(['> 5% in browserslist-config-package/../something stats'])
-  }).toThrow(/`.` not allowed/)
+test('handles file in scoped stats', async () => {
+  await mock('@scope/browserslist-config/ie', undefined, {
+    ie: { 8: 2, 11: 5 }
+  })
+  equal(
+    browserslist(['>= 5% in @scope/browserslist-config/ie stats']),
+    ['ie 11']
+  )
 })
 
-it('throws when stats has node_modules in path', () => {
-  expect(() => {
-    browserslist(['> 5% in browserslist-config-test/node_modules/a stats'])
-  }).toThrow(/`node_modules` not allowed/)
+test('handles file-less scoped stats', async () => {
+  await mock('@scope/browserslist-config', undefined, { ie: { 8: 6, 11: 5 } })
+  equal(browserslist(['<= 5% in @scope/browserslist-config stats']), ['ie 11'])
 })
 
-it('throw if stats undefined', async () => {
+test('handles scoped stats', async () => {
+  await mock('@scope/browserslist-config-test', undefined, {
+    ie: { 8: 2, 11: 6 }
+  })
+  equal(browserslist(['> 5% in @scope/browserslist-config-test stats']), ['ie 11'])
+})
+
+test('ignores passed stats', () => {
+  throws(
+    () => browserslist('> 5% in browserslist-config-test3 stats', { stats: STATS }),
+    /Cannot (find|resolve) module/
+  )
+})
+
+test('ignores environment variable stats', () => {
+  process.env.BROWSERSLIST_STATS = CUSTOM_STATS
+  throws(() => browserslist('> 5% in browserslist-config-test4 stats'), /Cannot (find|resolve) module/)
+})
+
+test('throws when stats does not have browserslist-config- prefix', () => {
+  throws(
+    () => { browserslist(['> 5% in thing-without-prefix stats'])},
+    /needs `browserslist-config-` prefix/
+  )
+})
+
+test('throws when stats has dot in path', () => {
+  throws(() => browserslist(['> 5% in browserslist-config-package/../something stats']), /`.` not allowed/)
+})
+
+test('throws when stats has node_modules in path', () => {
+  throws(
+    () => browserslist(['> 5% in browserslist-config-test/node_modules/a stats']),
+    /`node_modules` not allowed/
+  )
+})
+
+test('throw if stats undefined', async () => {
   await mock(
     'browserslist-config-undefined',
     undefined,
     // @ts-expect-error
     { dataByBrowser: 'not object' }
   )
-  expect(() =>
-    browserslist(['> 5% in browserslist-config-undefined stats'])
-  ).toThrow(/statistics was not provided/)
+  throws(() =>
+    browserslist(['> 5% in browserslist-config-undefined stats']),
+    /statistics was not provided/
+  )
 })
+
+test.run()
