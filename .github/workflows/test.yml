@@ -44,6 +44,6 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --ignore-engines --ignore-scripts
       - name: Run unit tests
-        run: yarn unit
+        run: yarn unit:fast
         env:
           FORCE_COLOR: 2

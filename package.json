@@ -16,7 +16,8 @@
   "repository": "browserslist/browserslist",
   "scripts": {
     "test": "c8 yarn unit && eslint . && size-limit",
-    "unit": "NODE_ENV=test uvu test .test.js"
+    "unit": "NODE_ENV=test uvu test .test.js",
+    "unit:fast": "NODE_ENV=test uvu test '^[^/]+.test.js'"
   },
   "dependencies": {
     "caniuse-lite": "^1.0.30001283",
