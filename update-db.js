@@ -262,7 +262,7 @@ function updatePackageManually(print, lock, latest) {
   )
   try {
     childProcess.execSync(install + ' caniuse-lite')
-  } catch (e) /* istanbul ignore next */ {
+  } catch (e) /* c8 ignore start */ {
     print(
       pico.red(
         '\n' +
@@ -275,7 +275,7 @@ function updatePackageManually(print, lock, latest) {
       )
     )
     process.exit(1)
-  }
+  } /* c8 ignore end */
 
   var del = lock.mode === 'yarn' ? 'yarn remove -W' : lock.mode + ' uninstall'
   print(
@@ -309,7 +309,7 @@ module.exports = function updateDB(print) {
     )
     try {
       childProcess.execSync(update + ' caniuse-lite')
-    } catch (e) /* istanbul ignore next */ {
+    } catch (e) /* c8 ignore start */ {
       print(
         pico.red(
           '\n' +
@@ -322,7 +322,7 @@ module.exports = function updateDB(print) {
         )
       )
       process.exit(1)
-    }
+    } /* c8 ignore end */
   } else {
     updatePackageManually(print, lock, latest)
   }
@@ -333,9 +333,9 @@ module.exports = function updateDB(print) {
   if (!browsersListRetrievalError) {
     try {
       currentBrowsersList = getBrowsersList()
-    } catch (e) /* istanbul ignore next */ {
+    } catch (e) /* c8 ignore start */ {
       browsersListRetrievalError = e
-    }
+    } /* c8 ignore end */
   }
 
   if (browsersListRetrievalError) {

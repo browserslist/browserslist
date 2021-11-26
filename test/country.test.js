@@ -1,8 +1,12 @@
+let { test } = require('uvu')
+let { is, equal } = require('uvu/assert')
+
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
 let originUsage = browserslist.usage
 
-beforeEach(() => {
+test.before.each(() => {
   browserslist.usage = {
     US: {
       'ie 8': 1,
@@ -22,55 +26,60 @@ beforeEach(() => {
   }
 })
 
-afterEach(() => {
+test.after.each(() => {
   browserslist.usage = originUsage
 })
 
-it('selects browsers by popularity', () => {
-  expect(browserslist('> 10% in US')).toEqual(['ie 11', 'ie 10'])
+test('selects browsers by popularity', () => {
+  equal(browserslist('> 10% in US'), ['ie 11', 'ie 10'])
 })
 
-it('selects popularity by more or equal', () => {
-  expect(browserslist('>= 5% in US')).toEqual(['ie 11', 'ie 10', 'ie 9'])
+test('selects popularity by more or equal', () => {
+  equal(browserslist('>= 5% in US'), ['ie 11', 'ie 10', 'ie 9'])
 })
 
-it('selects browsers by unpopularity', () => {
-  expect(browserslist('< 5% in US')).toEqual(['ie 8'])
+test('selects browsers by unpopularity', () => {
+  equal(browserslist('< 5% in US'), ['ie 8'])
 })
 
-it('selects unpopularity by less or equal', () => {
-  expect(browserslist('<= 5% in US')).toEqual(['ie 9', 'ie 8'])
+test('selects unpopularity by less or equal', () => {
+  equal(browserslist('<= 5% in US'), ['ie 9', 'ie 8'])
 })
 
-it('works with float', () => {
-  expect(browserslist('> 10.2% in US')).toEqual(['ie 11'])
+test('works with float', () => {
+  equal(browserslist('> 10.2% in US'), ['ie 11'])
 })
 
-it('works with float that has a leading dot', () => {
-  expect(browserslist('> .2% in US')).toEqual([
-    'ie 11',
-    'ie 10',
-    'ie 9',
-    'ie 8'
-  ])
+test('works with float that has a leading dot', () => {
+  equal(
+    browserslist('> .2% in US'),
+    [
+      'ie 11',
+      'ie 10',
+      'ie 9',
+      'ie 8'
+    ]
+  )
 })
 
-it('fixes country case', () => {
-  expect(browserslist('> 10.2% in us')).toEqual(['ie 11'])
+test('fixes country case', () => {
+  equal(browserslist('> 10.2% in us'), ['ie 11'])
 })
 
-it('loads country from Can I Use', () => {
-  expect(browserslist('> 1% in RU').length > 0).toBe(true)
+test('loads country from Can I Use', () => {
+  is(browserslist('> 1% in RU').length > 0, true)
 })
 
-it('loads continents from Can I Use', () => {
-  expect(browserslist('> 1% in alt-AS').length > 0).toBe(true)
+test('loads continents from Can I Use', () => {
+  is(browserslist('> 1% in alt-AS').length > 0, true)
 })
 
-it('allows omission of the space between the > and the percentage', () => {
-  expect(browserslist('>10% in US').length > 0).toBe(true)
+test('allows omission of the space between the > and the percentage', () => {
+  is(browserslist('>10% in US').length > 0, true)
 })
 
-it('normalize incorrect caniuse versions for and_*', () => {
-  expect(browserslist('> 50% in XX')).toEqual(['and_chr 80'])
+test('normalize incorrect caniuse versions for and_*', () => {
+  equal(browserslist('> 50% in XX'), ['and_chr 80'])
 })
+
+test.run()

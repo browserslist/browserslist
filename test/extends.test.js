@@ -1,6 +1,9 @@
+let { test } = require('uvu')
+let { equal, throws } = require('uvu/assert')
 let { ensureDir, writeFile, remove } = require('fs-extra')
 let { join } = require('path')
 
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
 let mocked = []
@@ -13,131 +16,138 @@ async function mock(name, exports) {
   await writeFile(join(dir, 'index.js'), content)
 }
 
-afterEach(async () => {
+test.after.each(async () => {
   await Promise.all(mocked.map(dir => remove(dir)))
   mocked = []
   delete process.env.BROWSERSLIST_DANGEROUS_EXTEND
 })
 
-it('uses package', async () => {
+test('uses package', async () => {
   await mock('browserslist-config-test', ['ie 11'])
   let result = browserslist(['extends browserslist-config-test', 'ie 6'])
-  expect(result).toEqual(['ie 11', 'ie 6'])
+  equal(result, ['ie 11', 'ie 6'])
 })
 
-it('uses file in package', async () => {
+test('uses file in package', async () => {
   await mock('browserslist-config-test/ie', ['ie 11'])
   let result = browserslist(['extends browserslist-config-test/ie'])
-  expect(result).toEqual(['ie 11'])
+  equal(result, ['ie 11'])
 })
 
-it('works with non-prefixed package with dangerousExtend', async () => {
+test('works with non-prefixed package with dangerousExtend', async () => {
   await mock('pkg', ['ie 11'])
   let result = browserslist(['extends pkg', 'edge 12'], {
     dangerousExtend: true
   })
-  expect(result).toEqual(['edge 12', 'ie 11'])
+  equal(result, ['edge 12', 'ie 11'])
 })
 
-it('supports BROWSERSLIST_DANGEROUS_EXTEND', async () => {
+test('supports BROWSERSLIST_DANGEROUS_EXTEND', async () => {
   process.env.BROWSERSLIST_DANGEROUS_EXTEND = '1'
   await mock('pkg', ['ie 11'])
   let result = browserslist(['extends pkg', 'edge 12'])
-  expect(result).toEqual(['edge 12', 'ie 11'])
+  equal(result, ['edge 12', 'ie 11'])
 })
 
-it('handles scoped packages', async () => {
+test('handles scoped packages', async () => {
   await mock('@scope/browserslist-config-test', ['ie 11'])
   let result = browserslist(['extends @scope/browserslist-config-test'])
-  expect(result).toEqual(['ie 11'])
+  equal(result, ['ie 11'])
 })
 
-it('handles scoped packages with a dot in the name', async () => {
+test('handles scoped packages with a dot in the name', async () => {
   await mock('@example.com/browserslist-config-test', ['ie 11'])
   let result = browserslist(['extends @example.com/browserslist-config-test'])
-  expect(result).toEqual(['ie 11'])
+  equal(result, ['ie 11'])
 })
 
-it('handles file in scoped packages', async () => {
+test('handles file in scoped packages', async () => {
   await mock('@scope/browserslist-config-test/ie', ['ie 11'])
   let result = browserslist(['extends @scope/browserslist-config-test/ie'])
-  expect(result).toEqual(['ie 11'])
+  equal(result, ['ie 11'])
 })
 
-it('handles file-less scoped packages', async () => {
+test('handles file-less scoped packages', async () => {
   await mock('@scope/browserslist-config', ['ie 11'])
   let result = browserslist(['extends @scope/browserslist-config'])
-  expect(result).toEqual(['ie 11'])
+  equal(result, ['ie 11'])
 })
 
-it('recursively imports configs', async () => {
+test('recursively imports configs', async () => {
   await Promise.all([
     mock('browserslist-config-a', ['extends browserslist-config-b', 'ie 9']),
     mock('browserslist-config-b', ['ie 10'])
   ])
   let result = browserslist(['extends browserslist-config-a'])
-  expect(result).toEqual(['ie 10', 'ie 9'])
+  equal(result, ['ie 10', 'ie 9'])
 })
 
-it('handles relative queries with local overrides', async () => {
+test('handles relative queries with local overrides', async () => {
   await mock('browserslist-config-rel', ['ie 9-10'])
   let result = browserslist(['extends browserslist-config-rel', 'not ie 9'])
-  expect(result).toEqual(['ie 10'])
+  equal(result, ['ie 10'])
 })
 
-it('throws on external package with empty export', async () => {
+test('throws on external package with empty export', async () => {
   await mock('browserslist-config-wrong', 'some string')
-  expect(() => {
-    browserslist(['extends browserslist-config-wrong'])
-  }).toThrow(/not an array of queries or an object/)
+  throws(
+    () => browserslist(['extends browserslist-config-wrong']),
+    /not an array of queries or an object/
+  )
 })
 
-it('throws when package does not have browserslist-config- prefix', () => {
-  expect(() => {
-    browserslist(['extends thing-without-prefix'])
-  }).toThrow(/needs `browserslist-config-` prefix/)
+test('throws when package does not have browserslist-config- prefix', () => {
+  throws(
+    () => browserslist(['extends thing-without-prefix']),
+    /needs `browserslist-config-` prefix/
+  )
 })
 
-it('throws when extends package has dot in path', () => {
-  expect(() => {
-    browserslist(['extends browserslist-config-package/../something'])
-  }).toThrow(/`.` not allowed/)
+test('throws when extends package has dot in path', () => {
+  throws(
+    () => browserslist(['extends browserslist-config-package/../something']),
+    /`.` not allowed/
+  )
 })
 
-it('throws when extends package has node_modules in path', () => {
-  expect(() => {
-    browserslist(['extends browserslist-config-test/node_modules/a'])
-  }).toThrow(/`node_modules` not allowed/)
+test('throws when extends package has node_modules in path', () => {
+  throws(
+    () => browserslist(['extends browserslist-config-test/node_modules/a']),
+    /`node_modules` not allowed/
+  )
 })
 
-it("works with shareable config doesn't contains defaults env", async () => {
+test("works with shareable config doesn't contains defaults env", async () => {
   await mock('browserslist-config-with-env-a', {
     someEnv: ['ie 10']
   })
   let result = browserslist(['extends browserslist-config-with-env-a'])
-  expect(result).toEqual([])
+  equal(result, [])
 })
 
-it('works with shareable config contains env', async () => {
+test('works with shareable config contains env', async () => {
   process.env.NODE_ENV = 'someEnv'
   await mock('browserslist-config-with-env-b', {
     someEnv: ['ie 10']
   })
   let result = browserslist(['extends browserslist-config-with-env-b'])
-  expect(result).toEqual(['ie 10'])
+  equal(result, ['ie 10'])
 })
 
-it('works with shareable config contains defaults env', async () => {
+test('works with shareable config contains defaults env', async () => {
   await mock('browserslist-config-with-defaults', {
     defaults: ['ie 10']
   })
   let result = browserslist(['extends browserslist-config-with-defaults'])
-  expect(result).toEqual(['ie 10'])
+  equal(result, ['ie 10'])
 })
 
-it('throws when external package resolve to nullable', async () => {
+test('throws when external package resolve to nullable', async () => {
   await mock('browserslist-config-null', null)
-  expect(() => {
-    browserslist(['extends browserslist-config-null'])
-  }).toThrow(/config exports not an array/)
+  throws(
+    () => browserslist(['extends browserslist-config-null']),
+    /config exports not an array/
+  )
 })
+
+test.run()

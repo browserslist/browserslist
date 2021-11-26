@@ -1,8 +1,12 @@
+let { test } = require('uvu')
+let { equal } = require('uvu/assert')
+
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
-let originData = browserslist.data
+let originData = { ...browserslist.data }
 
-beforeEach(() => {
+test.before.each(() => {
   browserslist.data = {
     ie: {
       name: 'ie',
@@ -43,53 +47,69 @@ beforeEach(() => {
   }
 })
 
-afterEach(() => {
+test.after.each(() => {
   browserslist.data = originData
 })
 
-it('selects versions of each browser', () => {
-  expect(browserslist('last 2 versions')).toEqual([
-    'android 67',
-    'bb 8',
-    'chrome 39',
-    'chrome 38',
-    'edge 12',
-    'ie 11',
-    'ie 10'
-  ])
+test('selects versions of each browser', () => {
+  let res = browserslist('last 2 versions', undefined, true)
+
+  equal(
+    res,
+    [
+      'android 67',
+      'bb 8',
+      'chrome 39',
+      'chrome 38',
+      'edge 12',
+      'ie 11',
+      'ie 10'
+    ]
+  )
 })
 
-it('has special logic for android', () => {
-  expect(browserslist('last 31 versions')).toEqual([
-    'android 67',
-    'android 4.4.3-4.4.4',
-    'bb 8',
-    'chrome 39',
-    'chrome 38',
-    'chrome 37',
-    'edge 12',
-    'ie 11',
-    'ie 10',
-    'ie 9'
-  ])
+test('has special logic for android', () => {
+  equal(
+    browserslist('last 31 versions'),
+    [
+      'android 67',
+      'android 4.4.3-4.4.4',
+      'bb 8',
+      'chrome 39',
+      'chrome 38',
+      'chrome 37',
+      'edge 12',
+      'ie 11',
+      'ie 10',
+      'ie 9'
+    ]
+  )
 })
 
-it('supports pluralization', () => {
-  expect(browserslist('last 1 version')).toEqual([
-    'android 67',
-    'bb 8',
-    'chrome 39',
-    'edge 12',
-    'ie 11'
-  ])
+test('supports pluralization', () => {
+  equal(
+    browserslist('last 1 version'),
+      [
+      'android 67',
+      'bb 8',
+      'chrome 39',
+      'edge 12',
+      'ie 11'
+    ]
+  )
 })
 
-it('is case insensitive', () => {
-  expect(browserslist('Last 01 Version')).toEqual([
-    'android 67',
-    'bb 8',
-    'chrome 39',
-    'edge 12',
-    'ie 11'
-  ])
+test('is case insensitive', () => {
+  equal(
+    browserslist('Last 01 Version'),
+    [
+      'android 67',
+      'bb 8',
+      'chrome 39',
+      'edge 12',
+      'ie 11'
+    ]
+  )
 })
+
+test.run()

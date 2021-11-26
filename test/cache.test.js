@@ -1,40 +1,43 @@
+let { test } = require('uvu')
+let { equal, not } = require('uvu/assert')
 let { writeFile, remove, mkdir } = require('fs-extra')
 let { tmpdir } = require('os')
 let { join } = require('path')
 
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
 let DIR = join(tmpdir(), 'browserslist-' + Math.random())
 let CONFIG = join(DIR, 'browserslist')
 
-beforeAll(async () => {
+test.before(async () => {
   await mkdir(DIR)
 })
 
-afterEach(() => {
+test.after.each(() => {
   browserslist.clearCaches()
   delete process.env.BROWSERSLIST_DISABLE_CACHE
 })
 
-afterAll(async () => {
+test.after(async () => {
   await Promise.all([remove(CONFIG), remove(DIR)])
 })
 
-it('caches configuration but the cache is clearable', async () => {
+test('caches configuration but the cache is clearable', async () => {
   await writeFile(CONFIG, 'ie 8', 'UTF-8')
   let result1 = browserslist.findConfig(DIR)
 
   await writeFile(CONFIG, 'chrome 56', 'UTF-8')
   let result2 = browserslist.findConfig(DIR)
 
-  expect(result1).toEqual(result2)
+  equal(result1, result2)
 
   browserslist.clearCaches()
   let result3 = browserslist.findConfig(DIR)
-  expect(result1).not.toEqual(result3)
+  not.equal(result1, result3)
 })
 
-it('does not use cache when ENV variable set', async () => {
+test('does not use cache when ENV variable set', async () => {
   process.env.BROWSERSLIST_DISABLE_CACHE = '1'
 
   await writeFile(CONFIG, 'ie 8', 'UTF-8')
@@ -43,5 +46,7 @@ it('does not use cache when ENV variable set', async () => {
   await writeFile(CONFIG, 'chrome 56', 'UTF-8')
   let result2 = browserslist.findConfig(DIR)
 
-  expect(result1).not.toEqual(result2)
+  not.equal(result1, result2)
 })
+
+test.run()

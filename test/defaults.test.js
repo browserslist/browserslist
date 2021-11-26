@@ -1,17 +1,25 @@
+let { test } = require('uvu')
+let { equal } = require('uvu/assert')
+
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
-it('selects defaults by keywords', () => {
-  expect(browserslist('defaults, ie 6')).toEqual(
+test('selects defaults by keywords', () => {
+  equal(
+    browserslist('defaults, ie 6'),
     browserslist(browserslist.defaults.concat(['ie 6']))
   )
 })
 
-it('selects defaults case insensitive', () => {
-  expect(browserslist('Defaults')).toEqual(browserslist(browserslist.defaults))
+test('selects defaults case insensitive', () => {
+  equal(browserslist('Defaults'), browserslist(browserslist.defaults))
 })
 
-it('should respect options', () => {
-  expect(browserslist('defaults', { mobileToDesktop: true })).toEqual(
+test('should respect options', () => {
+  equal(
+    browserslist('defaults', { mobileToDesktop: true }),
     browserslist(browserslist.defaults, { mobileToDesktop: true })
   )
 })
+
+test.run()

@@ -1,8 +1,12 @@
+let { test } = require('uvu')
+let { is, equal } = require('uvu/assert')
+
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
-let originData = browserslist.data
+let originData = { ...browserslist.data }
 
-beforeEach(() => {
+test.before.each(() => {
   browserslist.data = {
     ie: {
       name: 'ie',
@@ -17,33 +21,38 @@ beforeEach(() => {
       releaseDate: {}
     }
   }
-})
+});
 
-afterEach(() => {
+test.after.each(() => {
   browserslist.data = originData
 })
 
-it('selects versions of browser', () => {
-  expect(browserslist('last 2 ie versions')).toEqual(['ie 11', 'ie 10'])
+test('selects versions of browser', () => {
+  equal(browserslist('last 2 ie versions'), ['ie 11', 'ie 10'])
 })
 
-it('does not include unreleased versions', () => {
+test('does not include unreleased versions', () => {
   browserslist.data = originData
-  expect(browserslist('last 2 safari versions')).not.toContain('safari TP')
+  is(browserslist('last 2 safari versions').indexOf('safari TP'), -1)
 })
 
-it('supports pluralization', () => {
-  expect(browserslist('last 1 ie version')).toEqual(['ie 11'])
+test('supports pluralization', () => {
+  equal(browserslist('last 1 ie version'), ['ie 11'])
 })
 
-it('has case insensitive aliases', () => {
-  expect(browserslist('Last 01 Explorer Version')).toEqual(['ie 11'])
+test('has case insensitive aliases', () => {
+  equal(browserslist('Last 01 Explorer Version'), ['ie 11'])
 })
 
-it('has special logic for android', () => {
-  expect(browserslist('last 4 android versions')).toEqual(['android 67'])
-  expect(browserslist('last 31 android versions')).toEqual([
-    'android 67',
-    'android 4.4.3-4.4.4'
-  ])
+test('has special logic for android', () => {
+  equal(browserslist('last 4 android versions'), ['android 67'])
+  equal(
+    browserslist('last 31 android versions'),
+    [
+      'android 67',
+      'android 4.4.3-4.4.4'
+    ]
+  )
 })
+
+test.run()

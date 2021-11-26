@@ -1,12 +1,15 @@
+let { test } = require('uvu')
+let { equal, throws } = require('uvu/assert')
 let { join } = require('path')
 
+delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
 let CUSTOM_STATS = join(__dirname, 'fixtures', 'stats.json')
 
 let originUsage = browserslist.usage
 
-beforeEach(() => {
+test.before.each(() => {
   process.env.BROWSERSLIST_STATS = CUSTOM_STATS
   browserslist.usage = {
     'global': {
@@ -23,57 +26,60 @@ beforeEach(() => {
     }
   }
 })
-afterEach(() => {
+test.after.each(() => {
   delete process.env.BROWSERSLIST_STATS
   browserslist.usage = originUsage
 })
 
-it('adds at least one browser', () => {
-  expect(browserslist('cover 1% in my stats')).toEqual(['ie 11'])
+test('adds at least one browser', () => {
+  equal(browserslist('cover 1% in my stats'), ['ie 11'])
 })
 
-it('is case insensitive for custom stat', () => {
-  expect(browserslist('Cover 1% In My Stats')).toEqual(['ie 11'])
+test('is case insensitive for custom stat', () => {
+  equal(browserslist('Cover 1% In My Stats'), ['ie 11'])
 })
 
-it('global coverage', () => {
-  expect(browserslist('cover 0.1%')).toEqual(['ie 5'])
+test('global coverage', () => {
+  equal(browserslist('cover 0.1%'), ['ie 5'])
 })
 
-it('is case insensitive for global coverage', () => {
-  expect(browserslist('Cover 0.1%')).toEqual(['ie 5'])
+test('is case insensitive for global coverage', () => {
+  equal(browserslist('Cover 0.1%'), ['ie 5'])
 })
 
-it('country coverage', () => {
-  expect(browserslist('cover 0.1% in US')).toEqual(['ie 9'])
+test('country coverage', () => {
+  equal(browserslist('cover 0.1% in US'), ['ie 9'])
 })
 
-it('country coverage alt', () => {
-  expect(browserslist('cover 0.1% in alt-us')).toEqual(['ie 8'])
+test('country coverage alt', () => {
+  equal(browserslist('cover 0.1% in alt-us'), ['ie 8'])
 })
 
-it('is case insensitive for country coverage', () => {
-  expect(browserslist('Cover 0.1% in us')).toEqual(['ie 9'])
-  expect(browserslist('Cover 0.1% in Alt-US')).toEqual(['ie 8'])
+test('is case insensitive for country coverage', () => {
+  equal(browserslist('Cover 0.1% in us'), ['ie 9'])
+  equal(browserslist('Cover 0.1% in Alt-US'), ['ie 8'])
 })
 
-it('adds browsers by popularity', () => {
-  expect(browserslist('cover 20% in my stats')).toEqual([
-    'chrome 37',
-    'chrome 36',
-    'ie 11',
-    'ie 10'
-  ])
+test('adds browsers by popularity', () => {
+  equal(
+    browserslist('cover 20% in my stats'),
+    [
+      'chrome 37',
+      'chrome 36',
+      'ie 11',
+      'ie 10'
+    ]
+  )
 })
 
-it('does not add zero-popularity', () => {
+test('does not add zero-popularity', () => {
   let stats = { stats: { ie: { 11: 10, 10: 0 } } }
-  expect(browserslist('cover 20% in my stats', stats)).toEqual(['ie 11'])
+  equal(browserslist('cover 20% in my stats', stats), ['ie 11'])
 })
 
-it('throws error on no stats', () => {
+test('throws error on no stats', () => {
   delete process.env.BROWSERSLIST_STATS
-  expect(() => {
-    browserslist('cover 70% in my stats')
-  }).toThrow(/statistics was not provided/)
+  throws(() => browserslist('cover 70% in my stats'), /statistics was not provided/)
 })
+
+test.run()
