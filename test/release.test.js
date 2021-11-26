@@ -1,10 +1,10 @@
 delete require.cache[require.resolve('..')]
 
-let { test } = require('uvu')
+let { spyOn, restoreAll } = require('nanospy')
 let { equal, is } = require('uvu/assert')
+let { test } = require('uvu')
 let fs = require('fs')
 
-let { spyOn } = require('./utils')
 let browserslist = require('..')
 
 let originData = browserslist.data
@@ -86,19 +86,13 @@ function mockStatSync() {
   }
 }
 
-let originConsoleWarn = console.warn
-let originExistsSync = fs.existsSync
-let originStatSync = fs.statSync
-
+let warn
 test.before.each(() => {
-  spyOn(console, 'warn', () => true)
+  warn = spyOn(console, 'warn', () => true)
 })
 
 test.after.each(() => {
-  console.warn = originConsoleWarn
-  fs.existsSync = originExistsSync
-  fs.statSync = originStatSync
-
+  restoreAll()
   browserslist.clearCaches()
   delete process.env.BROWSERSLIST_IGNORE_OLD_DATA
 })
@@ -110,7 +104,7 @@ test.after(() => {
 test('does not print warning', () => {
   browserslist.data = youngerSixMonthsData
   browserslist('last 2 versions')
-  is(console.warn.called, false)
+  warn(warn.called, false)
 })
 
 test('shows warning', () => {
@@ -118,13 +112,14 @@ test('shows warning', () => {
   spyOn(fs, 'existsSync', findPackage)
   spyOn(fs, 'statSync', mockStatSync)
   browserslist('last 2 versions')
-  equal(
-    console.warn.callArgs,
-    ['Browserslist: caniuse-lite is outdated. Please run:\n' +
-      '  npx browserslist@latest --update-db\n' +
-      '  Why you should do it regularly: ' +
-      'https://github.com/browserslist/browserslist#browsers-data-updating']
-  )
+  equal(warn.calls, [
+    [
+      'Browserslist: caniuse-lite is outdated. Please run:\n' +
+        '  npx browserslist@latest --update-db\n' +
+        '  Why you should do it regularly: ' +
+        'https://github.com/browserslist/browserslist#browsers-data-updating'
+    ]
+  ])
 })
 
 test('hides warning on request', () => {
@@ -133,7 +128,7 @@ test('hides warning on request', () => {
   spyOn(fs, 'existsSync', findPackage)
   spyOn(fs, 'statSync', mockStatSync)
   browserslist('last 2 versions')
-  is(console.warn.calledTimes, 0)
+  is(warn.called, false)
 })
 
 test('shows warning only once', () => {
@@ -142,7 +137,7 @@ test('shows warning only once', () => {
   spyOn(fs, 'statSync', mockStatSync)
   browserslist('last 2 versions')
   browserslist('last 2 versions')
-  is(console.warn.calledTimes, 1)
+  is(warn.callCount, 1)
 })
 
 test.run()

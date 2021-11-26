@@ -1,12 +1,11 @@
 delete require.cache[require.resolve('..')]
 
-let { test } = require('uvu')
 let { equal, throws, is, type, not } = require('uvu/assert')
+let { spyOn, restoreAll } = require('nanospy')
+let { test } = require('uvu')
 let path = require('path')
 
-let { spyOn } = require('./utils')
 let browserslist = require('..')
-
 
 let IE = path.join(__dirname, 'fixtures', 'explorers')
 let FILE = path.join(__dirname, 'fixtures', 'dir', 'test.css')
@@ -16,13 +15,12 @@ let STRING = path.join(__dirname, 'fixtures', 'string', 'package.json')
 let PACKAGE = path.join(__dirname, 'fixtures', 'env-package', 'package.json')
 
 let DEFAULTS = browserslist(browserslist.defaults)
-let origLoadConfig = browserslist.loadConfig
 test.after.each(() => {
+  restoreAll()
   process.env.NODE_ENV = 'test'
   delete process.env.BROWSERSLIST
   delete process.env.BROWSERSLIST_CONFIG
   delete process.env.BROWSERSLIST_ENV
-  browserslist.loadConfig = origLoadConfig
 })
 
 test('accepts array', () => {
@@ -65,10 +63,10 @@ test('reads config by direct path', () => {
 })
 
 test('reads package.json config by direct path', () => {
-  equal(
-    browserslist(null, { config: PACKAGE, env: 'development' }),
-    ['chrome 55', 'firefox 50']
-  )
+  equal(browserslist(null, { config: PACKAGE, env: 'development' }), [
+    'chrome 55',
+    'firefox 50'
+  ])
 })
 
 test('reads package.json config with one string', () => {
@@ -104,20 +102,18 @@ test('uses default selection on empty request and no config', () => {
 })
 
 test('uses current dir on undefined path', () => {
-  spyOn(browserslist, 'loadConfig')
+  let loadConfig = spyOn(browserslist, 'loadConfig')
 
   equal(browserslist(undefined, { path: undefined }), DEFAULTS)
 
-  is(browserslist.loadConfig.called, true)
-  equal(browserslist.loadConfig.callArgs, [{ path: process.cwd() }])
+  equal(loadConfig.calls, [[{ path: process.cwd() }]])
 })
 
 test('uses default selection on disabled path', () => {
-  spyOn(browserslist, 'loadConfig')
+  let loadConfig = spyOn(browserslist, 'loadConfig')
 
   equal(browserslist(null, { path: false }), DEFAULTS)
-  is(browserslist.loadConfig.called, true)
-  equal(browserslist.loadConfig.callArgs, [{ path: false }])
+  equal(loadConfig.calls, [[{ path: false }]])
 })
 
 test('raises on unknow query', () => {
