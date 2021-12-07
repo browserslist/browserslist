@@ -209,6 +209,16 @@ test('updates caniuse-lite for yarn', async () => {
   checkYarnLockfile(dir)
 })
 
+test('updates caniuse-lite for yarn without integrity', async () => {
+  let dir = await chdir(
+    'update-yarn-without-integrity',
+    'package.json',
+    'yarn.lock'
+  )
+  checkRunUpdateContents('1.0.30001035', 'yarn')
+  checkYarnLockfile(dir)
+})
+
 test('skips the yarn update if caniuse-lite is up to date', async () => {
   let dir = await chdir('update-yarn', 'package.json', 'yarn.lock')
   checkRunUpdateContents('1.0.30001035', 'yarn')
