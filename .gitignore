@@ -1,6 +1,3 @@
 node_modules/
-.yarn/
-npm-debug.log
-yarn-error.log
 
 coverage/

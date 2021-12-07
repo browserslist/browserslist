@@ -179,6 +179,7 @@ function updatePnpmLockfile(lock, latest) {
     if (lines[i].indexOf('caniuse-lite:') >= 0) {
       lineParts = lines[i].split(/:\s?/, 2)
       if (lineParts[1].indexOf('/') >= 0) {
+        /* c8 ignore start */
         var sublineParts = lineParts[1].split(/([/:])/)
         for (j = 0; j < sublineParts.length; j++) {
           if (sublineParts[j].indexOf('caniuse-lite') >= 0) {
@@ -188,6 +189,7 @@ function updatePnpmLockfile(lock, latest) {
           }
         }
         lineParts[1] = sublineParts.join('')
+        /* c8 ignore stop */
       } else {
         versions[lineParts[1]] = true
       }
