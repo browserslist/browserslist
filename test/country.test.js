@@ -9,6 +9,7 @@ let originUsage = browserslist.usage
 test.before.each(() => {
   browserslist.usage = {
     US: {
+      'chrome 999': null, // unreleased
       'ie 8': 1,
       'ie 9': 5,
       'ie 10': 10.1,

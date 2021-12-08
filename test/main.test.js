@@ -257,7 +257,7 @@ test('uses production environment by default', () => {
 })
 
 test('correctly works with not and one-version browsers', () => {
-  is(browserslist('last 1 Baidu version, not <2% in AT').length, 0)
+  equal(browserslist('last 1 Baidu version, not <2% in AT'), ['baidu 7.12'])
 })
 
 test.run()

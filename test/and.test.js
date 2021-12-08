@@ -1,5 +1,5 @@
 let { test } = require('uvu')
-let { is, equal } = require('uvu/assert')
+let { equal } = require('uvu/assert')
 let { join } = require('path')
 
 delete require.cache[require.resolve('..')]
@@ -36,7 +36,7 @@ test('query composition with AND operator', () => {
 })
 
 test('correctly works with not and one-version browsers as AND query', () => {
-  is(browserslist('last 1 Baidu version and not <2% in AT').length, 0)
+  equal(browserslist('last 1 Baidu version and not <2% in AT'), ['baidu 7.12'])
 })
 
 test('reads config from package.json', () => {
