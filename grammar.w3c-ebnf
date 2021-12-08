@@ -6,6 +6,38 @@ Space ::= ' ' | '\n' | '\t' | '\r' | '\f'
 
 Numeric ::= (Digit* '.')? Digit+
 
+BrowserName ::= 'ie'
+  | 'edge'
+  | 'firefox'
+  | 'chrome'
+  | 'safari'
+  | 'opera'
+  | 'ios_saf'
+  | 'op_mini'
+  | 'android'
+  | 'bb'
+  | 'op_mob'
+  | 'and_chr'
+  | 'and_ff'
+  | 'ie_mob'
+  | 'and_uc'
+  | 'samsung'
+  | 'and_qq'
+  | 'baidu'
+  | 'kaios'
+  | 'fx'
+  | 'ff'
+  | 'ios'
+  | 'explorer'
+  | 'blackberry'
+  | 'explorermobile'
+  | 'operamini'
+  | 'operamobile'
+  | 'chromeandroid'
+  | 'firefoxandroid'
+  | 'ucandroid'
+  | 'qqandroid'
+
 KeywordVersion ::= 'version' 's'?
 
 LastBrowsers ::= 'last' Space+ Digit+ Space+ (BrowserName Space+)? ('major' Space+)? KeywordVersion
@@ -61,25 +93,25 @@ Defaults ::= 'defaults'
 Dead ::= 'dead'
 
 QueryAtom ::= LastBrowsers
-    | LastElectron
-    | Unreleased
-    | Years
-    | Since
-    | Percentage
-    | Cover
-    | FeatureSupport
-    | Electron
-    | Node
-    | Browser
-    | FirefoxESR
-    | OperaMini
-    | CurrentNode
-    | MaintainedNode
-    | Phantom
-    | BrowserslistConfig
-    | Extending
-    | Defaults
-    | Dead
+  | LastElectron
+  | Unreleased
+  | Years
+  | Since
+  | Percentage
+  | Cover
+  | FeatureSupport
+  | Electron
+  | Node
+  | Browser
+  | FirefoxESR
+  | OperaMini
+  | CurrentNode
+  | MaintainedNode
+  | Phantom
+  | BrowserslistConfig
+  | Extending
+  | Defaults
+  | Dead
 
 SingleQuery ::= ('not' Space)? QueryAtom
 
