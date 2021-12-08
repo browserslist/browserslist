@@ -665,7 +665,7 @@ function coverQuery(context, coverage, statMode) {
   var coveraged = 0
   var result = []
   var version
-  for (var i = 0; i <= versions.length; i++) {
+  for (var i = 0; i < versions.length; i++) {
     version = versions[i]
     if (usage[version] === 0) break
     coveraged += usage[version]
