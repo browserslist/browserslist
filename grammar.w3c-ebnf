@@ -38,6 +38,8 @@ BrowserName ::= 'ie'
   | 'ucandroid'
   | 'qqandroid'
 
+OperatorCompare = ('>' | '<') '='?
+
 KeywordVersion ::= 'version' 's'?
 
 LastBrowsers ::= 'last' Space+ Digit+ Space+ (BrowserName Space+)? ('major' Space+)? KeywordVersion
@@ -56,7 +58,7 @@ MyStats ::= 'my' Space+ 'stats'
 
 CustomStats ::= NonSpaceChar+ Space+ 'stats'
 
-Percentage ::= ('>' | '<') '='? Space* Numeric '%' (Space+ 'in' Space+ (MyStats | CustomStats | Region))?
+Percentage ::= OperatorCompare Space* Numeric '%' (Space+ 'in' Space+ (MyStats | CustomStats | Region))?
 
 Cover ::= 'cover' Space+ Numeric '%' (Space+ 'in' Space+ (MyStats | Region))?
 
@@ -66,7 +68,7 @@ Version ::= (Digit | '.')+
 
 BoundedRange ::= Version Space* '-' Space* Version
 
-UnboundedRange ::= ('>' | '<') '='? Space* Version
+UnboundedRange ::= OperatorCompare Space* Version
 
 Electron ::= 'electron' Space+ (BoundedRange | UnboundedRange | Version)
 
