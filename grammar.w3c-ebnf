@@ -38,7 +38,7 @@ BrowserName ::= 'ie'
   | 'ucandroid'
   | 'qqandroid'
 
-OperatorCompare = ('>' | '<') '='?
+OperatorCompare ::= ('>' | '<') '='?
 
 KeywordVersion ::= 'version' 's'?
 
