@@ -2,7 +2,7 @@ NonSpaceChar ::= [#x21-#xD7FF] | [#xE000-#xFFFD]
 
 Digit ::= [0-9]
 
-Space ::= ' ' | '\n' | '\t' | '\r' | '\f'
+Space ::= ' ' | '\t'
 
 Numeric ::= (Digit* '.')? Digit+
 
