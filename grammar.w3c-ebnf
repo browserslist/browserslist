@@ -122,3 +122,5 @@ OrOperator ::= Space+ 'or' Space+ | Space* ',' Space*
 AndOperator ::= Space+ 'and' Space+
 
 BrowserslistQuery ::= QueryAtom ((OrOperator | AndOperator) SingleQuery)*
+
+Root ::= BrowserslistQuery
