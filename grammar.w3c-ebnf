@@ -38,15 +38,15 @@ BrowserName ::= 'ie'
   | 'ucandroid'
   | 'qqandroid'
 
-OperatorCompare ::= ('>' | '<') '='?
+CompareOperator ::= ('>' | '<') '='?
 
-KeywordVersion ::= 'version' 's'?
+VersionKeyword ::= 'version' 's'?
 
-LastBrowsers ::= 'last' Space+ Digit+ Space+ (BrowserName Space+)? ('major' Space+)? KeywordVersion
+LastBrowsers ::= 'last' Space+ Digit+ Space+ (BrowserName Space+)? ('major' Space+)? VersionKeyword
 
-LastElectron ::= 'last' Space+ Digit+ Space+ 'electron' Space+ ('major' Space+)? KeywordVersion
+LastElectron ::= 'last' Space+ Digit+ Space+ 'electron' Space+ ('major' Space+)? VersionKeyword
 
-Unreleased ::= 'unreleased' Space+ ((BrowserName | 'electron') Space+)? KeywordVersion
+Unreleased ::= 'unreleased' Space+ ((BrowserName | 'electron') Space+)? VersionKeyword
 
 Years ::= 'last' Space+ Numeric Space+ 'year' 's'?
 
@@ -58,7 +58,7 @@ MyStats ::= 'my' Space+ 'stats'
 
 CustomStats ::= NonSpaceChar+ Space+ 'stats'
 
-Percentage ::= OperatorCompare Space* Numeric '%' (Space+ 'in' Space+ (MyStats | CustomStats | Region))?
+Percentage ::= CompareOperator Space* Numeric '%' (Space+ 'in' Space+ (MyStats | CustomStats | Region))?
 
 Cover ::= 'cover' Space+ Numeric '%' (Space+ 'in' Space+ (MyStats | Region))?
 
@@ -68,7 +68,7 @@ Version ::= (Digit | '.')+
 
 BoundedRange ::= Version Space* '-' Space* Version
 
-UnboundedRange ::= OperatorCompare Space* Version
+UnboundedRange ::= CompareOperator Space* Version
 
 Electron ::= 'electron' Space+ (BoundedRange | UnboundedRange | Version)
 
@@ -117,8 +117,8 @@ QueryAtom ::= LastBrowsers
 
 SingleQuery ::= ('not' Space)? QueryAtom
 
-OperatorOr ::= Space+ 'or' Space+ | Space* ',' Space*
+OrOperator ::= Space+ 'or' Space+ | Space* ',' Space*
 
-OperatorAnd ::= Space+ 'and' Space+
+AndOperator ::= Space+ 'and' Space+
 
-BrowserslistQuery ::= QueryAtom ((OperatorOr | OperatorAnd) SingleQuery)*
+BrowserslistQuery ::= QueryAtom ((OrOperator | AndOperator) SingleQuery)*
