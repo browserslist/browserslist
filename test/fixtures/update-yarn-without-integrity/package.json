@@ -1,0 +1,8 @@
+{
+  "license": "MIT",
+  "devDependencies": {
+    "qs": "^6.6.0",
+    "autoprefixer": "^9.7.4",
+    "postcss-preset-env": "^6.7.0"
+  }
+}

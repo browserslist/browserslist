@@ -151,12 +151,14 @@ function updateYarnLockfile(lock, latest) {
           /resolved "[^"]+"/,
           'resolved "' + latest.dist.tarball + '"'
         )
-        lines[3] = latest.dist.integrity
-          ? lines[3].replace(
-              /integrity .+/,
-              'integrity ' + latest.dist.integrity
-            )
-          : ''
+        if (lines.length === 4) {
+          lines[3] = latest.dist.integrity
+            ? lines[3].replace(
+                /integrity .+/,
+                'integrity ' + latest.dist.integrity
+              )
+            : ''
+        }
       }
     }
   })
