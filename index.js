@@ -397,6 +397,7 @@ var cache = {}
  *                                                     version in direct query.
  * @param {boolean} [opts.dangerousExtend] Disable security checks
  *                                         for extend query.
+ * @param {boolean} [opts.throwOnMissing] Throw error on missing env.
  * @param {boolean} [opts.mobileToDesktop] Alias mobile browsers to the desktop
  *                                         version when Can I Use doesn't have
  *                                         data about the specified version.

@@ -260,4 +260,23 @@ test('correctly works with not and one-version browsers', () => {
   equal(browserslist('last 1 Baidu version, not <2% in AT'), ['baidu 7.12'])
 })
 
+test('throws error on missing env', () => {
+  throws(
+    () => browserslist(null, { path: PACKAGE, throwOnMissing: true, env: 'test' }),
+    "Missing config for Browserslist environment 'test'."
+  )
+})
+
+test('does not throw error on missing defaults env', () => {
+  equal(
+    browserslist(null, { path: PACKAGE, throwOnMissing: true, env: 'defaults' }), DEFAULTS
+  )
+})
+
+test('does not throw error on missing env', () => {
+  equal(
+    browserslist(null, { path: PACKAGE, throwOnMissing: false, env: 'test' }), DEFAULTS
+  )
+})
+
 test.run()
