@@ -278,6 +278,10 @@ You can add `not ` to any query.
 [Can I Use]:                   https://caniuse.com/
 [Firefox Extended Support Release]: https://support.mozilla.org/en-US/kb/choosing-firefox-update-channel
 
+### Grammar Definition
+
+There is a [grammar specification](./grammar.w3c-ebnf) about the query syntax,
+which may be helpful if you're implementing a parser or something else.
 
 ### Debug
 

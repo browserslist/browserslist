@@ -1,0 +1,126 @@
+NonSpaceChar ::= [#x21-#xD7FF] | [#xE000-#xFFFD]
+
+Digit ::= [0-9]
+
+Space ::= ' ' | '\t'
+
+Numeric ::= (Digit* '.')? Digit+
+
+BrowserName ::= 'ie'
+  | 'edge'
+  | 'firefox'
+  | 'chrome'
+  | 'safari'
+  | 'opera'
+  | 'ios_saf'
+  | 'op_mini'
+  | 'android'
+  | 'bb'
+  | 'op_mob'
+  | 'and_chr'
+  | 'and_ff'
+  | 'ie_mob'
+  | 'and_uc'
+  | 'samsung'
+  | 'and_qq'
+  | 'baidu'
+  | 'kaios'
+  | 'fx'
+  | 'ff'
+  | 'ios'
+  | 'explorer'
+  | 'blackberry'
+  | 'explorermobile'
+  | 'operamini'
+  | 'operamobile'
+  | 'chromeandroid'
+  | 'firefoxandroid'
+  | 'ucandroid'
+  | 'qqandroid'
+
+CompareOperator ::= ('>' | '<') '='?
+
+VersionKeyword ::= 'version' 's'?
+
+LastBrowsers ::= 'last' Space+ Digit+ Space+ (BrowserName Space+)? ('major' Space+)? VersionKeyword
+
+LastElectron ::= 'last' Space+ Digit+ Space+ 'electron' Space+ ('major' Space+)? VersionKeyword
+
+Unreleased ::= 'unreleased' Space+ ((BrowserName | 'electron') Space+)? VersionKeyword
+
+Years ::= 'last' Space+ Numeric Space+ 'year' 's'?
+
+Since ::= 'since' Space Digit+ ('-' Digit+ ('-' Digit+)?)?
+
+Region ::= ('alt-' [a-z][a-z] | [A-Z][A-Z])
+
+MyStats ::= 'my' Space+ 'stats'
+
+CustomStats ::= NonSpaceChar+ Space+ 'stats'
+
+Percentage ::= CompareOperator Space* Numeric '%' (Space+ 'in' Space+ (MyStats | CustomStats | Region))?
+
+Cover ::= 'cover' Space+ Numeric '%' (Space+ 'in' Space+ (MyStats | Region))?
+
+FeatureSupport ::= 'supports' Space+ ([a-z0-9] | '-')+
+
+Version ::= (Digit | '.')+
+
+BoundedRange ::= Version Space* '-' Space* Version
+
+UnboundedRange ::= CompareOperator Space* Version
+
+Electron ::= 'electron' Space+ (BoundedRange | UnboundedRange | Version)
+
+Node ::= 'node' Space+ (BoundedRange | UnboundedRange | Version)
+
+Browser ::= BrowserName Space+ (BoundedRange | UnboundedRange | Version | 'tp')
+
+FirefoxESR ::= ('firefox' | 'fx' | 'ff') Space+ 'esr'
+
+OperaMini ::= ('operamini' | 'op_mini') Space+ 'all'
+
+CurrentNode ::= 'current' Space+ 'node'
+
+MaintainedNode ::= 'maintained' Space+ 'node' Space+ 'versions'
+
+Phantom ::= 'phantomjs' Space+ ('1.9' | '2.1')
+
+BrowserslistConfig ::= 'browserslist config'
+
+Extending ::= 'extends' Space NonSpaceChar+
+
+Defaults ::= 'defaults'
+
+Dead ::= 'dead'
+
+QueryAtom ::= LastBrowsers
+  | LastElectron
+  | Unreleased
+  | Years
+  | Since
+  | Percentage
+  | Cover
+  | FeatureSupport
+  | Electron
+  | Node
+  | Browser
+  | FirefoxESR
+  | OperaMini
+  | CurrentNode
+  | MaintainedNode
+  | Phantom
+  | BrowserslistConfig
+  | Extending
+  | Defaults
+  | Dead
+
+SingleQuery ::= ('not' Space)? QueryAtom
+
+OrOperator ::= Space+ 'or' Space+ | Space* ',' Space*
+
+AndOperator ::= Space+ 'and' Space+
+
+BrowserslistQuery ::= QueryAtom ((OrOperator | AndOperator) SingleQuery)*
+
+Root ::= BrowserslistQuery
