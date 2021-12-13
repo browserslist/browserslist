@@ -260,4 +260,18 @@ test('correctly works with not and one-version browsers', () => {
   is(browserslist('last 1 Baidu version, not <2% in AT').length, 0)
 })
 
+test('throws error on missing env in config', () => {
+  throws(
+    () => browserslist(['not ie 11'], { path: CONFIG, throwOnMissing: true, env: 'test' }),
+    "Missing config for Browserslist environment 'test'."
+  )
+})
+
+test('throws error on missing env in package.json', () => {
+  throws(
+    () => browserslist(['not ie 11'], { path: PACKAGE, throwOnMissing: true, env: 'test' }),
+    "Missing config for Browserslist environment 'test'."
+  )
+})
+
 test.run()
