@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "caniuse-lite": "^1.0.30001286",
-    "electron-to-chromium": "^1.4.16",
+    "electron-to-chromium": "^1.4.17",
     "escalade": "^3.1.1",
     "node-releases": "^2.0.1",
     "picocolors": "^1.0.0"
@@ -36,7 +36,7 @@
   "types": "./index.d.ts",
   "devDependencies": {
     "@logux/eslint-config": "^46.1.0",
-    "@size-limit/preset-small-lib": "^7.0.3",
+    "@size-limit/preset-small-lib": "^7.0.4",
     "c8": "^7.10.0",
     "clean-publish": "^3.4.4",
     "cross-spawn": "^7.0.3",
