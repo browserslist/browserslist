@@ -262,20 +262,27 @@ test('correctly works with not and one-version browsers', () => {
 
 test('throws error on missing env', () => {
   throws(
-    () => browserslist(null, { path: PACKAGE, throwOnMissing: true, env: 'test' }),
-    "Missing config for Browserslist environment 'test'."
+    () =>
+      browserslist(null, { path: PACKAGE, throwOnMissing: true, env: 'test' }),
+    "Missing config for Browserslist environment 'test'"
   )
 })
 
 test('does not throw error on missing defaults env', () => {
   equal(
-    browserslist(null, { path: PACKAGE, throwOnMissing: true, env: 'defaults' }), DEFAULTS
+    browserslist(null, {
+      path: PACKAGE,
+      throwOnMissing: true,
+      env: 'defaults'
+    }),
+    DEFAULTS
   )
 })
 
 test('does not throw error on missing env', () => {
   equal(
-    browserslist(null, { path: PACKAGE, throwOnMissing: false, env: 'test' }), DEFAULTS
+    browserslist(null, { path: PACKAGE, throwOnMissing: false, env: 'test' }),
+    DEFAULTS
   )
 })
 

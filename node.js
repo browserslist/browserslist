@@ -85,11 +85,11 @@ function pickEnv(config, opts) {
   if (opts.throwOnMissing) {
     if (name && name !== 'defaults' && !config[name]) {
       throw new BrowserslistError(
-        'Missing config for Browserslist environment `' + name + '`.'
+        'Missing config for Browserslist environment `' + name + '`'
       )
     }
   }
-  
+
   return config[name] || config.defaults
 }
 
