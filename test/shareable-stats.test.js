@@ -47,6 +47,15 @@ test('takes stats and queries from shareable config', async () => {
   equal(browserslist('extends browserslist-config-test2'), ['ie 11'])
 })
 
+test('ignores null usage value', async () => {
+  await mock(
+    'browserslist-config-null-test',
+    undefined,
+    { chrome: { 90: 3, 999: null } }
+  )
+  equal(browserslist('< 5% in browserslist-config-null-test stats'), ['chrome 90'])
+})
+
 test('works with non-prefixed stats with dangerousExtend', async () => {
   await mock('pkg', undefined, { chrome: { 78: 6 } })
   equal(

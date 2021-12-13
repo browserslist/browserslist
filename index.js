@@ -831,19 +831,24 @@ var QUERIES = [
       }
       var usage = context.customUsage
       return Object.keys(usage).reduce(function (result, version) {
+        var percentage = usage[version]
+        if (percentage == null) {
+          return result
+        }
+
         if (sign === '>') {
-          if (usage[version] > popularity) {
+          if (percentage > popularity) {
             result.push(version)
           }
         } else if (sign === '<') {
-          if (usage[version] < popularity) {
+          if (percentage < popularity) {
             result.push(version)
           }
         } else if (sign === '<=') {
-          if (usage[version] <= popularity) {
+          if (percentage <= popularity) {
             result.push(version)
           }
-        } else if (usage[version] >= popularity) {
+        } else if (percentage >= popularity) {
           result.push(version)
         }
         return result
@@ -866,19 +871,24 @@ var QUERIES = [
       }
       var usage = context.customUsage
       return Object.keys(usage).reduce(function (result, version) {
+        var percentage = usage[version]
+        if (percentage == null) {
+          return result
+        }
+
         if (sign === '>') {
-          if (usage[version] > popularity) {
+          if (percentage > popularity) {
             result.push(version)
           }
         } else if (sign === '<') {
-          if (usage[version] < popularity) {
+          if (percentage < popularity) {
             result.push(version)
           }
         } else if (sign === '<=') {
-          if (usage[version] <= popularity) {
+          if (percentage <= popularity) {
             result.push(version)
           }
-        } else if (usage[version] >= popularity) {
+        } else if (percentage >= popularity) {
           result.push(version)
         }
         return result
@@ -897,19 +907,24 @@ var QUERIES = [
       env.loadCountry(browserslist.usage, place, browserslist.data)
       var usage = browserslist.usage[place]
       return Object.keys(usage).reduce(function (result, version) {
+        var percentage = usage[version]
+        if (percentage == null) {
+          return result
+        }
+
         if (sign === '>') {
-          if (usage[version] > popularity) {
+          if (percentage > popularity) {
             result.push(version)
           }
         } else if (sign === '<') {
-          if (usage[version] < popularity) {
+          if (percentage < popularity) {
             result.push(version)
           }
         } else if (sign === '<=') {
-          if (usage[version] <= popularity) {
+          if (percentage <= popularity) {
             result.push(version)
           }
-        } else if (usage[version] >= popularity) {
+        } else if (percentage >= popularity) {
           result.push(version)
         }
         return result
