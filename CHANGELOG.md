@@ -1,6 +1,14 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.19
+* Added queries grammar definition (by Pig Fang).
+* Added `throwOnMissing` option (by Øyvind Saltvik).
+* Fixed `null` data ignoring in `< 50% in CN` (byPig Fang).
+* Fixed data parsing in `in my stats` (by Sun Xiaoran).
+* Fixed `yarn.lock` support with `integrity` (by Alexey Berezin).
+* Fixed Yarn Berry error message in `--update-db`.
+
 ## 4.18.1
 * Fixed case inventiveness for `cover` queries (by Pig Fang).
 * Fixed `since 1970` query for `null` in release date (by Pig Fang).
