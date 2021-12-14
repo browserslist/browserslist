@@ -251,6 +251,7 @@ if (!NODE_8 && !NODE_10) {
 
 if (!NODE_8 && !NODE_10 && isInstalled('pnpm')) {
   let versions = ['1.0.30001000', '1.0.1234', '1.0.3000', '1.0.30001035']
+
   test('updates caniuse-lite for pnpm', async () => {
     let dir = await chdir('update-pnpm', 'package.json', 'pnpm-lock.yaml')
     checkRunUpdateContents(versions.sort().join(', '), 'pnpm')

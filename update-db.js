@@ -224,12 +224,13 @@ function updatePnpmLockfile(lock, latest) {
 function updateLockfile(lock, latest) {
   if (!lock.content) lock.content = fs.readFileSync(lock.file).toString()
 
-  if (lock.mode === 'npm') {
-    return updateNpmLockfile(lock, latest)
-  } else if (lock.mode === 'yarn') {
+  if (lock.mode === 'yarn') {
     return updateYarnLockfile(lock, latest)
+  } else if (lock.mode === 'pnpm') {
+    return updatePnpmLockfile(lock, latest)
+  } else {
+    return updateNpmLockfile(lock, latest)
   }
-  return updatePnpmLockfile(lock, latest)
 }
 
 function updatePackageManually(print, lock, latest) {
@@ -290,6 +291,27 @@ function updatePackageManually(print, lock, latest) {
   childProcess.execSync(del + ' caniuse-lite')
 }
 
+function updateWith(print, cmd) {
+  print('Updating caniuse-lite version\n' + pico.yellow('$ ' + cmd) + '\n')
+  try {
+    childProcess.execSync(cmd)
+  } catch (e) /* c8 ignore start */ {
+    print(pico.red(e.stdout.toString()))
+    print(
+      pico.red(
+        '\n' +
+          e.stack +
+          '\n\n' +
+          'Problem with `' +
+          cmd +
+          '` call. ' +
+          'Run it manually.\n'
+      )
+    )
+    process.exit(1)
+  } /* c8 ignore end */
+}
+
 module.exports = function updateDB(print) {
   var lock = detectLockfile()
   var latest = getLatestInfo(lock)
@@ -305,28 +327,7 @@ module.exports = function updateDB(print) {
   print('Latest version:     ' + pico.bold(pico.green(latest.version)) + '\n')
 
   if (lock.mode === 'yarn' && lock.version !== 1) {
-    var update = 'yarn up -R'
-    print(
-      'Updating caniuse-lite version\n' +
-        pico.yellow('$ ' + update + ' caniuse-lite') +
-        '\n'
-    )
-    try {
-      childProcess.execSync(update + ' caniuse-lite')
-    } catch (e) /* c8 ignore start */ {
-      print(
-        pico.red(
-          '\n' +
-            e.stack +
-            '\n\n' +
-            'Problem with `' +
-            update +
-            ' caniuse-lite` call. ' +
-            'Run it manually.\n'
-        )
-      )
-      process.exit(1)
-    } /* c8 ignore end */
+    updateWith(print, 'yarn up -R caniuse-lite')
   } else {
     updatePackageManually(print, lock, latest)
   }
