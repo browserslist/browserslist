@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.19.1
+* Fixed `throwOnMissing` types (by Øyvind Saltvik).
+
 ## 4.19
 * Added queries grammar definition (by Pig Fang).
 * Added `throwOnMissing` option (by Øyvind Saltvik).
