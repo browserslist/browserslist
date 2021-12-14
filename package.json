@@ -29,7 +29,7 @@
   "engines": {
     "node": "^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7"
   },
-  "packageManager": "pnpm@6.23.6",
+  "packageManager": "pnpm@6.24.0",
   "bin": {
     "browserslist": "cli.js"
   },
