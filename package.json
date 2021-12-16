@@ -20,8 +20,8 @@
     "unit:fast": "NODE_ENV=test uvu test '^[^/]+.test.js'"
   },
   "dependencies": {
-    "caniuse-lite": "^1.0.30001286",
-    "electron-to-chromium": "^1.4.17",
+    "caniuse-lite": "^1.0.30001287",
+    "electron-to-chromium": "^1.4.20",
     "escalade": "^3.1.1",
     "node-releases": "^2.0.1",
     "picocolors": "^1.0.0"
