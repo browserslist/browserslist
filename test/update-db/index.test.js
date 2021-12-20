@@ -250,25 +250,17 @@ if (!NODE_8 && !NODE_10) {
 }
 
 if (!NODE_8 && !NODE_10 && isInstalled('pnpm')) {
-  let versions = ['1.0.30001000', '1.0.1234', '1.0.3000', '1.0.30001035']
-
   test('updates caniuse-lite for pnpm', async () => {
     let dir = await chdir('update-pnpm', 'package.json', 'pnpm-lock.yaml')
-    checkRunUpdateContents(versions.sort().join(', '), 'pnpm')
+    match(
+      runUpdate(),
+      `Latest version:     ${caniuse.version}\n` +
+        'Updating caniuse-lite version\n' +
+        '$ pnpm up caniuse-lite\n' +
+        'caniuse-lite has been successfully updated\n'
+    )
 
     let lock = (await readFile(join(dir, 'pnpm-lock.yaml'))).toString()
-    match(lock, `/caniuse-lite/${caniuse.version}:`)
-  })
-
-  test('skips the pnpm update if caniuse-lite is up to date', async () => {
-    let dir = await chdir('update-pnpm', 'package.json', 'pnpm-lock.yaml')
-
-    checkRunUpdateContents(versions.sort().join(', '), 'pnpm')
-    let lock = (await readFile(join(dir, 'pnpm-lock.yaml'))).toString()
-    match(lock, `/caniuse-lite/${caniuse.version}:`)
-
-    checkRunUpdateNoChanges()
-    lock = (await readFile(join(dir, 'pnpm-lock.yaml'))).toString()
     match(lock, `/caniuse-lite/${caniuse.version}:`)
   })
 }
