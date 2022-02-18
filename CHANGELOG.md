@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.19.2
+* Fixed `--help` output.
+
 ## 4.19.1
 * Fixed `throwOnMissing` types (by Øyvind Saltvik).
 
