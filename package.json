@@ -64,6 +64,7 @@
       "**/*.test.*"
     ],
     "lines": 100,
+    "reporter": "lcov",
     "check-coverage": true
   },
   "size-limit": [
