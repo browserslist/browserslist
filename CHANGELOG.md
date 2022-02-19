@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.19.3
+* Updated Firefox ESR (by Christophe Coevoet).
+
 ## 4.19.2
 * Fixed `--help` output.
 
