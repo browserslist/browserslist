@@ -270,8 +270,8 @@ You can specify the browser and Node.js versions by queries (case insensitive):
 
 You can add `not ` to any query.
 
-[`caniuse-lite/data/regions`]: https://github.com/ben-eb/caniuse-lite/tree/master/data/regions
-[`caniuse-lite/data/features`]: https://github.com/ben-eb/caniuse-lite/tree/master/data/features
+[`caniuse-lite/data/regions`]: https://github.com/ben-eb/caniuse-lite/tree/main/data/regions
+[`caniuse-lite/data/features`]: https://github.com/ben-eb/caniuse-lite/tree/main/data/features
 [two-letter country code]:     https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
 [custom usage data]:           #custom-usage-data
 [still maintained]:            https://github.com/nodejs/Release
