@@ -1,3 +1,4 @@
+delete require.cache[require.resolve('picocolors')]
 process.env.NO_COLOR = '1'
 
 let { test } = require('uvu')
