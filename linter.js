@@ -87,12 +87,12 @@ var rules = [
   },
   {
     id: 'country-was-ignored',
-    check: function check(browserslist, queries) {
+    check: function check(browserslist, queries, opts) {
       var coverage
       var countries = []
 
       COUNTRIES_1M.forEach(function (country) {
-        coverage = browserslist.coverage(browserslist(queries), country)
+        coverage = browserslist.coverage(browserslist(queries, opts), country)
 
         if (coverage < COUNTRIES_MIN_COVERAGE) {
           countries.push(country)
@@ -116,7 +116,7 @@ var rules = [
   }
 ]
 
-function lint(browserslist, queries) {
+function lint(browserslist, queries, opts) {
   var meta
 
   if (typeof queries === 'string') {
@@ -124,7 +124,7 @@ function lint(browserslist, queries) {
   }
 
   return rules.reduce(function (problems, rule) {
-    meta = rule.check(browserslist, queries)
+    meta = rule.check(browserslist, queries, opts)
 
     if (meta) {
       problems.push({
@@ -139,12 +139,12 @@ function lint(browserslist, queries) {
   }, [])
 }
 
-function formatReport(problems, source) {
+function formatReport(problems) {
   if (!problems.length) {
     return ''
   }
 
-  var report = source ? '\n' + source + '\n\n' : ''
+  var report = ''
   var maxProblemIdWidth = problems.reduce(function (prev, problem) {
     return Math.max(prev, problem.id.length)
   }, 0)

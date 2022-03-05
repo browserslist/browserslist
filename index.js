@@ -7,6 +7,7 @@ var e2c = require('electron-to-chromium/versions')
 var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
 var parser = require('./parser')
+var linter = require('./linter')
 
 var YEAR = 365.259641 * 24 * 60 * 60 * 1000
 var ANDROID_EVERGREEN_FIRST = 37
@@ -376,6 +377,37 @@ function resolve(queries, context) {
   }, [])
 }
 
+function prepairOpts(opts) {
+  if (typeof opts === 'undefined') opts = {}
+
+  if (typeof opts.path === 'undefined') {
+    opts.path = path.resolve ? path.resolve('.') : '.'
+  }
+
+  return opts
+}
+
+function prepairQueries(queries, opts) {
+  if (typeof queries === 'undefined' || queries === null) {
+    var config = browserslist.loadConfig(opts)
+    if (config) {
+      queries = config
+    } else {
+      queries = browserslist.defaults
+    }
+  }
+
+  return queries
+}
+
+function checkQueries(queries) {
+  if (!(typeof queries === 'string' || Array.isArray(queries))) {
+    throw new BrowserslistError(
+      'Browser queries must be an array or string. Got ' + typeof queries + '.'
+    )
+  }
+}
+
 var cache = {}
 
 /**
@@ -405,26 +437,10 @@ var cache = {}
  * browserslist('IE >= 10, IE 8') //=> ['ie 11', 'ie 10', 'ie 8']
  */
 function browserslist(queries, opts) {
-  if (typeof opts === 'undefined') opts = {}
+  opts = prepairOpts(opts)
+  queries = prepairQueries(queries, opts)
 
-  if (typeof opts.path === 'undefined') {
-    opts.path = path.resolve ? path.resolve('.') : '.'
-  }
-
-  if (typeof queries === 'undefined' || queries === null) {
-    var config = browserslist.loadConfig(opts)
-    if (config) {
-      queries = config
-    } else {
-      queries = browserslist.defaults
-    }
-  }
-
-  if (!(typeof queries === 'string' || Array.isArray(queries))) {
-    throw new BrowserslistError(
-      'Browser queries must be an array or string. Got ' + typeof queries + '.'
-    )
-  }
+  checkQueries(queries)
 
   var context = {
     ignoreUnknownVersions: opts.ignoreUnknownVersions,
@@ -575,6 +591,25 @@ browserslist.coverage = function (browsers, stats) {
     }
     return all + (usage || 0)
   }, 0)
+}
+
+/**
+ * Lint browserslist config.
+ *
+ * @param {(string|string[])} [queries=browserslist.defaults] Browser queries.
+ * @param {object} [opts] Browserslist options.
+ * @returns {string} Lint report.
+ */
+browserslist.lint = function (queries, opts) {
+  opts = prepairOpts(opts)
+  queries = prepairQueries(queries, opts)
+
+  checkQueries(queries)
+
+  var problems = linter.lint(browserslist, queries, opts)
+  var report = linter.formatReport(problems)
+
+  return report
 }
 
 function nodeQuery(context, version) {
