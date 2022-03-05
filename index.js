@@ -19,8 +19,8 @@ function isVersionsMatch(versionA, versionB) {
 
 function isEolReleased(name) {
   var version = name.slice(1)
-  return jsReleases.some(function (i) {
-    return isVersionsMatch(i.version, version)
+  return browserslist.nodeVersions.some(function (i) {
+    return isVersionsMatch(i, version)
   })
 }
 
@@ -617,11 +617,8 @@ browserslist.coverage = function (browsers, stats) {
 }
 
 function nodeQuery(context, version) {
-  var nodeReleases = jsReleases.filter(function (i) {
-    return i.name === 'nodejs'
-  })
-  var matched = nodeReleases.filter(function (i) {
-    return isVersionsMatch(i.version, version)
+  var matched = browserslist.nodeVersions.filter(function (i) {
+    return isVersionsMatch(i, version)
   })
   if (matched.length === 0) {
     if (context.ignoreUnknownVersions) {
@@ -630,7 +627,7 @@ function nodeQuery(context, version) {
       throw new BrowserslistError('Unknown version ' + version + ' of Node.js')
     }
   }
-  return ['node ' + matched[matched.length - 1].version]
+  return ['node ' + matched[matched.length - 1]]
 }
 
 function sinceQuery(context, year, month, date) {
@@ -719,14 +716,11 @@ var QUERIES = [
   {
     regexp: /^last\s+(\d+)\s+node\s+major\s+versions?$/i,
     select: function (context, versions) {
-      return getMajorVersions(
-        jsReleases.map(function (release) {
-          return release.version
-        }),
-        versions
-      ).map(function (version) {
-        return 'node ' + version
-      })
+      return getMajorVersions(browserslist.nodeVersions, versions).map(
+        function (version) {
+          return 'node ' + version
+        }
+      )
     }
   },
   {
@@ -754,8 +748,8 @@ var QUERIES = [
   {
     regexp: /^last\s+(\d+)\s+node\s+versions?$/i,
     select: function (context, versions) {
-      return jsReleases.slice(-versions).map(function (release) {
-        return 'node ' + release.version
+      return browserslist.nodeVersions.slice(-versions).map(function (version) {
+        return 'node ' + version
       })
     }
   },
@@ -1001,14 +995,7 @@ var QUERIES = [
   {
     regexp: /^node\s+([\d.]+)\s*-\s*([\d.]+)$/i,
     select: function (context, from, to) {
-      var nodeVersions = jsReleases
-        .filter(function (i) {
-          return i.name === 'nodejs'
-        })
-        .map(function (i) {
-          return i.version
-        })
-      return nodeVersions
+      return browserslist.nodeVersions
         .filter(semverFilterLoose('>=', from))
         .filter(semverFilterLoose('<=', to))
         .map(function (v) {
@@ -1043,14 +1030,7 @@ var QUERIES = [
   {
     regexp: /^node\s*(>=?|<=?)\s*([\d.]+)$/i,
     select: function (context, sign, version) {
-      var nodeVersions = jsReleases
-        .filter(function (i) {
-          return i.name === 'nodejs'
-        })
-        .map(function (i) {
-          return i.version
-        })
-      return nodeVersions
+      return browserslist.nodeVersions
         .filter(generateSemverFilter(sign, version))
         .map(function (v) {
           return 'node ' + v
@@ -1246,6 +1226,10 @@ var QUERIES = [
   }
 
   browserslist.versionAliases.op_mob['59'] = '58'
+
+  browserslist.nodeVersions = jsReleases.map(function (release) {
+    return release.version
+  })
 })()
 
 module.exports = browserslist
