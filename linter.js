@@ -119,6 +119,10 @@ var rules = [
 function lint(browserslist, queries) {
   var meta
 
+  if (typeof queries === 'string') {
+    queries = [queries]
+  }
+
   return rules.reduce(function (problems, rule) {
     meta = rule.check(browserslist, queries)
 
