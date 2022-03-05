@@ -1,7 +1,6 @@
 let { test } = require('uvu')
 let { is } = require('uvu/assert')
 
-delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 let linter = require('../linter')
 
