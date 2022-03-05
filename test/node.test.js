@@ -343,4 +343,12 @@ test('supports range selection', () => {
   )
 })
 
+test('supports last versions for Node.js', () => {
+  is(browserslist('last 2 node versions').length >= 1, true)
+})
+
+test('supports last major versions for Node.js', () => {
+  is(browserslist('last 2 node major versions').length >= 1, true)
+})
+
 test.run()

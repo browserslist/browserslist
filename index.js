@@ -717,6 +717,19 @@ var QUERIES = [
     }
   },
   {
+    regexp: /^last\s+(\d+)\s+node\s+major\s+versions?$/i,
+    select: function (context, versions) {
+      return getMajorVersions(
+        jsReleases.map(function (release) {
+          return release.version
+        }),
+        versions
+      ).map(function (version) {
+        return 'node ' + version
+      })
+    }
+  },
+  {
     regexp: /^last\s+(\d+)\s+(\w+)\s+major\s+versions?$/i,
     select: function (context, versions, name) {
       var data = checkName(name, context)
@@ -736,6 +749,14 @@ var QUERIES = [
         .map(function (i) {
           return 'chrome ' + e2c[i]
         })
+    }
+  },
+  {
+    regexp: /^last\s+(\d+)\s+node\s+versions?$/i,
+    select: function (context, versions) {
+      return jsReleases.slice(-versions).map(function (release) {
+        return 'node ' + release.version
+      })
     }
   },
   {
