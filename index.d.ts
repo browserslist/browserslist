@@ -144,6 +144,18 @@ declare namespace browserslist {
    */
   function coverage(browsers: readonly string[], stats?: StatsOptions): number
 
+  /**
+   * Lint browserslist config.
+   *
+   * @param [queries=browserslist.defaults] Browser queries.
+   * @param [opts] Browserslist options.
+   * @returns Lint report.
+   */
+  function lint(
+    queries?: string | readonly string[] | null,
+    opts?: browserslist.Options
+  ): string
+
   function clearCaches(): void
 
   function parseConfig(string: string): Config
