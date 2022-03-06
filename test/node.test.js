@@ -343,4 +343,38 @@ test('supports range selection', () => {
   )
 })
 
+test('supports last versions for Node.js', () => {
+  is(browserslist('last 2 node versions').length >= 1, true)
+
+  browserslist.nodeVersions = ['16.0.0', '16.1.0', '17.0.0', '17.1.0']
+  equal(browserslist('last 3 node versions'), [
+    'node 17.1.0',
+    'node 17.0.0',
+    'node 16.1.0'
+  ])
+})
+
+test('supports last major versions for Node.js', () => {
+  is(browserslist('last 2 node major versions').length >= 1, true)
+
+  browserslist.nodeVersions = [
+    '14.0.0',
+    '14.1.0',
+    '15.0.0',
+    '15.1.0',
+    '16.0.0',
+    '16.1.0',
+    '17.0.0',
+    '17.1.0'
+  ]
+  equal(browserslist('last 3 node major versions'), [
+    'node 17.1.0',
+    'node 17.0.0',
+    'node 16.1.0',
+    'node 16.0.0',
+    'node 15.1.0',
+    'node 15.0.0'
+  ])
+})
+
 test.run()

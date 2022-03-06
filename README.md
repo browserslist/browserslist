@@ -242,6 +242,8 @@ You can specify the browser and Node.js versions by queries (case insensitive):
 * Node.js versions:
   * `node 10` and `node 10.4`: selects latest Node.js `10.x.x`
   or `10.4.x` release.
+  * `last 2 node versions`: select 2 latest Node.js releases.
+  * `last 2 node major versions`: select 2 latest major-version Node.js releases.
   * `current node`: Node.js version used by Browserslist right now.
   * `maintained node versions`: all Node.js versions, which are [still maintained]
     by Node.js Foundation.
