@@ -1,3 +1,5 @@
+import linter from './linter.d'
+
 /**
  * Return array of browsers by selection queries.
  *
@@ -149,12 +151,12 @@ declare namespace browserslist {
    *
    * @param [queries=browserslist.defaults] Browser queries.
    * @param [opts] Browserslist options.
-   * @returns Lint report.
+   * @returns Lint problems.
    */
   function lint(
     queries?: string | readonly string[] | null,
     opts?: browserslist.Options
-  ): string
+  ): linter.Problem[]
 
   function clearCaches(): void
 

@@ -598,7 +598,7 @@ browserslist.coverage = function (browsers, stats) {
  *
  * @param {(string|string[])} [queries=browserslist.defaults] Browser queries.
  * @param {object} [opts] Browserslist options.
- * @returns {string} Lint report.
+ * @returns {object[]} Lint problems.
  */
 browserslist.lint = function (queries, opts) {
   opts = prepairOpts(opts)
@@ -606,10 +606,7 @@ browserslist.lint = function (queries, opts) {
 
   checkQueries(queries)
 
-  var problems = linter.lint(browserslist, queries, opts)
-  var report = linter.formatReport(problems)
-
-  return report
+  return linter.lint(browserslist, queries, opts)
 }
 
 function nodeQuery(context, version) {
@@ -671,7 +668,7 @@ function coverQuery(context, coverage, statMode) {
 
 var QUERIES = [
   {
-    regexp: parser.QUERY_REGEXP.LAST_MAJOR_VERSIONS,
+    regexp: parser.QUERY_REGEXPS.LAST_MAJOR_VERSIONS,
     select: function (context, versions) {
       return Object.keys(agents).reduce(function (selected, name) {
         var data = byName(name, context)
@@ -686,7 +683,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.LAST_VERSIONS,
+    regexp: parser.QUERY_REGEXPS.LAST_VERSIONS,
     select: function (context, versions) {
       return Object.keys(agents).reduce(function (selected, name) {
         var data = byName(name, context)
@@ -701,7 +698,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.LAST_ELECTRON_MAJOR_VERSIONS,
+    regexp: parser.QUERY_REGEXPS.LAST_ELECTRON_MAJOR_VERSIONS,
     select: function (context, versions) {
       var validVersions = getMajorVersions(Object.keys(e2c), versions)
       return validVersions.map(function (i) {
@@ -710,7 +707,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.LAST_NODE_MAJOR_VERSIONS,
+    regexp: parser.QUERY_REGEXPS.LAST_NODE_MAJOR_VERSIONS,
     select: function (context, versions) {
       return getMajorVersions(browserslist.nodeVersions, versions).map(
         function (version) {
@@ -720,7 +717,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.LAST_BROWSER_MAJOR_VERSIONS,
+    regexp: parser.QUERY_REGEXPS.LAST_BROWSER_MAJOR_VERSIONS,
     select: function (context, versions, name) {
       var data = checkName(name, context)
       var validVersions = getMajorVersions(data.released, versions)
@@ -732,7 +729,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.LAST_ELECTRON_VERSIONS,
+    regexp: parser.QUERY_REGEXPS.LAST_ELECTRON_VERSIONS,
     select: function (context, versions) {
       return Object.keys(e2c)
         .slice(-versions)
@@ -742,7 +739,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.LAST_NODE_VERSIONS,
+    regexp: parser.QUERY_REGEXPS.LAST_NODE_VERSIONS,
     select: function (context, versions) {
       return browserslist.nodeVersions.slice(-versions).map(function (version) {
         return 'node ' + version
@@ -750,7 +747,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.LAST_BROWSER_VERSIONS,
+    regexp: parser.QUERY_REGEXPS.LAST_BROWSER_VERSIONS,
     select: function (context, versions, name) {
       var data = checkName(name, context)
       var list = data.released.slice(-versions).map(nameMapper(data.name))
@@ -761,7 +758,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.UNRELEASED_VERSIONS,
+    regexp: parser.QUERY_REGEXPS.UNRELEASED_VERSIONS,
     select: function (context) {
       return Object.keys(agents).reduce(function (selected, name) {
         var data = byName(name, context)
@@ -775,13 +772,13 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.UNRELEASED_ELECTRON_VERSIONS,
+    regexp: parser.QUERY_REGEXPS.UNRELEASED_ELECTRON_VERSIONS,
     select: function () {
       return []
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.UNRELEASED_BROWSER_VERSIONS,
+    regexp: parser.QUERY_REGEXPS.UNRELEASED_BROWSER_VERSIONS,
     select: function (context, name) {
       var data = checkName(name, context)
       return data.versions
@@ -792,25 +789,25 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.LAST_YEARS,
+    regexp: parser.QUERY_REGEXPS.LAST_YEARS,
     select: function (context, years) {
       return filterByYear(Date.now() - YEAR * years, context)
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.SINCE_Y,
+    regexp: parser.QUERY_REGEXPS.SINCE_Y,
     select: sinceQuery
   },
   {
-    regexp: parser.QUERY_REGEXP.SINCE_Y_M,
+    regexp: parser.QUERY_REGEXPS.SINCE_Y_M,
     select: sinceQuery
   },
   {
-    regexp: parser.QUERY_REGEXP.SINCE_Y_M_D,
+    regexp: parser.QUERY_REGEXPS.SINCE_Y_M_D,
     select: sinceQuery
   },
   {
-    regexp: parser.QUERY_REGEXP.POPULARITY,
+    regexp: parser.QUERY_REGEXPS.POPULARITY,
     select: function (context, sign, popularity) {
       popularity = parseFloat(popularity)
       var usage = browserslist.usage.global
@@ -835,7 +832,7 @@ var QUERIES = [
     }
   },
   {
-    regexp:parser.QUERY_REGEXP.POPULARITY_IN_MY_STATS,
+    regexp:parser.QUERY_REGEXPS.POPULARITY_IN_MY_STATS,
     select: function (context, sign, popularity) {
       popularity = parseFloat(popularity)
       if (!context.customUsage) {
@@ -868,7 +865,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.POPULARITY_IN_CONFIG_STATS,
+    regexp: parser.QUERY_REGEXPS.POPULARITY_IN_CONFIG_STATS,
     select: function (context, sign, popularity, name) {
       popularity = parseFloat(popularity)
       var stats = env.loadStat(context, name, browserslist.data)
@@ -908,7 +905,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.POPULARITY_IN_COUNTRY,
+    regexp: parser.QUERY_REGEXPS.POPULARITY_IN_COUNTRY,
     select: function (context, sign, popularity, place) {
       popularity = parseFloat(popularity)
       if (place.length === 2) {
@@ -944,15 +941,15 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.COVER,
+    regexp: parser.QUERY_REGEXPS.COVER,
     select: coverQuery
   },
   {
-    regexp: parser.QUERY_REGEXP.COVER_IN,
+    regexp: parser.QUERY_REGEXPS.COVER_IN,
     select: coverQuery
   },
   {
-    regexp: parser.QUERY_REGEXP.SUPPORTS,
+    regexp: parser.QUERY_REGEXPS.SUPPORTS,
     select: function (context, feature) {
       env.loadFeature(browserslist.cache, feature)
       var features = browserslist.cache[feature]
@@ -966,7 +963,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.ELECTRON_RANGE,
+    regexp: parser.QUERY_REGEXPS.ELECTRON_RANGE,
     select: function (context, from, to) {
       var fromToUse = normalizeElectron(from)
       var toToUse = normalizeElectron(to)
@@ -989,7 +986,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.NODE_RANGE,
+    regexp: parser.QUERY_REGEXPS.NODE_RANGE,
     select: function (context, from, to) {
       return browserslist.nodeVersions
         .filter(semverFilterLoose('>=', from))
@@ -1000,7 +997,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.BROWSER_RANGE,
+    regexp: parser.QUERY_REGEXPS.BROWSER_RANGE,
     select: function (context, name, from, to) {
       var data = checkName(name, context)
       from = parseFloat(normalizeVersion(data, from) || from)
@@ -1013,7 +1010,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.ELECTRON_RAY,
+    regexp: parser.QUERY_REGEXPS.ELECTRON_RAY,
     select: function (context, sign, version) {
       var versionToUse = normalizeElectron(version)
       return Object.keys(e2c)
@@ -1024,7 +1021,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.NODE_RAY,
+    regexp: parser.QUERY_REGEXPS.NODE_RAY,
     select: function (context, sign, version) {
       return browserslist.nodeVersions
         .filter(generateSemverFilter(sign, version))
@@ -1034,7 +1031,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.BROWSER_RAY,
+    regexp: parser.QUERY_REGEXPS.BROWSER_RAY,
     select: function (context, name, sign, version) {
       var data = checkName(name, context)
       var alias = browserslist.versionAliases[data.name][version]
@@ -1049,19 +1046,19 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.FIREFOX_ESR,
+    regexp: parser.QUERY_REGEXPS.FIREFOX_ESR,
     select: function () {
       return ['firefox 91']
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.OPERA_MINI,
+    regexp: parser.QUERY_REGEXPS.OPERA_MINI,
     select: function () {
       return ['op_mini all']
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.ELECTRON_VERSION,
+    regexp: parser.QUERY_REGEXPS.ELECTRON_VERSION,
     select: function (context, version) {
       var versionToUse = normalizeElectron(version)
       var chrome = e2c[versionToUse]
@@ -1074,25 +1071,25 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.NODE_MAJOR_VERSION,
+    regexp: parser.QUERY_REGEXPS.NODE_MAJOR_VERSION,
     select: nodeQuery
   },
   {
-    regexp: parser.QUERY_REGEXP.NODE_MINOR_VERSION,
+    regexp: parser.QUERY_REGEXPS.NODE_MINOR_VERSION,
     select: nodeQuery
   },
   {
-    regexp: parser.QUERY_REGEXP.NODE_PATCH_VERSION,
+    regexp: parser.QUERY_REGEXPS.NODE_PATCH_VERSION,
     select: nodeQuery
   },
   {
-    regexp: parser.QUERY_REGEXP.NODE_CURRENT_VERSION,
+    regexp: parser.QUERY_REGEXPS.NODE_CURRENT_VERSION,
     select: function (context) {
       return [env.currentNode(resolve, context)]
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.NODE_MAINTAINED_VERSIONS,
+    regexp: parser.QUERY_REGEXPS.NODE_MAINTAINED_VERSIONS,
     select: function (context) {
       var now = Date.now()
       var queries = Object.keys(jsEOL)
@@ -1110,19 +1107,19 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.PHANTOMJS_1_9,
+    regexp: parser.QUERY_REGEXPS.PHANTOMJS_1_9,
     select: function () {
       return ['safari 5']
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.PHANTOMJS_2_1,
+    regexp: parser.QUERY_REGEXPS.PHANTOMJS_2_1,
     select: function () {
       return ['safari 6']
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.BROWSER_VERSION,
+    regexp: parser.QUERY_REGEXPS.BROWSER_VERSION,
     select: function (context, name, version) {
       if (/^tp$/i.test(version)) version = 'TP'
       var data = checkName(name, context)
@@ -1150,25 +1147,25 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.BROWSERSLIST_CONFIG,
+    regexp: parser.QUERY_REGEXPS.BROWSERSLIST_CONFIG,
     select: function (context) {
       return browserslist(undefined, context)
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.EXTENDS,
+    regexp: parser.QUERY_REGEXPS.EXTENDS,
     select: function (context, name) {
       return resolve(env.loadQueries(context, name), context)
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.DEFAULTS,
+    regexp: parser.QUERY_REGEXPS.DEFAULTS,
     select: function (context) {
       return resolve(browserslist.defaults, context)
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.DEAD,
+    regexp: parser.QUERY_REGEXPS.DEAD,
     select: function (context) {
       var dead = [
         'ie <= 10',
@@ -1181,7 +1178,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: parser.QUERY_REGEXP.UNKNOWN,
+    regexp: parser.QUERY_REGEXPS.UNKNOWN,
     select: function (context, name) {
       if (byName(name, context)) {
         throw new BrowserslistError(

@@ -1,12 +1,14 @@
 var QUERY_OR = 1
 var QUERY_AND = 2
 
-var QUERY_REGEXP = {
+var QUERY_REGEXPS = {
   LAST_MAJOR_VERSIONS: /^last\s+(\d+)\s+major\s+versions?$/i,
   LAST_VERSIONS: /^last\s+(\d+)\s+versions?$/i,
   LAST_ELECTRON_MAJOR_VERSIONS: /^last\s+(\d+)\s+electron\s+major\s+versions?$/i,
+  LAST_NODE_MAJOR_VERSIONS: /^last\s+(\d+)\s+node\s+major\s+versions?$/i,
   LAST_BROWSER_MAJOR_VERSIONS: /^last\s+(\d+)\s+(\w+)\s+major\s+versions?$/i,
   LAST_ELECTRON_VERSIONS: /^last\s+(\d+)\s+electron\s+versions?$/i,
+  LAST_NODE_VERSIONS: /^last\s+(\d+)\s+node\s+versions?$/i,
   LAST_BROWSER_VERSIONS: /^last\s+(\d+)\s+(\w+)\s+versions?$/i,
   UNRELEASED_VERSIONS: /^unreleased\s+versions$/i,
   UNRELEASED_ELECTRON_VERSIONS: /^unreleased\s+electron\s+versions?$/i,
@@ -86,6 +88,6 @@ function find(string, predicate) {
 module.exports = {
   QUERY_OR: QUERY_OR,
   QUERY_AND: QUERY_AND,
-  QUERY_REGEXP: QUERY_REGEXP,
+  QUERY_REGEXPS: QUERY_REGEXPS,
   parse: parse
 }

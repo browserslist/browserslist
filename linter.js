@@ -5,12 +5,12 @@ var parser = require('./parser')
 var NOT_DEAD_QUERY = /^not dead$/i
 var LIMITED_BROWSERS_COUNT = 7
 var LIMITED_BROWSERS_QUERIES = [
-  [parser.QUERY_REGEXP.LAST_BROWSER_MAJOR_VERSIONS, 2],
-  [parser.QUERY_REGEXP.LAST_BROWSER_VERSIONS, 2],
-  [parser.QUERY_REGEXP.UNRELEASED_BROWSER_VERSIONS, 1],
-  [parser.QUERY_REGEXP.BROWSER_RANGE, 1],
-  [parser.QUERY_REGEXP.BROWSER_RAY, 1],
-  [parser.QUERY_REGEXP.BROWSER_VERSION, 1]
+  [parser.QUERY_REGEXPS.LAST_BROWSER_MAJOR_VERSIONS, 2],
+  [parser.QUERY_REGEXPS.LAST_BROWSER_VERSIONS, 2],
+  [parser.QUERY_REGEXPS.UNRELEASED_BROWSER_VERSIONS, 1],
+  [parser.QUERY_REGEXPS.BROWSER_RANGE, 1],
+  [parser.QUERY_REGEXPS.BROWSER_RAY, 1],
+  [parser.QUERY_REGEXPS.BROWSER_VERSION, 1]
 ]
 var COUNTRIES_1M = [
   'AE', 'AF', 'AL', 'AM', 'AO', 'AR', 'AT', 'AU', 'AZ',
@@ -45,8 +45,8 @@ var rules = [
         if (!hasNotDeadQuery && NOT_DEAD_QUERY.test(query)) {
           hasNotDeadQuery = true
         } else if (!hasLastQuery) {
-          hasLastQuery = parser.QUERY_REGEXP.LAST_MAJOR_VERSIONS.test(query)
-            || parser.QUERY_REGEXP.LAST_VERSIONS.test(query)
+          hasLastQuery = parser.QUERY_REGEXPS.LAST_MAJOR_VERSIONS.test(query)
+            || parser.QUERY_REGEXPS.LAST_VERSIONS.test(query)
         }
 
         return hasLastQuery && hasNotDeadQuery
