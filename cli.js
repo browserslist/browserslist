@@ -4,6 +4,7 @@ var fs = require('fs')
 
 var browserslist = require('./')
 var updateDb = require('./update-db')
+var linter = require('./linter')
 var pkg = require('./package.json')
 
 var args = process.argv.slice(2)
@@ -48,6 +49,7 @@ if (isArg('--help') || isArg('-h')) {
   var opts = {}
   var queries
   var areas
+  var lint
 
   for (var i = 0; i < args.length; i++) {
     if (args[i][0] !== '-') {
@@ -74,6 +76,8 @@ if (isArg('--help') || isArg('-h')) {
       } else {
         areas = ['global']
       }
+    } else if (name === '--lint') {
+      lint = true
     } else if (name === '--json') {
       mode = 'json'
     } else if (name === '--mobile-to-desktop') {
@@ -85,6 +89,16 @@ if (isArg('--help') || isArg('-h')) {
     } else {
       error('Unknown arguments ' + args[i] + '.\n\n' + USAGE)
     }
+  }
+
+  if (lint) {
+    var problems = browserslist.lint(queries, opts)
+    var output = mode === 'json'
+      ? JSON.stringify(problems, null, '  ') + '\n'
+      : linter.formatReport(problems)
+
+    process.stdout.write(output)
+    process.exit(problems.length ? 1 : 0)
   }
 
   var browsers
