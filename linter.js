@@ -34,6 +34,16 @@ var COUNTRIES_1M = [
 ]
 var COUNTRIES_MIN_COVERAGE = 80
 
+function getTotalCoverage(data) {
+  var total = 0
+
+  for (var i in data) {
+    total += data[i] || 0
+  }
+
+  return total
+}
+
 var rules = [
   {
     id: 'missed-not-dead',
@@ -90,11 +100,13 @@ var rules = [
     check: function check(browserslist, queries, opts) {
       var coverage
       var countries = []
+      var tx = 0
 
       COUNTRIES_1M.forEach(function (country) {
         coverage = browserslist.coverage(browserslist(queries, opts), country)
+        tx = 100 / getTotalCoverage(browserslist.usage[country])
 
-        if (coverage < COUNTRIES_MIN_COVERAGE) {
+        if (coverage * tx < COUNTRIES_MIN_COVERAGE) {
           countries.push(country)
         }
       })
@@ -157,7 +169,7 @@ function formatReport(problems) {
     return str + pico.yellow('[' + problem.id + ']') + offset + problem.message + '\n'
   }, '')
 
-  report += '\n' + pico.red('✖ ') + problems.length + ' problems'
+  report += '\n' + pico.red('✖ ') + problems.length + ' problems\n'
 
   return report
 }
