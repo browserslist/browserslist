@@ -97,7 +97,7 @@ if (isArg('--help') || isArg('-h')) {
       ? JSON.stringify(problems, null, '  ') + '\n'
       : linter.formatReport(problems)
 
-    process.stdout.write(output)
+    process.stderr.write(output)
     process.exit(problems.length ? 1 : 0)
   }
 

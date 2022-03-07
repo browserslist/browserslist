@@ -119,9 +119,9 @@ var rules = [
 
       if (meta.length > 5) {
         regions += ' and ' + (meta.length - 5) + ' more regions'
-      } else {
+      } else /* c8 ignore start */ {
         regions = regions.replace(/, (\w+)$/, ' and $1 regions')
-      }
+      } /* c8 ignore end */
 
       return msg + regions
     }

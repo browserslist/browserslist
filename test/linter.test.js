@@ -1,5 +1,5 @@
 let { test } = require('uvu')
-let { is } = require('uvu/assert')
+let { is, ok } = require('uvu/assert')
 
 let browserslist = require('..')
 let linter = require('../linter')
@@ -55,10 +55,17 @@ test('reports country-was-ignored problem', () => {
   is(problems.filter(p => p.id === 'country-was-ignored').length, 1)
 })
 
-test.skip('does not reports country-was-ignored problem', () => {
-  let problems = linter.lint(browserslist, 'defaults')
+test('does not reports country-was-ignored problem', () => {
+  let problems = linter.lint(browserslist, 'last 100 versions')
 
   is(problems.filter(p => p.id === 'country-was-ignored').length, 0)
+})
+
+test('formats report', () => {
+  let problems = linter.lint(browserslist, 'last 2 versions')
+  let report = linter.formatReport(problems)
+
+  ok(report.length > 0)
 })
 
 test.run()
