@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.20.1
+* Fixed `package.funding`.
+* Fixed docs (by Michael Lohmann).
+
 ## 4.20
 * Added `last 2 node versions` and `last 2 node major versions` (by @g-plane).
 
