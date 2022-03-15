@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.20.2
+* Fixed `package.funding` URL format.
+
 ## 4.20.1
 * Fixed `package.funding`.
 * Fixed docs (by Michael Lohmann).
