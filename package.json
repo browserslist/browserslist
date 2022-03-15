@@ -26,8 +26,8 @@
     "unit:fast": "NODE_ENV=test uvu test '^[^/]+.test.js'"
   },
   "dependencies": {
-    "caniuse-lite": "^1.0.30001313",
-    "electron-to-chromium": "^1.4.76",
+    "caniuse-lite": "^1.0.30001317",
+    "electron-to-chromium": "^1.4.84",
     "escalade": "^3.1.1",
     "node-releases": "^2.0.2",
     "picocolors": "^1.0.0"
@@ -45,7 +45,7 @@
     "c8": "^7.11.0",
     "clean-publish": "^4.0.0",
     "cross-spawn": "^7.0.3",
-    "eslint": "^8.10.0",
+    "eslint": "^8.11.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-es5": "^1.5.0",
     "eslint-plugin-import": "^2.25.4",
