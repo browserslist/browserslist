@@ -1157,7 +1157,7 @@ var QUERIES = [
     regexp: /^browserslist config$/i,
     select: function (context) {
       return browserslist(undefined, context)
-    }
+    }
   },
   {
     regexp: /^extends (.+)$/i,
@@ -1175,6 +1175,7 @@ var QUERIES = [
     regexp: /^dead$/i,
     select: function (context) {
       var dead = [
+        'Baidu >= 0',
         'ie <= 10',
         'ie_mob <= 11',
         'bb <= 10',
