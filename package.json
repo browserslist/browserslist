@@ -40,7 +40,7 @@
   },
   "types": "./index.d.ts",
   "devDependencies": {
-    "@logux/eslint-config": "^47.0.0",
+    "@logux/eslint-config": "^47.2.0",
     "@size-limit/preset-small-lib": "^7.0.8",
     "c8": "^7.11.2",
     "clean-publish": "^4.0.0",
