@@ -319,7 +319,7 @@ The following table maps browser names & their target devices into identifiers u
 | Baidu             | `Baidu`          |                           |                          |                   |
 | BlackBerry        |                  |                           |                          | `BlackBerry` `bb` |
 | Chrome            | `Chrome`         | `ChromeAndroid` `and_chr` | ↪︎ `ios_saf`<sup>2</sup>  |                   |
-| Edge              | `Edge`           | ↪︎ `and_chrome`            | ↪︎ `ios_saf`<sup>2</sup>  |                   |
+| Edge              | `Edge`           | ↪︎ `and_chr`               | ↪︎ `ios_saf`<sup>2</sup>  |                   |
 | Electron          | `Electron`       |                           |                          |                   |
 | Firefox           | `Firefox` `ff`   | `FirefoxAndroid` `and_ff` | ↪︎ `ios_saf`<sup>2</sup>  |                   |
 | Internet Explorer | `Explorer` `ie`  |                           |                          | `ie_mob`          |
