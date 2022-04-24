@@ -26,10 +26,10 @@
     "unit:fast": "NODE_ENV=test uvu test '^[^/]+.test.js'"
   },
   "dependencies": {
-    "caniuse-lite": "^1.0.30001317",
-    "electron-to-chromium": "^1.4.84",
+    "caniuse-lite": "^1.0.30001332",
+    "electron-to-chromium": "^1.4.118",
     "escalade": "^3.1.1",
-    "node-releases": "^2.0.2",
+    "node-releases": "^2.0.3",
     "picocolors": "^1.0.0"
   },
   "engines": {
@@ -40,20 +40,20 @@
   },
   "types": "./index.d.ts",
   "devDependencies": {
-    "@logux/eslint-config": "^46.1.1",
+    "@logux/eslint-config": "^47.0.0",
     "@size-limit/preset-small-lib": "^7.0.8",
-    "c8": "^7.11.0",
+    "c8": "^7.11.2",
     "clean-publish": "^4.0.0",
     "cross-spawn": "^7.0.3",
-    "eslint": "^8.11.0",
-    "eslint-config-standard": "^16.0.3",
+    "eslint": "^8.14.0",
+    "eslint-config-standard": "^17.0.0",
     "eslint-plugin-es5": "^1.5.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.1.0",
     "eslint-plugin-prefer-let": "^3.0.1",
     "eslint-plugin-promise": "^6.0.0",
-    "fs-extra": "^10.0.1",
-    "nanoid": "^3.3.1",
+    "fs-extra": "^10.1.0",
+    "nanoid": "^3.3.3",
     "nanospy": "^0.5.0",
     "size-limit": "^7.0.8",
     "uvu": "^0.5.3"
@@ -76,7 +76,7 @@
   "size-limit": [
     {
       "path": "index.js",
-      "limit": "14 KB"
+      "limit": "15 KB"
     }
   ],
   "eslintConfig": {
@@ -90,7 +90,7 @@
     "rules": {
       "prefer-let/prefer-let": "off",
       "prefer-arrow-callback": "off",
-      "node/global-require": "off",
+      "n/global-require": "off",
       "object-shorthand": "off",
       "no-console": "off",
       "no-var": "off"
@@ -99,7 +99,7 @@
       {
         "files": "test/**/*",
         "rules": {
-          "node/no-unsupported-features/es-syntax": "off",
+          "n/no-unsupported-features/es-syntax": "off",
           "es5/no-shorthand-properties": "off",
           "es5/no-template-literals": "off",
           "es5/no-rest-parameters": "off",
