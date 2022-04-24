@@ -1157,7 +1157,7 @@ var QUERIES = [
     regexp: /^browserslist config$/i,
     select: function (context) {
       return browserslist(undefined, context)
-    }
+    }
   },
   {
     regexp: /^extends (.+)$/i,
