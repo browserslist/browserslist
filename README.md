@@ -238,7 +238,7 @@ You can specify the browser and Node.js versions by queries (case insensitive):
     all minor/patch releases of last 2 major versions.
 * `dead`: browsers without official support or updates for 24 months.
   Right now it is `IE 10`, `IE_Mob 11`, `BlackBerry 10`, `BlackBerry 7`,
-  `Samsung 4` and `OperaMobile 12.1`.
+  `Samsung 4`, `OperaMobile 12.1` and all versions of `Baidu`.
 * Node.js versions:
   * `node 10` and `node 10.4`: selects latest Node.js `10.x.x`
   or `10.4.x` release.
