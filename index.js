@@ -1176,7 +1176,7 @@ var QUERIES = [
     select: function (context) {
       var dead = [
         'Baidu >= 0',
-        'ie <= 10',
+        'ie <= 11',
         'ie_mob <= 11',
         'bb <= 10',
         'op_mob <= 12.1',
