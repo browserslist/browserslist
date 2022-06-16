@@ -1,10 +1,11 @@
 var QUERY_OR = 1
 var QUERY_AND = 2
 
-var QUERY_REGEXPS = {
+var QUERIES = {
   LAST_MAJOR_VERSIONS: /^last\s+(\d+)\s+major\s+versions?$/i,
   LAST_VERSIONS: /^last\s+(\d+)\s+versions?$/i,
-  LAST_ELECTRON_MAJOR_VERSIONS: /^last\s+(\d+)\s+electron\s+major\s+versions?$/i,
+  LAST_ELECTRON_MAJOR_VERSIONS:
+    /^last\s+(\d+)\s+electron\s+major\s+versions?$/i,
   LAST_NODE_MAJOR_VERSIONS: /^last\s+(\d+)\s+node\s+major\s+versions?$/i,
   LAST_BROWSER_MAJOR_VERSIONS: /^last\s+(\d+)\s+(\w+)\s+major\s+versions?$/i,
   LAST_ELECTRON_VERSIONS: /^last\s+(\d+)\s+electron\s+versions?$/i,
@@ -15,12 +16,15 @@ var QUERY_REGEXPS = {
   UNRELEASED_BROWSER_VERSIONS: /^unreleased\s+(\w+)\s+versions?$/i,
   LAST_YEARS: /^last\s+(\d*.?\d+)\s+years?$/i,
   SINCE_Y: /^since (\d+)$/i,
-  SINCE_Y_M:  /^since (\d+)-(\d+)$/i,
+  SINCE_Y_M: /^since (\d+)-(\d+)$/i,
   SINCE_Y_M_D: /^since (\d+)-(\d+)-(\d+)$/i,
   POPULARITY: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%$/,
-  POPULARITY_IN_MY_STATS: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+my\s+stats$/,
-  POPULARITY_IN_CONFIG_STATS: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+(\S+)\s+stats$/,
-  POPULARITY_IN_COUNTRY: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+((alt-)?\w\w)$/,
+  POPULARITY_IN_MY_STATS:
+    /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+my\s+stats$/,
+  POPULARITY_IN_CONFIG_STATS:
+    /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+(\S+)\s+stats$/,
+  POPULARITY_IN_COUNTRY:
+    /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+((alt-)?\w\w)$/,
   COVER: /^cover\s+(\d+|\d+\.\d+|\.\d+)%$/i,
   COVER_IN: /^cover\s+(\d+|\d+\.\d+|\.\d+)%\s+in\s+(my\s+stats|(alt-)?\w\w)$/i,
   SUPPORTS: /^supports\s+([\w-]+)$/,
@@ -86,8 +90,8 @@ function find(string, predicate) {
 }
 
 module.exports = {
-  QUERY_OR: QUERY_OR,
   QUERY_AND: QUERY_AND,
-  QUERY_REGEXPS: QUERY_REGEXPS,
+  QUERY_OR: QUERY_OR,
+  QUERIES: QUERIES,
   parse: parse
 }
