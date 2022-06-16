@@ -1,3 +1,5 @@
+import linter from './linter.d'
+
 /**
  * Return array of browsers by selection queries.
  *
@@ -143,6 +145,18 @@ declare namespace browserslist {
    * @returns Total market coverage for all selected browsers.
    */
   function coverage(browsers: readonly string[], stats?: StatsOptions): number
+
+  /**
+   * Lint browserslist config.
+   *
+   * @param [queries=browserslist.defaults] Browser queries.
+   * @param [opts] Browserslist options.
+   * @returns Lint problems.
+   */
+  function lint(
+    queries?: string | readonly string[] | null,
+    opts?: browserslist.Options
+  ): linter.Problem[]
 
   function clearCaches(): void
 

@@ -6,12 +6,11 @@ var e2c = require('electron-to-chromium/versions')
 
 var BrowserslistError = require('./error')
 var env = require('./node') // Will load browser.js in webpack
+var parser = require('./parser')
+var linter = require('./linter')
 
 var YEAR = 365.259641 * 24 * 60 * 60 * 1000
 var ANDROID_EVERGREEN_FIRST = 37
-
-var QUERY_OR = 1
-var QUERY_AND = 2
 
 function isVersionsMatch(versionA, versionB) {
   return (versionA + '.').indexOf(versionB + '.') === 0
@@ -312,9 +311,9 @@ function filterAndroid(list, versions, context) {
  */
 function resolve(queries, context) {
   if (Array.isArray(queries)) {
-    queries = flatten(queries.map(parse))
+    queries = flatten(queries.map(parser.parse))
   } else {
-    queries = parse(queries)
+    queries = parser.parse(queries)
   }
 
   return queries.reduce(function (result, query, index) {
@@ -348,7 +347,7 @@ function resolve(queries, context) {
         })
 
         switch (query.type) {
-          case QUERY_AND:
+          case parser.QUERY_AND:
             if (isExclude) {
               return result.filter(function (j) {
                 return array.indexOf(j) === -1
@@ -358,7 +357,7 @@ function resolve(queries, context) {
                 return array.indexOf(j) !== -1
               })
             }
-          case QUERY_OR:
+          case parser.QUERY_OR:
           default:
             if (isExclude) {
               var filter = {}
@@ -376,6 +375,37 @@ function resolve(queries, context) {
 
     throw unknownQuery(selection)
   }, [])
+}
+
+function prepairOpts(opts) {
+  if (typeof opts === 'undefined') opts = {}
+
+  if (typeof opts.path === 'undefined') {
+    opts.path = path.resolve ? path.resolve('.') : '.'
+  }
+
+  return opts
+}
+
+function prepairQueries(queries, opts) {
+  if (typeof queries === 'undefined' || queries === null) {
+    var config = browserslist.loadConfig(opts)
+    if (config) {
+      queries = config
+    } else {
+      queries = browserslist.defaults
+    }
+  }
+
+  return queries
+}
+
+function checkQueries(queries) {
+  if (!(typeof queries === 'string' || Array.isArray(queries))) {
+    throw new BrowserslistError(
+      'Browser queries must be an array or string. Got ' + typeof queries + '.'
+    )
+  }
 }
 
 var cache = {}
@@ -407,26 +437,10 @@ var cache = {}
  * browserslist('IE >= 10, IE 8') //=> ['ie 11', 'ie 10', 'ie 8']
  */
 function browserslist(queries, opts) {
-  if (typeof opts === 'undefined') opts = {}
+  opts = prepairOpts(opts)
+  queries = prepairQueries(queries, opts)
 
-  if (typeof opts.path === 'undefined') {
-    opts.path = path.resolve ? path.resolve('.') : '.'
-  }
-
-  if (typeof queries === 'undefined' || queries === null) {
-    var config = browserslist.loadConfig(opts)
-    if (config) {
-      queries = config
-    } else {
-      queries = browserslist.defaults
-    }
-  }
-
-  if (!(typeof queries === 'string' || Array.isArray(queries))) {
-    throw new BrowserslistError(
-      'Browser queries must be an array or string. Got ' + typeof queries + '.'
-    )
-  }
+  checkQueries(queries)
 
   var context = {
     ignoreUnknownVersions: opts.ignoreUnknownVersions,
@@ -466,43 +480,6 @@ function browserslist(queries, opts) {
     cache[cacheKey] = result
   }
   return result
-}
-
-function parse(queries) {
-  var qs = []
-  do {
-    queries = doMatch(queries, qs)
-  } while (queries)
-  return qs
-}
-
-function doMatch(string, qs) {
-  var or = /^(?:,\s*|\s+or\s+)(.*)/i
-  var and = /^\s+and\s+(.*)/i
-
-  return find(string, function (parsed, n, max) {
-    if (and.test(parsed)) {
-      qs.unshift({ type: QUERY_AND, queryString: parsed.match(and)[1] })
-      return true
-    } else if (or.test(parsed)) {
-      qs.unshift({ type: QUERY_OR, queryString: parsed.match(or)[1] })
-      return true
-    } else if (n === max) {
-      qs.unshift({ type: QUERY_OR, queryString: parsed.trim() })
-      return true
-    }
-    return false
-  })
-}
-
-function find(string, predicate) {
-  for (var n = 1, max = string.length; n <= max; n++) {
-    var parsed = string.substr(-n, n)
-    if (predicate(parsed, n, max)) {
-      return string.slice(0, -n)
-    }
-  }
-  return ''
 }
 
 function flatten(array) {
@@ -616,6 +593,22 @@ browserslist.coverage = function (browsers, stats) {
   }, 0)
 }
 
+/**
+ * Lint browserslist config.
+ *
+ * @param {(string|string[])} [queries=browserslist.defaults] Browser queries.
+ * @param {object} [opts] Browserslist options.
+ * @returns {object[]} Lint problems.
+ */
+browserslist.lint = function (queries, opts) {
+  opts = prepairOpts(opts)
+  queries = prepairQueries(queries, opts)
+
+  checkQueries(queries)
+
+  return linter.lint(browserslist, queries, opts)
+}
+
 function nodeQuery(context, version) {
   var matched = browserslist.nodeVersions.filter(function (i) {
     return isVersionsMatch(i, version)
@@ -675,7 +668,7 @@ function coverQuery(context, coverage, statMode) {
 
 var QUERIES = [
   {
-    regexp: /^last\s+(\d+)\s+major\s+versions?$/i,
+    regexp: parser.QUERY_REGEXPS.LAST_MAJOR_VERSIONS,
     select: function (context, versions) {
       return Object.keys(agents).reduce(function (selected, name) {
         var data = byName(name, context)
@@ -690,7 +683,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^last\s+(\d+)\s+versions?$/i,
+    regexp: parser.QUERY_REGEXPS.LAST_VERSIONS,
     select: function (context, versions) {
       return Object.keys(agents).reduce(function (selected, name) {
         var data = byName(name, context)
@@ -705,7 +698,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^last\s+(\d+)\s+electron\s+major\s+versions?$/i,
+    regexp: parser.QUERY_REGEXPS.LAST_ELECTRON_MAJOR_VERSIONS,
     select: function (context, versions) {
       var validVersions = getMajorVersions(Object.keys(e2c), versions)
       return validVersions.map(function (i) {
@@ -714,7 +707,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^last\s+(\d+)\s+node\s+major\s+versions?$/i,
+    regexp: parser.QUERY_REGEXPS.LAST_NODE_MAJOR_VERSIONS,
     select: function (context, versions) {
       return getMajorVersions(browserslist.nodeVersions, versions).map(
         function (version) {
@@ -724,7 +717,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^last\s+(\d+)\s+(\w+)\s+major\s+versions?$/i,
+    regexp: parser.QUERY_REGEXPS.LAST_BROWSER_MAJOR_VERSIONS,
     select: function (context, versions, name) {
       var data = checkName(name, context)
       var validVersions = getMajorVersions(data.released, versions)
@@ -736,7 +729,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^last\s+(\d+)\s+electron\s+versions?$/i,
+    regexp: parser.QUERY_REGEXPS.LAST_ELECTRON_VERSIONS,
     select: function (context, versions) {
       return Object.keys(e2c)
         .slice(-versions)
@@ -746,7 +739,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^last\s+(\d+)\s+node\s+versions?$/i,
+    regexp: parser.QUERY_REGEXPS.LAST_NODE_VERSIONS,
     select: function (context, versions) {
       return browserslist.nodeVersions.slice(-versions).map(function (version) {
         return 'node ' + version
@@ -754,7 +747,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^last\s+(\d+)\s+(\w+)\s+versions?$/i,
+    regexp: parser.QUERY_REGEXPS.LAST_BROWSER_VERSIONS,
     select: function (context, versions, name) {
       var data = checkName(name, context)
       var list = data.released.slice(-versions).map(nameMapper(data.name))
@@ -765,7 +758,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^unreleased\s+versions$/i,
+    regexp: parser.QUERY_REGEXPS.UNRELEASED_VERSIONS,
     select: function (context) {
       return Object.keys(agents).reduce(function (selected, name) {
         var data = byName(name, context)
@@ -779,13 +772,13 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^unreleased\s+electron\s+versions?$/i,
+    regexp: parser.QUERY_REGEXPS.UNRELEASED_ELECTRON_VERSIONS,
     select: function () {
       return []
     }
   },
   {
-    regexp: /^unreleased\s+(\w+)\s+versions?$/i,
+    regexp: parser.QUERY_REGEXPS.UNRELEASED_BROWSER_VERSIONS,
     select: function (context, name) {
       var data = checkName(name, context)
       return data.versions
@@ -796,25 +789,25 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^last\s+(\d*.?\d+)\s+years?$/i,
+    regexp: parser.QUERY_REGEXPS.LAST_YEARS,
     select: function (context, years) {
       return filterByYear(Date.now() - YEAR * years, context)
     }
   },
   {
-    regexp: /^since (\d+)$/i,
+    regexp: parser.QUERY_REGEXPS.SINCE_Y,
     select: sinceQuery
   },
   {
-    regexp: /^since (\d+)-(\d+)$/i,
+    regexp: parser.QUERY_REGEXPS.SINCE_Y_M,
     select: sinceQuery
   },
   {
-    regexp: /^since (\d+)-(\d+)-(\d+)$/i,
+    regexp: parser.QUERY_REGEXPS.SINCE_Y_M_D,
     select: sinceQuery
   },
   {
-    regexp: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%$/,
+    regexp: parser.QUERY_REGEXPS.POPULARITY,
     select: function (context, sign, popularity) {
       popularity = parseFloat(popularity)
       var usage = browserslist.usage.global
@@ -839,7 +832,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+my\s+stats$/,
+    regexp:parser.QUERY_REGEXPS.POPULARITY_IN_MY_STATS,
     select: function (context, sign, popularity) {
       popularity = parseFloat(popularity)
       if (!context.customUsage) {
@@ -872,7 +865,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+(\S+)\s+stats$/,
+    regexp: parser.QUERY_REGEXPS.POPULARITY_IN_CONFIG_STATS,
     select: function (context, sign, popularity, name) {
       popularity = parseFloat(popularity)
       var stats = env.loadStat(context, name, browserslist.data)
@@ -912,7 +905,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+((alt-)?\w\w)$/,
+    regexp: parser.QUERY_REGEXPS.POPULARITY_IN_COUNTRY,
     select: function (context, sign, popularity, place) {
       popularity = parseFloat(popularity)
       if (place.length === 2) {
@@ -948,15 +941,15 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^cover\s+(\d+|\d+\.\d+|\.\d+)%$/i,
+    regexp: parser.QUERY_REGEXPS.COVER,
     select: coverQuery
   },
   {
-    regexp: /^cover\s+(\d+|\d+\.\d+|\.\d+)%\s+in\s+(my\s+stats|(alt-)?\w\w)$/i,
+    regexp: parser.QUERY_REGEXPS.COVER_IN,
     select: coverQuery
   },
   {
-    regexp: /^supports\s+([\w-]+)$/,
+    regexp: parser.QUERY_REGEXPS.SUPPORTS,
     select: function (context, feature) {
       env.loadFeature(browserslist.cache, feature)
       var features = browserslist.cache[feature]
@@ -970,7 +963,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^electron\s+([\d.]+)\s*-\s*([\d.]+)$/i,
+    regexp: parser.QUERY_REGEXPS.ELECTRON_RANGE,
     select: function (context, from, to) {
       var fromToUse = normalizeElectron(from)
       var toToUse = normalizeElectron(to)
@@ -993,7 +986,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^node\s+([\d.]+)\s*-\s*([\d.]+)$/i,
+    regexp: parser.QUERY_REGEXPS.NODE_RANGE,
     select: function (context, from, to) {
       return browserslist.nodeVersions
         .filter(semverFilterLoose('>=', from))
@@ -1004,7 +997,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^(\w+)\s+([\d.]+)\s*-\s*([\d.]+)$/i,
+    regexp: parser.QUERY_REGEXPS.BROWSER_RANGE,
     select: function (context, name, from, to) {
       var data = checkName(name, context)
       from = parseFloat(normalizeVersion(data, from) || from)
@@ -1017,7 +1010,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^electron\s*(>=?|<=?)\s*([\d.]+)$/i,
+    regexp: parser.QUERY_REGEXPS.ELECTRON_RAY,
     select: function (context, sign, version) {
       var versionToUse = normalizeElectron(version)
       return Object.keys(e2c)
@@ -1028,7 +1021,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^node\s*(>=?|<=?)\s*([\d.]+)$/i,
+    regexp: parser.QUERY_REGEXPS.NODE_RAY,
     select: function (context, sign, version) {
       return browserslist.nodeVersions
         .filter(generateSemverFilter(sign, version))
@@ -1038,7 +1031,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^(\w+)\s*(>=?|<=?)\s*([\d.]+)$/,
+    regexp: parser.QUERY_REGEXPS.BROWSER_RAY,
     select: function (context, name, sign, version) {
       var data = checkName(name, context)
       var alias = browserslist.versionAliases[data.name][version]
@@ -1053,19 +1046,19 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^(firefox|ff|fx)\s+esr$/i,
+    regexp: parser.QUERY_REGEXPS.FIREFOX_ESR,
     select: function () {
       return ['firefox 91']
     }
   },
   {
-    regexp: /(operamini|op_mini)\s+all/i,
+    regexp: parser.QUERY_REGEXPS.OPERA_MINI,
     select: function () {
       return ['op_mini all']
     }
   },
   {
-    regexp: /^electron\s+([\d.]+)$/i,
+    regexp: parser.QUERY_REGEXPS.ELECTRON_VERSION,
     select: function (context, version) {
       var versionToUse = normalizeElectron(version)
       var chrome = e2c[versionToUse]
@@ -1078,25 +1071,25 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^node\s+(\d+)$/i,
+    regexp: parser.QUERY_REGEXPS.NODE_MAJOR_VERSION,
     select: nodeQuery
   },
   {
-    regexp: /^node\s+(\d+\.\d+)$/i,
+    regexp: parser.QUERY_REGEXPS.NODE_MINOR_VERSION,
     select: nodeQuery
   },
   {
-    regexp: /^node\s+(\d+\.\d+\.\d+)$/i,
+    regexp: parser.QUERY_REGEXPS.NODE_PATCH_VERSION,
     select: nodeQuery
   },
   {
-    regexp: /^current\s+node$/i,
+    regexp: parser.QUERY_REGEXPS.NODE_CURRENT_VERSION,
     select: function (context) {
       return [env.currentNode(resolve, context)]
     }
   },
   {
-    regexp: /^maintained\s+node\s+versions$/i,
+    regexp: parser.QUERY_REGEXPS.NODE_MAINTAINED_VERSIONS,
     select: function (context) {
       var now = Date.now()
       var queries = Object.keys(jsEOL)
@@ -1114,19 +1107,19 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^phantomjs\s+1.9$/i,
+    regexp: parser.QUERY_REGEXPS.PHANTOMJS_1_9,
     select: function () {
       return ['safari 5']
     }
   },
   {
-    regexp: /^phantomjs\s+2.1$/i,
+    regexp: parser.QUERY_REGEXPS.PHANTOMJS_2_1,
     select: function () {
       return ['safari 6']
     }
   },
   {
-    regexp: /^(\w+)\s+(tp|[\d.]+)$/i,
+    regexp: parser.QUERY_REGEXPS.BROWSER_VERSION,
     select: function (context, name, version) {
       if (/^tp$/i.test(version)) version = 'TP'
       var data = checkName(name, context)
@@ -1154,25 +1147,25 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^browserslist config$/i,
+    regexp: parser.QUERY_REGEXPS.BROWSERSLIST_CONFIG,
     select: function (context) {
       return browserslist(undefined, context)
     }
   },
   {
-    regexp: /^extends (.+)$/i,
+    regexp: parser.QUERY_REGEXPS.EXTENDS,
     select: function (context, name) {
       return resolve(env.loadQueries(context, name), context)
     }
   },
   {
-    regexp: /^defaults$/i,
+    regexp: parser.QUERY_REGEXPS.DEFAULTS,
     select: function (context) {
       return resolve(browserslist.defaults, context)
     }
   },
   {
-    regexp: /^dead$/i,
+    regexp: parser.QUERY_REGEXPS.DEAD,
     select: function (context) {
       var dead = [
         'Baidu >= 0',
@@ -1186,7 +1179,7 @@ var QUERIES = [
     }
   },
   {
-    regexp: /^(\w+)$/i,
+    regexp: parser.QUERY_REGEXPS.UNKNOWN,
     select: function (context, name) {
       if (byName(name, context)) {
         throw new BrowserslistError(

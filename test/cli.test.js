@@ -178,4 +178,31 @@ test('supports JSON with coverage', async () => {
   )
 })
 
+test('shows lint problems', async () => {
+  match(
+    await err('--lint', 'last 100 versions'),
+    '[missed-not-dead]'
+  )
+})
+
+test('does not shows lint problems', async () => {
+  is(
+    await out('--lint', 'last 100 versions, not dead'),
+    ''
+  )
+})
+
+test('supports JSON with lint', async () => {
+  is(
+    await err('--json', '--lint', 'last 100 versions'),
+`[
+  {
+    "id": "missed-not-dead",
+    "message": "\`not dead\` query skipped when using \`last N versions\` query"
+  }
+]
+`
+  )
+})
+
 test.run()
