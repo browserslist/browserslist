@@ -54,7 +54,9 @@ test('uses case insensitive aliases', () => {
 })
 
 test('raises on unknown browser', () => {
-  throws(() => { browserslist('unknow > 10') }, 'Unknown browser unknow')
+  throws(() => {
+    browserslist('unknown > 10')
+  }, 'Unknown browser unknown')
 })
 
 test('works with joined versions from Can I Use', () => {

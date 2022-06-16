@@ -13,12 +13,14 @@ declare function browserslist(
   opts?: browserslist.Options
 ): string[]
 
-interface Parser {
-  QUERIES: Record<string, RegExp>
-  parse(queries: string[]): object[]
-}
-
 declare namespace browserslist {
+  interface Query {
+    compose: 'or' | 'and'
+    type: string
+    query: string
+    not?: true
+  }
+
   interface Options {
     /**
      * Path to processed file. It will be used to find config files.
@@ -149,6 +151,11 @@ declare namespace browserslist {
    */
   function coverage(browsers: readonly string[], stats?: StatsOptions): number
 
+  function parse(
+    queries?: string | readonly string[] | null,
+    opts?: browserslist.Options
+  ): Query[]
+
   function clearCaches(): void
 
   function parseConfig(string: string): Config
@@ -164,8 +171,6 @@ declare namespace browserslist {
   }
 
   function loadConfig(options: LoadConfigOptions): string[] | undefined
-
-  let parser: Parser
 }
 
 declare global {
