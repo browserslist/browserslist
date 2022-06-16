@@ -1,16 +1,22 @@
 {
   "name": "browserslist",
-  "version": "4.20.0",
+  "version": "4.20.4",
   "description": "Share target browsers between different front-end tools, like Autoprefixer, Stylelint and babel-env-preset",
   "keywords": [
     "caniuse",
     "browsers",
     "target"
   ],
-  "funding": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/browserslist"
-  },
+  "funding": [
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/browserslist"
+    },
+    {
+      "type": "tidelift",
+      "url": "https://tidelift.com/funding/github/npm/browserslist"
+    }
+  ],
   "author": "Andrey Sitnik <andrey@sitnik.ru>",
   "license": "MIT",
   "repository": "browserslist/browserslist",
@@ -20,10 +26,10 @@
     "unit:fast": "NODE_ENV=test uvu test '^[^/]+.test.js'"
   },
   "dependencies": {
-    "caniuse-lite": "^1.0.30001313",
-    "electron-to-chromium": "^1.4.76",
+    "caniuse-lite": "^1.0.30001355",
+    "electron-to-chromium": "^1.4.158",
     "escalade": "^3.1.1",
-    "node-releases": "^2.0.2",
+    "node-releases": "^2.0.5",
     "picocolors": "^1.0.0"
   },
   "engines": {
@@ -34,20 +40,20 @@
   },
   "types": "./index.d.ts",
   "devDependencies": {
-    "@logux/eslint-config": "^46.1.1",
+    "@logux/eslint-config": "^47.2.0",
     "@size-limit/preset-small-lib": "^7.0.8",
-    "c8": "^7.11.0",
-    "clean-publish": "^4.0.0",
+    "c8": "^7.11.3",
+    "clean-publish": "^4.0.1",
     "cross-spawn": "^7.0.3",
-    "eslint": "^8.10.0",
-    "eslint-config-standard": "^16.0.3",
+    "eslint": "^8.17.0",
+    "eslint-config-standard": "^17.0.0",
     "eslint-plugin-es5": "^1.5.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.3",
     "eslint-plugin-prefer-let": "^3.0.1",
     "eslint-plugin-promise": "^6.0.0",
-    "fs-extra": "^10.0.1",
-    "nanoid": "^3.3.1",
+    "fs-extra": "^10.1.0",
+    "nanoid": "^3.3.4",
     "nanospy": "^0.5.0",
     "size-limit": "^7.0.8",
     "uvu": "^0.5.3"
@@ -70,7 +76,7 @@
   "size-limit": [
     {
       "path": "index.js",
-      "limit": "15.903 KB"
+      "limit": "16 KB"
     }
   ],
   "eslintConfig": {
@@ -84,7 +90,7 @@
     "rules": {
       "prefer-let/prefer-let": "off",
       "prefer-arrow-callback": "off",
-      "node/global-require": "off",
+      "n/global-require": "off",
       "object-shorthand": "off",
       "no-console": "off",
       "no-var": "off"
@@ -93,7 +99,7 @@
       {
         "files": "test/**/*",
         "rules": {
-          "node/no-unsupported-features/es-syntax": "off",
+          "n/no-unsupported-features/es-syntax": "off",
           "es5/no-shorthand-properties": "off",
           "es5/no-template-literals": "off",
           "es5/no-rest-parameters": "off",

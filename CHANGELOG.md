@@ -1,6 +1,19 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.20.4
+* Fix Opera in `mobileToDesktop` (by Pig Fang).
+
+## 4.20.3
+* Add `Baidu` to `dead` browsers (by Igor Lukanin).
+
+## 4.20.2
+* Fixed `package.funding` URL format.
+
+## 4.20.1
+* Fixed `package.funding`.
+* Fixed docs (by Michael Lohmann).
+
 ## 4.20
 * Added `last 2 node versions` and `last 2 node major versions` (by @g-plane).
 
