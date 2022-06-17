@@ -6,6 +6,7 @@
  * ```
  *
  * @param queries Browser queries.
+ * @param opts Options.
  * @returns Array with browser names in Can I Use.
  */
 declare function browserslist(
@@ -151,6 +152,13 @@ declare namespace browserslist {
    */
   function coverage(browsers: readonly string[], stats?: StatsOptions): number
 
+  /**
+   * Get queries AST to analyze the config content.
+   *
+   * @param queries Browser queries.
+   * @param opts Options.
+   * @returns An array of the data of each query in the config.
+   */
   function parse(
     queries?: string | readonly string[] | null,
     opts?: browserslist.Options
