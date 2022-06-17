@@ -378,32 +378,6 @@ function checkQueries(queries) {
 
 var cache = {}
 
-/**
- * Return array of browsers by selection queries.
- *
- * @param {(string|string[])} [queries=browserslist.defaults] Browser queries.
- * @param {object} [opts] Options.
- * @param {string} [opts.path="."] Path to processed file.
- *                                 It will be used to find config files.
- * @param {string} [opts.env="production"] Processing environment.
- *                                         It will be used to take right
- *                                         queries from config file.
- * @param {string} [opts.config] Path to config file with queries.
- * @param {object} [opts.stats] Custom browser usage statistics
- *                              for "> 1% in my stats" query.
- * @param {boolean} [opts.ignoreUnknownVersions=false] Do not throw on unknown
- *                                                     version in direct query.
- * @param {boolean} [opts.dangerousExtend] Disable security checks
- *                                         for extend query.
- * @param {boolean} [opts.throwOnMissing] Throw error on missing env.
- * @param {boolean} [opts.mobileToDesktop] Alias mobile browsers to the desktop
- *                                         version when Can I Use doesn't have
- *                                         data about the specified version.
- * @returns {string[]} Array with browser names in Can I Use.
- *
- * @example
- * browserslist('IE >= 10, IE 8') //=> ['ie 11', 'ie 10', 'ie 8']
- */
 function browserslist(queries, opts) {
   opts = prepareOpts(opts)
   queries = prepareQueries(queries, opts)
@@ -502,20 +476,6 @@ browserslist.readConfig = env.readConfig
 browserslist.findConfig = env.findConfig
 browserslist.loadConfig = env.loadConfig
 
-/**
- * Return browsers market coverage.
- *
- * @param {string[]} browsers Browsers names in Can I Use.
- * @param {string|object} [stats="global"] Which statistics should be used.
- *                                         Country code or custom statistics.
- *                                         Pass `"my stats"` to load statistics
- *                                         from Browserslist files.
- *
- * @return {number} Total market coverage for all selected browsers.
- *
- * @example
- * browserslist.coverage(browserslist('> 1% in US'), 'US') //=> 83.1
- */
 browserslist.coverage = function (browsers, stats) {
   var data
   if (typeof stats === 'undefined') {
