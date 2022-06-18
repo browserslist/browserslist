@@ -90,6 +90,9 @@ Browserslist will take queries from tool option,
 * [`browserslist-rs`] is a Browserslist port to Rust.
 * [`browserl.ist`](https://browserl.ist/) is an online tool to check
   what browsers will be selected by some query.
+* [`browserslist-update-action`] is a GitHub Action to automatically
+  runs `npx browserslist@latest --update-db` and proposes a pull request
+  to merge updates.
 * [`browserslist-ga`] and [`browserslist-ga-export`] download your website
   browsers statistics to use it in `> 0.5% in my stats` query.
 * [`browserslist-useragent-regexp`] compiles Browserslist query to a RegExp
