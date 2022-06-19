@@ -87,32 +87,43 @@ Browserslist will take queries from tool option,
 
 ## Tools
 
-* [`browserslist-rs`] is a Browserslist port to Rust.
+To analyze your Browserslist config:
+
 * [`browserl.ist`](https://browserl.ist/) is an online tool to check
   what browsers will be selected by some query.
+* Run `npx browserslist` in your project directory to see project’s
+  target browsers. This CLI tool is built-in and available in any project
+  with Autoprefixer.
 * [`browserslist-lint`] checks your config for popular mistakes.
-* [`browserslist-update-action`] is a GitHub Action to automatically
-  runs `npx browserslist@latest --update-db` and proposes a pull request
-  to merge updates.
-* [`browserslist-ga`] and [`browserslist-ga-export`] download your website
-  browsers statistics to use it in `> 0.5% in my stats` query.
+
+To show “We do not support your browser” banner:
+
 * [`browserslist-useragent-regexp`] compiles Browserslist query to a RegExp
   to test browser useragent.
 * [`browserslist-useragent-ruby`] is a Ruby library to checks browser
   by user agent string to match Browserslist.
+
+To get statistics data for `>5% in my stats`:
+
+* [`browserslist-ga`] and [`browserslist-ga-export`] download your website
+  browsers statistics to use it in `> 0.5% in my stats` query.
+* [`browserslist-new-relic`] generate a custom usage data file for Browserslist
+* [`browserslist-adobe-analytics`] use Adobe Analytics data to target browsers.
+  from your New Relic Browser data.
+
+Others:
+
+* [`browserslist-rs`] is a Browserslist port to Rust.
+* [`browserslist-update-action`] is a GitHub Action to automatically
+  runs `npx browserslist@latest --update-db` and proposes a pull request
+  to merge updates.
 * [`browserslist-browserstack`] runs BrowserStack tests for all browsers
   in Browserslist config.
-* [`browserslist-adobe-analytics`] use Adobe Analytics data to target browsers.
-* [`browserslist-new-relic`] generate a custom usage data file for Browserslist
-  from your New Relic Browser data.
-* [`caniuse-api`] returns browsers which support some specific feature.
-* Run `npx browserslist` in your project directory to see project’s
-  target browsers. This CLI tool is built-in and available in any project
-  with Autoprefixer.
 
 [`browserslist-useragent-regexp`]: https://github.com/browserslist/browserslist-useragent-regexp
 [`browserslist-adobe-analytics`]:  https://github.com/xeroxinteractive/browserslist-adobe-analytics
 [`browserslist-useragent-ruby`]:   https://github.com/browserslist/browserslist-useragent-ruby
+[`browserslist-update-action`]:    https://github.com/c2corg/browserslist-update-action
 [`browserslist-browserstack`]:     https://github.com/xeroxinteractive/browserslist-browserstack
 [`browserslist-ga-export`]:        https://github.com/browserslist/browserslist-ga-export
 [`browserslist-useragent`]:        https://github.com/pastelsky/browserslist-useragent
@@ -120,7 +131,6 @@ Browserslist will take queries from tool option,
 [`browserslist-lint`]:             https://github.com/browserslist/lint/
 [`browserslist-ga`]:               https://github.com/browserslist/browserslist-ga
 [`browserslist-rs`]:               https://github.com/g-plane/browserslist-rs
-[`browserslist-update-action`]:    https://github.com/c2corg/browserslist-update-action
 [`caniuse-api`]:                   https://github.com/Nyalab/caniuse-api
 
 
