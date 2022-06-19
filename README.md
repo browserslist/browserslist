@@ -90,6 +90,7 @@ Browserslist will take queries from tool option,
 * [`browserslist-rs`] is a Browserslist port to Rust.
 * [`browserl.ist`](https://browserl.ist/) is an online tool to check
   what browsers will be selected by some query.
+* [`browserslist-lint`] checks your config for popular mistakes.
 * [`browserslist-update-action`] is a GitHub Action to automatically
   runs `npx browserslist@latest --update-db` and proposes a pull request
   to merge updates.
@@ -115,11 +116,12 @@ Browserslist will take queries from tool option,
 [`browserslist-browserstack`]:     https://github.com/xeroxinteractive/browserslist-browserstack
 [`browserslist-ga-export`]:        https://github.com/browserslist/browserslist-ga-export
 [`browserslist-useragent`]:        https://github.com/pastelsky/browserslist-useragent
-[`browserslist-ga`]:               https://github.com/browserslist/browserslist-ga
 [`browserslist-new-relic`]:        https://github.com/syntactic-salt/browserslist-new-relic
-[`caniuse-api`]:                   https://github.com/Nyalab/caniuse-api
+[`browserslist-lint`]:             https://github.com/browserslist/lint/
+[`browserslist-ga`]:               https://github.com/browserslist/browserslist-ga
 [`browserslist-rs`]:               https://github.com/g-plane/browserslist-rs
 [`browserslist-update-action`]:    https://github.com/c2corg/browserslist-update-action
+[`caniuse-api`]:                   https://github.com/Nyalab/caniuse-api
 
 
 ### Text Editors
