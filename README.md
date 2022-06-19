@@ -119,6 +119,7 @@ Browserslist will take queries from tool option,
 [`browserslist-new-relic`]:        https://github.com/syntactic-salt/browserslist-new-relic
 [`caniuse-api`]:                   https://github.com/Nyalab/caniuse-api
 [`browserslist-rs`]:               https://github.com/g-plane/browserslist-rs
+[`browserslist-update-action`]:    https://github.com/c2corg/browserslist-update-action
 
 
 ### Text Editors
