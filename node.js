@@ -94,7 +94,12 @@ function pickEnv(config, opts) {
 }
 
 function parsePackage(file) {
-  var config = JSON.parse(fs.readFileSync(file))
+  var config = JSON.parse(
+    fs
+      .readFileSync(file)
+      .toString()
+      .replace(/^\uFEFF/m, '')
+  )
   if (config.browserlist && !config.browserslist) {
     throw new BrowserslistError(
       '`browserlist` key instead of `browserslist` in ' + file
