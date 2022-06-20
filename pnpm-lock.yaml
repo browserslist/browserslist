@@ -8,7 +8,6 @@ specifiers:
   clean-publish: ^4.0.1
   cross-spawn: ^7.0.3
   electron-to-chromium: ^1.4.161
-  escalade: ^3.1.1
   eslint: ^8.18.0
   eslint-config-standard: ^17.0.0
   eslint-plugin-es5: ^1.5.0
@@ -17,19 +16,17 @@ specifiers:
   eslint-plugin-prefer-let: ^3.0.1
   eslint-plugin-promise: ^6.0.0
   fs-extra: ^10.1.0
-  nanoid: ^3.3.4
   nanospy: ^0.5.0
   node-releases: ^2.0.5
-  picocolors: ^1.0.0
   size-limit: ^7.0.8
+  update-browserslist-db: github:browserslist/update-db
   uvu: ^0.5.3
 
 dependencies:
   caniuse-lite: 1.0.30001356
   electron-to-chromium: 1.4.161
-  escalade: 3.1.1
   node-releases: 2.0.5
-  picocolors: 1.0.0
+  update-browserslist-db: github.com/browserslist/update-db/582a544acbe8cf5066c570fa2d600808cfd36e30
 
 devDependencies:
   '@logux/eslint-config': 47.2.0_jtapuewgguff3gy4nccmfac7k4
@@ -45,7 +42,6 @@ devDependencies:
   eslint-plugin-prefer-let: 3.0.1
   eslint-plugin-promise: 6.0.0_eslint@8.18.0
   fs-extra: 10.1.0
-  nanoid: 3.3.4
   nanospy: 0.5.0
   size-limit: 7.0.8
   uvu: 0.5.3
@@ -2037,3 +2033,13 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  github.com/browserslist/update-db/582a544acbe8cf5066c570fa2d600808cfd36e30:
+    resolution: {tarball: https://codeload.github.com/browserslist/update-db/tar.gz/582a544acbe8cf5066c570fa2d600808cfd36e30}
+    name: update-browserslist-db
+    version: 0.0.0
+    hasBin: true
+    dependencies:
+      escalade: 3.1.1
+      picocolors: 1.0.0
+    dev: false

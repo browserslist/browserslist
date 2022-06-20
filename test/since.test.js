@@ -30,7 +30,7 @@ test.before.each(() => {
     }
   }
   console.warn = function (...args) {
-    if (args[0].includes('--update-db')) return
+    if (args[0].includes('update-browserslist-db')) return
     originWarn.apply(this, args)
   }
 })

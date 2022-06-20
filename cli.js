@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
+var updateDb = require('update-browserslist-db')
 var fs = require('fs')
 
 var browserslist = require('./')
-var updateDb = require('./update-db')
 var pkg = require('./package.json')
 
 var args = process.argv.slice(2)
@@ -20,8 +20,7 @@ var USAGE =
   '  npx browserslist --env="environment name defined in config"\n' +
   '  npx browserslist --stats="path/to/browserlist/stats/file"\n' +
   '  npx browserslist --mobile-to-desktop\n' +
-  '  npx browserslist --ignore-unknown-versions\n' +
-  '  npx browserslist --update-db'
+  '  npx browserslist --ignore-unknown-versions\n'
 
 function isArg(arg) {
   return args.some(function (str) {

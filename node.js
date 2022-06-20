@@ -380,7 +380,7 @@ module.exports = {
     if (latest !== 0 && latest < halfYearAgo) {
       console.warn(
         'Browserslist: caniuse-lite is outdated. Please run:\n' +
-          '  npx browserslist@latest --update-db\n' +
+          '  npx update-browserslist-db@latest\n' +
           '  Why you should do it regularly: ' +
           'https://github.com/browserslist/browserslist#browsers-data-updating'
       )
