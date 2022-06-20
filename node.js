@@ -382,7 +382,7 @@ module.exports = {
         'Browserslist: caniuse-lite is outdated. Please run:\n' +
           '  npx update-browserslist-db@latest\n' +
           '  Why you should do it regularly: ' +
-          'https://github.com/browserslist/browserslist#browsers-data-updating'
+          'https://github.com/browserslist/update-db#readme'
       )
     }
   },
