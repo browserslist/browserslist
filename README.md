@@ -114,6 +114,8 @@ To get statistics data for `>5% in my stats`:
 Others:
 
 * [`browserslist-rs`] is a Browserslist port to Rust.
+* [`update-browserslist-db`] is a CLI tool to update browsers DB for queries
+  like `last 2 version` or `>1%`.
 * [`browserslist-update-action`] is a GitHub Action to automatically
   runs `update-browserslist-db` and proposes a pull request to merge updates.
 * [`browserslist-browserstack`] runs BrowserStack tests for all browsers
@@ -126,6 +128,7 @@ Others:
 [`browserslist-browserstack`]:     https://github.com/xeroxinteractive/browserslist-browserstack
 [`browserslist-ga-export`]:        https://github.com/browserslist/browserslist-ga-export
 [`browserslist-useragent`]:        https://github.com/pastelsky/browserslist-useragent
+[`update-browserslist-db`]:        https://github.com/browserslist/update-db
 [`browserslist-new-relic`]:        https://github.com/syntactic-salt/browserslist-new-relic
 [`browserslist-lint`]:             https://github.com/browserslist/lint/
 [`browserslist-ga`]:               https://github.com/browserslist/browserslist-ga
