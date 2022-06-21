@@ -87,7 +87,7 @@ Browserslist will take queries from tool option,
 
 ## Tools
 
-To analyze your Browserslist config:
+### Analyze your Browserslist Config
 
 * [`browserl.ist`](https://browserl.ist/) is an online tool to check
   what browsers will be selected by some query.
@@ -96,14 +96,16 @@ To analyze your Browserslist config:
   with Autoprefixer.
 * [`browserslist-lint`] checks your config for popular mistakes.
 
-To show “We do not support your browser” banner:
+
+### Show “We do not support your browser” Banner
 
 * [`browserslist-useragent-regexp`] compiles Browserslist query to a RegExp
   to test browser useragent.
 * [`browserslist-useragent-ruby`] is a Ruby library to checks browser
   by user agent string to match Browserslist.
 
-To get statistics data for `>5% in my stats`:
+
+## Get Statistics for `>5% in my stats`:
 
 * [`browserslist-ga`] and [`browserslist-ga-export`] download your website
   browsers statistics to use it in `> 0.5% in my stats` query.
@@ -111,7 +113,8 @@ To get statistics data for `>5% in my stats`:
 * [`browserslist-adobe-analytics`] use Adobe Analytics data to target browsers.
   from your New Relic Browser data.
 
-Others:
+
+### Others
 
 * [`browserslist-rs`] is a Browserslist port to Rust.
 * [`update-browserslist-db`] is a CLI tool to update browsers DB for queries
