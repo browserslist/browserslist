@@ -105,7 +105,7 @@ Browserslist will take queries from tool option,
   by user agent string to match Browserslist.
 
 
-## Get Statistics for `>5% in my stats`:
+### Get Statistics for `>5% in my stats`:
 
 * [`browserslist-ga`] and [`browserslist-ga-export`] download your website
   browsers statistics to use it in `> 0.5% in my stats` query.
