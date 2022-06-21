@@ -25,10 +25,10 @@
     "unit": "NODE_ENV=test uvu test .test.js"
   },
   "dependencies": {
-    "caniuse-lite": "^1.0.30001356",
-    "electron-to-chromium": "^1.4.161",
+    "caniuse-lite": "^1.0.30001358",
+    "electron-to-chromium": "^1.4.164",
     "node-releases": "^2.0.5",
-    "update-browserslist-db": "github:browserslist/update-db"
+    "update-browserslist-db": "^1.0.0"
   },
   "engines": {
     "node": "^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7"
