@@ -2,10 +2,10 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 4.20.4
-* Fix Opera in `mobileToDesktop` (by Pig Fang).
+* Fixed Opera in `mobileToDesktop` (by Pig Fang).
 
 ## 4.20.3
-* Add `Baidu` to `dead` browsers (by Igor Lukanin).
+* Added `Baidu` to `dead` browsers (by Igor Lukanin).
 
 ## 4.20.2
 * Fixed `package.funding` URL format.
