@@ -1,6 +1,12 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.21
+* IE 11 was added to `dead` and removed from `defaults` (by Albert Portnoy).
+* Added `browserslist.parse()` to get config AST for analysis.
+* Moved `--update-db` script to `update-browserslist-db` tool.
+* Fixed Unicode BOM support in `package.json`.
+
 ## 4.20.4
 * Fixed Opera in `mobileToDesktop` (by Pig Fang).
 
