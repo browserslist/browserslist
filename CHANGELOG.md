@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.21.1
+* Fixed parsing days in `since` query.
+
 ## 4.21
 * IE 11 was added to `dead` and removed from `defaults` (by Albert Portnoy).
 * Added `browserslist.parse()` to get config AST for analysis.
