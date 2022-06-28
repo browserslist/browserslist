@@ -539,8 +539,8 @@ function nodeQuery(context, node) {
 function sinceQuery(context, node) {
   var year = parseInt(node.year)
   var month = parseInt(node.month || '01') - 1
-  var date = parseInt(node.date || '01')
-  return filterByYear(Date.UTC(year, month, date, 0, 0, 0), context)
+  var day = parseInt(node.day || '01')
+  return filterByYear(Date.UTC(year, month, day, 0, 0, 0), context)
 }
 
 function coverQuery(context, node) {

@@ -14,9 +14,9 @@ test.before.each(() => {
       versions: ['1', '2', '3'],
       released: [],
       releaseDate: {
-        1: 0, // Thu, 01 Jan 1970 00:00:00 +0000
-        2: 1483228800, // Sun, 01 Jan 2017 00:00:00 +0000
-        3: 1485907200 // Wed, 01 Feb 2017 00:00:00 +0000
+        1: 0, // 01 Jan 1970 00:00:00 +0000
+        2: 1485907200, // 01 Feb 2017 00:00:00 +0000
+        3: 1487116800 // 15 Feb 2017 00:00:00 +0000
       }
     },
     safari: {
@@ -24,7 +24,7 @@ test.before.each(() => {
       versions: ['TP'],
       released: [],
       releaseDate: {
-        1: 1451606400, // Fri, 01 Jan 2016 00:00:00 +0000
+        1: 1451606400, // 01 Jan 2016 00:00:00 +0000
         TP: null // unreleased
       }
     }
@@ -49,11 +49,11 @@ test('is case insensitive', () => {
 })
 
 test('selects versions released on year and month boundaries', () => {
-  equal(browserslist('since 2017-01'), ['ie 3', 'ie 2'])
+  equal(browserslist('since 2017-02'), ['ie 3', 'ie 2'])
 })
 
 test('selects versions released on date boundaries', () => {
-  equal(browserslist('since 2017-02-01'), ['ie 3'])
+  equal(browserslist('since 2017-02-10'), ['ie 3'])
 })
 
 test.run()
