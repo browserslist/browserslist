@@ -25,10 +25,10 @@
     "unit": "NODE_ENV=test uvu test .test.js"
   },
   "dependencies": {
-    "caniuse-lite": "^1.0.30001358",
-    "electron-to-chromium": "^1.4.164",
+    "caniuse-lite": "^1.0.30001359",
+    "electron-to-chromium": "^1.4.172",
     "node-releases": "^2.0.5",
-    "update-browserslist-db": "^1.0.0"
+    "update-browserslist-db": "^1.0.4"
   },
   "engines": {
     "node": "^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7"
@@ -53,7 +53,7 @@
     "fs-extra": "^10.1.0",
     "nanospy": "^0.5.0",
     "size-limit": "^7.0.8",
-    "uvu": "^0.5.3"
+    "uvu": "^0.5.4"
   },
   "browser": {
     "./node.js": "./browser.js",
