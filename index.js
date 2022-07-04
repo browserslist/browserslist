@@ -10,6 +10,7 @@ var env = require('./node') // Will load browser.js in webpack
 
 var YEAR = 365.259641 * 24 * 60 * 60 * 1000
 var ANDROID_EVERGREEN_FIRST = 37
+var COVID_QUERY = "since 2019-12-01"; // First known case
 
 // Helpers
 
@@ -735,6 +736,13 @@ var QUERIES = {
     matches: ['year', 'month', 'day'],
     regexp: /^since (\d+)-(\d+)-(\d+)$/i,
     select: sinceQuery
+  },
+  since_covid: {
+    matches: [],
+    regexp: /^(since |post-)covid$/i,
+    select: function (context) {
+      return resolve(COVID_QUERY, context)
+    }
   },
   popularity: {
     matches: ['sign', 'popularity'],
