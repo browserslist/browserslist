@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.21.2
+* Updated Firefox ESR.
+
 ## 4.21.1
 * Fixed parsing days in `since` query.
 
