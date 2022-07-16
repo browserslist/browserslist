@@ -145,6 +145,7 @@ These extensions will add syntax highlighting for `.browserslistrc` files.
 
 * [VS Code](https://marketplace.visualstudio.com/items?itemName=webben.browserslist)
 * [Vim](https://github.com/browserslist/vim-browserslist)
+* [WebStorm](https://plugins.jetbrains.com/plugin/16139-browserslist)
 
 ## Best Practices
 
