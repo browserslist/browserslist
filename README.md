@@ -571,7 +571,7 @@ Options:
   Default is `false`.
 * `dangerousExtend`: Disable security checks for `extend` query.
   Default is `false`.
-* `throwOnMissing`: throw a error if env is not found.
+* `throwOnMissing`: throw an error if env is not found.
   Default is `false`.
 * `mobileToDesktop`: Use desktop browsers if Can I Use doesn’t have data
   about this mobile version. Can I Use has only data only about

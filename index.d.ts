@@ -45,7 +45,7 @@ declare namespace browserslist {
      */
     ignoreUnknownVersions?: boolean
     /**
-     * Throw a error if env is not found.
+     * Throw an error if env is not found.
      */
     throwOnMissing?: boolean
     /**
