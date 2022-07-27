@@ -243,7 +243,12 @@ module.exports = {
   loadCountry: function loadCountry(usage, country, data) {
     var code = country.replace(/[^\w-]/g, '')
     if (!usage[code]) {
-      var compressed = require('caniuse-lite/data/regions/' + code + '.js')
+      var compressed
+      try {
+        compressed = require('caniuse-lite/data/regions/' + code + '.js')
+      } catch (e) {
+        throw new BrowserslistError("Unknown region name `" + code + "`.")
+      }
       var usageData = region(compressed)
       normalizeUsageData(usageData, data)
       usage[country] = {}
