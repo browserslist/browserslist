@@ -263,8 +263,12 @@ module.exports = {
   loadFeature: function loadFeature(features, name) {
     name = name.replace(/[^\w-]/g, '')
     if (features[name]) return
-
-    var compressed = require('caniuse-lite/data/features/' + name + '.js')
+    var compressed
+    try {
+      compressed = require('caniuse-lite/data/features/' + name + '.js')
+    } catch (e) {
+      throw new BrowserslistError("Unknown feature name `" + name + "`.")
+    }
     var stats = feature(compressed).stats
     features[name] = {}
     for (var i in stats) {
