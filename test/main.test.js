@@ -83,7 +83,7 @@ test('handles undefined stats and path correctly', () => {
   equal(browserslist([], config), [])
 })
 
-test('throw a error on wrong path to config', () => {
+test('throw an error on wrong path to config', () => {
   throws(() => browserslist(null, { config: IE + '2' }), /Can't read/)
 })
 
