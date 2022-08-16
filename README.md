@@ -89,7 +89,7 @@ Browserslist will take queries from tool option,
 
 ### Analyze your Browserslist Config
 
-* [`browserl.ist`](https://browserl.ist/) is an online tool to check
+* [`browsersl.ist`](https://browsersl.ist/) is an online tool to check
   what browsers will be selected by some query.
 * Run `npx browserslist` in your project directory to see project’s
   target browsers. This CLI tool is built-in and available in any project
