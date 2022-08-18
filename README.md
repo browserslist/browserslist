@@ -364,7 +364,7 @@ browsers in `package.json` with `browserslist` key:
   "browserslist": [
     "last 1 version",
     "> 1%",
-    "IE 10"
+    "IE 11"
   ]
 }
 ```
@@ -381,7 +381,7 @@ Each line is combined with the `or` combiner. Comments starts with `#` symbo
 
 last 1 version
 > 1%
-IE 10 # sorry
+IE 11 # sorry
 ```
 
 Browserslist will check config in every directory in `path`.
@@ -431,7 +431,7 @@ When writing a shared Browserslist package, just export an array.
 module.exports = [
   'last 1 version',
   '> 1%',
-  'ie 10'
+  'ie 11'
 ]
 ```
 
@@ -451,7 +451,7 @@ module.exports = {
   production: [
     'last 1 version',
     '> 1%',
-    'ie 10'
+    'ie 11'
   ]
 }
 ```
@@ -470,7 +470,7 @@ In `package.json`:
   "browserslist": {
     "production": [
       "> 1%",
-      "ie 10"
+      "ie 11"
     ],
     "modern": [
       "last 1 chrome version",
@@ -487,7 +487,7 @@ In `.browserslistrc` config:
 ```ini
 [production]
 > 1%
-ie 10
+ie 11
 
 [modern]
 last 1 chrome version
@@ -552,8 +552,8 @@ function process (source, opts) {
 }
 ```
 
-Queries can be a string `"> 1%, IE 10"`
-or an array `['> 1%', 'IE 10']`.
+Queries can be a string `"> 1%, IE 11"`
+or an array `['> 1%', 'IE 11']`.
 
 If a query is missing, Browserslist will look for a config file.
 You can provide a `path` option (that can be a file) to find the config file
@@ -581,7 +581,7 @@ Options:
 For non-JS environment and debug purpose you can use CLI tool:
 
 ```sh
-browserslist "> 1%, IE 10"
+browserslist "> 1%, IE 11"
 ```
 
 You can get total users coverage for selected browsers by JS API:
