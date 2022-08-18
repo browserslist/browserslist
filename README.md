@@ -19,8 +19,7 @@ when you add the following to `package.json`:
 
 ```json
   "browserslist": [
-    "defaults",
-    "not IE 11",
+    "defaults and supports es6-module",
     "maintained node versions"
   ]
 ```
@@ -30,8 +29,7 @@ Or in `.browserslistrc` config:
 ```yaml
 # Browsers that we support
 
-defaults
-not IE 11
+defaults and supports es6-module
 maintained node versions
 ```
 
@@ -218,7 +216,7 @@ combiner even if `or` is used (this is an API implementation specificity).
 | `and` combiner <br> (intersection) | ![intersection of queries](img/intersection.svg) | `> .5% and last 2 versions` |
 | `not` combiner <br> (relative complement) | ![Relative complement of queries](img/complement.svg) | These three are equivalent to one another: <br> `> .5% and not last 2 versions` <br> `> .5% or not last 2 versions` <br> `> .5%, not last 2 versions` |
 
-_A quick way to test your query is to do `npx browserslist '> 0.5%, not IE 11'`
+_A quick way to test your query is to do `npx browserslist '> 0.3%, not IE 11'`
 in your terminal._
 
 ### Full List
