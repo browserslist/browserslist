@@ -94,6 +94,13 @@ Browserslist will take queries from tool option,
   with Autoprefixer.
 * [`browserslist-lint`] checks your config for popular mistakes.
 
+### Update `caniuse-lite`
+
+* [`update-browserslist-db`] is a CLI tool to update browsers DB for queries
+  like `last 2 version` or `>1%`.
+* [`browserslist-update-action`] is a GitHub Action to automatically
+  runs `update-browserslist-db` and proposes a pull request to merge updates.
+
 
 ### Show “We do not support your browser” Banner
 
@@ -115,10 +122,6 @@ Browserslist will take queries from tool option,
 ### Others
 
 * [`browserslist-rs`] is a Browserslist port to Rust.
-* [`update-browserslist-db`] is a CLI tool to update browsers DB for queries
-  like `last 2 version` or `>1%`.
-* [`browserslist-update-action`] is a GitHub Action to automatically
-  runs `update-browserslist-db` and proposes a pull request to merge updates.
 * [`browserslist-browserstack`] runs BrowserStack tests for all browsers
   in Browserslist config.
 
