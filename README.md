@@ -1,6 +1,8 @@
 # Browserslist [![Cult Of Martians][cult-img]][cult]
 
-<a href="https://www.producthunt.com/posts/browserslist?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-browserslist"><img src=“https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=357214&theme=light” alt="" width="250" height="54" /></a>
+<a href="https://www.producthunt.com/posts/browserslist?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-browserslist">
+<img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=357214&theme=light" alt="" width="250" height="54" />
+</a>
 
 <img width="120" height="120" alt="Browserslist logo by Anton Popov"
      src="https://browsersl.ist/logo.svg" align="right">
