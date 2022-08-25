@@ -94,6 +94,7 @@ Browserslist will take queries from tool option,
   with Autoprefixer.
 * [`browserslist-lint`] checks your config for popular mistakes.
 
+
 ### Update `caniuse-lite`
 
 * [`update-browserslist-db`] is a CLI tool to update browsers DB for queries
