@@ -4,11 +4,11 @@ specifiers:
   '@logux/eslint-config': ^47.2.0
   '@size-limit/preset-small-lib': ^8.0.1
   c8: ^7.12.0
-  caniuse-lite: ^1.0.30001382
+  caniuse-lite: ^1.0.30001383
   clean-publish: ^4.0.1
   cross-spawn: ^7.0.3
-  electron-to-chromium: ^1.4.230
-  eslint: ^8.22.0
+  electron-to-chromium: ^1.4.233
+  eslint: ^8.23.0
   eslint-config-standard: ^17.0.0
   eslint-plugin-es5: ^1.5.0
   eslint-plugin-import: ^2.26.0
@@ -23,24 +23,24 @@ specifiers:
   uvu: ^0.5.6
 
 dependencies:
-  caniuse-lite: 1.0.30001382
-  electron-to-chromium: 1.4.230
+  caniuse-lite: 1.0.30001383
+  electron-to-chromium: 1.4.233
   node-releases: 2.0.6
   update-browserslist-db: 1.0.5
 
 devDependencies:
-  '@logux/eslint-config': 47.2.0_dtajt5vwj6zgdbycel5yvnfusa
+  '@logux/eslint-config': 47.2.0_c5zrp42zbc5s4i6yiprz55kwaq
   '@size-limit/preset-small-lib': 8.0.1_size-limit@8.0.1
   c8: 7.12.0
   clean-publish: 4.0.1
   cross-spawn: 7.0.3
-  eslint: 8.22.0
-  eslint-config-standard: 17.0.0_e2brn7tkp6qxostmvf2l67odqm
-  eslint-plugin-es5: 1.5.0_eslint@8.22.0
-  eslint-plugin-import: 2.26.0_eslint@8.22.0
-  eslint-plugin-n: 15.2.5_eslint@8.22.0
+  eslint: 8.23.0
+  eslint-config-standard: 17.0.0_ci7jzfiysajw25w4iodapaa2cq
+  eslint-plugin-es5: 1.5.0_eslint@8.23.0
+  eslint-plugin-import: 2.26.0_eslint@8.23.0
+  eslint-plugin-n: 15.2.5_eslint@8.23.0
   eslint-plugin-prefer-let: 3.0.1
-  eslint-plugin-promise: 6.0.1_eslint@8.22.0
+  eslint-plugin-promise: 6.0.1_eslint@8.23.0
   fs-extra: 10.1.0
   nanospy: 0.5.0
   size-limit: 8.0.1
@@ -61,13 +61,13 @@ packages:
     dev: true
     optional: true
 
-  /@eslint/eslintrc/1.3.0:
-    resolution: {integrity: sha512-UWW0TMTmk2d7hLcWD1/e2g5HDM/HQ3csaLSqXCfqwh4uNDuNqlaKWXmEsL4Cs41Z0KnILNvwbHAah3C2yt06kw==}
+  /@eslint/eslintrc/1.3.1:
+    resolution: {integrity: sha512-OhSY22oQQdw3zgPOOwdoj01l/Dzl1Z+xyUP33tkSN+aqyEhymJCcPHyXt+ylW8FSe0TfRC2VG+ROQOapD0aZSQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
       ajv: 6.12.6
       debug: 4.3.4
-      espree: 9.3.3
+      espree: 9.4.0
       globals: 13.17.0
       ignore: 5.2.0
       import-fresh: 3.3.0
@@ -91,6 +91,11 @@ packages:
 
   /@humanwhocodes/gitignore-to-minimatch/1.0.2:
     resolution: {integrity: sha512-rSqmMJDdLFUsyxR6FMtD00nfQKKLFb1kv+qBbOVKqErvloEIJLo5bDTJTQNTYgeyp78JsA7u/NPi5jT1GR/MuA==}
+    dev: true
+
+  /@humanwhocodes/module-importer/1.0.1:
+    resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
+    engines: {node: '>=12.22'}
     dev: true
 
   /@humanwhocodes/object-schema/1.2.1:
@@ -118,7 +123,7 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
-  /@logux/eslint-config/47.2.0_dtajt5vwj6zgdbycel5yvnfusa:
+  /@logux/eslint-config/47.2.0_c5zrp42zbc5s4i6yiprz55kwaq:
     resolution: {integrity: sha512-nNPPkw+kfA2bLyhkxaqGzd3MWSN4S2dUf69xo2syskBd5ZfFk2WT9ssO+yDDUd26yNgN3AmweKztEwyUim9wOQ==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
@@ -129,12 +134,12 @@ packages:
       eslint-plugin-prefer-let: ^3.0.1
       eslint-plugin-promise: ^6.0.0
     dependencies:
-      eslint: 8.22.0
-      eslint-config-standard: 17.0.0_e2brn7tkp6qxostmvf2l67odqm
-      eslint-plugin-import: 2.26.0_eslint@8.22.0
-      eslint-plugin-n: 15.2.5_eslint@8.22.0
+      eslint: 8.23.0
+      eslint-config-standard: 17.0.0_ci7jzfiysajw25w4iodapaa2cq
+      eslint-plugin-import: 2.26.0_eslint@8.23.0
+      eslint-plugin-n: 15.2.5_eslint@8.23.0
       eslint-plugin-prefer-let: 3.0.1
-      eslint-plugin-promise: 6.0.1_eslint@8.22.0
+      eslint-plugin-promise: 6.0.1_eslint@8.23.0
     dev: true
 
   /@nodelib/fs.scandir/2.1.5:
@@ -335,8 +340,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /caniuse-lite/1.0.30001382:
-    resolution: {integrity: sha512-2rtJwDmSZ716Pxm1wCtbPvHtbDWAreTPxXbkc5RkKglow3Ig/4GNGazDI9/BVnXbG/wnv6r3B5FEbkfg9OcTGg==}
+  /caniuse-lite/1.0.30001383:
+    resolution: {integrity: sha512-swMpEoTp5vDoGBZsYZX7L7nXHe6dsHxi9o6/LKf/f0LukVtnrxly5GVb/fWdCDTqi/yw6Km6tiJ0pmBacm0gbg==}
     dev: false
 
   /chalk/4.1.2:
@@ -492,8 +497,8 @@ packages:
       esutils: 2.0.3
     dev: true
 
-  /electron-to-chromium/1.4.230:
-    resolution: {integrity: sha512-3pwjAK0qHSDN9+YAF4fJknsSruP7mpjdWzUSruIJD/JCH77pEh0SorEyb3xVaKkfwk2tzjOt2D8scJ0KAdfXLA==}
+  /electron-to-chromium/1.4.233:
+    resolution: {integrity: sha512-ejwIKXTg1wqbmkcRJh9Ur3hFGHFDZDw1POzdsVrB2WZjgRuRMHIQQKNpe64N/qh3ZtH2otEoRoS+s6arAAuAAw==}
     dev: false
 
   /emoji-regex/8.0.0:
@@ -762,7 +767,7 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /eslint-config-standard/17.0.0_e2brn7tkp6qxostmvf2l67odqm:
+  /eslint-config-standard/17.0.0_ci7jzfiysajw25w4iodapaa2cq:
     resolution: {integrity: sha512-/2ks1GKyqSOkH7JFvXJicu0iMpoojkwB+f5Du/1SC0PtBL+s8v30k9njRZ21pm2drKYm2342jFnGWzttxPmZVg==}
     peerDependencies:
       eslint: ^8.0.1
@@ -770,10 +775,10 @@ packages:
       eslint-plugin-n: ^15.0.0
       eslint-plugin-promise: ^6.0.0
     dependencies:
-      eslint: 8.22.0
-      eslint-plugin-import: 2.26.0_eslint@8.22.0
-      eslint-plugin-n: 15.2.5_eslint@8.22.0
-      eslint-plugin-promise: 6.0.1_eslint@8.22.0
+      eslint: 8.23.0
+      eslint-plugin-import: 2.26.0_eslint@8.23.0
+      eslint-plugin-n: 15.2.5_eslint@8.23.0
+      eslint-plugin-promise: 6.0.1_eslint@8.23.0
     dev: true
 
   /eslint-import-resolver-node/0.3.6:
@@ -785,7 +790,7 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-module-utils/2.7.4_7gfxlqsjhuntdifxknjgbjwpbu:
+  /eslint-module-utils/2.7.4_hihmut27p26kpgmn7hpwbc6idm:
     resolution: {integrity: sha512-j4GT+rqzCoRKHwURX7pddtIPGySnX9Si/cgMI5ztrcqOPtk5dDEeZ34CQVPphnqkJytlc97Vuk05Um2mJ3gEQA==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -807,32 +812,32 @@ packages:
         optional: true
     dependencies:
       debug: 3.2.7
-      eslint: 8.22.0
+      eslint: 8.23.0
       eslint-import-resolver-node: 0.3.6
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /eslint-plugin-es/4.1.0_eslint@8.22.0:
+  /eslint-plugin-es/4.1.0_eslint@8.23.0:
     resolution: {integrity: sha512-GILhQTnjYE2WorX5Jyi5i4dz5ALWxBIdQECVQavL6s7cI76IZTDWleTHkxz/QT3kvcs2QlGHvKLYsSlPOlPXnQ==}
     engines: {node: '>=8.10.0'}
     peerDependencies:
       eslint: '>=4.19.1'
     dependencies:
-      eslint: 8.22.0
+      eslint: 8.23.0
       eslint-utils: 2.1.0
       regexpp: 3.2.0
     dev: true
 
-  /eslint-plugin-es5/1.5.0_eslint@8.22.0:
+  /eslint-plugin-es5/1.5.0_eslint@8.23.0:
     resolution: {integrity: sha512-Qxmfo7v2B7SGAEURJo0dpBweFf+JU15kSyALfiB2rXWcBuJ96r6X9kFHXFnhdopPHCaHjoQs1xQPUJVbGMb1AA==}
     peerDependencies:
       eslint: '>= 3.0.0'
     dependencies:
-      eslint: 8.22.0
+      eslint: 8.23.0
     dev: true
 
-  /eslint-plugin-import/2.26.0_eslint@8.22.0:
+  /eslint-plugin-import/2.26.0_eslint@8.23.0:
     resolution: {integrity: sha512-hYfi3FXaM8WPLf4S1cikh/r4IxnO6zrhZbEGz2b660EJRbuxgpDS5gkCuYgGWg2xxh2rBuIr4Pvhve/7c31koA==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -846,9 +851,9 @@ packages:
       array.prototype.flat: 1.3.0
       debug: 2.6.9
       doctrine: 2.1.0
-      eslint: 8.22.0
+      eslint: 8.23.0
       eslint-import-resolver-node: 0.3.6
-      eslint-module-utils: 2.7.4_7gfxlqsjhuntdifxknjgbjwpbu
+      eslint-module-utils: 2.7.4_hihmut27p26kpgmn7hpwbc6idm
       has: 1.0.3
       is-core-module: 2.10.0
       is-glob: 4.0.3
@@ -862,16 +867,16 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-n/15.2.5_eslint@8.22.0:
+  /eslint-plugin-n/15.2.5_eslint@8.23.0:
     resolution: {integrity: sha512-8+BYsqiyZfpu6NXmdLOXVUfk8IocpCjpd8nMRRH0A9ulrcemhb2VI9RSJMEy5udx++A/YcVPD11zT8hpFq368g==}
     engines: {node: '>=12.22.0'}
     peerDependencies:
       eslint: '>=7.0.0'
     dependencies:
       builtins: 5.0.1
-      eslint: 8.22.0
-      eslint-plugin-es: 4.1.0_eslint@8.22.0
-      eslint-utils: 3.0.0_eslint@8.22.0
+      eslint: 8.23.0
+      eslint-plugin-es: 4.1.0_eslint@8.23.0
+      eslint-utils: 3.0.0_eslint@8.23.0
       ignore: 5.2.0
       is-core-module: 2.10.0
       minimatch: 3.1.2
@@ -886,13 +891,13 @@ packages:
       requireindex: 1.2.0
     dev: true
 
-  /eslint-plugin-promise/6.0.1_eslint@8.22.0:
+  /eslint-plugin-promise/6.0.1_eslint@8.23.0:
     resolution: {integrity: sha512-uM4Tgo5u3UWQiroOyDEsYcVMOo7re3zmno0IZmB5auxoaQNIceAbXEkSt8RNrKtaYehARHG06pYK6K1JhtP0Zw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0
     dependencies:
-      eslint: 8.22.0
+      eslint: 8.23.0
     dev: true
 
   /eslint-scope/7.1.1:
@@ -910,13 +915,13 @@ packages:
       eslint-visitor-keys: 1.3.0
     dev: true
 
-  /eslint-utils/3.0.0_eslint@8.22.0:
+  /eslint-utils/3.0.0_eslint@8.23.0:
     resolution: {integrity: sha512-uuQC43IGctw68pJA1RgbQS8/NP7rch6Cwd4j3ZBtgo4/8Flj4eGE7ZYSZRN3iq5pVUv6GPdW5Z1RFleo84uLDA==}
     engines: {node: ^10.0.0 || ^12.0.0 || >= 14.0.0}
     peerDependencies:
       eslint: '>=5'
     dependencies:
-      eslint: 8.22.0
+      eslint: 8.23.0
       eslint-visitor-keys: 2.1.0
     dev: true
 
@@ -935,14 +940,15 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /eslint/8.22.0:
-    resolution: {integrity: sha512-ci4t0sz6vSRKdmkOGmprBo6fmI4PrphDFMy5JEq/fNS0gQkJM3rLmrqcp8ipMcdobH3KtUP40KniAE9W19S4wA==}
+  /eslint/8.23.0:
+    resolution: {integrity: sha512-pBG/XOn0MsJcKcTRLr27S5HpzQo4kLr+HjLQIyK4EiCsijDl/TB+h5uEuJU6bQ8Edvwz1XWOjpaP2qgnXGpTcA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     hasBin: true
     dependencies:
-      '@eslint/eslintrc': 1.3.0
+      '@eslint/eslintrc': 1.3.1
       '@humanwhocodes/config-array': 0.10.4
       '@humanwhocodes/gitignore-to-minimatch': 1.0.2
+      '@humanwhocodes/module-importer': 1.0.1
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.3
@@ -950,9 +956,9 @@ packages:
       doctrine: 3.0.0
       escape-string-regexp: 4.0.0
       eslint-scope: 7.1.1
-      eslint-utils: 3.0.0_eslint@8.22.0
+      eslint-utils: 3.0.0_eslint@8.23.0
       eslint-visitor-keys: 3.3.0
-      espree: 9.3.3
+      espree: 9.4.0
       esquery: 1.4.0
       esutils: 2.0.3
       fast-deep-equal: 3.1.3
@@ -978,13 +984,12 @@ packages:
       strip-ansi: 6.0.1
       strip-json-comments: 3.1.1
       text-table: 0.2.0
-      v8-compile-cache: 2.3.0
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /espree/9.3.3:
-    resolution: {integrity: sha512-ORs1Rt/uQTqUKjDdGCyrtYxbazf5umATSf/K4qxjmZHORR6HJk+2s/2Pqe+Kk49HHINC/xNIrGfgh8sZcll0ng==}
+  /espree/9.4.0:
+    resolution: {integrity: sha512-DQmnRpLj7f6TgN/NYb0MTzJXL+vJF9h3pHy4JhCIs3zwcgez8xmGg3sXHcEO97BrmO2OSvCwMdfdlyl+E9KjOw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
       acorn: 8.8.0
@@ -1939,10 +1944,6 @@ packages:
       diff: 5.1.0
       kleur: 4.1.5
       sade: 1.8.1
-    dev: true
-
-  /v8-compile-cache/2.3.0:
-    resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}
     dev: true
 
   /v8-to-istanbul/9.0.1:
