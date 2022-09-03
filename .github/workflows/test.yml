@@ -6,8 +6,6 @@ on:
   pull_request:
 permissions:
   contents: read
-env:
-  FORCE_COLOR: 2
 jobs:
   full:
     name: Node.js Latest Full
