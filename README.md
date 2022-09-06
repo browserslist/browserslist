@@ -1,7 +1,7 @@
 # Browserslist [![Cult Of Martians][cult-img]][cult]
 
 <img width="120" height="120" alt="Browserslist logo by Anton Popov"
-     src="https://browsersl.ist/logo.svg" align="right">
+src="https://browsersl.ist/logo.svg" align="right">
 
 The config to share target browsers and Node.js versions between different
 front-end tools. It is used in:
@@ -19,9 +19,9 @@ when you add the following to `package.json`:
 
 ```json
   "browserslist": [
-    "defaults and supports es6-module",
-    "maintained node versions"
-  ]
+"defaults and supports es6-module",
+"maintained node versions"
+]
 ```
 
 Or in `.browserslistrc` config:
@@ -47,6 +47,20 @@ Browserslist will take queries from tool option,
 <a href="https://evilmartians.com/?utm_source=browserslist">
   <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
        alt="Sponsored by Evil Martians" width="236" height="54">
+</a>
+
+Whether you’re new to Browserslist or not, [browsersl.ist](https://browsersl.ist/) is the best playground:
+
+<a href="https://browsersl.ist/">
+  <img src="https://ucarecdn.com/aebd4343-be22-4af9-95c5-0bb9cb5c75ef/"
+    alt="browsersl.ist website" width="368" height="221">
+</a>
+
+The website is the companion tool for composing queries. It provides complete query features documentation, audience coverage data visualization, and query linting.
+
+<a href="https://cube.dev/?ref=eco-browserslist-github">
+  <img src="https://user-images.githubusercontent.com/986756/154330861-d79ab8ec-aacb-4af8-9e17-1b28f1eccb01.svg"
+       alt="Supported by Cube" width="227" height="46">
 </a>
 
 [stylelint-no-unsupported-browser-features]: https://github.com/ismay/stylelint-no-unsupported-browser-features
@@ -87,8 +101,6 @@ Browserslist will take queries from tool option,
 
 ### Analyze your Browserslist Config
 
-* [`browsersl.ist`](https://browsersl.ist/) is an online tool to check
-  what browsers will be selected by some query.
 * Run `npx browserslist` in your project directory to see project’s
   target browsers. This CLI tool is built-in and available in any project
   with Autoprefixer.
@@ -231,7 +243,7 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   (`> 0.5%, last 2 versions, Firefox ESR, not dead`).
 * By usage statistics:
   * `> 5%`: browsers versions selected by global usage statistics.
-  `>=`, `<` and `<=` work too.
+    `>=`, `<` and `<=` work too.
   * `> 5% in US`: uses USA usage statistics.
     It accepts [two-letter country code].
   * `> 5% in alt-AS`: uses Asia region usage statistics.
@@ -252,7 +264,7 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   `Samsung 4`, `OperaMobile 12.1` and all versions of `Baidu`.
 * Node.js versions:
   * `node 10` and `node 10.4`: selects latest Node.js `10.x.x`
-  or `10.4.x` release.
+    or `10.4.x` release.
   * `last 2 node versions`: select 2 latest Node.js releases.
   * `last 2 node major versions`: select 2 latest major-version Node.js releases.
   * `current node`: Node.js version used by Browserslist right now.
