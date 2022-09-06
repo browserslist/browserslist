@@ -49,6 +49,20 @@ Browserslist will take queries from tool option,
        alt="Sponsored by Evil Martians" width="236" height="54">
 </a>
 
+Whether you’re new to Browserslist or not, [browsersl.ist](https://browsersl.ist/) is the best playground:
+
+<a href="https://browsersl.ist/">
+  <img src="https://ucarecdn.com/aebd4343-be22-4af9-95c5-0bb9cb5c75ef/"
+    alt="browsersl.ist website" width="368" height="221">
+</a>
+
+The website is the companion tool for composing queries. It provides complete query features documentation, audience coverage data visualization, and query linting.
+
+<a href="https://cube.dev/?ref=eco-browserslist-github">
+  <img src="https://user-images.githubusercontent.com/986756/154330861-d79ab8ec-aacb-4af8-9e17-1b28f1eccb01.svg"
+       alt="Supported by Cube" width="227" height="46">
+</a>
+
 [stylelint-no-unsupported-browser-features]: https://github.com/ismay/stylelint-no-unsupported-browser-features
 [eslint-plugin-compat]:                      https://github.com/amilajack/eslint-plugin-compat
 [Browserslist Example]:                      https://github.com/browserslist/browserslist-example
@@ -87,8 +101,6 @@ Browserslist will take queries from tool option,
 
 ### Analyze your Browserslist Config
 
-* [`browsersl.ist`](https://browsersl.ist/) is an online tool to check
-  what browsers will be selected by some query.
 * Run `npx browserslist` in your project directory to see project’s
   target browsers. This CLI tool is built-in and available in any project
   with Autoprefixer.
