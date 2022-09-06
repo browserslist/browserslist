@@ -41,22 +41,17 @@ Browserslist will take queries from tool option,
 `browserslist` config, `.browserslistrc` config,
 `browserslist` section in `package.json` or environment variables.
 
-[cult-img]: https://cultofmartians.com/assets/badges/badge.svg
-[cult]: https://cultofmartians.com/done.html
-
-<a href="https://evilmartians.com/?utm_source=browserslist">
-  <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
-       alt="Sponsored by Evil Martians" width="236" height="54">
-</a>
-
-Whether you’re new to Browserslist or not, [browsersl.ist](https://browsersl.ist/) is the best playground:
+You can check how config works at our playground: [`browsersl.ist`](https://browsersl.ist/)
 
 <a href="https://browsersl.ist/">
   <img src="https://ucarecdn.com/aebd4343-be22-4af9-95c5-0bb9cb5c75ef/"
     alt="browsersl.ist website" width="368" height="221">
 </a>
 
-The website is the companion tool for composing queries. It provides complete query features documentation, audience coverage data visualization, and query linting.
+<a href="https://evilmartians.com/?utm_source=browserslist">
+  <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
+       alt="Sponsored by Evil Martians" width="236" height="54">
+</a>
 
 <a href="https://cube.dev/?ref=eco-browserslist-github">
   <img src="https://user-images.githubusercontent.com/986756/154330861-d79ab8ec-aacb-4af8-9e17-1b28f1eccb01.svg"
@@ -64,15 +59,18 @@ The website is the companion tool for composing queries. It provides complete qu
 </a>
 
 [stylelint-no-unsupported-browser-features]: https://github.com/ismay/stylelint-no-unsupported-browser-features
+[obsolete-webpack-plugin]:                   https://github.com/ElemeFE/obsolete-webpack-plugin
 [eslint-plugin-compat]:                      https://github.com/amilajack/eslint-plugin-compat
 [Browserslist Example]:                      https://github.com/browserslist/browserslist-example
 [postcss-preset-env]:                        https://github.com/jonathantneal/postcss-preset-env
 [postcss-normalize]:                         https://github.com/jonathantneal/postcss-normalize
+[`browsersl.ist`]:                           https://browsersl.ist/
 [`caniuse-lite`]:                            https://github.com/ben-eb/caniuse-lite
 [Autoprefixer]:                              https://github.com/postcss/autoprefixer
 [Can I Use]:                                 https://caniuse.com/
 [Babel]:                                     https://github.com/babel/babel/tree/master/packages/babel-preset-env
-[obsolete-webpack-plugin]:                   https://github.com/ElemeFE/obsolete-webpack-plugin
+[cult-img]: https://cultofmartians.com/assets/badges/badge.svg
+[cult]: https://cultofmartians.com/done.html
 
 ## Table of Contents
 
