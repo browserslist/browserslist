@@ -37,10 +37,6 @@ Developers set their version lists using queries like `last 2 versions`
 to be free from updating versions manually.
 Browserslist will use [`caniuse-lite`] with [Can I Use] data for this queries.
 
-Browserslist will take queries from tool option,
-`browserslist` config, `.browserslistrc` config,
-`browserslist` section in `package.json` or environment variables.
-
 You can check how config works at our playground: [`browsersl.ist`](https://browsersl.ist/)
 
 <a href="https://browsersl.ist/">
