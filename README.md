@@ -48,6 +48,8 @@ You can check how config works at our playground: [`browsersl.ist`](https://brow
     alt="browsersl.ist website" width="368" height="221">
 </a>
 
+<br>
+
 <a href="https://evilmartians.com/?utm_source=browserslist">
   <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
        alt="Sponsored by Evil Martians" width="236" height="54">
