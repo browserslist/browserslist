@@ -44,6 +44,7 @@ You can check how config works at our playground: [`browsersl.ist`](https://brow
 </a>
 
 <br>
+<br>
 
 <a href="https://evilmartians.com/?utm_source=browserslist">
   <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
@@ -72,17 +73,9 @@ You can check how config works at our playground: [`browsersl.ist`](https://brow
 ## Table of Contents
 
 * [Tools](#tools)
-  * [Text Editors](#text-editors)
 * [Best Practices](#best-practices)
-* [Browsers Data Updating](#browsers-data-updating)
 * [Queries](#queries)
-  * [Query Composition](#query-composition)
-  * [Full List](#full-list)
-  * [Debug](#debug)
-  * [Browsers](#browsers)
 * [Config File](#config-file)
-  * [`package.json`](#packagejson)
-  * [`.browserslistrc`](#browserslistrc)
 * [Shareable Configs](#shareable-configs)
 * [Configuring for Different Environments](#configuring-for-different-environments)
 * [Custom Usage Data](#custom-usage-data)
