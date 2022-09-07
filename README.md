@@ -45,16 +45,17 @@ You can check how config works at our playground: [`browsersl.ist`](https://brow
 
 <br>
 <br>
+<div align="center">
+  <a href="https://evilmartians.com/?utm_source=browserslist">
+    <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
+        alt="Sponsored by Evil Martians" width="236" height="54">
+  </a>
 
-<a href="https://evilmartians.com/?utm_source=browserslist">
-  <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
-       alt="Sponsored by Evil Martians" width="236" height="54">
-</a>
-
-<a href="https://cube.dev/?ref=eco-browserslist-github">
-  <img src="https://user-images.githubusercontent.com/986756/154330861-d79ab8ec-aacb-4af8-9e17-1b28f1eccb01.svg"
-       alt="Supported by Cube" width="227" height="46">
-</a>
+  <a href="https://cube.dev/?ref=eco-browserslist-github">
+    <img src="https://user-images.githubusercontent.com/986756/154330861-d79ab8ec-aacb-4af8-9e17-1b28f1eccb01.svg"
+        alt="Supported by Cube" width="227" height="46">
+  </a>
+</div>
 
 [stylelint-no-unsupported-browser-features]: https://github.com/ismay/stylelint-no-unsupported-browser-features
 [obsolete-webpack-plugin]:                   https://github.com/ElemeFE/obsolete-webpack-plugin
