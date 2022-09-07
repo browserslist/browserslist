@@ -178,11 +178,6 @@ These extensions will add syntax highlighting for `.browserslistrc` files.
   and desktop Safari combined.
 
 
-## Browsers Data Updating
-
-See [`update-browserslist-db` docs](https://github.com/browserslist/update-db#readme)
-
-
 ## Queries
 
 Browserslist will use browsers and Node.js versions query
@@ -712,3 +707,8 @@ with Tidelift to deliver commercial support and maintenance for the open source
 dependencies you use to build your applications. Save time, reduce risk,
 and improve code health, while paying the maintainers of the exact dependencies
 you use. [Learn more.](https://tidelift.com/subscription/pkg/npm-browserslist?utm_source=npm-browserslist&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
+
+
+## Browsers Data Updating
+
+See [`update-browserslist-db` docs](https://github.com/browserslist/update-db#readme)
