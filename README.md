@@ -188,9 +188,8 @@ See [`update-browserslist-db` docs](https://github.com/browserslist/update-db#re
 Browserslist will use browsers and Node.js versions query
 from one of these sources:
 
-1. `browserslist` key in `package.json` file in current or parent directories.
-   **We recommend this way.**
-2. `.browserslistrc` config file in current or parent directories.
+1. `.browserslistrc` config file in current or parent directories.
+2. `browserslist` key in `package.json` file in current or parent directories.
 3. `browserslist` config file in current or parent directories.
 4. `BROWSERSLIST` environment variable.
 5. If the above methods did not produce a valid result
