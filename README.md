@@ -40,8 +40,7 @@ Browserslist will use [`caniuse-lite`] with [Can I Use] data for this queries
 You can check how config works at our playground: [`browsersl.ist`](https://browsersl.ist/)
 
 <a href="https://browsersl.ist/">
-  <img src="https://ucarecdn.com/aebd4343-be22-4af9-95c5-0bb9cb5c75ef/"
-    alt="browsersl.ist website" width="368" height="221">
+  <img src="/img/screenshot.webp" alt="browsersl.ist website">
 </a>
 
 <br>
