@@ -671,6 +671,12 @@ with [environment variables]:
   BROWSERSLIST_DANGEROUS_EXTEND=1 npx webpack
    ```
 
+* `BROWSERSLIST_IGNORE_OLD_DATA` to disable updating the Browserlist DB
+
+   ```sh
+  BROWSERSLIST_IGNORE_OLD_DATA=1 npx webpack
+   ```
+
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
 
