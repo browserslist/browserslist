@@ -61,8 +61,8 @@ You can check how config works at our playground: [`browsersl.ist`](https://brow
 [obsolete-webpack-plugin]:                   https://github.com/ElemeFE/obsolete-webpack-plugin
 [eslint-plugin-compat]:                      https://github.com/amilajack/eslint-plugin-compat
 [Browserslist Example]:                      https://github.com/browserslist/browserslist-example
-[postcss-preset-env]:                        https://github.com/jonathantneal/postcss-preset-env
-[postcss-normalize]:                         https://github.com/jonathantneal/postcss-normalize
+[postcss-preset-env]:                        https://github.com/csstools/postcss-plugins/tree/main/plugin-packs/postcss-preset-env
+[postcss-normalize]:                         https://github.com/csstools/postcss-normalize
 [`browsersl.ist`]:                           https://browsersl.ist/
 [`caniuse-lite`]:                            https://github.com/ben-eb/caniuse-lite
 [Autoprefixer]:                              https://github.com/postcss/autoprefixer
