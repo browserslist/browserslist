@@ -25,10 +25,10 @@
     "unit": "NODE_ENV=test uvu test .test.js"
   },
   "dependencies": {
-    "caniuse-lite": "^1.0.30001390",
-    "electron-to-chromium": "^1.4.243",
+    "caniuse-lite": "^1.0.30001400",
+    "electron-to-chromium": "^1.4.251",
     "node-releases": "^2.0.6",
-    "update-browserslist-db": "^1.0.7"
+    "update-browserslist-db": "^1.0.9"
   },
   "engines": {
     "node": "^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7"
@@ -39,11 +39,11 @@
   "types": "./index.d.ts",
   "devDependencies": {
     "@logux/eslint-config": "^47.2.0",
-    "@size-limit/preset-small-lib": "^8.0.1",
+    "@size-limit/preset-small-lib": "^8.1.0",
     "c8": "^7.12.0",
     "clean-publish": "^4.0.1",
     "cross-spawn": "^7.0.3",
-    "eslint": "^8.23.0",
+    "eslint": "^8.23.1",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-es5": "^1.5.0",
     "eslint-plugin-import": "^2.26.0",
@@ -52,7 +52,7 @@
     "eslint-plugin-promise": "^6.0.1",
     "fs-extra": "^10.1.0",
     "nanospy": "^0.5.0",
-    "size-limit": "^8.0.1",
+    "size-limit": "^8.1.0",
     "uvu": "^0.5.6"
   },
   "browser": {
