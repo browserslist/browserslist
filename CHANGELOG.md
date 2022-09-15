@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.21.4
+* Updated Firefox ESR.
+
 ## 4.21.3
 * Improved unknown region and unknown feature error (by Alexander Chabin).
 
