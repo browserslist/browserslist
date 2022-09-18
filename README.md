@@ -215,7 +215,7 @@ combiner even if `or` is used (this is an API implementation specificity).
 | `and` combiner <br> (intersection) | ![intersection of queries](img/intersection.svg) | `> .5% and last 2 versions` |
 | `not` combiner <br> (relative complement) | ![Relative complement of queries](img/complement.svg) | These three are equivalent to one another: <br> `> .5% and not last 2 versions` <br> `> .5% or not last 2 versions` <br> `> .5%, not last 2 versions` |
 
-_A quick way to test your query is to do `npx browserslist '> 0.3%, not IE 11'`
+_A quick way to test your query is to do `npx browserslist '> 0.3%, not dead'`
 in your terminal._
 
 ### Full List
@@ -363,7 +363,7 @@ browsers in `package.json` with `browserslist` key:
   "browserslist": [
     "last 1 version",
     "> 1%",
-    "IE 11"
+    "not dead"
   ]
 }
 ```
@@ -380,7 +380,7 @@ Each line is combined with the `or` combiner. Comments starts with `#` symbo
 
 last 1 version
 > 1%
-IE 11 # sorry
+not dead # no browsers without security updates
 ```
 
 Browserslist will check config in every directory in `path`.
@@ -430,7 +430,7 @@ When writing a shared Browserslist package, just export an array.
 module.exports = [
   'last 1 version',
   '> 1%',
-  'ie 11'
+  'not dead'
 ]
 ```
 
@@ -450,7 +450,7 @@ module.exports = {
   production: [
     'last 1 version',
     '> 1%',
-    'ie 11'
+    'not dead'
   ]
 }
 ```
@@ -469,7 +469,7 @@ In `package.json`:
   "browserslist": {
     "production": [
       "> 1%",
-      "ie 11"
+      "not dead"
     ],
     "modern": [
       "last 1 chrome version",
@@ -486,7 +486,7 @@ In `.browserslistrc` config:
 ```ini
 [production]
 > 1%
-ie 11
+not dead
 
 [modern]
 last 1 chrome version
@@ -551,8 +551,8 @@ function process (source, opts) {
 }
 ```
 
-Queries can be a string `"> 1%, IE 11"`
-or an array `['> 1%', 'IE 11']`.
+Queries can be a string `"> 1%, not dead"`
+or an array `['> 1%', 'not dead']`.
 
 If a query is missing, Browserslist will look for a config file.
 You can provide a `path` option (that can be a file) to find the config file
@@ -580,7 +580,7 @@ Options:
 For non-JS environment and debug purpose you can use CLI tool:
 
 ```sh
-browserslist "> 1%, IE 11"
+browserslist "> 1%, not dead"
 ```
 
 You can get total users coverage for selected browsers by JS API:
