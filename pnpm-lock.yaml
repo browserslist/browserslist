@@ -4,10 +4,10 @@ specifiers:
   '@logux/eslint-config': ^47.2.0
   '@size-limit/preset-small-lib': ^8.1.0
   c8: ^7.12.0
-  caniuse-lite: ^1.0.30001400
+  caniuse-lite: ^1.0.30001402
   clean-publish: ^4.0.1
   cross-spawn: ^7.0.3
-  electron-to-chromium: ^1.4.251
+  electron-to-chromium: ^1.4.254
   eslint: ^8.23.1
   eslint-config-standard: ^17.0.0
   eslint-plugin-es5: ^1.5.0
@@ -23,8 +23,8 @@ specifiers:
   uvu: ^0.5.6
 
 dependencies:
-  caniuse-lite: 1.0.30001400
-  electron-to-chromium: 1.4.251
+  caniuse-lite: 1.0.30001402
+  electron-to-chromium: 1.4.254
   node-releases: 2.0.6
   update-browserslist-db: 1.0.9
 
@@ -340,8 +340,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /caniuse-lite/1.0.30001400:
-    resolution: {integrity: sha512-Mv659Hn65Z4LgZdJ7ge5JTVbE3rqbJaaXgW5LEI9/tOaXclfIZ8DW7D7FCWWWmWiiPS7AC48S8kf3DApSxQdgA==}
+  /caniuse-lite/1.0.30001402:
+    resolution: {integrity: sha512-Mx4MlhXO5NwuvXGgVb+hg65HZ+bhUYsz8QtDGDo2QmaJS2GBX47Xfi2koL86lc8K+l+htXeTEB/Aeqvezoo6Ew==}
     dev: false
 
   /chalk/4.1.2:
@@ -497,8 +497,8 @@ packages:
       esutils: 2.0.3
     dev: true
 
-  /electron-to-chromium/1.4.251:
-    resolution: {integrity: sha512-k4o4cFrWPv4SoJGGAydd07GmlRVzmeDIJ6MaEChTUjk4Dmomn189tCicSzil2oyvbPoGgg2suwPDNWq4gWRhoQ==}
+  /electron-to-chromium/1.4.254:
+    resolution: {integrity: sha512-Sh/7YsHqQYkA6ZHuHMy24e6TE4eX6KZVsZb9E/DvU1nQRIrH4BflO/4k+83tfdYvDl+MObvlqHPRICzEdC9c6Q==}
     dev: false
 
   /emoji-regex/8.0.0:
