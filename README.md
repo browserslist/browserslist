@@ -293,7 +293,7 @@ which may be helpful if you're implementing a parser or something else.
 
 ### Debug
 
-Run `npx browserslist` in project directory to see what browsers was selected
+Run `npx browserslist` in a project directory to see which browsers were selected
 by your queries.
 
 ```sh
