@@ -36,7 +36,7 @@ test('query composition with AND operator', () => {
 })
 
 test('correctly works with not and one-version browsers as AND query', () => {
-  equal(browserslist('last 1 Baidu version and not <2% in AT'), ['baidu 7.12'])
+  equal(browserslist('last 1 Baidu version and not <2% in AT'), ['baidu 13.18'])
 })
 
 test('reads config from package.json', () => {
