@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.21.5
+* Fixed running Browserslist in browser environment.
+
 ## 4.21.4
 * Updated Firefox ESR.
 
