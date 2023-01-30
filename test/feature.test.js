@@ -1,5 +1,5 @@
 let { test } = require('uvu')
-let { equal, is } = require('uvu/assert')
+let { equal, is, throws } = require('uvu/assert')
 
 delete require.cache[require.resolve('..')]
 let browserslist = require('..')
@@ -22,6 +22,10 @@ test.after.each(() => {
 
 test('load features from Can I Use', () => {
   is(browserslist('supports objectrtc').length > 0, true)
+})
+
+test('throw an error on wrong feature name from Can I Use', () => {
+  throws(() => browserslist('supports wrong-feature-name'), /Unknown feature name/)
 })
 
 test('selects browsers by feature', () => {

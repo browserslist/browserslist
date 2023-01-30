@@ -83,36 +83,27 @@ test('supports pluralization', () => {
 })
 
 test('is case insensitive', () => {
-  equal(
-    browserslist('Last 01 MaJoR Version'),
-    [
-      'android 39',
-      'bb 10',
-      'chrome 39',
-      'edge 12',
-      'ie 11'
-    ]
-  )
+  equal(browserslist('Last 01 MaJoR Version'), [
+    'android 39',
+    'bb 10',
+    'chrome 39',
+    'edge 12',
+    'ie 11'
+  ])
 })
 
 test('selects versions of a single browser', () => {
-  equal(
-    browserslist('last 2 edge major versions'),
-    [
-      'edge 12',
-      'edge 11.1',
-      'edge 11.0.1'
-    ]
-  )
+  equal(browserslist('last 2 edge major versions'), [
+    'edge 12',
+    'edge 11.1',
+    'edge 11.0.1'
+  ])
   equal(browserslist('last 1 bb major version'), ['bb 10'])
-  equal(
-    browserslist('last 3 Chrome major versions'),
-    [
-      'chrome 39',
-      'chrome 38',
-      'chrome 37'
-    ]
-  )
+  equal(browserslist('last 3 Chrome major versions'), [
+    'chrome 39',
+    'chrome 38',
+    'chrome 37'
+  ])
   equal(browserslist('last 2 android major versions'), ['android 39'])
 })
 

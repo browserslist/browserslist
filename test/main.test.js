@@ -83,7 +83,7 @@ test('handles undefined stats and path correctly', () => {
   equal(browserslist([], config), [])
 })
 
-test('throw a error on wrong path to config', () => {
+test('throw an error on wrong path to config', () => {
   throws(() => browserslist(null, { config: IE + '2' }), /Can't read/)
 })
 
@@ -257,7 +257,7 @@ test('uses production environment by default', () => {
 })
 
 test('correctly works with not and one-version browsers', () => {
-  equal(browserslist('last 1 Baidu version, not <2% in AT'), ['baidu 7.12'])
+  equal(browserslist('last 1 Baidu version, not <2% in AT'), ['baidu 13.18'])
 })
 
 test('throws error on missing env', () => {

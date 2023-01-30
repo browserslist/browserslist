@@ -46,6 +46,8 @@ LastBrowsers ::= 'last' Space+ Digit+ Space+ (BrowserName Space+)? ('major' Spac
 
 LastElectron ::= 'last' Space+ Digit+ Space+ 'electron' Space+ ('major' Space+)? VersionKeyword
 
+LastNode ::= 'last' Space+ Digit+ Space+ 'node' Space+ ('major' Space+)? VersionKeyword
+
 Unreleased ::= 'unreleased' Space+ ((BrowserName | 'electron') Space+)? VersionKeyword
 
 Years ::= 'last' Space+ Numeric Space+ 'year' 's'?
@@ -96,6 +98,7 @@ Dead ::= 'dead'
 
 QueryAtom ::= LastBrowsers
   | LastElectron
+  | LastNode
   | Unreleased
   | Years
   | Since

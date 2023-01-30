@@ -52,69 +52,62 @@ test('supports current node version', () => {
 })
 
 test('supports comparison operator', () => {
-  equal(
-    browserslist('node <= 5'),
-    [
-      'node 5.0.0',
+  equal(browserslist('node <= 5'), [
+    'node 5.0.0',
 
-      'node 4.9.0',
-      'node 4.8.0',
-      'node 4.7.0',
-      'node 4.6.0',
-      'node 4.5.0',
-      'node 4.4.0',
-      'node 4.3.0',
-      'node 4.2.0',
-      'node 4.1.0',
-      'node 4.0.0',
+    'node 4.9.0',
+    'node 4.8.0',
+    'node 4.7.0',
+    'node 4.6.0',
+    'node 4.5.0',
+    'node 4.4.0',
+    'node 4.3.0',
+    'node 4.2.0',
+    'node 4.1.0',
+    'node 4.0.0',
 
-      'node 0.12.0',
-      'node 0.11.0',
-      'node 0.10.0',
-      'node 0.9.0',
-      'node 0.8.0',
-      'node 0.7.0',
-      'node 0.6.0',
-      'node 0.5.0',
-      'node 0.4.0',
-      'node 0.3.0',
-      'node 0.2.0'
-    ]
-  )
+    'node 0.12.0',
+    'node 0.11.0',
+    'node 0.10.0',
+    'node 0.9.0',
+    'node 0.8.0',
+    'node 0.7.0',
+    'node 0.6.0',
+    'node 0.5.0',
+    'node 0.4.0',
+    'node 0.3.0',
+    'node 0.2.0'
+  ])
 
-  equal(
-    browserslist('node < 5'),
-    [
-      'node 4.9.0',
-      'node 4.8.0',
-      'node 4.7.0',
-      'node 4.6.0',
-      'node 4.5.0',
-      'node 4.4.0',
-      'node 4.3.0',
-      'node 4.2.0',
-      'node 4.1.0',
-      'node 4.0.0',
+  equal(browserslist('node < 5'), [
+    'node 4.9.0',
+    'node 4.8.0',
+    'node 4.7.0',
+    'node 4.6.0',
+    'node 4.5.0',
+    'node 4.4.0',
+    'node 4.3.0',
+    'node 4.2.0',
+    'node 4.1.0',
+    'node 4.0.0',
 
-      'node 0.12.0',
-      'node 0.11.0',
-      'node 0.10.0',
-      'node 0.9.0',
-      'node 0.8.0',
-      'node 0.7.0',
-      'node 0.6.0',
-      'node 0.5.0',
-      'node 0.4.0',
-      'node 0.3.0',
-      'node 0.2.0'
-    ]
-  )
+    'node 0.12.0',
+    'node 0.11.0',
+    'node 0.10.0',
+    'node 0.9.0',
+    'node 0.8.0',
+    'node 0.7.0',
+    'node 0.6.0',
+    'node 0.5.0',
+    'node 0.4.0',
+    'node 0.3.0',
+    'node 0.2.0'
+  ])
 
   is(browserslist('Node <= 5').length, 22)
 
-  is(arrayContaining(
-    browserslist('node >= 9'),
-    [
+  is(
+    arrayContaining(browserslist('node >= 9'), [
       'node 9.0.0',
       'node 9.1.0',
       'node 9.2.0',
@@ -156,12 +149,12 @@ test('supports comparison operator', () => {
       'node 11.8.0',
       'node 11.9.0',
       'node 11.10.0'
-    ]
-  ), true)
+    ]),
+    true
+  )
 
-  is(arrayContaining(
-    browserslist('node > 9'),
-    [
+  is(
+    arrayContaining(browserslist('node > 9'), [
       'node 9.1.0',
       'node 9.2.0',
       'node 9.3.0',
@@ -202,8 +195,9 @@ test('supports comparison operator', () => {
       'node 11.8.0',
       'node 11.9.0',
       'node 11.10.0'
-    ]
-  ), true)
+    ]),
+    true
+  )
 })
 
 test('supports range selection', () => {
@@ -341,6 +335,40 @@ test('supports range selection', () => {
       'node 6.6.0'
     ]
   )
+})
+
+test('supports last versions for Node.js', () => {
+  is(browserslist('last 2 node versions').length >= 1, true)
+
+  browserslist.nodeVersions = ['16.0.0', '16.1.0', '17.0.0', '17.1.0']
+  equal(browserslist('last 3 node versions'), [
+    'node 17.1.0',
+    'node 17.0.0',
+    'node 16.1.0'
+  ])
+})
+
+test('supports last major versions for Node.js', () => {
+  is(browserslist('last 2 node major versions').length >= 1, true)
+
+  browserslist.nodeVersions = [
+    '14.0.0',
+    '14.1.0',
+    '15.0.0',
+    '15.1.0',
+    '16.0.0',
+    '16.1.0',
+    '17.0.0',
+    '17.1.0'
+  ]
+  equal(browserslist('last 3 node major versions'), [
+    'node 17.1.0',
+    'node 17.0.0',
+    'node 16.1.0',
+    'node 16.0.0',
+    'node 15.1.0',
+    'node 15.0.0'
+  ])
 })
 
 test.run()

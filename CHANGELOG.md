@@ -1,6 +1,49 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.21.5
+* Fixed running Browserslist in browser environment.
+
+## 4.21.4
+* Updated Firefox ESR.
+
+## 4.21.3
+* Improved unknown region and unknown feature error (by Alexander Chabin).
+
+## 4.21.2
+* Updated Firefox ESR.
+
+## 4.21.1
+* Fixed parsing days in `since` query.
+
+## 4.21
+* IE 11 was added to `dead` and removed from `defaults` (by Albert Portnoy).
+* Added `browserslist.parse()` to get config AST for analysis.
+* Moved `--update-db` script to `update-browserslist-db` tool.
+* Fixed Unicode BOM support in `package.json`.
+
+## 4.20.4
+* Fixed Opera in `mobileToDesktop` (by Pig Fang).
+
+## 4.20.3
+* Added `Baidu` to `dead` browsers (by Igor Lukanin).
+
+## 4.20.2
+* Fixed `package.funding` URL format.
+
+## 4.20.1
+* Fixed `package.funding`.
+* Fixed docs (by Michael Lohmann).
+
+## 4.20
+* Added `last 2 node versions` and `last 2 node major versions` (by @g-plane).
+
+## 4.19.3
+* Updated Firefox ESR (by Christophe Coevoet).
+
+## 4.19.2
+* Fixed `--help` output.
+
 ## 4.19.1
 * Fixed `throwOnMissing` types (by Øyvind Saltvik).
 

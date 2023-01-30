@@ -43,6 +43,12 @@ test.before.each(() => {
       released: ['4.4', '4.4.3-4.4.4', '67'],
       versions: [],
       releaseDate: {}
+    },
+    opera: {
+      name: 'opera',
+      released: ['85', '86'],
+      versions: ['85', '86', '87'],
+      releaseDate: {}
     }
   }
 })
@@ -63,7 +69,9 @@ test('selects versions of each browser', () => {
       'chrome 38',
       'edge 12',
       'ie 11',
-      'ie 10'
+      'ie 10',
+      'opera 86',
+      'opera 85'
     ]
   )
 })
@@ -81,7 +89,9 @@ test('has special logic for android', () => {
       'edge 12',
       'ie 11',
       'ie 10',
-      'ie 9'
+      'ie 9',
+      'opera 86',
+      'opera 85'
     ]
   )
 })
@@ -94,7 +104,8 @@ test('supports pluralization', () => {
       'bb 8',
       'chrome 39',
       'edge 12',
-      'ie 11'
+      'ie 11',
+      'opera 86'
     ]
   )
 })
@@ -107,7 +118,32 @@ test('is case insensitive', () => {
       'bb 8',
       'chrome 39',
       'edge 12',
-      'ie 11'
+      'ie 11',
+      'opera 86'
+    ]
+  )
+})
+
+test('excludes unreleased versions if enabling mobile to desktop', () => {
+  equal(
+    browserslist('last 2 versions', { mobileToDesktop: true }),
+    [
+      'and_chr 39',
+      'and_chr 38',
+      'android 39',
+      'android 38',
+      'bb 8',
+      'chrome 39',
+      'chrome 38',
+      'edge 12',
+      'ie 11',
+      'ie 10',
+      'ie_mob 11',
+      'ie_mob 10',
+      'op_mob 86',
+      'op_mob 85',
+      'opera 86',
+      'opera 85'
     ]
   )
 })

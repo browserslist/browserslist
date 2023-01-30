@@ -8,7 +8,6 @@ let browserslist = require('..')
 
 let originData = { ...browserslist.data }
 
-
 let CUSTOM_STATS = join(__dirname, 'fixtures', 'stats.json')
 let ANDROID = join(__dirname, 'fixtures', 'android-stats.json')
 let STATS = join(__dirname, 'fixtures', 'browserslist-stats.json')
