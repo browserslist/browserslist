@@ -253,7 +253,8 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   * `maintained node versions`: all Node.js versions, which are [still maintained]
     by Node.js Foundation.
 * Browsers versions:
-  * `iOS 7`: the iOS browser version 7 directly.
+  * `iOS 7`: the iOS browser version 7 directly. Note, that `op_mini`
+    has special version `all`.
   * `Firefox > 20`: versions of Firefox newer than 20.
     `>=`, `<` and `<=` work too. It also works with Node.js.
   * `ie 6-8`: selects an inclusive range of versions.
