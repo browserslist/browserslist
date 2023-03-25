@@ -90,7 +90,7 @@ You can check how config works at our playground: [`browsersl.ist`](https://brow
 Browserslist needs your support. We are accepting donations
 [at Open Collective](https://opencollective.com/browserslist).
 
-<a href="https://tailwindcss.com/">
+<a href="https://www.springernature.com/">
   <img src="https://user-images.githubusercontent.com/19343/227742503-cf7fc2b3-9cc4-481c-97b8-68414d762fda.png"
        alt="Sponsored by Springer Nature Technology" width="154" height="54">
 </a>
