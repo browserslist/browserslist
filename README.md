@@ -49,9 +49,7 @@ You can check how config works at our playground: [`browsersl.ist`](https://brow
   <a href="https://evilmartians.com/?utm_source=browserslist">
     <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
         alt="Sponsored by Evil Martians" width="236" height="54">
-  </a>
-
-  <a href="https://cube.dev/?ref=eco-browserslist-github">
+  </a>  <a href="https://cube.dev/?ref=eco-browserslist-github">
     <img src="https://user-images.githubusercontent.com/986756/154330861-d79ab8ec-aacb-4af8-9e17-1b28f1eccb01.svg"
         alt="Supported by Cube" width="227" height="46">
   </a>
@@ -85,6 +83,18 @@ You can check how config works at our playground: [`browsersl.ist`](https://brow
 * [Cache](#cache)
 * [Security Contact](#security-contact)
 * [For Enterprise](#for-enterprise)
+
+
+## Sponsors
+
+Browserslist needs your support. We are accepting donations
+[at Open Collective](https://opencollective.com/browserslist).
+
+<a href="https://tailwindcss.com/">
+  <img src="https://user-images.githubusercontent.com/19343/227742503-cf7fc2b3-9cc4-481c-97b8-68414d762fda.png"
+       alt="Sponsored by Springer Nature Technology" width="154" height="54">
+</a>
+
 
 ## Tools
 
