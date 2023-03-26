@@ -15,6 +15,10 @@
     {
       "type": "tidelift",
       "url": "https://tidelift.com/funding/github/npm/browserslist"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/ai"
     }
   ],
   "author": "Andrey Sitnik <andrey@sitnik.ru>",
