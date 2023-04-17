@@ -351,7 +351,9 @@ The following table maps browser names & their target devices into identifiers u
 - `↪︎ name` implies that the browser uses the same engine captured by `name`
 - <sup>1</sup> [Opera Mobile ≈ Chrome Android](https://github.com/Fyrd/caniuse/issues/5602#issuecomment-792385127)
 - <sup>2</sup> [All iOS browsers use WebKit](https://en.wikipedia.org/wiki/WebKit)
-- <sup>3</sup> Opera Mini has 2 modes “Extreme” and “High” for data saving. `op_mini` targets at the “Extreme” one. “High” is compatible with the normal Opera Mobile.
+- <sup>3</sup> Opera Mini has 2 modes “Extreme” and “High” for data saving.
+  `op_mini` targets at the “Extreme” one.
+  “High” is compatible with the normal Opera Mobile.
 
 [KaiOS Browser]: https://medium.com/design-at-kai/what-you-didnt-know-about-kaios-browser-53937ea1636
 [QQ browser]: https://en.wikipedia.org/wiki/QQ_browser
