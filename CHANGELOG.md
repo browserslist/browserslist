@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.21.6
+* Fixed time queries with `mobileToDesktop` (by Steve Repsher).
+* Fixed docs (by Tatsunori Uchino, Will Stone, and Dominik Pschenitschni).
+
 ## 4.21.5
 * Fixed running Browserslist in browser environment.
 
