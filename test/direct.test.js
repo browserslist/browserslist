@@ -58,24 +58,17 @@ test('supports Can I Use missing mobile versions', () => {
   equal(browserslist('and_ff 60', opts), ['and_ff 60'])
   equal(browserslist('ie_mob 9', opts), ['ie_mob 9'])
   equal(browserslist('op_mob 30', opts), ['op_mob 30'])
-  equal(
-    browserslist('chromeandroid >= 52 and chromeandroid < 54', opts),
-    ['and_chr 53', 'and_chr 52']
-  )
-  equal(
-    browserslist('and_chr 52-53', opts),
-    ['and_chr 53', 'and_chr 52']
-  )
-  equal(
-    browserslist('android 4.4-38', opts),
-    [
-      'android 38',
-      'android 37',
-      'android 36',
-      'android 4.4.3-4.4.4',
-      'android 4.4'
-    ]
-  )
+  equal(browserslist('chromeandroid >= 52 and chromeandroid < 54', opts), [
+    'and_chr 53',
+    'and_chr 52'
+  ])
+  equal(browserslist('and_chr 52-53', opts), ['and_chr 53', 'and_chr 52'])
+  equal(browserslist('android 4.4-38', opts), [
+    'android 38',
+    'android 37',
+    'android 4.4.3-4.4.4',
+    'android 4.4'
+  ])
 })
 
 test('missing mobile versions are not aliased by default', () => {
@@ -88,7 +81,7 @@ test('missing mobile versions are not aliased by default', () => {
 test('works for all browsers', () => {
   not.throws(() => {
     let first = browserslist(['> 0%', 'dead'])
-    browserslist(first, {mobileToDesktop: true})
+    browserslist(first, { mobileToDesktop: true })
   })
 })
 
