@@ -44,7 +44,7 @@
   "devDependencies": {
     "@logux/eslint-config": "^50.0.0",
     "@size-limit/preset-small-lib": "^8.2.4",
-    "c8": "^7.13.0",
+    "c8": "^7.14.0",
     "clean-publish": "^4.2.0",
     "cross-spawn": "^7.0.3",
     "eslint": "^8.41.0",
