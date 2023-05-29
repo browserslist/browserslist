@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.21.7
+* Fixed last queries for Android (by Steve Repsher).
+
 ## 4.21.6
 * Fixed time queries with `mobileToDesktop` (by Steve Repsher).
 * Fixed docs (by Tatsunori Uchino, Will Stone, and Dominik Pschenitschni).
