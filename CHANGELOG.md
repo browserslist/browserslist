@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.21.8
+* Fixed `supports` query and `mobileToDesktop` (by Steve Repsher).
+
 ## 4.21.7
 * Fixed last queries for Android (by Steve Repsher).
 
