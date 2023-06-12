@@ -124,7 +124,9 @@ declare namespace browserslist {
 
   let cache: {
     [feature: string]: {
-      [name: string]: 'y' | 'n'
+      [name: string]: {
+        [version: string]: string
+      }
     }
   }
 

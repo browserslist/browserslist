@@ -302,6 +302,13 @@ function filterAndroid(list, versions, context) {
   return list.slice(nEvergreen - 1 - versions)
 }
 
+function isSupported(flags) {
+  return (
+    typeof flags === 'string' &&
+    (flags.indexOf('y') >= 0 || flags.indexOf('a') >= 0)
+  )
+}
+
 function resolve(queries, context) {
   return parse(QUERIES, queries).reduce(function (result, node, index) {
     if (node.not && index === 0) {
@@ -893,13 +900,25 @@ var QUERIES = {
     select: function (context, node) {
       env.loadFeature(browserslist.cache, node.feature)
       var features = browserslist.cache[node.feature]
-      return Object.keys(features).reduce(function (result, version) {
-        var flags = features[version]
-        if (flags.indexOf('y') >= 0 || flags.indexOf('a') >= 0) {
-          result.push(version)
-        }
-        return result
-      }, [])
+      var result = []
+      for (var name in features) {
+        var data = byName(name, context)
+        // Only check desktop when latest released mobile has support
+        var checkDesktop =
+          context.mobileToDesktop &&
+          name in browserslist.desktopNames &&
+          isSupported(features[name][data.released.slice(-1)[0]])
+        data.versions.forEach(function (version) {
+          var flags = features[name][version]
+          if (flags === undefined && checkDesktop) {
+            flags = features[browserslist.desktopNames[name]][version]
+          }
+          if (isSupported(flags)) {
+            result.push(name + ' ' + version)
+          }
+        })
+      }
+      return result
     }
   },
   electron_range: {
