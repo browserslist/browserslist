@@ -10,6 +10,7 @@ var env = require('./node') // Will load browser.js in webpack
 
 var YEAR = 365.259641 * 24 * 60 * 60 * 1000
 var ANDROID_EVERGREEN_FIRST = '37'
+var OP_MOB_BLINK_FIRST = 14
 
 // Helpers
 
@@ -223,21 +224,6 @@ function cloneData(data) {
   }
 }
 
-function mapVersions(data, map) {
-  data.versions = data.versions.map(function (i) {
-    return map[i] || i
-  })
-  data.released = data.released.map(function (i) {
-    return map[i] || i
-  })
-  var fixedDate = {}
-  for (var i in data.releaseDate) {
-    fixedDate[map[i] || i] = data.releaseDate[i]
-  }
-  data.releaseDate = fixedDate
-  return data
-}
-
 function byName(name, context) {
   name = name.toLowerCase()
   name = browserslist.aliases[name] || name
@@ -248,9 +234,6 @@ function byName(name, context) {
     } else {
       var cloned = cloneData(desktop)
       cloned.name = name
-      if (name === 'op_mob') {
-        cloned = mapVersions(cloned, { '10.0-10.1': '10' })
-      }
       return cloned
     }
   }
@@ -292,14 +275,27 @@ function unknownQuery(query) {
   )
 }
 
-function filterAndroid(list, versions, context) {
-  if (context.mobileToDesktop) return list
-  var released = browserslist.data.chrome.released
-  var nEvergreen = released.length - released.indexOf(ANDROID_EVERGREEN_FIRST)
-  if (versions <= nEvergreen) {
+// Adjusts last X versions queries for some mobile browsers,
+// where caniuse data jumps from a legacy version to the latest
+function filterJumps(list, name, nVersions, context) {
+  var jump = 1
+  switch (name) {
+    case 'android':
+      if (context.mobileToDesktop) return list
+      var released = browserslist.data.chrome.released
+      jump = released.length - released.indexOf(ANDROID_EVERGREEN_FIRST)
+      break
+    case 'op_mob':
+      var latest = browserslist.data.op_mob.released.slice(-1)[0]
+      jump = getMajor(latest) - OP_MOB_BLINK_FIRST + 1
+      break
+    default:
+      return list
+  }
+  if (nVersions <= jump) {
     return list.slice(-1)
   }
-  return list.slice(nEvergreen - 1 - versions)
+  return list.slice(jump - 1 - nVersions)
 }
 
 function isSupported(flags) {
@@ -468,11 +464,11 @@ browserslist.aliases = {
 
 // Can I Use only provides a few versions for some browsers (e.g. and_chr).
 // Fallback to a similar browser for unknown versions
+// Note op_mob is not included as its chromium versions are not in sync with Opera desktop
 browserslist.desktopNames = {
   and_chr: 'chrome',
   and_ff: 'firefox',
   ie_mob: 'ie',
-  op_mob: 'opera',
   android: 'chrome' // has extra processing logic
 }
 
@@ -598,9 +594,7 @@ var QUERIES = {
         if (!data) return selected
         var list = getMajorVersions(data.released, node.versions)
         list = list.map(nameMapper(data.name))
-        if (data.name === 'android') {
-          list = filterAndroid(list, node.versions, context)
-        }
+        list = filterJumps(list, data.name, node.versions, context)
         return selected.concat(list)
       }, [])
     }
@@ -614,9 +608,7 @@ var QUERIES = {
         if (!data) return selected
         var list = data.released.slice(-node.versions)
         list = list.map(nameMapper(data.name))
-        if (data.name === 'android') {
-          list = filterAndroid(list, node.versions, context)
-        }
+        list = filterJumps(list, data.name, node.versions, context)
         return selected.concat(list)
       }, [])
     }
@@ -649,9 +641,7 @@ var QUERIES = {
       var data = checkName(node.browser, context)
       var validVersions = getMajorVersions(data.released, node.versions)
       var list = validVersions.map(nameMapper(data.name))
-      if (data.name === 'android') {
-        list = filterAndroid(list, node.versions, context)
-      }
+      list = filterJumps(list, data.name, node.versions, context)
       return list
     }
   },
@@ -683,9 +673,7 @@ var QUERIES = {
     select: function (context, node) {
       var data = checkName(node.browser, context)
       var list = data.released.slice(-node.versions).map(nameMapper(data.name))
-      if (data.name === 'android') {
-        list = filterAndroid(list, node.versions, context)
-      }
+      list = filterJumps(list, data.name, node.versions, context)
       return list
     }
   },
@@ -1199,8 +1187,6 @@ var QUERIES = {
       }
     }
   }
-
-  browserslist.versionAliases.op_mob['59'] = '58'
 
   browserslist.nodeVersions = jsReleases.map(function (release) {
     return release.version
