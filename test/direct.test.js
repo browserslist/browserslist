@@ -57,7 +57,6 @@ test('supports Can I Use missing mobile versions', () => {
   equal(browserslist('chromeandroid 53', opts), ['and_chr 53'])
   equal(browserslist('and_ff 60', opts), ['and_ff 60'])
   equal(browserslist('ie_mob 9', opts), ['ie_mob 9'])
-  equal(browserslist('op_mob 30', opts), ['op_mob 30'])
   equal(browserslist('chromeandroid >= 52 and chromeandroid < 54', opts), [
     'and_chr 53',
     'and_chr 52'

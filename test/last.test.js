@@ -49,6 +49,12 @@ test.before.each(() => {
       released: ['85', '86'],
       versions: ['85', '86', '87'],
       releaseDate: {}
+    },
+    op_mob: {
+      name: 'op_mob',
+      released: ['12', '12.1', '17'],
+      versions: [],
+      releaseDate: {}
     }
   }
 })
@@ -68,27 +74,23 @@ test('selects versions of each browser', () => {
     'edge 12',
     'ie 11',
     'ie 10',
+    'op_mob 17',
     'opera 86',
     'opera 85'
   ])
 })
 
-test('has special logic for android', () => {
-  equal(browserslist('last 4 versions'), [
+test('Properly handles Android version jump', () => {
+  equal(browserslist('last 3 android versions'), ['android 39'])
+  equal(browserslist('last 4 android versions'), [
     'android 39',
-    'android 4.4.3-4.4.4',
-    'bb 8',
-    'chrome 39',
-    'chrome 38',
-    'chrome 37',
-    'chrome 36',
-    'edge 12',
-    'ie 11',
-    'ie 10',
-    'ie 9',
-    'opera 86',
-    'opera 85'
+    'android 4.4.3-4.4.4'
   ])
+})
+
+test('Properly handles Opera Mobile version jump', () => {
+  equal(browserslist('last 4 op_mob versions'), ['op_mob 17'])
+  equal(browserslist('last 5 op_mob versions'), ['op_mob 17', 'op_mob 12.1'])
 })
 
 test('supports pluralization', () => {
@@ -98,6 +100,7 @@ test('supports pluralization', () => {
     'chrome 39',
     'edge 12',
     'ie 11',
+    'op_mob 17',
     'opera 86'
   ])
 })
@@ -109,6 +112,7 @@ test('is case insensitive', () => {
     'chrome 39',
     'edge 12',
     'ie 11',
+    'op_mob 17',
     'opera 86'
   ])
 })
@@ -127,8 +131,7 @@ test('excludes unreleased versions if enabling mobile to desktop', () => {
     'ie 10',
     'ie_mob 11',
     'ie_mob 10',
-    'op_mob 86',
-    'op_mob 85',
+    'op_mob 17',
     'opera 86',
     'opera 85'
   ])
