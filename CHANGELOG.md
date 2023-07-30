@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.21.10
+* Updated Firefox ESR.
+
 ## 4.21.9
 * Fixed Opera Mobile edge cases (by Steve Repsher).
 
