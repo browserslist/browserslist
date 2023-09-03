@@ -275,8 +275,12 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   `browserslist-config-mycompany` npm package.
 * `supports es6-module`: browsers with support for specific features.
   `es6-module` here is the `feat` parameter at the URL of the [Can I Use]
-  page. A list of all available features can be found at
-  [`caniuse-lite/data/features`].
+  page. This includes browsers with full or partial support for a feature.
+  A list of all available features can be found at [`caniuse-lite/data/features`].
+* `fully supports es6-module`: browsers with support for specific features.
+  `es6-module` here is the `feat` parameter at the URL of the [Can I Use]
+  page. This only includes browsers with full support for a feature.
+  A list of all available features can be found at [`caniuse-lite/data/features`].
 * `browserslist config`: the browsers defined in Browserslist config. Useful
   in Differential Serving to modify user’s config like
   `browserslist config and supports es6-module`.

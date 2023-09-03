@@ -298,10 +298,10 @@ function filterJumps(list, name, nVersions, context) {
   return list.slice(jump - 1 - nVersions)
 }
 
-function isSupported(flags) {
+function isSupported(flags, includePartialSupport) {
   return (
     typeof flags === 'string' &&
-    (flags.indexOf('y') >= 0 || flags.indexOf('a') >= 0)
+    (flags.indexOf('y') >= 0 || (includePartialSupport && flags.indexOf('a') >= 0))
   )
 }
 
@@ -883,10 +883,11 @@ var QUERIES = {
     select: coverQuery
   },
   supports: {
-    matches: ['feature'],
-    regexp: /^supports\s+([\w-]+)$/,
+    matches: ['fullSupport', 'feature'],
+    regexp: /^(fully )?supports\s+([\w-]+)$/,
     select: function (context, node) {
       env.loadFeature(browserslist.cache, node.feature)
+      var includePartialSupport = !node.fullSupport;
       var features = browserslist.cache[node.feature]
       var result = []
       for (var name in features) {
@@ -895,13 +896,13 @@ var QUERIES = {
         var checkDesktop =
           context.mobileToDesktop &&
           name in browserslist.desktopNames &&
-          isSupported(features[name][data.released.slice(-1)[0]])
+          isSupported(features[name][data.released.slice(-1)[0]], includePartialSupport)
         data.versions.forEach(function (version) {
           var flags = features[name][version]
           if (flags === undefined && checkDesktop) {
             flags = features[browserslist.desktopNames[name]][version]
           }
-          if (isSupported(flags)) {
+          if (isSupported(flags, includePartialSupport)) {
             result.push(name + ' ' + version)
           }
         })
