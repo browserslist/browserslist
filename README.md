@@ -342,7 +342,7 @@ The following table maps browser names & their target devices into identifiers u
 | Node.js                  | `Node`          |                           |                          |                   |
 | [KaiOS Browser]          |                 |                           |                          | `kaios`           |
 | Opera                    | `Opera`         | `op_mob` <sup>1</sup>     | ↪︎ `ios_saf`<sup>2</sup> |                   |
-| [Opera Mini]<sup>3</sup> |                 | `OperaMini`               |                          |                   |
+| [Opera Mini]<sup>3</sup> |                 | `OperaMini` `op_mini`     |                          |                   |
 | [QQ browser]             |                 | `and_qq`                  |                          |                   |
 | Safari                   | `Safari`        |                           | `iOS` `ios_saf`          |                   |
 | Samsung Internet         |                 | `Samsung`                 |                          |                   |
