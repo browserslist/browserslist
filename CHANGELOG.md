@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.21.11
+* Added warning to `--update-db` to move to new CLI (by Ivan Vasilev).
+* Fixed docs (by Tatsunori Uchino).
+
 ## 4.21.10
 * Updated Firefox ESR.
 
