@@ -20,8 +20,7 @@ var USAGE =
   '  npx browserslist --env="environment name defined in config"\n' +
   '  npx browserslist --stats="path/to/browserlist/stats/file"\n' +
   '  npx browserslist --mobile-to-desktop\n' +
-  '  npx browserslist --ignore-unknown-versions\n' +
-  '  npx browserslist --update-db\n'
+  '  npx browserslist --ignore-unknown-versions\n'
 
 function isArg(arg) {
   return args.some(function (str) {
@@ -39,6 +38,8 @@ if (isArg('--help') || isArg('-h')) {
 } else if (isArg('--version') || isArg('-v')) {
   process.stdout.write('browserslist ' + pkg.version + '\n')
 } else if (isArg('--update-db')) {
+  process.stdout.write('The --update-db command is deprecated. Please use npx update-browserslist-db@latest instead.\n')
+  process.stdout.write('Browserslist DB update will still be made.\n')
   /* c8 ignore next 3 */
   updateDb(function (str) {
     process.stdout.write(str)
