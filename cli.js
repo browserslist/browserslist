@@ -38,9 +38,12 @@ if (isArg('--help') || isArg('-h')) {
 } else if (isArg('--version') || isArg('-v')) {
   process.stdout.write('browserslist ' + pkg.version + '\n')
 } else if (isArg('--update-db')) {
-  process.stdout.write('The --update-db command is deprecated. Please use npx update-browserslist-db@latest instead.\n')
+  /* c8 ignore next 8 */
+  process.stdout.write(
+    'The --update-db command is deprecated.\n' +
+      'Please use npx update-browserslist-db@latest instead.\n'
+  )
   process.stdout.write('Browserslist DB update will still be made.\n')
-  /* c8 ignore next 3 */
   updateDb(function (str) {
     process.stdout.write(str)
   })
