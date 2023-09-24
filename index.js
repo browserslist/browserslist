@@ -884,10 +884,10 @@ var QUERIES = {
   },
   supports: {
     matches: ['supportType', 'feature'],
-    regexp: /^((?:fully|partially) )?supports\s+([\w-]+)$/,
+    regexp: /^(?:(fully|partially) )?supports\s+([\w-]+)$/,
     select: function (context, node) {
       env.loadFeature(browserslist.cache, node.feature)
-      var includePartialSupport = (node.supportType || '').trim() !== 'fully';
+      var includePartialSupport = (node.supportType || 'partially') === 'partially';
       var features = browserslist.cache[node.feature]
       var result = []
       for (var name in features) {
