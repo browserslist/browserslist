@@ -60,7 +60,21 @@ test('selects browsers by feature, including partial support by default', () => 
   ])
 })
 
-test('selects browsers by feature, omiting partial support in in strict mode', () => {
+test('selects browsers by feature, including partial support in partial mode', () => {
+  browserslist.cache.rtcpeerconnection = {
+    and_chr: { 81: 'y' },
+    chrome: { 80: 'n', 81: 'a', 82: 'y' },
+    ie: { 10: 'n', 11: 'n' }
+  }
+
+  equal(browserslist('partially supports rtcpeerconnection'), [
+    'and_chr 81',
+    'chrome 82',
+    'chrome 81'
+  ])
+})
+
+test('selects browsers by feature, omiting partial support in full mode', () => {
   browserslist.cache.rtcpeerconnection = {
     and_chr: { 81: 'y' },
     chrome: { 80: 'n', 81: 'a', 82: 'y' },

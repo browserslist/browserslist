@@ -883,11 +883,11 @@ var QUERIES = {
     select: coverQuery
   },
   supports: {
-    matches: ['fullSupport', 'feature'],
-    regexp: /^(fully )?supports\s+([\w-]+)$/,
+    matches: ['supportType', 'feature'],
+    regexp: /^((?:fully|partially) )?supports\s+([\w-]+)$/,
     select: function (context, node) {
       env.loadFeature(browserslist.cache, node.feature)
-      var includePartialSupport = !node.fullSupport;
+      var includePartialSupport = (node.supportType || '').trim() !== 'fully';
       var features = browserslist.cache[node.feature]
       var result = []
       for (var name in features) {
