@@ -19,7 +19,7 @@ when you add the following to `package.json`:
 
 ```json
   "browserslist": [
-    "defaults and partially supports es6-module",
+    "defaults and fully supports es6-module",
     "maintained node versions"
   ]
 ```
@@ -29,7 +29,7 @@ Or in `.browserslistrc` config:
 ```yaml
 # Browsers that we support
 
-defaults and partially supports es6-module
+defaults and fully supports es6-module
 maintained node versions
 ```
 
@@ -273,18 +273,20 @@ You can specify the browser and Node.js versions by queries (case insensitive):
     to PhantomJS runtime.
 * `extends browserslist-config-mycompany`: take queries from
   `browserslist-config-mycompany` npm package.
-* `fully supports es6-module`: browsers with full support for specific features.
-  `es6-module` here is the `feat` parameter at the URL of the [Can I Use]
-  page. For example `fully supports css-grid` will omit Edge 12-15, as those browser versions are marked as [having partial support].
-  A list of all available features can be found at [`caniuse-lite/data/features`].
-* `partially supports es6-module`: browsers with full or partial support for specific features.
-  `es6-module` here is the `feat` parameter at the URL of the [Can I Use]
-  page. For example `fully supports css-grid` will include Edge 12-15 support, as those browser versions are marked as [having partial support].
-  A list of all available features can be found at [`caniuse-lite/data/features`].
-* `supports es6-module`: browsers with full or partial support for specific features. An alias for `partially supports es6-module`.
+* By browser support:<br>
+  In these example queries `es6` and `es6-module` are the the `feat` parameter
+  from the URL of the [Can I Use] page. A list of all available features can be
+  found at [`caniuse-lite/data/features`].
+  * `fully supports es6`: browsers with full support for specific
+    features. For example `fully supports css-grid` will omit Edge 12-15, as
+    those browser versions are marked as [having partial support].
+  * `partially supports es6-module` or `supports es6-module`:  browsers with
+    full or partial support for specific features. For example
+    `partially supports css-grid` will include Edge 12-15 support, as those
+    browser versions are marked as [having partial support].
 * `browserslist config`: the browsers defined in Browserslist config. Useful
   in Differential Serving to modify user’s config like
-  `browserslist config and partially supports es6-module`.
+  `browserslist config and fully supports es6-module`.
 * `since 2015` or `last 2 years`: all versions released since year 2015
   (also `since 2015-03` and `since 2015-03-10`).
 * `unreleased versions` or `unreleased Chrome versions`:
@@ -300,7 +302,7 @@ You can add `not ` to any query.
 [still maintained]:            https://github.com/nodejs/Release
 [Can I Use]:                   https://caniuse.com/
 [Firefox Extended Support Release]: https://support.mozilla.org/en-US/kb/choosing-firefox-update-channel
-[having partial support]: https://caniuse.com/css-grid)
+[having partial support]: https://caniuse.com/css-grid
 
 ### Grammar Definition
 
