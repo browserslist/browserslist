@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.22
+* Added `fully supports` query (by Ben Scott).
+* Added `partially supports` alias for `supports` query (by Ben Scott).
+
 ## 4.21.11
 * Added warning to `--update-db` to move to new CLI (by Ivan Vasilev).
 * Fixed docs (by Tatsunori Uchino).
