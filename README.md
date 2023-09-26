@@ -278,10 +278,10 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   from the URL of the [Can I Use] page. A list of all available features can be
   found at [`caniuse-lite/data/features`].
   * `fully supports es6`: browsers with full support for specific
-    features. For example `fully supports css-grid` will omit Edge 12-15, as
+    features. For example, `fully supports css-grid` will omit Edge 12-15, as
     those browser versions are marked as [having partial support].
   * `partially supports es6-module` or `supports es6-module`:  browsers with
-    full or partial support for specific features. For example
+    full or partial support for specific features. For example,
     `partially supports css-grid` will include Edge 12-15 support, as those
     browser versions are marked as [having partial support].
 * `browserslist config`: the browsers defined in Browserslist config. Useful
