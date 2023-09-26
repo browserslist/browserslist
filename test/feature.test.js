@@ -46,10 +46,10 @@ test('throw an error on wrong feature name from Can I Use', () => {
   )
 })
 
-test('selects browsers by feature', () => {
+test('selects browsers by feature, including partial support by default', () => {
   browserslist.cache.rtcpeerconnection = {
     and_chr: { 81: 'y' },
-    chrome: { 80: 'n', 81: 'y', 82: 'y' },
+    chrome: { 80: 'n', 81: 'a', 82: 'y' },
     ie: { 10: 'n', 11: 'n' }
   }
 
@@ -59,6 +59,34 @@ test('selects browsers by feature', () => {
     'chrome 81'
   ])
 })
+
+test('selects browsers by feature, including partial support in partial mode', () => {
+  browserslist.cache.rtcpeerconnection = {
+    and_chr: { 81: 'y' },
+    chrome: { 80: 'n', 81: 'a', 82: 'y' },
+    ie: { 10: 'n', 11: 'n' }
+  }
+
+  equal(browserslist('partially supports rtcpeerconnection'), [
+    'and_chr 81',
+    'chrome 82',
+    'chrome 81'
+  ])
+})
+
+test('selects browsers by feature, omiting partial support in full mode', () => {
+  browserslist.cache.rtcpeerconnection = {
+    and_chr: { 81: 'y' },
+    chrome: { 80: 'n', 81: 'a', 82: 'y' },
+    ie: { 10: 'n', 11: 'n' }
+  }
+
+  equal(browserslist('fully supports rtcpeerconnection'), [
+    'and_chr 81',
+    'chrome 82',
+  ])
+})
+
 
 test('selects browsers by feature with dashes in its name', () => {
   browserslist.cache['arrow-functions'] = {
