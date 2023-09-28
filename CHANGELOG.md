@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.22.1
+* Updated Firefox ESR (by @lerkor).
+
 ## 4.22
 * Added `fully supports` query (by Ben Scott).
 * Added `partially supports` alias for `supports` query (by Ben Scott).
