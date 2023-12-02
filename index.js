@@ -252,6 +252,7 @@ function normalizeAndroidVersions(androidVersions, chromeVersions) {
 function normalizeAndroidData(android, chrome) {
   android.released = normalizeAndroidVersions(android.released, chrome.released)
   android.versions = normalizeAndroidVersions(android.versions, chrome.versions)
+  android.releaseDate = Object.assign({}, android.releaseDate)
   android.released.forEach(function (v) {
     if (android.releaseDate[v] === undefined) {
       android.releaseDate[v] = chrome.releaseDate[v]
