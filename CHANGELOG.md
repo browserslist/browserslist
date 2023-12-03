@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.22.2
+* Fixed idempotency in time queries with `mobileToDesktop` (by Aliaksei Sapach).
+
 ## 4.22.1
 * Updated Firefox ESR (by @lerkor).
 
