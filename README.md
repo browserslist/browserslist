@@ -46,13 +46,7 @@ You can check how config works at our playground: [`browsersl.ist`](https://brow
 <br>
 <br>
 <div align="center">
-  <a href="https://evilmartians.com/?utm_source=browserslist">
-    <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
-        alt="Sponsored by Evil Martians" width="236" height="54">
-  </a>  <a href="https://cube.dev/?ref=eco-browserslist-github">
-    <img src="https://user-images.githubusercontent.com/986756/154330861-d79ab8ec-aacb-4af8-9e17-1b28f1eccb01.svg"
-        alt="Supported by Cube" width="227" height="46">
-  </a>
+  <a href="https://evilmartians.com/?utm_source=browserslist"><img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg" alt="Sponsored by Evil Martians" width="236" height="54"></a>  <a href="https://cube.dev/?ref=eco-browserslist-github"><img src="https://user-images.githubusercontent.com/986756/154330861-d79ab8ec-aacb-4af8-9e17-1b28f1eccb01.svg" alt="Supported by Cube" width="227" height="46"></a>
 </div>
 
 [stylelint-no-unsupported-browser-features]: https://github.com/ismay/stylelint-no-unsupported-browser-features
@@ -90,10 +84,7 @@ You can check how config works at our playground: [`browsersl.ist`](https://brow
 Browserslist needs your support. We are accepting donations
 [at Open Collective](https://opencollective.com/browserslist).
 
-<a href="https://www.springernature.com/">
-  <img src="https://user-images.githubusercontent.com/19343/227742503-cf7fc2b3-9cc4-481c-97b8-68414d762fda.png"
-       alt="Sponsored by Springer Nature Technology" width="154" height="54">
-</a>
+<a href="https://www.springernature.com/"><img src="https://user-images.githubusercontent.com/19343/227742503-cf7fc2b3-9cc4-481c-97b8-68414d762fda.png" alt="Sponsored by Springer Nature Technology" width="154" height="54"></a>      <a href="https://workleap.com/"><img src="https://workleap.com/wp-content/uploads/2023/05/workleap-logo.svg" alt="Sponsored by Workleap" width="154" height="40"></a>
 
 
 ## Tools
