@@ -32,8 +32,8 @@
     "test": "pnpm run /^test:/"
   },
   "dependencies": {
-    "caniuse-lite": "^1.0.30001565",
-    "electron-to-chromium": "^1.4.601",
+    "caniuse-lite": "^1.0.30001568",
+    "electron-to-chromium": "^1.4.609",
     "node-releases": "^2.0.14",
     "update-browserslist-db": "^1.0.13"
   },
@@ -46,7 +46,7 @@
   "types": "./index.d.ts",
   "devDependencies": {
     "@logux/eslint-config": "^52.0.2",
-    "@size-limit/preset-small-lib": "^11.0.0",
+    "@size-limit/preset-small-lib": "^11.0.1",
     "c8": "^8.0.1",
     "clean-publish": "^4.2.0",
     "cross-spawn": "^7.0.3",
@@ -60,7 +60,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "fs-extra": "^11.2.0",
     "nanospy": "^1.0.0",
-    "size-limit": "^11.0.0",
+    "size-limit": "^11.0.1",
     "uvu": "^0.5.6"
   },
   "browser": {
@@ -81,7 +81,7 @@
   "size-limit": [
     {
       "path": "index.js",
-      "limit": "17 KB"
+      "limit": "15 KB"
     }
   ],
   "eslintConfig": {
