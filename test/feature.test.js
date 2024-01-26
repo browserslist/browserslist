@@ -72,6 +72,12 @@ test('selects browsers by feature, including partial support', () => {
     'chrome 82',
     'chrome 81'
   ])
+
+  equal(browserslist('partially     supports rtcpeerconnection'), [
+    'and_chr 81',
+    'chrome 82',
+    'chrome 81'
+  ])
 })
 
 test('selects browsers by feature, omiting partial support', () => {
@@ -82,6 +88,11 @@ test('selects browsers by feature, omiting partial support', () => {
   }
 
   equal(browserslist('fully supports rtcpeerconnection'), [
+    'and_chr 81',
+    'chrome 82'
+  ])
+
+  equal(browserslist('fully    supports rtcpeerconnection'), [
     'and_chr 81',
     'chrome 82'
   ])
