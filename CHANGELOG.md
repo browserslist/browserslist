@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.22.3
+* Fixed white spaces support in `supports` query (@g-plane).
+* Fixed shared config like `@company/package/browserslist-config` (@boucodes).
+
 ## 4.22.2
 * Fixed idempotency in time queries with `mobileToDesktop` (by Aliaksei Sapach).
 
