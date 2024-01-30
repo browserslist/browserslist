@@ -64,7 +64,7 @@ Percentage ::= CompareOperator Space* Numeric '%' (Space+ 'in' Space+ (MyStats |
 
 Cover ::= 'cover' Space+ Numeric '%' (Space+ 'in' Space+ (MyStats | Region))?
 
-FeatureSupport ::= 'supports' Space+ ([a-z0-9] | '-')+
+FeatureSupport ::= (('fully' | 'partially') Space+)? 'supports' Space+ ([a-z0-9] | '-')+
 
 Version ::= (Digit | '.')+
 
