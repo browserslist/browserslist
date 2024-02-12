@@ -50,10 +50,20 @@ function eachParent(file, callback) {
   var dir = isFile(file) ? path.dirname(file) : file
   var loc = path.resolve(dir)
   do {
+    if (!pathInRoot(loc)) break;
     var result = callback(loc)
     if (typeof result !== 'undefined') return result
   } while (loc !== (loc = path.dirname(loc)))
   return undefined
+}
+
+function pathInRoot(p) {
+  if (!process.env.BROWSERSLIST_ROOT_PATH) return true
+  var root_path = path.resolve(process.env.BROWSERSLIST_ROOT_PATH);
+  if (path.relative(root_path, p).startsWith('..')) {
+    return false;
+  }
+  return true
 }
 
 function check(section) {

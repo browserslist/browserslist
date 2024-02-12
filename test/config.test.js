@@ -120,4 +120,16 @@ test('reads config with one string', () => {
   equal(browserslist.findConfig(STRING), { defaults: 'ie 9, ie 8' })
 })
 
+test('stops at ROOT', () => {
+  browserslist.clearCaches()
+  process.env.BROWSERSLIST_ROOT_PATH = join(__dirname, 'fixtures', 'dir')
+  equal(browserslist.findConfig(FILE), undefined)
+})
+
+test('allows up to ROOT', () => {
+  browserslist.clearCaches()
+  process.env.BROWSERSLIST_ROOT_PATH = join(__dirname, 'fixtures')
+  equal(browserslist.findConfig(FILE), { defaults: ['ie 11', 'ie 10'] })
+})
+
 test.run()

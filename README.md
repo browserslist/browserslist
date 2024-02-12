@@ -683,6 +683,12 @@ with [environment variables]:
   BROWSERSLIST_DANGEROUS_EXTEND=1 npx webpack
    ```
 
+* `BROWSERSLIST_ROOT_PATH` to prevent reading files above this path.
+
+   ```sh
+  BROWSERSLIST_ROOT_PATH=. npx webpack
+   ```
+
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
 
