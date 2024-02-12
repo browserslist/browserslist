@@ -59,8 +59,8 @@ function eachParent(file, callback) {
 
 function pathInRoot(p) {
   if (!process.env.BROWSERSLIST_ROOT_PATH) return true
-  var root_path = path.resolve(process.env.BROWSERSLIST_ROOT_PATH);
-  if (path.relative(root_path, p).startsWith('..')) {
+  var rootPath = path.resolve(process.env.BROWSERSLIST_ROOT_PATH);
+  if (path.relative(rootPath, p).substring(0,2) === '..') {
     return false;
   }
   return true
