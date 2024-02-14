@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.23.0
+* Added `BROWSERSLIST_ROOT_PATH` (by @teleclimber).
+
 ## 4.22.3
 * Fixed white spaces support in `supports` query (@g-plane).
 * Fixed shared config like `@company/package/browserslist-config` (@boucodes).
