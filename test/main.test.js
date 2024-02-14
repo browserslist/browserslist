@@ -21,6 +21,7 @@ test.after.each(() => {
   delete process.env.BROWSERSLIST
   delete process.env.BROWSERSLIST_CONFIG
   delete process.env.BROWSERSLIST_ENV
+  delete process.env.BROWSERSLIST_ROOT_PATH
 })
 
 test('accepts array', () => {
