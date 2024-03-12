@@ -102,14 +102,14 @@ Browserslist needs your support. We are accepting donations
 * [`update-browserslist-db`] is a CLI tool to update browsers DB for queries
   like `last 2 version` or `>1%`.
 * [`browserslist-update-action`] is a GitHub Action to automatically
-  runs `update-browserslist-db` and proposes a pull request to merge updates.
+  run `update-browserslist-db` and proposes a pull request to merge updates.
 
 
 ### Show “We do not support your browser” Banner
 
 * [`browserslist-useragent-regexp`] compiles Browserslist query to a RegExp
   to test browser useragent.
-* [`browserslist-useragent-ruby`] is a Ruby library to checks browser
+* [`browserslist-useragent-ruby`] is a Ruby library to check browser
   by user agent string to match Browserslist.
 
 
@@ -117,8 +117,8 @@ Browserslist needs your support. We are accepting donations
 
 * [`browserslist-ga`] and [`browserslist-ga-export`] download your website
   browsers statistics to use it in `> 0.5% in my stats` query.
-* [`browserslist-new-relic`] generate a custom usage data file for Browserslist
-* [`browserslist-adobe-analytics`] use Adobe Analytics data to target browsers.
+* [`browserslist-new-relic`] generates a custom usage data file for Browserslist
+* [`browserslist-adobe-analytics`] uses Adobe Analytics data to target browsers
   from your New Relic Browser data.
 
 
