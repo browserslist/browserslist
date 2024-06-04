@@ -16,8 +16,8 @@ test.before.each(() => {
     },
     chrome: {
       name: 'chrome',
-      versions: ['80', '81', '82'],
-      released: ['80', '81'],
+      versions: ['79', '80', '81', '82'],
+      released: ['79', '80', '81'],
       releaseDate: {}
     },
     ie: {
@@ -49,7 +49,7 @@ test('throw an error on wrong feature name from Can I Use', () => {
 test('selects browsers by feature', () => {
   browserslist.cache.rtcpeerconnection = {
     and_chr: { 81: 'y' },
-    chrome: { 80: 'n', 81: 'a', 82: 'y' },
+    chrome: { 79: 'n', 80: 'n', 81: 'a', 82: 'y' },
     ie: { 10: 'n', 11: 'n' }
   }
 
@@ -63,7 +63,7 @@ test('selects browsers by feature', () => {
 test('selects browsers by feature, including partial support', () => {
   browserslist.cache.rtcpeerconnection = {
     and_chr: { 81: 'y' },
-    chrome: { 80: 'n', 81: 'a', 82: 'y' },
+    chrome: { 79: 'n', 80: 'n', 81: 'a', 82: 'y' },
     ie: { 10: 'n', 11: 'n' }
   }
 
@@ -83,7 +83,7 @@ test('selects browsers by feature, including partial support', () => {
 test('selects browsers by feature, omiting partial support', () => {
   browserslist.cache.rtcpeerconnection = {
     and_chr: { 81: 'y' },
-    chrome: { 80: 'n', 81: 'a', 82: 'y' },
+    chrome: { 79: 'n', 80: 'n', 81: 'a', 82: 'y' },
     ie: { 10: 'n', 11: 'n' }
   }
 
@@ -101,7 +101,7 @@ test('selects browsers by feature, omiting partial support', () => {
 test('selects browsers by feature with dashes in its name', () => {
   browserslist.cache['arrow-functions'] = {
     and_chr: { 81: 'n' },
-    chrome: { 80: 'n', 81: 'y', 82: 'y' },
+    chrome: { 79: 'n', 80: 'n', 81: 'y', 82: 'y' },
     ie: { 10: 'n', 11: 'y' }
   }
 
@@ -115,7 +115,7 @@ test('selects browsers by feature with dashes in its name', () => {
 test('Selects extra versions with mobile to desktop option', () => {
   browserslist.cache.filesystem = {
     and_chr: { 81: 'y' },
-    chrome: { 80: 'y', 81: 'y', 82: 'y' },
+    chrome: { 79: 'n', 80: 'y', 81: 'y', 82: 'y' },
     ie: { 10: 'n', 11: 'n' }
   }
 
@@ -129,10 +129,27 @@ test('Selects extra versions with mobile to desktop option', () => {
   ])
 })
 
+test('Selects extra versions with mobile to desktop and feature missing latest release', () => {
+  browserslist.cache.clipboard = {
+    and_chr: { 80: 'y' }, // not the latest release
+    chrome: { 79: 'y', 80: 'y', 81: 'y' },
+    ie: { 10: 'n', 11: 'n' }
+  }
+
+  equal(browserslist('supports clipboard', { mobileToDesktop: true }), [
+    'and_chr 81',
+    'and_chr 80',
+    'and_chr 79',
+    'chrome 81',
+    'chrome 80',
+    'chrome 79'
+  ])
+})
+
 test('Ignores mobile to desktop if unsupported by latest', () => {
   browserslist.cache['font-smooth'] = {
     and_chr: { 81: 'n' },
-    chrome: { 80: 'y', 81: 'y', 82: 'y' },
+    chrome: { 79: 'n', 80: 'y', 81: 'y', 82: 'y' },
     ie: { 10: 'n', 11: 'n' }
   }
 

@@ -902,10 +902,12 @@ var QUERIES = {
       for (var name in features) {
         var data = byName(name, context)
         // Only check desktop when latest released mobile has support
+        var iMax = data.released.length - 1
+        for (; iMax >= 0 && !(data.released[iMax] in features[name]); iMax--);
         var checkDesktop =
           context.mobileToDesktop &&
           name in browserslist.desktopNames &&
-          isSupported(features[name][data.released.slice(-1)[0]], withPartial)
+          isSupported(features[name][data.released[iMax]], withPartial)
         data.versions.forEach(function (version) {
           var flags = features[name][version]
           if (flags === undefined && checkDesktop) {
