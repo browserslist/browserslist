@@ -39,27 +39,9 @@ importers:
       eslint:
         specifier: ^9.4.0
         version: 9.4.0
-      eslint-config-standard:
-        specifier: ^17.1.0
-        version: 17.1.0(eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.12.0(eslint@9.4.0)(typescript@5.4.5))(eslint@9.4.0))(eslint-plugin-n@17.8.1(eslint@9.4.0))(eslint-plugin-promise@6.2.0(eslint@9.4.0))(eslint@9.4.0)
       eslint-plugin-es5:
         specifier: ^1.5.0
         version: 1.5.0(eslint@9.4.0)
-      eslint-plugin-import:
-        specifier: ^2.29.1
-        version: 2.29.1(@typescript-eslint/parser@7.12.0(eslint@9.4.0)(typescript@5.4.5))(eslint@9.4.0)
-      eslint-plugin-n:
-        specifier: ^17.8.1
-        version: 17.8.1(eslint@9.4.0)
-      eslint-plugin-perfectionist:
-        specifier: ^2.10.0
-        version: 2.10.0(eslint@9.4.0)(typescript@5.4.5)
-      eslint-plugin-prefer-let:
-        specifier: ^3.0.1
-        version: 3.0.1
-      eslint-plugin-promise:
-        specifier: ^6.2.0
-        version: 6.2.0(eslint@9.4.0)
       fs-extra:
         specifier: ^11.2.0
         version: 11.2.0
