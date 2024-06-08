@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.23.1
+* Fixed feature query with mobile to desktop when caniuse lags (by @steverep).
+
 ## 4.23.0
 * Added `BROWSERSLIST_ROOT_PATH` (by @teleclimber).
 
