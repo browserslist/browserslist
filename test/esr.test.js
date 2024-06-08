@@ -7,7 +7,10 @@ let browserslist = require('..')
 test('selects Firefox ESR', () => {
   let versions = browserslist('Firefox ESR')
   is(versions.length >= 1, true)
-  is(versions.every(i => /^firefox \d+$/.test(i)), true)
+  is(
+    versions.every(i => /^firefox \d+$/.test(i)),
+    true
+  )
 })
 
 test('uses case insensitive aliases', () => {

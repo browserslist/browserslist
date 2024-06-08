@@ -69,7 +69,10 @@ test('accepts mystats to load from custom stats with dataByBrowser', () => {
 })
 
 test('throws when no custom stats', () => {
-  throws(() =>  browserslist.coverage(['ie 8'], 'my stats'), /statistics was not provided/)
+  throws(
+    () => browserslist.coverage(['ie 8'], 'my stats'),
+    /statistics was not provided/
+  )
 })
 
 test('loads country usage data from Can I Use', () => {

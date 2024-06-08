@@ -36,15 +36,12 @@ test('selects versions with query out of range', () => {
 })
 
 test('selects a range of android browsers', () => {
-  equal(
-    browserslist('android 4.3-37'),
-    [
-      'android 37',
-      'android 4.4.3-4.4.4',
-      'android 4.4',
-      'android 4.2-4.3'
-    ]
-  )
+  equal(browserslist('android 4.3-37'), [
+    'android 37',
+    'android 4.4.3-4.4.4',
+    'android 4.4',
+    'android 4.2-4.3'
+  ])
 })
 
 test('raises on an unknown browser', () => {

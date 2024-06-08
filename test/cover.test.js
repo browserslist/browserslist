@@ -61,15 +61,12 @@ test('is case insensitive for country coverage', () => {
 })
 
 test('adds browsers by popularity', () => {
-  equal(
-    browserslist('cover 20% in my stats'),
-    [
-      'chrome 37',
-      'chrome 36',
-      'ie 11',
-      'ie 10'
-    ]
-  )
+  equal(browserslist('cover 20% in my stats'), [
+    'chrome 37',
+    'chrome 36',
+    'ie 11',
+    'ie 10'
+  ])
 })
 
 test('does not add zero-popularity', () => {
@@ -79,7 +76,10 @@ test('does not add zero-popularity', () => {
 
 test('throws error on no stats', () => {
   delete process.env.BROWSERSLIST_STATS
-  throws(() => browserslist('cover 70% in my stats'), /statistics was not provided/)
+  throws(
+    () => browserslist('cover 70% in my stats'),
+    /statistics was not provided/
+  )
 })
 
 test.run()

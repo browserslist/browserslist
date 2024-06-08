@@ -123,32 +123,29 @@ test('raises on unknow query', () => {
 })
 
 test('raises on missed version', () => {
-  throws(() => browserslist('IE'), 'Specify versions in Browserslist query for browser IE')
+  throws(
+    () => browserslist('IE'),
+    'Specify versions in Browserslist query for browser IE'
+  )
 })
 
 test('sorts browsers', () => {
-  equal(
-    browserslist(['ff 10', 'ie 11', 'ie 6', 'ie 10', 'ff 9']),
-    [
-      'firefox 10',
-      'firefox 9',
-      'ie 11',
-      'ie 10',
-      'ie 6'
-    ]
-  )
+  equal(browserslist(['ff 10', 'ie 11', 'ie 6', 'ie 10', 'ff 9']), [
+    'firefox 10',
+    'firefox 9',
+    'ie 11',
+    'ie 10',
+    'ie 6'
+  ])
 })
 
 test('sorts browsers with version ranges', () => {
-  equal(
-    browserslist(['ios_saf 7', 'ie 11', 'ie 6', 'ios_saf 10']),
-    [
-      'ie 11',
-      'ie 6',
-      'ios_saf 10.0-10.2',
-      'ios_saf 7.0-7.1'
-    ]
-  )
+  equal(browserslist(['ios_saf 7', 'ie 11', 'ie 6', 'ios_saf 10']), [
+    'ie 11',
+    'ie 6',
+    'ios_saf 10.0-10.2',
+    'ios_saf 7.0-7.1'
+  ])
 })
 
 test('throws custom error', () => {
@@ -163,10 +160,10 @@ test('throws custom error', () => {
 })
 
 test('excludes queries', () => {
-  equal(
-    browserslist(['ie >= 9', 'not ie 11', 'not ie 10', 'ie 10']),
-    ['ie 10', 'ie 9']
-  )
+  equal(browserslist(['ie >= 9', 'not ie 11', 'not ie 10', 'ie 10']), [
+    'ie 10',
+    'ie 9'
+  ])
 })
 
 test('excludes queries for 0 version', () => {
@@ -183,30 +180,27 @@ test('excludes queries for all version', () => {
 
 test('has actual browsers list in docs', () => {
   let names = browserslist(['last 1 version']).map(i => i.split(' ')[0])
-  equal(
-    names,
-    [
-      'and_chr',
-      'and_ff',
-      'and_qq',
-      'and_uc',
-      'android',
-      'baidu',
-      'bb',
-      'chrome',
-      'edge',
-      'firefox',
-      'ie',
-      'ie_mob',
-      'ios_saf',
-      'kaios',
-      'op_mini',
-      'op_mob',
-      'opera',
-      'safari',
-      'samsung'
-    ]
-  )
+  equal(names, [
+    'and_chr',
+    'and_ff',
+    'and_qq',
+    'and_uc',
+    'android',
+    'baidu',
+    'bb',
+    'chrome',
+    'edge',
+    'firefox',
+    'ie',
+    'ie_mob',
+    'ios_saf',
+    'kaios',
+    'op_mini',
+    'op_mob',
+    'opera',
+    'safari',
+    'samsung'
+  ])
 })
 
 test('throws error on first exclude query', () => {
@@ -222,22 +216,34 @@ test('cleans 0 version', () => {
 })
 
 test('uses env options to browserlist config', () => {
-  equal(
-    browserslist(null, { path: CONFIG, env: 'production' }),
-    ['ie 9', 'opera 41']
-  )
+  equal(browserslist(null, { path: CONFIG, env: 'production' }), [
+    'ie 9',
+    'opera 41'
+  ])
 
-  equal(browserslist(null, { path: CONFIG, env: 'staging' }), ['ie 9', 'opera 41'])
+  equal(browserslist(null, { path: CONFIG, env: 'staging' }), [
+    'ie 9',
+    'opera 41'
+  ])
 
-  equal(browserslist(null, { path: CONFIG, env: 'development' }), ['chrome 55', 'firefox 50'])
+  equal(browserslist(null, { path: CONFIG, env: 'development' }), [
+    'chrome 55',
+    'firefox 50'
+  ])
 
   equal(browserslist(null, { path: CONFIG, env: 'test' }), ['ie 11', 'ie 10'])
 })
 
 test('uses env options to package.json', () => {
-  equal(browserslist(null, { path: PACKAGE, env: 'production' }), ['ie 9', 'opera 41'])
+  equal(browserslist(null, { path: PACKAGE, env: 'production' }), [
+    'ie 9',
+    'opera 41'
+  ])
 
-  equal(browserslist(null, { path: PACKAGE, env: 'development' }), ['chrome 55', 'firefox 50'])
+  equal(browserslist(null, { path: PACKAGE, env: 'development' }), [
+    'chrome 55',
+    'firefox 50'
+  ])
 
   equal(browserslist(null, { path: PACKAGE, env: 'test' }), DEFAULTS)
 })
@@ -258,7 +264,7 @@ test('uses production environment by default', () => {
 })
 
 test('correctly works with not and one-version browsers', () => {
-  equal(browserslist('last 1 Baidu version, not <2% in AT'), ['baidu 13.18'])
+  equal(browserslist('last 1 Baidu version, not <2% in AT'), ['baidu 13.52'])
 })
 
 test('throws error on missing env', () => {

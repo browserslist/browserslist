@@ -56,14 +56,7 @@ test.after.each(() => {
 })
 
 test('selects versions released within last X years', () => {
-  equal(
-    browserslist('last 2 years'),
-    [
-      'edge 16',
-      'edge 15',
-      'edge 14'
-    ]
-  )
+  equal(browserslist('last 2 years'), ['edge 16', 'edge 15', 'edge 14'])
 })
 
 test('selects versions released within last year', () => {
@@ -75,17 +68,14 @@ test('supports year fraction', () => {
 })
 
 test('is case insensitive', () => {
-  equal(
-    browserslist('Last 5 years'),
-    [
-      'edge 16',
-      'edge 15',
-      'edge 14',
-      'edge 13',
-      'edge 12',
-      'ie 11'
-    ]
-  )
+  equal(browserslist('Last 5 years'), [
+    'edge 16',
+    'edge 15',
+    'edge 14',
+    'edge 13',
+    'edge 12',
+    'ie 11'
+  ])
 })
 
 test.run()

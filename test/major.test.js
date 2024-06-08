@@ -52,34 +52,28 @@ test.after.each(() => {
 })
 
 test('selects versions of each browser', () => {
-  equal(
-    browserslist('last 2 major versions'),
-    [
-      'android 39',
-      'bb 10',
-      'bb 8',
-      'chrome 39',
-      'chrome 38',
-      'edge 12',
-      'edge 11.1',
-      'edge 11.0.1',
-      'ie 11',
-      'ie 10'
-    ]
-  )
+  equal(browserslist('last 2 major versions'), [
+    'android 39',
+    'bb 10',
+    'bb 8',
+    'chrome 39',
+    'chrome 38',
+    'edge 12',
+    'edge 11.1',
+    'edge 11.0.1',
+    'ie 11',
+    'ie 10'
+  ])
 })
 
 test('supports pluralization', () => {
-  equal(
-    browserslist('last 1 major version'),
-    [
-      'android 39',
-      'bb 10',
-      'chrome 39',
-      'edge 12',
-      'ie 11'
-    ]
-  )
+  equal(browserslist('last 1 major version'), [
+    'android 39',
+    'bb 10',
+    'chrome 39',
+    'edge 12',
+    'ie 11'
+  ])
 })
 
 test('is case insensitive', () => {
@@ -117,13 +111,10 @@ test('supports more versions than have been released', () => {
 
 test('supports Can I Use missing mobile versions', () => {
   let opts = { mobileToDesktop: true }
-  equal(
-    browserslist('last 2 android major versions', opts),
-    [
-      'android 39',
-      'android 38'
-    ]
-  )
+  equal(browserslist('last 2 android major versions', opts), [
+    'android 39',
+    'android 38'
+  ])
 })
 
 test.run()

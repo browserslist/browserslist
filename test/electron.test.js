@@ -21,15 +21,12 @@ test('throws on unknown Electron version', () => {
 })
 
 test('converts Electron to Chrome in ranges', () => {
-  equal(
-    browserslist('electron 0.36-1.2'),
-    [
-      'chrome 51',
-      'chrome 50',
-      'chrome 49',
-      'chrome 47'
-    ]
-  )
+  equal(browserslist('electron 0.36-1.2'), [
+    'chrome 51',
+    'chrome 50',
+    'chrome 49',
+    'chrome 47'
+  ])
 })
 
 test('ignores case in Electron ranges', () => {
