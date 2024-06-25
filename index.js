@@ -275,6 +275,22 @@ function checkName(name, context) {
   return data
 }
 
+function isBaselineCoreBrowser(name) {
+  // https://github.com/web-platform-dx/web-features/blob/main/docs/baseline.md#core-browser-set
+  switch (name) {
+    case 'chrome':
+    case 'safari':
+    case 'firefox':
+    case 'edge':
+    case 'and_ff':
+    case 'and_chr':
+    case 'ios_saf':
+      return true;
+    default:
+      return false;
+  }
+}
+
 function unknownQuery(query) {
   return new BrowserslistError(
     'Unknown browser query `' +
@@ -619,6 +635,48 @@ var QUERIES = {
         list = list.map(nameMapper(data.name))
         list = filterJumps(list, data.name, node.versions, context)
         return selected.concat(list)
+      }, [])
+    }
+  },
+  baseline: {
+    matches: ['baseline'],
+    regexp: /^baseline\s+(\d+|high|low)$/i,
+    select: function (context, node) {
+      if (node.baseline.toLowerCase() === 'low') {
+        return Object.keys(agents).reduce(function (selected, name) {
+          if (!isBaselineCoreBrowser(name)) return selected;
+          var data = byName(name, context)
+          if (!data) return selected
+          var list = data.released.slice(-1)
+          list = list.map(nameMapper(data.name))
+          list = filterJumps(list, data.name, 1, context)
+          return selected.concat(list)
+        }, [])
+      }
+
+      var since
+      if (node.baseline.toLowerCase() === 'high') {
+        var now = new Date();
+        now.setUTCMonth(now.getUTCMonth() - 30)
+        since = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0) / 1000
+      } else {
+        var year = parseInt(node.baseline)
+        if (isNaN(year)) {
+          throw new BrowserslistError('Unknown baseline query `' + node.baseline + '`')
+        }
+
+        since = Date.UTC(year, 0, 1, 0, 0, 0) / 1000
+      }
+
+      return Object.keys(agents).reduce(function (selected, name) {
+        if (!isBaselineCoreBrowser(name)) return selected;
+        var data = byName(name, context)
+        if (!data) return selected
+        var versions = Object.keys(data.releaseDate).filter(function (v) {
+          var date = data.releaseDate[v]
+          return date !== null && date >= since
+        })
+        return selected.concat(versions.map(nameMapper(data.name)))
       }, [])
     }
   },
