@@ -59,12 +59,13 @@ test.before.each(() => {
     },
     safari: {
       name: 'safari',
-      versions: ['15', '16', '17', 'TP'],
-      released: ['15', '16', '17'],
+      versions: ['15', '16', '17', '17.1', 'TP'],
+      released: ['15', '16', '17', '17.1'],
       releaseDate: {
         15: offsetByMonth(-35),
         16: offsetByMonth(-25),
         17: offsetByMonth(-15),
+        '17.1': offsetByMonth(-14),
         TP: null // unreleased
       }
     },
@@ -80,20 +81,21 @@ test.after.each(() => {
   console.warn = originWarn
 })
 
-test('selects last major versions of each baseline browser', () => {
-  equal(browserslist('baseline low'), ['chrome 114', 'safari 17'])
+test('selects last significant versions of each baseline browser', () => {
+  equal(browserslist('baseline low'), ['chrome 114', 'safari 17.1'])
 })
 
 test('is case insensitive', () => {
-  equal(browserslist('baseline LOW'), ['chrome 114', 'safari 17'])
+  equal(browserslist('baseline LOW'), ['chrome 114', 'safari 17.1'])
 })
 
-test('selects all major versions of each baseline browser released since 30 months ago', () => {
+test('selects all versions of each baseline browser released since 30 months ago', () => {
   equal(browserslist('baseline high'), [
     'chrome 114',
     'chrome 113',
     'chrome 112',
     'chrome 111',
+    'safari 17.1',
     'safari 17',
     'safari 16',
   ])
@@ -101,11 +103,12 @@ test('selects all major versions of each baseline browser released since 30 mont
 
 test('selects versions since a baseline boundary', () => {
   equal(browserslist(`baseline ${offsetByYear(0)}`), [])
-  equal(browserslist(`baseline ${offsetByYear(-1)}`), ['safari 17'])
+  equal(browserslist(`baseline ${offsetByYear(-1)}`), ['safari 17.1', 'safari 17'])
   equal(browserslist(`baseline ${offsetByYear(-2)}`), [
     'chrome 114',
     'chrome 113',
     'chrome 112',
+    'safari 17.1',
     'safari 17',
     'safari 16',
   ])
