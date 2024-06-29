@@ -639,44 +639,68 @@ var QUERIES = {
     }
   },
   baseline: {
-    matches: ['baseline'],
-    regexp: /^baseline\s+(\d+|high|low)$/i,
+    matches: ['year', 'availability'],
+    regexp: /^baseline\s+(?:(\d+)|(newly|widely)\s+available)$/i,
     select: function (context, node) {
-      if (node.baseline.toLowerCase() === 'low') {
-        return Object.keys(agents).reduce(function (selected, name) {
-          if (!isBaselineCoreBrowser(name)) return selected;
-          var data = byName(name, context)
-          if (!data) return selected
-          var list = data.released.slice(-1)
-          list = list.map(nameMapper(data.name))
-          list = filterJumps(list, data.name, 1, context)
-          return selected.concat(list)
-        }, [])
-      }
-
       var since
-      if (node.baseline.toLowerCase() === 'high') {
+      var newlyAvailable = node.availability && node.availability.toLowerCase() === 'newly';
+
+      if (node.availability && node.availability.toLowerCase() === 'widely') {
         var now = new Date();
         now.setUTCMonth(now.getUTCMonth() - 30)
         since = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0) / 1000
-      } else {
-        var year = parseInt(node.baseline)
-        if (isNaN(year)) {
-          throw new BrowserslistError('Unknown baseline query `' + node.baseline + '`')
-        }
-
-        since = Date.UTC(year, 0, 1, 0, 0, 0) / 1000
+      } else if (node.year) {
+        var year = parseInt(node.year)
+        since = Date.UTC(year, 11, 31, 23, 59, 0) / 1000
       }
 
       return Object.keys(agents).reduce(function (selected, name) {
         if (!isBaselineCoreBrowser(name)) return selected;
         var data = byName(name, context)
         if (!data) return selected
-        var versions = Object.keys(data.releaseDate).filter(function (v) {
-          var date = data.releaseDate[v]
-          return date !== null && date >= since
+
+        var list = []
+
+        if (newlyAvailable) {
+          list = data.released.slice(-1)
+          list = list.map(nameMapper(data.name))
+          list = filterJumps(list, data.name, 1, context)
+          return selected.concat(list)
+        }
+
+        var releases = Object.keys(data.releaseDate)
+        releases.sort(function (a, b) {
+          return data.releaseDate[a] - data.releaseDate[b]
         })
-        return selected.concat(versions.map(nameMapper(data.name)))
+
+        for (var i = 0; i < releases.length; i++) {
+          var v = releases[i]
+          var date = data.releaseDate[v]
+
+          if (date === null || date < since) {
+            continue
+          }
+
+          if (node.year && list.length === 0) {
+            for (var ii = i - 1; ii >= 0; ii--) {
+              var vv = releases[ii]
+              if (data.releaseDate[vv] === null) {
+                continue
+              }
+
+              list.push(vv)
+              break
+            }
+          }
+
+          list.push(v)
+        }
+
+        if (list.length === 0) {
+          list = data.released.slice(-1)
+        }
+
+        return selected.concat(list.map(nameMapper(data.name)))
       }, [])
     }
   },
