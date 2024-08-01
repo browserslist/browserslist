@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.23.3
+* Fixed `>=` query for `ios` (by @syi0808).
+
 ## 4.23.2
 * Updated Firefox ESR.
 
