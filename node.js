@@ -330,17 +330,8 @@ module.exports = {
     return module.exports.parseConfig(fs.readFileSync(file))
   },
 
-  findConfig: function findConfig(from) {
-    from = path.resolve(from)
-
-    var passed = []
+  findConfigFile: function findConfigFile(from) {
     var resolved = eachParent(from, function (dir) {
-      if (dir in configCache) {
-        return configCache[dir]
-      }
-
-      passed.push(dir)
-
       var config = path.join(dir, 'browserslist')
       var pkg = path.join(dir, 'package.json')
       var rc = path.join(dir, '.browserslistrc')
@@ -370,16 +361,41 @@ module.exports = {
           dir + ' contains both .browserslistrc and browserslist'
         )
       } else if (isFile(config)) {
-        return module.exports.readConfig(config)
+        return config;
       } else if (isFile(rc)) {
-        return module.exports.readConfig(rc)
-      } else {
-        return pkgBrowserslist
+        return rc;
+      } else if (pkgBrowserslist) {
+        return pkg;
       }
     })
+
+    return resolved;
+  },
+
+  findConfig: function findConfig(from) {
+    from = path.resolve(from)
+
+    var fromDir = isFile(from) ? path.dirname(from) : from
+    if (fromDir in configCache) {
+      return configCache[fromDir]
+    }
+
+    var resolved
+    var configFile = this.findConfigFile(from)
+    if (configFile) {
+      resolved = path.basename(configFile) === "package.json"
+        ? parsePackage(configFile)
+        : module.exports.readConfig(configFile)
+
+    }
+
     if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
-      passed.forEach(function (dir) {
+      var configDir = configFile && path.dirname(configFile)
+      eachParent(from, function (dir) {
         configCache[dir] = resolved
+        if (dir === configDir) {
+          return null
+        }
       })
     }
     return resolved
