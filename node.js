@@ -126,6 +126,14 @@ function parsePackage(file) {
   return list
 }
 
+function parsePackageOrReadConfig(file) {
+  if (path.basename(file) === "package.json") {
+    return parsePackage(file)
+  } else {
+    return module.exports.readConfig(file)
+  }
+}
+
 function latestReleaseTime(agents) {
   var latest = 0
   for (var name in agents) {
@@ -237,11 +245,7 @@ module.exports = {
       return process.env.BROWSERSLIST
     } else if (opts.config || process.env.BROWSERSLIST_CONFIG) {
       var file = opts.config || process.env.BROWSERSLIST_CONFIG
-      if (path.basename(file) === 'package.json') {
-        return pickEnv(parsePackage(file), opts)
-      } else {
-        return pickEnv(module.exports.readConfig(file), opts)
-      }
+      return pickEnv(parsePackageOrReadConfig(file), opts)
     } else if (opts.path) {
       return pickEnv(module.exports.findConfig(opts.path), opts)
     } else {
@@ -383,10 +387,7 @@ module.exports = {
     var resolved
     var configFile = this.findConfigFile(from)
     if (configFile) {
-      resolved = path.basename(configFile) === "package.json"
-        ? parsePackage(configFile)
-        : module.exports.readConfig(configFile)
-
+      resolved = parsePackageOrReadConfig(configFile)
     }
 
     if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
