@@ -127,7 +127,7 @@ function parsePackage(file) {
 }
 
 function parsePackageOrReadConfig(file) {
-  if (path.basename(file) === "package.json") {
+  if (path.basename(file) === 'package.json') {
     return parsePackage(file)
   } else {
     return module.exports.readConfig(file)
@@ -365,15 +365,15 @@ module.exports = {
           dir + ' contains both .browserslistrc and browserslist'
         )
       } else if (isFile(config)) {
-        return config;
+        return config
       } else if (isFile(rc)) {
-        return rc;
+        return rc
       } else if (pkgBrowserslist) {
-        return pkg;
+        return pkg
       }
     })
 
-    return resolved;
+    return resolved
   },
 
   findConfig: function findConfig(from) {
