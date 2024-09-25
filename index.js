@@ -491,6 +491,7 @@ browserslist.versionAliases = {}
 browserslist.clearCaches = env.clearCaches
 browserslist.parseConfig = env.parseConfig
 browserslist.readConfig = env.readConfig
+browserslist.findConfigFile = env.findConfigFile
 browserslist.findConfig = env.findConfig
 browserslist.loadConfig = env.loadConfig
 

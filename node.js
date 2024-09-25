@@ -126,6 +126,14 @@ function parsePackage(file) {
   return list
 }
 
+function parsePackageOrReadConfig(file) {
+  if (path.basename(file) === "package.json") {
+    return parsePackage(file)
+  } else {
+    return module.exports.readConfig(file)
+  }
+}
+
 function latestReleaseTime(agents) {
   var latest = 0
   for (var name in agents) {
@@ -237,11 +245,7 @@ module.exports = {
       return process.env.BROWSERSLIST
     } else if (opts.config || process.env.BROWSERSLIST_CONFIG) {
       var file = opts.config || process.env.BROWSERSLIST_CONFIG
-      if (path.basename(file) === 'package.json') {
-        return pickEnv(parsePackage(file), opts)
-      } else {
-        return pickEnv(module.exports.readConfig(file), opts)
-      }
+      return pickEnv(parsePackageOrReadConfig(file), opts)
     } else if (opts.path) {
       return pickEnv(module.exports.findConfig(opts.path), opts)
     } else {
@@ -330,17 +334,8 @@ module.exports = {
     return module.exports.parseConfig(fs.readFileSync(file))
   },
 
-  findConfig: function findConfig(from) {
-    from = path.resolve(from)
-
-    var passed = []
+  findConfigFile: function findConfigFile(from) {
     var resolved = eachParent(from, function (dir) {
-      if (dir in configCache) {
-        return configCache[dir]
-      }
-
-      passed.push(dir)
-
       var config = path.join(dir, 'browserslist')
       var pkg = path.join(dir, 'package.json')
       var rc = path.join(dir, '.browserslistrc')
@@ -370,16 +365,38 @@ module.exports = {
           dir + ' contains both .browserslistrc and browserslist'
         )
       } else if (isFile(config)) {
-        return module.exports.readConfig(config)
+        return config;
       } else if (isFile(rc)) {
-        return module.exports.readConfig(rc)
-      } else {
-        return pkgBrowserslist
+        return rc;
+      } else if (pkgBrowserslist) {
+        return pkg;
       }
     })
+
+    return resolved;
+  },
+
+  findConfig: function findConfig(from) {
+    from = path.resolve(from)
+
+    var fromDir = isFile(from) ? path.dirname(from) : from
+    if (fromDir in configCache) {
+      return configCache[fromDir]
+    }
+
+    var resolved
+    var configFile = this.findConfigFile(from)
+    if (configFile) {
+      resolved = parsePackageOrReadConfig(configFile)
+    }
+
     if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
-      passed.forEach(function (dir) {
+      var configDir = configFile && path.dirname(configFile)
+      eachParent(from, function (dir) {
         configCache[dir] = resolved
+        if (dir === configDir) {
+          return null
+        }
       })
     }
     return resolved

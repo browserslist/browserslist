@@ -174,6 +174,8 @@ declare namespace browserslist {
 
   function findConfig(...pathSegments: string[]): Config | undefined
 
+  function findConfigFile(...pathSegments: string[]): string | undefined
+
   interface LoadConfigOptions {
     config?: string
     path?: string
