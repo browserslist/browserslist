@@ -1,9 +1,9 @@
 delete require.cache[require.resolve('..')]
 
+let spawn = require('cross-spawn')
+let { join } = require('path')
 let { test } = require('uvu')
 let { is, equal, match } = require('uvu/assert')
-let { join } = require('path')
-let spawn = require('cross-spawn')
 
 let browserslist = require('..')
 let pkg = require('../package.json')

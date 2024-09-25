@@ -1,7 +1,7 @@
-let { test } = require('uvu')
-let { equal, is, throws, match } = require('uvu/assert')
 let { readFile } = require('fs-extra')
 let { join } = require('path')
+let { test } = require('uvu')
+let { equal, is, throws, match } = require('uvu/assert')
 
 delete require.cache[require.resolve('..')]
 let browserslist = require('..')

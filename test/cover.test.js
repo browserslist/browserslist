@@ -1,6 +1,6 @@
+let { join } = require('path')
 let { test } = require('uvu')
 let { equal, throws } = require('uvu/assert')
-let { join } = require('path')
 
 delete require.cache[require.resolve('..')]
 let browserslist = require('..')

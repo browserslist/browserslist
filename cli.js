@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-var updateDb = require('update-browserslist-db')
 var fs = require('fs')
+var updateDb = require('update-browserslist-db')
 
 var browserslist = require('./')
 var pkg = require('./package.json')

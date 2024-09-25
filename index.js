@@ -1,12 +1,12 @@
 var jsReleases = require('node-releases/data/processed/envs.json')
 var agents = require('caniuse-lite/dist/unpacker/agents').agents
+var e2c = require('electron-to-chromium/versions')
 var jsEOL = require('node-releases/data/release-schedule/release-schedule.json')
 var path = require('path')
-var e2c = require('electron-to-chromium/versions')
 
 var BrowserslistError = require('./error')
-var parse = require('./parse')
-var env = require('./node') // Will load browser.js in webpack
+var env = require('./node')
+var parse = require('./parse') // Will load browser.js in webpack
 
 var YEAR = 365.259641 * 24 * 60 * 60 * 1000
 var ANDROID_EVERGREEN_FIRST = '37'

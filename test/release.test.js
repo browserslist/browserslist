@@ -1,9 +1,9 @@
 delete require.cache[require.resolve('..')]
 
-let { spyOn, restoreAll } = require('nanospy')
-let { equal, is } = require('uvu/assert')
-let { test } = require('uvu')
 let fs = require('fs')
+let { spyOn, restoreAll } = require('nanospy')
+let { test } = require('uvu')
+let { equal, is } = require('uvu/assert')
 
 let browserslist = require('..')
 

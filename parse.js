@@ -9,7 +9,7 @@ function flatten(array) {
 }
 
 function find(string, predicate) {
-  for (var n = 1, max = string.length; n <= max; n++) {
+  for (var max = string.length, n = 1; n <= max; n++) {
     var parsed = string.substr(-n, n)
     if (predicate(parsed, n, max)) {
       return string.slice(0, -n)
