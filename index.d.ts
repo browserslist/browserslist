@@ -172,7 +172,7 @@ declare namespace browserslist {
    * ```js
    * browserslist.loadConfig({
    *   file: process.cwd()
-   * })
+   * }) ?? browserslist.defaults
    * ```
    */
   function loadConfig(options: LoadConfigOptions): string[] | undefined

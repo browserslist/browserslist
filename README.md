@@ -706,9 +706,7 @@ It is like calling `browserslist()`, but it returns config’s queries,
 not browsers.
 
 ```js
-browserslist.loadConfig({
-  file: process.cwd()
-})
+browserslist.loadConfig({ file: process.cwd() }) ?? browserslist.defaults
 ```
 
 ### `browserslist.defaults`
