@@ -691,6 +691,30 @@ with [environment variables]:
 
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
+### `browserslist.coverage()`
+
+Return browsers market coverage.
+
+```js
+const browsers = browserslist('> 1% in US')
+browserslist.coverage(browsers, 'US') //=> 83.1
+```
+
+### `browserslist.loadConfig()`
+
+It is like calling `browserslist()`, but it returns config’s queries,
+not browsers.
+
+```js
+browserslist.loadConfig({
+  file: process.cwd()
+})
+```
+
+### `browserslist.defaults`
+
+An array with default queries.
+
 
 ## Cache
 

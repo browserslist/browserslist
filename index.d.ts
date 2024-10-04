@@ -166,6 +166,17 @@ declare namespace browserslist {
     opts?: browserslist.Options
   ): Query[]
 
+  /**
+   * Return queries for specific file inside the project.
+   *
+   * ```js
+   * browserslist.loadConfig({
+   *   file: process.cwd()
+   * })
+   * ```
+   */
+  function loadConfig(options: LoadConfigOptions): string[] | undefined
+
   function clearCaches(): void
 
   function parseConfig(string: string): Config
@@ -177,12 +188,22 @@ declare namespace browserslist {
   function findConfigFile(...pathSegments: string[]): string | undefined
 
   interface LoadConfigOptions {
+    /**
+     * Path to config file
+     * */
     config?: string
+
+    /**
+     * Path to file inside the project to find Browserslist config
+     * in closest folder
+     */
     path?: string
+
+    /**
+     * Environment to choose part of config.
+     */
     env?: string
   }
-
-  function loadConfig(options: LoadConfigOptions): string[] | undefined
 }
 
 declare global {
