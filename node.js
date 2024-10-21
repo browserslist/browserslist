@@ -8,7 +8,6 @@ var BrowserslistError = require('./error')
 var IS_SECTION = /^\s*\[(.+)]\s*$/
 var CONFIG_PATTERN = /^browserslist-config-/
 var SCOPED_CONFIG__PATTERN = /@[^/]+(?:\/[^/]+)?\/browserslist-config(?:-|$|\/)/
-var TIME_TO_UPDATE_CANIUSE = 6 * 30 * 24 * 60 * 60 * 1000
 var FORMAT =
   'Browserslist config should be a string or an array ' +
   'of strings with browser queries'
@@ -183,6 +182,21 @@ function normalizeUsageData(usageData, data) {
       delete browserUsage[0]
     }
   }
+}
+
+function getTimeAgoMessage(latestTime) {
+  var latest = new Date(latestTime)
+  var timeAgo = Date.now() - latest
+
+  var oneDay = 24 * 60 * 60 * 1000;
+  var dd = Math.round(timeAgo / oneDay);
+  var mm = Math.round(timeAgo / oneDay / 30);
+  var yy = Math.round(timeAgo / oneDay / 30 / 12);
+
+  if (dd > 365) return yy + ' years old'
+  if (dd > 30) return mm + ' month old'
+
+  return dd + ' days old'
 }
 
 module.exports = {
@@ -416,11 +430,11 @@ module.exports = {
     if (process.env.BROWSERSLIST_IGNORE_OLD_DATA) return
 
     var latest = latestReleaseTime(agentsObj)
-    var halfYearAgo = Date.now() - TIME_TO_UPDATE_CANIUSE
+    var timeAgo = Date.now() - latest
 
-    if (latest !== 0 && latest < halfYearAgo) {
+    if (latest !== 0 && latest < timeAgo) {
       console.warn(
-        'Browserslist: caniuse-lite is outdated. Please run:\n' +
+        'Browserslist: caniuse-lite is ' + getTimeAgoMessage(latest) + '. Please run:\n' +
           '  npx update-browserslist-db@latest\n' +
           '  Why you should do it regularly: ' +
           'https://github.com/browserslist/update-db#readme'
