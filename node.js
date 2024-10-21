@@ -8,7 +8,7 @@ var BrowserslistError = require('./error')
 var IS_SECTION = /^\s*\[(.+)]\s*$/
 var CONFIG_PATTERN = /^browserslist-config-/
 var SCOPED_CONFIG__PATTERN = /@[^/]+(?:\/[^/]+)?\/browserslist-config(?:-|$|\/)/
-var TIME_TO_UPDATE_CANIUSE = 6 * 30 * 24 * 60 * 60 * 1000
+var MONTHS_TO_UPDATE_CANIUSE = 6
 var FORMAT =
   'Browserslist config should be a string or an array ' +
   'of strings with browser queries'
@@ -145,6 +145,16 @@ function latestReleaseTime(agents) {
     }
   }
   return latest * 1000
+}
+
+function getMonthsPassed(date) {
+  var now = new Date();
+  var past = new Date(date);
+
+  var years = now.getFullYear() - past.getFullYear();
+  var months = now.getMonth() - past.getMonth();
+
+  return years * 12 + months;
 }
 
 function normalizeStats(data, stats) {
@@ -416,11 +426,15 @@ module.exports = {
     if (process.env.BROWSERSLIST_IGNORE_OLD_DATA) return
 
     var latest = latestReleaseTime(agentsObj)
-    var halfYearAgo = Date.now() - TIME_TO_UPDATE_CANIUSE
+    var monthsPassed = getMonthsPassed(latest)
+    var halfYearAgo = monthsPassed >= MONTHS_TO_UPDATE_CANIUSE
 
-    if (latest !== 0 && latest < halfYearAgo) {
+    if (latest !== 0 && halfYearAgo) {
+      var monthWord = monthsPassed > 1 ? 'months' : 'month'
+      var monthsOldText = monthsPassed + ' ' + monthWord + ' old.'
+
       console.warn(
-        'Browserslist: caniuse-lite is outdated. Please run:\n' +
+        'Browserslist: caniuse-lite is '+ monthsOldText +' . Please run:\n' +
           '  npx update-browserslist-db@latest\n' +
           '  Why you should do it regularly: ' +
           'https://github.com/browserslist/update-db#readme'
