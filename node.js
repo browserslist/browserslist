@@ -147,6 +147,16 @@ function latestReleaseTime(agents) {
   return latest * 1000
 }
 
+function getMonthsPassed(date) {
+  var now = new Date();
+  var past = new Date(date);
+
+  var years = now.getFullYear() - past.getFullYear();
+  var months = now.getMonth() - past.getMonth();
+
+  return years * 12 + months;
+}
+
 function normalizeStats(data, stats) {
   if (!data) {
     data = {}
@@ -419,8 +429,10 @@ module.exports = {
     var halfYearAgo = Date.now() - TIME_TO_UPDATE_CANIUSE
 
     if (latest !== 0 && latest < halfYearAgo) {
+      var monthPassed = getMonthsPassed(latest)
+
       console.warn(
-        'Browserslist: caniuse-lite is outdated. Please run:\n' +
+        'Browserslist: caniuse-lite is '+ monthPassed +' month old. Please run:\n' +
           '  npx update-browserslist-db@latest\n' +
           '  Why you should do it regularly: ' +
           'https://github.com/browserslist/update-db#readme'
