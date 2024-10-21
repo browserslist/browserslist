@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.24.1
+* Added months since last `caniuse-lite` update to the warning (by @mezhnin).
+
 ## 4.24.0
 * Added `browserslist.findConfigFile()` helper (by @JLHwung).
 
