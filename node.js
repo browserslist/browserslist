@@ -417,10 +417,10 @@ module.exports = {
 
     var latest = latestReleaseTime(agentsObj)
     var halfYearAgo = Date.now() - TIME_TO_UPDATE_CANIUSE
-
+    var elapsedMonths = Math.round((Date.now() - latest) / 30 / 24 / 60 / 60 / 1000)
     if (latest !== 0 && latest < halfYearAgo) {
       console.warn(
-        'Browserslist: caniuse-lite is outdated. Please run:\n' +
+        'Browserslist: caniuse-lite is ' + elapsedMonths + ' month old. Please run:\n' +
           '  npx update-browserslist-db@latest\n' +
           '  Why you should do it regularly: ' +
           'https://github.com/browserslist/update-db#readme'

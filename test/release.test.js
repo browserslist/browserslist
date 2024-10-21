@@ -13,6 +13,22 @@ function createDate(monthBack) {
   let releaseTime = Date.now() - monthBack * 30 * 24 * 60 * 60 * 1000
   return releaseTime / 1000
 }
+function getMonth(date) {
+  var elapsedSinceLatest = Math.round((Date.now() - date) / 30 / 24 / 60 / 60 / 1000)
+  return elapsedSinceLatest
+}
+function latestReleaseTime(agents) {
+  var latest = 0
+  for (var name in agents) {
+    var dates = agents[name].releaseDate || {}
+    for (var key in dates) {
+      if (latest < dates[key]) {
+        latest = dates[key]
+      }
+    }
+  }
+  return latest * 1000
+}
 
 let youngerSixMonthsData = {
   ie: {
@@ -112,9 +128,11 @@ test('shows warning', () => {
   spyOn(fs, 'existsSync', findPackage)
   spyOn(fs, 'statSync', mockStatSync)
   browserslist('last 2 versions')
+  const latest = latestReleaseTime(olderSixMonthsData)
+  const elapsedMonths = getMonth(latest)
   equal(warn.calls, [
     [
-      'Browserslist: caniuse-lite is outdated. Please run:\n' +
+      'Browserslist: caniuse-lite is ' + elapsedMonths + ' month old. Please run:\n' +
         '  npx update-browserslist-db@latest\n' +
         '  Why you should do it regularly: ' +
         'https://github.com/browserslist/update-db#readme'
