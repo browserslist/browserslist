@@ -112,12 +112,16 @@ test('shows warning', () => {
   spyOn(fs, 'existsSync', findPackage)
   spyOn(fs, 'statSync', mockStatSync)
   browserslist('last 2 versions')
+  var monthsOld = 7
   equal(warn.calls, [
     [
-      'Browserslist: caniuse-lite is outdated. Please run:\n' +
+      'Browserslist: caniuse-lite is ' +
+        monthsOld +
+        ' month' +
+        (monthsOld > 1 ? 's' : '') +
+        ' old. Time to run:\n' +
         '  npx update-browserslist-db@latest\n' +
-        '  Why you should do it regularly: ' +
-        'https://github.com/browserslist/update-db#readme'
+        '  Why you should do it regularly: https://github.com/browserslist/update-db#readme'
     ]
   ])
 })

@@ -419,11 +419,18 @@ module.exports = {
     var halfYearAgo = Date.now() - TIME_TO_UPDATE_CANIUSE
 
     if (latest !== 0 && latest < halfYearAgo) {
+      var monthsOld = Math.floor(
+        (Date.now() - latest) / (1000 * 60 * 60 * 24 * 30)
+      )
+      
       console.warn(
-        'Browserslist: caniuse-lite is outdated. Please run:\n' +
+        'Browserslist: caniuse-lite is ' +
+          monthsOld +
+          ' month' +
+          (monthsOld > 1 ? 's' : '') +
+          ' old. Time to run:\n' +
           '  npx update-browserslist-db@latest\n' +
-          '  Why you should do it regularly: ' +
-          'https://github.com/browserslist/update-db#readme'
+          '  Why you should do it regularly: https://github.com/browserslist/update-db#readme'
       )
     }
   },
