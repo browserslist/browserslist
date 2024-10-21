@@ -416,13 +416,11 @@ module.exports = {
     if (process.env.BROWSERSLIST_IGNORE_OLD_DATA) return
 
     var latest = latestReleaseTime(agentsObj)
-    var currentTime = Date.now()
+    var monthsOld = Math.floor(
+      (Date.now() - latest) / (1000 * 60 * 60 * 24 * 30)
+    )
 
-    if (latest !== 0 && latest < currentTime - TIME_TO_UPDATE_CANIUSE) {
-      var monthsOld = Math.floor(
-        (currentTime - latest) / (1000 * 60 * 60 * 24 * 30)
-      )
-
+    if (latest !== 0 && monthsOld > 6) {
       console.warn(
         'Browserslist: caniuse-lite is ' +
           monthsOld +
