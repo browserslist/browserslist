@@ -1106,8 +1106,8 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  nanoid@5.0.7:
-    resolution: {integrity: sha512-oLxFY2gd2IqnjcYyOXD8XGCftpGtZP2AbHbOkthDkvRywH5ayNtPVy9YlOPcHckXzbLTCHpkb7FB+yuxKV13pQ==}
+  nanoid@5.0.9:
+    resolution: {integrity: sha512-Aooyr6MXU6HpvvWXKoVoXwKMs/KyVakWwg7xQfv5/S/RIgJMy0Ifa45H9qqYy7pTCszrHzP21Uk4PZq2HpEM8Q==}
     engines: {node: ^18 || >=20}
     hasBin: true
 
@@ -1652,7 +1652,7 @@ snapshots:
   '@size-limit/esbuild@11.1.6(size-limit@11.1.6)':
     dependencies:
       esbuild: 0.24.0
-      nanoid: 5.0.7
+      nanoid: 5.0.9
       size-limit: 11.1.6
 
   '@size-limit/file@11.1.6(size-limit@11.1.6)':
@@ -2577,7 +2577,7 @@ snapshots:
 
   ms@2.1.3: {}
 
-  nanoid@5.0.7: {}
+  nanoid@5.0.9: {}
 
   nanospinner@1.1.0:
     dependencies:
