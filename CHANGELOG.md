@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.24.3
+* Updated Firefox ESR.
+
 ## 4.24.2
 * Clarify outdated `caniuse-lite` warning text.
 
