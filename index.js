@@ -405,7 +405,6 @@ function browserslist(queries, opts) {
     ignoreUnknownVersions: opts.ignoreUnknownVersions,
     dangerousExtend: opts.dangerousExtend,
     mobileToDesktop: opts.mobileToDesktop,
-    path: opts.path,
     env: opts.env
   }
 
@@ -416,6 +415,10 @@ function browserslist(queries, opts) {
     for (var browser in stats) {
       fillUsage(context.customUsage, browser, stats[browser])
     }
+  }
+
+  if (hasPathAwareQueries(queries)) {
+    context.path = opts.path;
   }
 
   var cacheKey = JSON.stringify([queries, context])
@@ -1179,6 +1182,10 @@ var QUERIES = {
       }
     }
   }
+}
+const PATH_AWARE_RE = /\b(extends|browserslist config)\b/
+function hasPathAwareQueries(queries) {
+  return queries.some(query => PATH_AWARE_RE.test(query));
 }
 
 // Get and convert Can I Use data
