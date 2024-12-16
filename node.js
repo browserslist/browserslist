@@ -107,17 +107,11 @@ function parsePackage(file) {
     .readFileSync(file)
     .toString()
     .replace(/^\uFEFF/m, '')
-  var config, list
+  var list
   if (text.indexOf('"browserslist"') >= 0) {
-    config = JSON.parse(text)
-    if (config.browserlist && !config.browserslist) {
-      throw new BrowserslistError(
-        '`browserlist` key instead of `browserslist` in ' + file
-      )
-    }
-    list = config.browserslist
+    list = JSON.parse(text).browserslist
   } else if (text.indexOf('"browserlist"') >= 0) {
-    config = JSON.parse(text)
+    var config = JSON.parse(text)
     if (config.browserlist && !config.browserslist) {
       throw new BrowserslistError(
         '`browserlist` key instead of `browserslist` in ' + file
