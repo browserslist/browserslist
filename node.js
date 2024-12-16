@@ -103,18 +103,23 @@ function pickEnv(config, opts) {
 }
 
 function parsePackage(file) {
-  var config = JSON.parse(
-    fs
-      .readFileSync(file)
-      .toString()
-      .replace(/^\uFEFF/m, '')
-  )
-  if (config.browserlist && !config.browserslist) {
-    throw new BrowserslistError(
-      '`browserlist` key instead of `browserslist` in ' + file
-    )
+  var text = fs
+    .readFileSync(file)
+    .toString()
+    .replace(/^\uFEFF/m, '')
+  var list
+  if (
+    text.indexOf('"browserslist"') >= 0 ||
+    text.indexOf('"browserlist"') >= 0
+  ) {
+    var config = JSON.parse(text)
+    if (config.browserlist && !config.browserslist) {
+      throw new BrowserslistError(
+        '`browserlist` key instead of `browserslist` in ' + file
+      )
+    }
+    list = config.browserslist
   }
-  var list = config.browserslist
   if (Array.isArray(list) || typeof list === 'string') {
     list = { defaults: list }
   }
