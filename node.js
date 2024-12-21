@@ -124,10 +124,6 @@ function pickEnv(config, opts) {
 }
 
 function parsePackage(file) {
-  if (file in parseConfigCache) {
-    return parseConfigCache[file]
-  }
-  
   var text = fs
     .readFileSync(file)
     .toString()
@@ -150,19 +146,21 @@ function parsePackage(file) {
     check(list[i])
   }
 
-  if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
-    parseConfigCache[file] = list
-  }
-
   return list
 }
 
 function parsePackageOrReadConfig(file) {
-  if (path.basename(file) === 'package.json') {
-    return parsePackage(file)
-  } else {
-    return module.exports.readConfig(file)
+  if (file in parseConfigCache) {
+    return parseConfigCache[file]
   }
+  
+  var isPackage = path.basename(file) === 'package.json'
+  var result = isPackage ? parsePackage(file) : module.exports.readConfig(file)
+  
+  if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
+    parseConfigCache[file] = result
+  }
+  return result
 }
 
 function latestReleaseTime(agents) {
@@ -369,21 +367,11 @@ module.exports = {
   },
 
   readConfig: function readConfig(file) {
-    if (file in parseConfigCache) {
-      return parseConfigCache[file]
-    }
-
     if (!isFile(file)) {
       throw new BrowserslistError("Can't read " + file + ' config')
     }
 
-    var list = module.exports.parseConfig(fs.readFileSync(file))
-    
-    if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
-      parseConfigCache[file] = list
-    }
-    
-    return list
+    return module.exports.parseConfig(fs.readFileSync(file))
   },
 
   findConfigFile: function findConfigFile(from) {
