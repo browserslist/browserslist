@@ -15,6 +15,7 @@ var FORMAT =
 var dataTimeChecked = false
 var filenessCache = {}
 var dirnessCache = {}
+var statCache = {}
 var configPathCache = {}
 var parseConfigCache = {}
 
@@ -284,7 +285,7 @@ module.exports = {
       stats = eachParent(opts.path, function (dir) {
         var file = path.join(dir, 'browserslist-stats.json')
         return isFile(file) ? file : undefined
-      })
+      }, { cache: statCache })
     }
     if (typeof stats === 'string') {
       try {
@@ -457,6 +458,7 @@ module.exports = {
     dataTimeChecked = false
     filenessCache = {}
     dirnessCache = {}
+    statCache = {}
     configPathCache = {}
     parseConfigCache = {}
 
