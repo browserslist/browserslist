@@ -14,6 +14,7 @@ var FORMAT =
 
 var dataTimeChecked = false
 var filenessCache = {}
+var dirnessCache = {}
 var configPathCache = {}
 var parseConfigCache = {}
 
@@ -46,12 +47,22 @@ function isFile(file) {
   }
   return result
 }
+function isDirectory(dir) {
+  if (dir in dirnessCache) {
+    return dirnessCache[dir]
+  }
+  var result = fs.existsSync(dir) && fs.statSync(dir).isDirectory()
+  if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
+    dirnessCache[dir] = result
+  }
+  return result
+}
 
 function eachParent(file, callback) {
-  var dir = isFile(file) ? path.dirname(file) : file
-  var loc = path.resolve(dir)
+  var loc = path.resolve(file)
   do {
     if (!pathInRoot(loc)) break
+    if (!isDirectory(loc)) continue
     var result = callback(loc)
     if (typeof result !== 'undefined') return result
   } while (loc !== (loc = path.dirname(loc)))
@@ -434,6 +445,7 @@ module.exports = {
   clearCaches: function clearCaches() {
     dataTimeChecked = false
     filenessCache = {}
+    dirnessCache = {}
     configPathCache = {}
     parseConfigCache = {}
 
