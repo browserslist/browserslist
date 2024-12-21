@@ -431,8 +431,6 @@ module.exports = {
   },
 
   findConfig: function findConfig(from) {
-    from = path.resolve(from)
-
     var configFile = this.findConfigFile(from)
 
     return configFile ? parsePackageOrReadConfig(configFile) : undefined
