@@ -13,8 +13,6 @@ var FORMAT =
   'of strings with browser queries'
 
 var dataTimeChecked = false
-var filenessCache = {}
-var dirnessCache = {}
 var statCache = {}
 var configPathCache = {}
 var parseConfigCache = {}
@@ -39,24 +37,10 @@ function checkExtend(name) {
 }
 
 function isFile(file) {
-  if (file in filenessCache) {
-    return filenessCache[file]
-  }
-  var result = fs.existsSync(file) && fs.statSync(file).isFile()
-  if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
-    filenessCache[file] = result
-  }
-  return result
+  return fs.existsSync(file) && fs.statSync(file).isFile()
 }
 function isDirectory(dir) {
-  if (dir in dirnessCache) {
-    return dirnessCache[dir]
-  }
-  var result = fs.existsSync(dir) && fs.statSync(dir).isDirectory()
-  if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
-    dirnessCache[dir] = result
-  }
-  return result
+  return fs.existsSync(dir) && fs.statSync(dir).isDirectory()
 }
 
 function eachParent(file, callback, options) {
@@ -456,8 +440,6 @@ module.exports = {
 
   clearCaches: function clearCaches() {
     dataTimeChecked = false
-    filenessCache = {}
-    dirnessCache = {}
     statCache = {}
     configPathCache = {}
     parseConfigCache = {}
