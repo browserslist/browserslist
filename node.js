@@ -58,15 +58,38 @@ function isDirectory(dir) {
   return result
 }
 
-function eachParent(file, callback) {
+function eachParent(file, callback, options) {
   var loc = path.resolve(file)
+  var cache = options ? options.cache : false
+  var traceback = []
+  var result
   do {
-    if (!pathInRoot(loc)) break
-    if (!isDirectory(loc)) continue
-    var result = callback(loc)
-    if (typeof result !== 'undefined') return result
+    if (!pathInRoot(loc)) {
+      break
+    }
+    if (cache && (loc in cache)) {
+      result = cache[loc]
+      break
+    }
+    traceback.push(loc)
+    
+    if (!isDirectory(loc)) {
+      continue
+    }
+    
+    var locResult = callback(loc)
+    if (typeof locResult !== 'undefined') {
+      result = locResult
+      break
+    }
   } while (loc !== (loc = path.dirname(loc)))
-  return undefined
+  
+  if (cache && !process.env.BROWSERSLIST_DISABLE_CACHE) {
+    traceback.forEach(function (cachePath) {
+      cache[cachePath] = result
+    })
+  }
+  return result
 }
 
 function pathInRoot(p) {
@@ -380,10 +403,6 @@ module.exports = {
 
   findConfigFile: function findConfigFile(from) {
     var resolved = eachParent(from, function (dir) {
-      if (dir in configPathCache) {
-        return configPathCache[dir]
-      }
-
       var config = path.join(dir, 'browserslist')
       var pkg = path.join(dir, 'package.json')
       var rc = path.join(dir, '.browserslistrc')
@@ -419,17 +438,9 @@ module.exports = {
       } else if (pkgBrowserslist) {
         return pkg
       }
+    }, {
+      cache: configPathCache
     })
-
-    if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
-      var configDir = resolved && path.dirname(resolved)
-      eachParent(from, function (dir) {
-        configPathCache[dir] = resolved
-        if (dir === configDir) {
-          return null
-        }
-      })
-    }
 
     return resolved
   },
