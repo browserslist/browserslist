@@ -14,7 +14,9 @@ var FORMAT =
 
 var dataTimeChecked = false
 var filenessCache = {}
-var configCache = {}
+var configPathCache = {}
+var parseConfigCache = {}
+
 function checkExtend(name) {
   var use = ' Use `dangerousExtend` option to disable.'
   if (!CONFIG_PATTERN.test(name) && !SCOPED_CONFIG__PATTERN.test(name)) {
@@ -103,6 +105,10 @@ function pickEnv(config, opts) {
 }
 
 function parsePackage(file) {
+  if (file in parseConfigCache) {
+    return parseConfigCache[file]
+  }
+  
   var text = fs
     .readFileSync(file)
     .toString()
@@ -123,6 +129,10 @@ function parsePackage(file) {
   }
   for (var i in list) {
     check(list[i])
+  }
+
+  if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
+    parseConfigCache[file] = list
   }
 
   return list
@@ -340,14 +350,29 @@ module.exports = {
   },
 
   readConfig: function readConfig(file) {
+    if (file in parseConfigCache) {
+      return parseConfigCache[file]
+    }
+
     if (!isFile(file)) {
       throw new BrowserslistError("Can't read " + file + ' config')
     }
-    return module.exports.parseConfig(fs.readFileSync(file))
+
+    var list = module.exports.parseConfig(fs.readFileSync(file))
+    
+    if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
+      parseConfigCache[file] = list
+    }
+    
+    return list
   },
 
   findConfigFile: function findConfigFile(from) {
     var resolved = eachParent(from, function (dir) {
+      if (dir in configPathCache) {
+        return configPathCache[dir]
+      }
+
       var config = path.join(dir, 'browserslist')
       var pkg = path.join(dir, 'package.json')
       var rc = path.join(dir, '.browserslistrc')
@@ -385,39 +410,32 @@ module.exports = {
       }
     })
 
+    if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
+      var configDir = resolved && path.dirname(resolved)
+      eachParent(from, function (dir) {
+        configPathCache[dir] = resolved
+        if (dir === configDir) {
+          return null
+        }
+      })
+    }
+
     return resolved
   },
 
   findConfig: function findConfig(from) {
     from = path.resolve(from)
 
-    var fromDir = isFile(from) ? path.dirname(from) : from
-    if (fromDir in configCache) {
-      return configCache[fromDir]
-    }
-
-    var resolved
     var configFile = this.findConfigFile(from)
-    if (configFile) {
-      resolved = parsePackageOrReadConfig(configFile)
-    }
 
-    if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
-      var configDir = configFile && path.dirname(configFile)
-      eachParent(from, function (dir) {
-        configCache[dir] = resolved
-        if (dir === configDir) {
-          return null
-        }
-      })
-    }
-    return resolved
+    return configFile ? parsePackageOrReadConfig(configFile) : undefined
   },
 
   clearCaches: function clearCaches() {
     dataTimeChecked = false
     filenessCache = {}
-    configCache = {}
+    configPathCache = {}
+    parseConfigCache = {}
 
     this.cache = {}
   },
