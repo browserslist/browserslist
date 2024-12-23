@@ -43,10 +43,9 @@ function isDirectory(dir) {
   return fs.existsSync(dir) && fs.statSync(dir).isDirectory()
 }
 
-function eachParent(file, callback, options) {
+function eachParent(file, callback, cache) {
   var loc = path.resolve(file)
-  var cache = options ? options.cache : false
-  var traceback = []
+  var pathsForCacheResult = []
   var result
   do {
     if (!pathInRoot(loc)) {
@@ -56,7 +55,7 @@ function eachParent(file, callback, options) {
       result = cache[loc]
       break
     }
-    traceback.push(loc)
+    pathsForCacheResult.push(loc)
     
     if (!isDirectory(loc)) {
       continue
@@ -70,7 +69,7 @@ function eachParent(file, callback, options) {
   } while (loc !== (loc = path.dirname(loc)))
   
   if (cache && !process.env.BROWSERSLIST_DISABLE_CACHE) {
-    traceback.forEach(function (cachePath) {
+    pathsForCacheResult.forEach(function (cachePath) {
       cache[cachePath] = result
     })
   }
@@ -267,7 +266,7 @@ module.exports = {
       stats = eachParent(opts.path, function (dir) {
         var file = path.join(dir, 'browserslist-stats.json')
         return isFile(file) ? file : undefined
-      }, { cache: statCache })
+      }, statCache)
     }
     if (typeof stats === 'string') {
       try {
@@ -411,9 +410,7 @@ module.exports = {
       } else if (pkgBrowserslist) {
         return pkg
       }
-    }, {
-      cache: configPathCache
-    })
+    }, configPathCache)
   },
 
   findConfig: function findConfig(from) {
