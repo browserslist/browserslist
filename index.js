@@ -401,12 +401,17 @@ function browserslist(queries, opts) {
   queries = prepareQueries(queries, opts)
   checkQueries(queries)
 
+  var needsPath = parse(QUERIES, queries).some(function (node) {
+    return QUERIES[node.type].needsPath
+  })
   var context = {
     ignoreUnknownVersions: opts.ignoreUnknownVersions,
     dangerousExtend: opts.dangerousExtend,
     mobileToDesktop: opts.mobileToDesktop,
-    path: opts.path,
     env: opts.env
+  }
+  if (needsPath) {
+    context.path = opts.path
   }
 
   env.oldDataWarning(browserslist.data)
@@ -1133,6 +1138,7 @@ var QUERIES = {
   browserslist_config: {
     matches: [],
     regexp: /^browserslist config$/i,
+    needsPath: true,
     select: function (context) {
       return browserslist(undefined, context)
     }
@@ -1140,6 +1146,7 @@ var QUERIES = {
   extends: {
     matches: ['config'],
     regexp: /^extends (.+)$/i,
+    needsPath: true,
     select: function (context, node) {
       return resolve(env.loadQueries(context, node.config), context)
     }
