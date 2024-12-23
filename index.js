@@ -6,7 +6,7 @@ var path = require('path')
 
 var BrowserslistError = require('./error')
 var env = require('./node')
-var parse = require('./parse') // Will load browser.js in webpack
+var parseWithoutCache = require('./parse') // Will load browser.js in webpack
 
 var YEAR = 365.259641 * 24 * 60 * 60 * 1000
 var ANDROID_EVERGREEN_FIRST = '37'
@@ -319,7 +319,7 @@ function isSupported(flags, withPartial) {
 }
 
 function resolve(queries, context) {
-  return parse(QUERIES, queries).reduce(function (result, node, index) {
+  return parseQueries(queries).reduce(function (result, node, index) {
     if (node.not && index === 0) {
       throw new BrowserslistError(
         'Write any browsers query (for instance, `defaults`) ' +
@@ -395,13 +395,14 @@ function checkQueries(queries) {
 }
 
 var cache = {}
+var parseCache = {}
 
 function browserslist(queries, opts) {
   opts = prepareOpts(opts)
   queries = prepareQueries(queries, opts)
   checkQueries(queries)
 
-  var needsPath = parse(QUERIES, queries).some(function (node) {
+  var needsPath = parseQueries(queries).some(function (node) {
     return QUERIES[node.type].needsPath
   })
   var context = {
@@ -446,11 +447,21 @@ function browserslist(queries, opts) {
   return result
 }
 
+function parseQueries(queries) {
+  var cacheKey = JSON.stringify(queries)
+  if (cacheKey in parseCache) return parseCache[cacheKey]
+  var result = parseWithoutCache(QUERIES, queries)
+  if (!env.env.BROWSERSLIST_DISABLE_CACHE) {
+    parseCache[cacheKey] = result
+  }
+  return result
+}
+
 browserslist.parse = function (queries, opts) {
   opts = prepareOpts(opts)
   queries = prepareQueries(queries, opts)
   checkQueries(queries)
-  return parse(QUERIES, queries)
+  return parseQueries(queries)
 }
 
 // Will be filled by Can I Use data below
