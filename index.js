@@ -411,6 +411,7 @@ function browserslist(queries, opts) {
     mobileToDesktop: opts.mobileToDesktop,
     env: opts.env
   }
+  // Removing to avoid using context.path without marking query as needsPath
   if (needsPath) {
     context.path = opts.path
   }
