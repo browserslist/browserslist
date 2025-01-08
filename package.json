@@ -45,6 +45,7 @@
   },
   "types": "./index.d.ts",
   "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
     "@logux/eslint-config": "^53.5.1",
     "@size-limit/preset-small-lib": "^11.1.6",
     "c8": "^10.1.3",
