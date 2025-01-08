@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.24.4
+* Improved performance by using caching better (by @thoughtspile).
+
 ## 4.24.3
 * Updated Firefox ESR (by @fpapado).
 
