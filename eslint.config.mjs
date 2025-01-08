@@ -8,7 +8,7 @@ let compat = new FlatCompat({
 
 let es5 = compat.extends('plugin:es5/no-es2015')
 
-/** @type {import('eslint').Linter.FlatConfig[]} */
+/** @type {import('eslint').Linter.Config[]} */
 export default [
   { ignores: ['coverage'] },
   ...loguxConfig,
