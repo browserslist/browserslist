@@ -468,6 +468,23 @@ module.exports = {
 ```
 
 
+### Common configurations
+
+You can use a third-party Browserslist config instead of writing your own:
+
+* [`browserslist-config-baseline`] – support features that are [“widely
+  available” on MDN](https://developer.mozilla.org/en-US/docs/Glossary/Baseline/Compatibility)
+
+* [`@wordpress/browserslist-config`] — support the same browsers Wordpress
+  does – e.g. if you’re making a Wordpress plugin
+
+For the full list of available configs, you can [search for `browserslist-config` on npm][npm-configs].
+
+[`browserslist-config-baseline`]: https://www.npmjs.com/package/browserslist-config-baseline
+[`@wordpress/browserslist-config`]: https://www.npmjs.com/package/@wordpress/browserslist-config
+[npm-configs]: https://www.npmjs.com/search?q=browserslist-config
+
+
 ## Configuring for Different Environments
 
 You can also specify different browser queries for various environments.
