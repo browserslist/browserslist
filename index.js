@@ -254,7 +254,7 @@ function normalizeAndroidVersions(androidVersions, chromeVersions) {
 }
 
 function copyObject(obj) {
-  var copy = {}
+  var copy = Object.create(null)
   for (var key in obj) {
     copy[key] = obj[key]
   }
@@ -517,13 +517,13 @@ browserslist.coverage = function (browsers, stats) {
   if (typeof stats === 'undefined') {
     data = browserslist.usage.global
   } else if (stats === 'my stats') {
-    var opts = {}
+    var opts = Object.create(null)
     opts.path = path.resolve ? path.resolve('.') : '.'
     var customStats = env.getStat(opts)
     if (!customStats) {
       throw new BrowserslistError('Custom usage statistics was not provided')
     }
-    data = {}
+    data = Object.create(null)
     for (var browser in customStats) {
       fillUsage(data, browser, customStats[browser])
     }
@@ -539,7 +539,7 @@ browserslist.coverage = function (browsers, stats) {
     if ('dataByBrowser' in stats) {
       stats = stats.dataByBrowser
     }
-    data = {}
+    data = Object.create(null)
     for (var name in stats) {
       for (var version in stats[name]) {
         data[name + ' ' + version] = stats[name][version]
@@ -919,7 +919,8 @@ var QUERIES = {
     select: function (context, node) {
       env.loadFeature(browserslist.cache, node.feature)
       var withPartial = node.supportType !== 'fully'
-      var features = browserslist.cache[node.feature]
+      var features = Object.create(null)
+      features = browserslist.cache[node.feature]
       var result = []
       for (var name in features) {
         var data = byName(name, context)
@@ -934,7 +935,8 @@ var QUERIES = {
           name in browserslist.desktopNames &&
           isSupported(features[name][data.released[iMax]], withPartial)
         data.versions.forEach(function (version) {
-          var flags = features[name][version]
+          var flags = Object.create(null)
+          flags = features[name][version]
           if (flags === undefined && checkDesktop) {
             flags = features[browserslist.desktopNames[name]][version]
           }
@@ -1213,7 +1215,7 @@ var QUERIES = {
     }
     fillUsage(browserslist.usage.global, name, browser.usage_global)
 
-    browserslist.versionAliases[name] = {}
+    browserslist.versionAliases[name] = Object.create(null)
     for (var i = 0; i < browser.versions.length; i++) {
       var full = browser.versions[i]
       if (!full) continue

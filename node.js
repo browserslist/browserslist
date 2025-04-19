@@ -187,7 +187,7 @@ function getMonthsPassed(date) {
 
 function normalizeStats(data, stats) {
   if (!data) {
-    data = {}
+    data = Object.create(null)
   }
   if (stats && 'dataByBrowser' in stats) {
     stats = stats.dataByBrowser
@@ -195,12 +195,12 @@ function normalizeStats(data, stats) {
 
   if (typeof stats !== 'object') return undefined
 
-  var normalized = {}
+  var normalized = Object.create(null)
   for (var i in stats) {
     var versions = Object.keys(stats[i])
     if (versions.length === 1 && data[i] && data[i].versions.length === 1) {
       var normal = data[i].versions[0]
-      normalized[i] = {}
+      normalized[i] = Object.create(null)
       normalized[i][normal] = stats[i][versions[0]]
     } else {
       normalized[i] = stats[i]
@@ -302,7 +302,7 @@ module.exports = {
       }
       var usageData = region(compressed)
       normalizeUsageData(usageData, data)
-      usage[country] = {}
+      usage[country] = Object.create(null)
       for (var i in usageData) {
         for (var j in usageData[i]) {
           usage[country][i + ' ' + j] = usageData[i][j]
@@ -321,9 +321,9 @@ module.exports = {
       throw new BrowserslistError('Unknown feature name `' + name + '`.')
     }
     var stats = feature(compressed).stats
-    features[name] = {}
+    features[name] = Object.create(null)
     for (var i in stats) {
-      features[name][i] = {}
+      features[name][i] = Object.create(null)
       for (var j in stats[i]) {
         features[name][i][j] = stats[i][j]
       }
