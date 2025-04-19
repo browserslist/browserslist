@@ -234,7 +234,7 @@ module.exports = {
         return queries
       } else if (typeof queries === 'object') {
         if (!queries.defaults) queries.defaults = []
-        return pickEnv(queries, ctx, name)
+        return pickEnv(queries, ctx)
       }
     }
     throw new BrowserslistError(
