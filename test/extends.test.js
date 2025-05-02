@@ -8,12 +8,13 @@ let browserslist = require('..')
 
 let mocked = []
 
-async function mock(name, exports) {
+async function mock(name, exports, file) {
+  if (!file) file = 'index.js'
   let dir = join(__dirname, '..', 'node_modules', name)
   mocked.push(dir)
   await ensureDir(dir)
   let content = 'module.exports = ' + JSON.stringify(exports)
-  await writeFile(join(dir, 'index.js'), content)
+  await writeFile(join(dir, file), content)
 }
 
 test.after.each(async () => {
@@ -24,6 +25,12 @@ test.after.each(async () => {
 
 test('uses package', async () => {
   await mock('browserslist-config-test', ['ie 11'])
+  let result = browserslist(['extends browserslist-config-test', 'ie 6'])
+  equal(result, ['ie 11', 'ie 6'])
+})
+
+test('uses ESM package', async () => {
+  await mock('browserslist-config-test', ['ie 11'], 'index.mjs')
   let result = browserslist(['extends browserslist-config-test', 'ie 6'])
   equal(result, ['ie 11', 'ie 6'])
 })
