@@ -229,7 +229,7 @@ module.exports = {
       checkExtend(name)
     }
     var queries = require(require.resolve(name, { paths: ['.', ctx.path] }))
-    if (typeof queries === 'object' && queries.__esModule) {
+    if (typeof queries === 'object' && queries !== null && queries.__esModule) {
       queries = queries.default
     }
     if (queries) {
