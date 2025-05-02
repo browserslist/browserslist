@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.24.5
+* Fixed support ESM shared config.
+* Fixed docs (by Alexander Pushkov & マルコメ).
+
 ## 4.24.4
 * Improved performance by using caching better (by @thoughtspile).
 
