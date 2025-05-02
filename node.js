@@ -51,23 +51,23 @@ function eachParent(file, callback, cache) {
     if (!pathInRoot(loc)) {
       break
     }
-    if (cache && (loc in cache)) {
+    if (cache && loc in cache) {
       result = cache[loc]
       break
     }
     pathsForCacheResult.push(loc)
-    
+
     if (!isDirectory(loc)) {
       continue
     }
-    
+
     var locResult = callback(loc)
     if (typeof locResult !== 'undefined') {
       result = locResult
       break
     }
   } while (loc !== (loc = path.dirname(loc)))
-  
+
   if (cache && !process.env.BROWSERSLIST_DISABLE_CACHE) {
     pathsForCacheResult.forEach(function (cachePath) {
       cache[cachePath] = result
@@ -152,10 +152,10 @@ function parsePackageOrReadConfig(file) {
   if (file in parseConfigCache) {
     return parseConfigCache[file]
   }
-  
+
   var isPackage = path.basename(file) === 'package.json'
   var result = isPackage ? parsePackage(file) : module.exports.readConfig(file)
-  
+
   if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
     parseConfigCache[file] = result
   }
@@ -229,6 +229,9 @@ module.exports = {
       checkExtend(name)
     }
     var queries = require(require.resolve(name, { paths: ['.', ctx.path] }))
+    if (typeof queries === 'object' && queries.__esModule) {
+      queries = queries.default
+    }
     if (queries) {
       if (Array.isArray(queries)) {
         return queries
@@ -263,10 +266,14 @@ module.exports = {
     } else if (process.env.BROWSERSLIST_STATS) {
       stats = process.env.BROWSERSLIST_STATS
     } else if (opts.path && path.resolve && fs.existsSync) {
-      stats = eachParent(opts.path, function (dir) {
-        var file = path.join(dir, 'browserslist-stats.json')
-        return isFile(file) ? file : undefined
-      }, statCache)
+      stats = eachParent(
+        opts.path,
+        function (dir) {
+          var file = path.join(dir, 'browserslist-stats.json')
+          return isFile(file) ? file : undefined
+        },
+        statCache
+      )
     }
     if (typeof stats === 'string') {
       try {
@@ -374,43 +381,48 @@ module.exports = {
   },
 
   findConfigFile: function findConfigFile(from) {
-    return eachParent(from, function (dir) {
-      var config = path.join(dir, 'browserslist')
-      var pkg = path.join(dir, 'package.json')
-      var rc = path.join(dir, '.browserslistrc')
+    return eachParent(
+      from,
+      function (dir) {
+        var config = path.join(dir, 'browserslist')
+        var pkg = path.join(dir, 'package.json')
+        var rc = path.join(dir, '.browserslistrc')
 
-      var pkgBrowserslist
-      if (isFile(pkg)) {
-        try {
-          pkgBrowserslist = parsePackage(pkg)
-        } catch (e) {
-          if (e.name === 'BrowserslistError') throw e
-          console.warn(
-            '[Browserslist] Could not parse ' + pkg + '. Ignoring it.'
-          )
+        var pkgBrowserslist
+        if (isFile(pkg)) {
+          try {
+            pkgBrowserslist = parsePackage(pkg)
+          } catch (e) {
+            if (e.name === 'BrowserslistError') throw e
+            console.warn(
+              '[Browserslist] Could not parse ' + pkg + '. Ignoring it.'
+            )
+          }
         }
-      }
 
-      if (isFile(config) && pkgBrowserslist) {
-        throw new BrowserslistError(
-          dir + ' contains both browserslist and package.json with browsers'
-        )
-      } else if (isFile(rc) && pkgBrowserslist) {
-        throw new BrowserslistError(
-          dir + ' contains both .browserslistrc and package.json with browsers'
-        )
-      } else if (isFile(config) && isFile(rc)) {
-        throw new BrowserslistError(
-          dir + ' contains both .browserslistrc and browserslist'
-        )
-      } else if (isFile(config)) {
-        return config
-      } else if (isFile(rc)) {
-        return rc
-      } else if (pkgBrowserslist) {
-        return pkg
-      }
-    }, configPathCache)
+        if (isFile(config) && pkgBrowserslist) {
+          throw new BrowserslistError(
+            dir + ' contains both browserslist and package.json with browsers'
+          )
+        } else if (isFile(rc) && pkgBrowserslist) {
+          throw new BrowserslistError(
+            dir +
+              ' contains both .browserslistrc and package.json with browsers'
+          )
+        } else if (isFile(config) && isFile(rc)) {
+          throw new BrowserslistError(
+            dir + ' contains both .browserslistrc and browserslist'
+          )
+        } else if (isFile(config)) {
+          return config
+        } else if (isFile(rc)) {
+          return rc
+        } else if (pkgBrowserslist) {
+          return pkg
+        }
+      },
+      configPathCache
+    )
   },
 
   findConfig: function findConfig(from) {
