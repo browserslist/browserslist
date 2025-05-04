@@ -16,10 +16,10 @@ const allTest = opts => {
 }
 
 test('Queries for all browsers', () => {
-  allTest()
+  ()
 })
-test('Queries for all browsers with mobile to desktop', () => {
-  allTest({ mobileToDesktop: true })
+('Queries for all browsers with mobile to desktop', () => {
+  ({ mobileToDesktop: true })
 })
 
 test.run()
