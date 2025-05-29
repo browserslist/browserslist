@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.25.0
+* Added `cover 95% in browserslist-config-mycompany stats` query support.
+
 ## 4.24.5
 * Fixed support ESM shared config.
 * Fixed docs (by Alexander Pushkov & マルコメ).
