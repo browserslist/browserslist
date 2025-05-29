@@ -458,6 +458,20 @@ function parseQueries(queries) {
   return result
 }
 
+function loadCustomUsage(context, config) {
+  var stats = env.loadStat(context, config, browserslist.data)
+  if (stats) {
+    context.customUsage = {}
+    for (var browser in stats) {
+      fillUsage(context.customUsage, browser, stats[browser])
+    }
+  }
+  if (!context.customUsage) {
+    throw new BrowserslistError('Custom usage statistics was not provided')
+  }
+  return context.customUsage
+}
+
 browserslist.parse = function (queries, opts) {
   opts = prepareOpts(opts)
   queries = prepareQueries(queries, opts)
@@ -598,19 +612,21 @@ function coverQuery(context, node) {
       env.loadCountry(browserslist.usage, place, browserslist.data)
       usage = browserslist.usage[place]
     }
+  } else if (node.config) {
+    usage = loadCustomUsage(context, node.config)
   }
   var versions = Object.keys(usage).sort(function (a, b) {
     return usage[b] - usage[a]
   })
-  var coveraged = 0
+  var covered = 0
   var result = []
   var version
   for (var i = 0; i < versions.length; i++) {
     version = versions[i]
     if (usage[version] === 0) break
-    coveraged += usage[version]
+    covered += usage[version]
     result.push(version)
-    if (coveraged >= coverage) break
+    if (covered >= coverage) break
   }
   return result
 }
@@ -829,17 +845,7 @@ var QUERIES = {
     regexp: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+(\S+)\s+stats$/,
     select: function (context, node) {
       var popularity = parseFloat(node.popularity)
-      var stats = env.loadStat(context, node.config, browserslist.data)
-      if (stats) {
-        context.customUsage = {}
-        for (var browser in stats) {
-          fillUsage(context.customUsage, browser, stats[browser])
-        }
-      }
-      if (!context.customUsage) {
-        throw new BrowserslistError('Custom usage statistics was not provided')
-      }
-      var usage = context.customUsage
+      var usage = loadCustomUsage(context, node.config)
       return Object.keys(usage).reduce(function (result, version) {
         var percentage = usage[version]
         if (percentage == null) {
@@ -911,6 +917,11 @@ var QUERIES = {
   cover_in: {
     matches: ['coverage', 'place'],
     regexp: /^cover\s+(\d+|\d+\.\d+|\.\d+)%\s+in\s+(my\s+stats|(alt-)?\w\w)$/i,
+    select: coverQuery
+  },
+  cover_config: {
+    matches: ['coverage', 'config'],
+    regexp: /^cover\s+(\d+|\d+\.\d+|\.\d+)%\s+in\s+(\S+)\s+stats$/i,
     select: coverQuery
   },
   supports: {

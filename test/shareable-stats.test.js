@@ -38,6 +38,16 @@ test('takes stats from shareable config', async () => {
   equal(browserslist('> 5% in browserslist-config-test1 stats'), ['chrome 56'])
 })
 
+test('takes stats for cover from shareable config', async () => {
+  await mock('browserslist-config-test1', undefined, {
+    dataByBrowser: { chrome: { 55: 4, 56: 6 } }
+  })
+  equal(browserslist('cover 95% in browserslist-config-test1 stats'), [
+    'chrome 56',
+    'chrome 55'
+  ])
+})
+
 test('takes stats and queries from shareable config', async () => {
   await mock(
     'browserslist-config-test2',
