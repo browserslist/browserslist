@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.25.1
+* Updated Firefox ESR.
+
 ## 4.25.0
 * Added `cover 95% in browserslist-config-mycompany stats` query support.
 
