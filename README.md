@@ -1,4 +1,4 @@
-# Browserslist [![Cult Of Martians][cult-img]][cult]
+# Browserslist
 
 <img width="120" height="120" alt="Browserslist logo by Anton Popov"
      src="https://browsersl.ist/logo.svg" align="right">
@@ -60,8 +60,6 @@ You can check how config works at our playground: [`browsersl.ist`](https://brow
 [Autoprefixer]:                              https://github.com/postcss/autoprefixer
 [Can I Use]:                                 https://caniuse.com/
 [Babel]:                                     https://github.com/babel/babel/tree/master/packages/babel-preset-env
-[cult-img]: https://cultofmartians.com/assets/badges/badge.svg
-[cult]: https://cultofmartians.com/done.html
 
 ## Table of Contents
 
@@ -84,7 +82,7 @@ You can check how config works at our playground: [`browsersl.ist`](https://brow
 Browserslist needs your support. We are accepting donations
 [at Open Collective](https://opencollective.com/browserslist).
 
-<a href="https://www.springernature.com/"><img src="https://user-images.githubusercontent.com/19343/227742503-cf7fc2b3-9cc4-481c-97b8-68414d762fda.png" alt="Sponsored by Springer Nature Technology" width="154" height="54"></a>      <a href="https://workleap.com/"><img src="https://cdn.prod.website-files.com/66eab063c614790046e87eef/66f3c89500f8c53829f06098_Logotype.svg" alt="Sponsored by Workleap" width="154" height="40"></a>      <a href="https://kinsta.com/"><img src="https://github.com/user-attachments/assets/27cd0c29-637a-4c94-a60c-85c056cbac28" alt="Sponsored by Kinsta" width="154" height="40"></a>
+<a href="https://workleap.com/"><img src="https://github.com/user-attachments/assets/f4f764d3-39ce-4d4e-bdcb-2583ce349812" alt="Sponsored by Workleap" width="154" height="40"></a>      <a href="https://kinsta.com/"><img src="https://github.com/user-attachments/assets/27cd0c29-637a-4c94-a60c-85c056cbac28" alt="Sponsored by Kinsta" width="158" height="40"></a>
 
 
 ## Tools
