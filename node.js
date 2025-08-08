@@ -11,6 +11,9 @@ var SCOPED_CONFIG__PATTERN = /@[^/]+(?:\/[^/]+)?\/browserslist-config(?:-|$|\/)/
 var FORMAT =
   'Browserslist config should be a string or an array ' +
   'of strings with browser queries'
+var PATHTYPE_UNKNOWN = 'unknown'
+var PATHTYPE_DIR = 'directory'
+var PATHTYPE_FILE = 'file'
 
 var dataTimeChecked = false
 var statCache = {}
@@ -36,11 +39,36 @@ function checkExtend(name) {
   }
 }
 
-function isFile(file) {
-  return fs.existsSync(file) && fs.statSync(file).isFile()
+function _getPathType(filepath) {
+  var stats
+  try {
+    stats = fs.existsSync(filepath) && fs.statSync(filepath)
+  } catch (err) {
+    switch (err.code) {
+      // Expected error codes that can be safely ignored
+      case 'EACCES':
+      case 'ENOENT':
+      case 'ERR_ACCESS_DENIED':
+        break
+
+      default:
+        // Rethrow all other errors
+        throw err
+    }
+  }
+
+  if (stats && stats.isDirectory()) return PATHTYPE_DIR
+  if (stats && stats.isFile()) return PATHTYPE_FILE
+
+  return PATHTYPE_UNKNOWN
 }
+
+function isFile(file) {
+  return _getPathType(file) === PATHTYPE_FILE
+}
+
 function isDirectory(dir) {
-  return fs.existsSync(dir) && fs.statSync(dir).isDirectory()
+  return _getPathType(dir) === PATHTYPE_DIR
 }
 
 function eachParent(file, callback, cache) {
