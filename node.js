@@ -39,7 +39,7 @@ function checkExtend(name) {
   }
 }
 
-function _getPathType(filepath) {
+function getPathType(filepath) {
   var stats
   try {
     stats = fs.existsSync(filepath) && fs.statSync(filepath)
@@ -64,11 +64,11 @@ function _getPathType(filepath) {
 }
 
 function isFile(file) {
-  return _getPathType(file) === PATHTYPE_FILE
+  return getPathType(file) === PATHTYPE_FILE
 }
 
 function isDirectory(dir) {
-  return _getPathType(dir) === PATHTYPE_DIR
+  return getPathType(dir) === PATHTYPE_DIR
 }
 
 function eachParent(file, callback, cache) {
