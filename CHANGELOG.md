@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.25.2
+* Fixed Node.js `--permission` support (by @broofa).
+
 ## 4.25.1
 * Updated Firefox ESR.
 
