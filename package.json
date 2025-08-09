@@ -26,7 +26,7 @@
   "repository": "browserslist/browserslist",
   "scripts": {
     "unit": "NODE_ENV=test uvu test .test.js",
-    "test:coverage": "c8 pnpm unit",
+    "test:coverage": "NODE_ENV=test c8 uvu test .test.js",
     "test:lint": "eslint .",
     "test:size": "size-limit",
     "test": "pnpm run /^test:/"
@@ -66,12 +66,18 @@
     "cleanDocs": true
   },
   "c8": {
+    "check-coverage": true,
+    "clean": true,
     "exclude": [
       "**/*.test.*"
     ],
     "lines": 100,
-    "reporter": "lcov",
-    "check-coverage": true
+    "reporter": [
+      "text-summary",
+      "text",
+      "lcov"
+    ],
+    "skip-full": true
   },
   "size-limit": [
     {
