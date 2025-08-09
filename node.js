@@ -44,17 +44,15 @@ function getPathType(filepath) {
   try {
     stats = fs.existsSync(filepath) && fs.statSync(filepath)
   } catch (err) {
-    switch (err.code) {
-      // Expected error codes that can be safely ignored
-      case 'EACCES':
-      case 'ENOENT':
-      case 'ERR_ACCESS_DENIED':
-        break
-
-      default:
-        // Rethrow all other errors
-        throw err
+    /* c8 ignore start */
+    if (
+      err.code !== 'ENOENT' &&
+      err.code !== 'EACCES' &&
+      err.code !== 'ERR_ACCESS_DENIED'
+    ) {
+      throw err
     }
+    /* c8 ignore end */
   }
 
   if (stats && stats.isDirectory()) return PATHTYPE_DIR
@@ -280,10 +278,11 @@ module.exports = {
     if (!ctx.dangerousExtend && !process.env.BROWSERSLIST_DANGEROUS_EXTEND) {
       checkExtend(name)
     }
-    var stats = require(require.resolve(
-      path.join(name, 'browserslist-stats.json'),
-      { paths: ['.'] }
-    ))
+    var stats = require(
+      require.resolve(path.join(name, 'browserslist-stats.json'), {
+        paths: ['.']
+      })
+    )
     return normalizeStats(data, stats)
   },
 
