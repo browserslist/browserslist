@@ -760,7 +760,7 @@ var QUERIES = {
   },
   last_years: {
     matches: ['years'],
-    regexp: /^last\s+(\d*.?\d+)\s+years?$/i,
+    regexp: /^last\s+((\d+\.)?\d+)\s+years?$/i,
     select: function (context, node) {
       return filterByYear(Date.now() - YEAR * node.years, context)
     }
