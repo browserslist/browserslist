@@ -32,8 +32,8 @@
     "test": "pnpm run /^test:/"
   },
   "dependencies": {
-    "caniuse-lite": "^1.0.30001733",
-    "electron-to-chromium": "^1.5.199",
+    "caniuse-lite": "^1.0.30001735",
+    "electron-to-chromium": "^1.5.204",
     "node-releases": "^2.0.19",
     "update-browserslist-db": "^1.1.3"
   },
