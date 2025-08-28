@@ -279,7 +279,8 @@ module.exports = {
       checkExtend(name)
     }
     var stats = require(
-      require.resolve(path.join(name, 'browserslist-stats.json'), {
+      // Use forward slashes for module paths, also on Windows.
+      require.resolve(path.posix.join(name, 'browserslist-stats.json'), {
         paths: ['.']
       })
     )
