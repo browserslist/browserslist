@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.25.4
+* Fixed Windows support for custom stats (by @torgeilo).
+
 ## 4.25.3
 * Fixed ReDoS (by @ericcornelissen).
 
