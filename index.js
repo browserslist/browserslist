@@ -1,3 +1,4 @@
+var bbm = require('baseline-browser-mapping');
 var jsReleases = require('node-releases/data/processed/envs.json')
 var agents = require('caniuse-lite/dist/unpacker/agents').agents
 var e2c = require('electron-to-chromium/versions')
@@ -282,9 +283,9 @@ function checkName(name, context) {
 function unknownQuery(query) {
   return new BrowserslistError(
     'Unknown browser query `' +
-      query +
-      '`. ' +
-      'Maybe you are using old Browserslist or made typo in query.'
+    query +
+    '`. ' +
+    'Maybe you are using old Browserslist or made typo in query.'
   )
 }
 
@@ -323,9 +324,9 @@ function resolve(queries, context) {
     if (node.not && index === 0) {
       throw new BrowserslistError(
         'Write any browsers query (for instance, `defaults`) ' +
-          'before `' +
-          node.query +
-          '`'
+        'before `' +
+        node.query +
+        '`'
       )
     }
     var type = QUERIES[node.type]
@@ -593,6 +594,64 @@ function sinceQuery(context, node) {
   return filterByYear(Date.UTC(year, month, day, 0, 0, 0), context)
 }
 
+function bbmTransform(bbmVersions) {
+  var browsers = {
+    chrome: "chrome",
+    chrome_android: "and_chr",
+    edge: "edge",
+    firefox: "firefox",
+    firefox_android: "and_ff",
+    safari: "safari",
+    safari_ios: "ios_saf",
+    webview_android: "android",
+    samsunginternet_android: "samsung",
+    opera_android: "op_mob",
+    opera: "opera",
+    qq_android: "and_qq",
+    uc_android: "and_uc",
+    kai_os: "kaios"
+  };
+
+  // var outputVersions = [];
+  // bbmVersions
+  //   .filter(function (bbmVersion) {
+  //     return (Object.keys(browsers).indexOf(bbmVersion.browser) !== -1)
+  //   })
+  //   .forEach(function (bbmVersion) {
+  //     agents[browsers[bbmVersion.browser]].versions.forEach(function (caniuseVersion) {
+  //       if (bbmVersion.browser === "uc_android" && caniuseVersion) console.log(bbmVersion, caniuseVersion)
+  //       if (
+  //         caniuseVersion
+  //         &&
+  //         (
+  //           parseFloat(caniuseVersion) >= parseFloat(bbmVersion.version)
+  //           ||
+  //           caniuseVersion === bbmVersion.version
+  //           ||
+  //           caniuseVersion + ".0" === bbmVersion.version
+  //           ||
+  //           caniuseVersion.slice(0, bbmVersion.version.length) === bbmVersion.version
+  //         )
+  //       ) {
+  //         var browserString = browsers[bbmVersion.browser] + " " + caniuseVersion;
+  //         if (outputVersions.indexOf(browserString) === -1) {
+  //           outputVersions.push(browsers[bbmVersion.browser] + " " + caniuseVersion)
+  //         }
+  //       }
+  //     })
+  //   })
+  // return outputVersions;
+
+  return bbmVersions
+    .filter(function (version) {
+      return (Object.keys(browsers).indexOf(version.browser) !== -1)
+    })
+    .map(function (version) {
+      return (browsers[version.browser] + " >= " + version.version)
+    })
+
+}
+
 function coverQuery(context, node) {
   var coverage = parseFloat(node.coverage)
   var usage = browserslist.usage.global
@@ -779,6 +838,54 @@ var QUERIES = {
     matches: ['year', 'month', 'day'],
     regexp: /^since (\d+)-(\d+)-(\d+)$/i,
     select: sinceQuery
+  },
+  baseline: {
+    matches: ['year', 'availability', 'date', 'downstream', 'kaios'],
+    // Matches:
+    //   baseline 2024
+    //   baseline newly available
+    //   baseline widely available
+    //   baseline widely available on 2024-06-01
+    //   ...with downstream
+    //   ...including kaios
+    regexp: /^baseline\s+(?:(\d+)|(newly|widely)\s+available(?:\s+on\s+(\d{4}-\d{2}-\d{2}))?)?(\s+with\s+downstream)?(\s+including\s+kaios)?$/i,
+    select: function (context, node) {
+      var baselineVersions;
+      var includeDownstream = !!node.downstream;
+      var includeKaiOS = !!node.kaios;
+      if (node.year) {
+        baselineVersions = bbm.getCompatibleVersions({
+          targetYear: node.year,
+          includeDownstreamBrowsers: includeDownstream,
+          includeKaiOS: includeKaiOS,
+          // listAllCompatibleVersions: true,
+        })
+      }
+      else if (node.date) {
+        baselineVersions = bbm.getCompatibleVersions({
+          widelyAvailableOnDate: node.date,
+          includeDownstreamBrowsers: includeDownstream,
+          includeKaiOS: includeKaiOS,
+          // listAllCompatibleVersions: true,
+        })
+      }
+      else if (node.availability === "newly") {
+        var future30months = new Date().setMonth(new Date().getMonth() + 30)
+        baselineVersions = bbm.getCompatibleVersions({
+          widelyAvailableOnDate: future30months,
+          includeDownstreamBrowsers: includeDownstream,
+          includeKaiOS: includeKaiOS,
+          // listAllCompatibleVersions: true, 
+        })
+      } else {
+        baselineVersions = bbm.getCompatibleVersions({
+          includeDownstreamBrowsers: includeDownstream,
+          includeKaiOS: includeKaiOS,
+          // listAllCompatibleVersions: true, 
+        })
+      }
+      return bbmTransform(baselineVersions);
+    }
   },
   popularity: {
     matches: ['sign', 'popularity'],
@@ -1211,36 +1318,36 @@ var QUERIES = {
   }
 }
 
-// Get and convert Can I Use data
+  // Get and convert Can I Use data
 
-;(function () {
-  for (var name in agents) {
-    var browser = agents[name]
-    browserslist.data[name] = {
-      name: name,
-      versions: normalize(agents[name].versions),
-      released: normalize(agents[name].versions.slice(0, -3)),
-      releaseDate: agents[name].release_date
-    }
-    fillUsage(browserslist.usage.global, name, browser.usage_global)
+  ; (function () {
+    for (var name in agents) {
+      var browser = agents[name]
+      browserslist.data[name] = {
+        name: name,
+        versions: normalize(agents[name].versions),
+        released: normalize(agents[name].versions.slice(0, -3)),
+        releaseDate: agents[name].release_date
+      }
+      fillUsage(browserslist.usage.global, name, browser.usage_global)
 
-    browserslist.versionAliases[name] = {}
-    for (var i = 0; i < browser.versions.length; i++) {
-      var full = browser.versions[i]
-      if (!full) continue
+      browserslist.versionAliases[name] = {}
+      for (var i = 0; i < browser.versions.length; i++) {
+        var full = browser.versions[i]
+        if (!full) continue
 
-      if (full.indexOf('-') !== -1) {
-        var interval = full.split('-')
-        for (var j = 0; j < interval.length; j++) {
-          browserslist.versionAliases[name][interval[j]] = full
+        if (full.indexOf('-') !== -1) {
+          var interval = full.split('-')
+          for (var j = 0; j < interval.length; j++) {
+            browserslist.versionAliases[name][interval[j]] = full
+          }
         }
       }
     }
-  }
 
-  browserslist.nodeVersions = jsReleases.map(function (release) {
-    return release.version
-  })
-})()
+    browserslist.nodeVersions = jsReleases.map(function (release) {
+      return release.version
+    })
+  })()
 
 module.exports = browserslist
