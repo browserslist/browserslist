@@ -242,6 +242,12 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   * `cover 99.5% in US`: same as above, with [two-letter country code].
   * `cover 99.5% in my stats`: uses [custom usage data].
   * `cover 99.5% in browserslist-config-mycompany stats`: uses [custom usage data] from `browserslist-config-mycompany/browserslist-stats.json`.
+* By [Baseline](https://web-platform-dx.github.io/web-features) feature support using [`baseline-browser-mapping`](https://github.com/web-platform-dx/baseline-browser-mapping)
+  * `baseline widely available`: selects browser versions from the Baseline core browser set that are compatible with the [current Baseline Widely available feature set](https://webstatus.dev/?q=baseline_status%3Awidely).
+  * `baseline newly available`: selects browser versions from the Baseline core browser set that are compatible with the [current Baseline Newly available feature set](https://webstatus.dev/?q=baseline_status%3Anewly).  Use with caution.
+  * `baseline 2020`: selects browser versions that are compatible with all features that were Baseline Newly available at the end of the specified year.  Supports years back to 2015.
+  * `... with downstream`: includes browsers outside the core browser set that support the request Baseline feature set based on their Chromium or Gecko version.  [See `baseline-browser-mapping` for more details](https://github.com/web-platform-dx/baseline-browser-mapping#downstream-browsers).
+  * `... with downstream including kaios`: same output as the previous query plus KaiOS.
 * Last versions:
   * `last 2 versions`: the last 2 versions for *each* browser.
   * `last 2 Chrome versions`: the last 2 versions of Chrome browser.
