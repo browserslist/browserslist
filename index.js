@@ -884,7 +884,7 @@ var QUERIES = {
           // listAllCompatibleVersions: true, 
         })
       }
-      return bbmTransform(baselineVersions);
+      return resolve(bbmTransform(baselineVersions), context);
     }
   },
   popularity: {
