@@ -242,12 +242,12 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   * `cover 99.5% in US`: same as above, with [two-letter country code].
   * `cover 99.5% in my stats`: uses [custom usage data].
   * `cover 99.5% in browserslist-config-mycompany stats`: uses [custom usage data] from `browserslist-config-mycompany/browserslist-stats.json`.
-* By [Baseline](https://web-platform-dx.github.io/web-features) feature support using [`baseline-browser-mapping`](https://github.com/web-platform-dx/baseline-browser-mapping)
-  * `baseline widely available`: selects browser versions from the Baseline core browser set that are compatible with the [current Baseline Widely available feature set](https://webstatus.dev/?q=baseline_status%3Awidely).
-  * `baseline newly available`: selects browser versions from the Baseline core browser set that are compatible with the [current Baseline Newly available feature set](https://webstatus.dev/?q=baseline_status%3Anewly).  Use with caution.
-  * `baseline 2020`: selects browser versions that are compatible with all features that were Baseline Newly available at the end of the specified year.  Supports years back to 2015.
-  * `… with downstream`: includes browsers outside the core browser set that support the request Baseline feature set based on their Chromium or Gecko version.  [See `baseline-browser-mapping` for more details](https://github.com/web-platform-dx/baseline-browser-mapping#downstream-browsers).
-  * `... with downstream including kaios`: same output as the previous query plus KaiOS.
+* By [Baseline](https://web-platform-dx.github.io/web-features) feature support using [`baseline-browser-mapping`](https://github.com/web-platform-dx/baseline-browser-mapping).
+  * `baseline newly available`: selects browser versions from the Baseline core browser set that are compatible with the [current Baseline Newly available feature set](https://webstatus.dev/?q=baseline_status%3Anewly). When a feature becomes available in Chrome/Edge (Chromium), Firefox (Gekco) and Safari (WebKit), that feature is added to the Baseline Newly available feature set. This only targets very recent browser versions and features and should be used with caution.
+  * `baseline widely available`: selects browser versions from the Baseline core browser set that are compatible with Baseline Widely available. 30 months after a feature becomes Baseline Newly available, it is added to the [Baseline Widely available feature set](https://webstatus.dev/?q=baseline_status%3Awidely) and is safe to use for most developers.
+  * `baseline 2022`: selects browser versions that are compatible with all features that were Baseline Newly available at the end of the specified year. Supports years back to 2015. This query type can be useful if your analytics shows that Baseline Widely available is too ambitious for your userbase.
+  * `… with downstream`: includes browsers outside the core browser set that support the requested Baseline feature set based on their Chromium or Gecko version. [See `baseline-browser-mapping` for more details](https://github.com/web-platform-dx/baseline-browser-mapping#downstream-browsers).
+  * `… with downstream including kaios`: same output as the previous query plus KaiOS. KaiOS support is inferred based on the Gecko versions used by each KaiOS major release. However, extra caution should be taken with KaiOS as it has a very different set of screen limitations and interaction patterns to other modern browsers.
 * Last versions:
   * `last 2 versions`: the last 2 versions for *each* browser.
   * `last 2 Chrome versions`: the last 2 versions of Chrome browser.

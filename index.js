@@ -612,36 +612,6 @@ function bbmTransform(bbmVersions) {
     kai_os: "kaios"
   };
 
-  // var outputVersions = [];
-  // bbmVersions
-  //   .filter(function (bbmVersion) {
-  //     return (Object.keys(browsers).indexOf(bbmVersion.browser) !== -1)
-  //   })
-  //   .forEach(function (bbmVersion) {
-  //     agents[browsers[bbmVersion.browser]].versions.forEach(function (caniuseVersion) {
-  //       if (bbmVersion.browser === "uc_android" && caniuseVersion) console.log(bbmVersion, caniuseVersion)
-  //       if (
-  //         caniuseVersion
-  //         &&
-  //         (
-  //           parseFloat(caniuseVersion) >= parseFloat(bbmVersion.version)
-  //           ||
-  //           caniuseVersion === bbmVersion.version
-  //           ||
-  //           caniuseVersion + ".0" === bbmVersion.version
-  //           ||
-  //           caniuseVersion.slice(0, bbmVersion.version.length) === bbmVersion.version
-  //         )
-  //       ) {
-  //         var browserString = browsers[bbmVersion.browser] + " " + caniuseVersion;
-  //         if (outputVersions.indexOf(browserString) === -1) {
-  //           outputVersions.push(browsers[bbmVersion.browser] + " " + caniuseVersion)
-  //         }
-  //       }
-  //     })
-  //   })
-  // return outputVersions;
-
   return bbmVersions
     .filter(function (version) {
       return (Object.keys(browsers).indexOf(version.browser) !== -1)
