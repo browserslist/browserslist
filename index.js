@@ -828,7 +828,6 @@ var QUERIES = {
           targetYear: node.year,
           includeDownstreamBrowsers: includeDownstream,
           includeKaiOS: includeKaiOS,
-          // listAllCompatibleVersions: true,
         })
       }
       else if (node.date) {
@@ -836,7 +835,6 @@ var QUERIES = {
           widelyAvailableOnDate: node.date,
           includeDownstreamBrowsers: includeDownstream,
           includeKaiOS: includeKaiOS,
-          // listAllCompatibleVersions: true,
         })
       }
       else if (node.availability === "newly") {
@@ -845,13 +843,11 @@ var QUERIES = {
           widelyAvailableOnDate: future30months,
           includeDownstreamBrowsers: includeDownstream,
           includeKaiOS: includeKaiOS,
-          // listAllCompatibleVersions: true, 
         })
       } else {
         baselineVersions = bbm.getCompatibleVersions({
           includeDownstreamBrowsers: includeDownstream,
           includeKaiOS: includeKaiOS,
-          // listAllCompatibleVersions: true, 
         })
       }
       return resolve(bbmTransform(baselineVersions), context);
