@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       baseline-browser-mapping:
-        specifier: ^2.7.3
-        version: 2.7.3
+        specifier: ^2.7.4
+        version: 2.7.4
       caniuse-lite:
         specifier: ^1.0.30001737
         version: 1.0.30001737
@@ -581,8 +581,8 @@ packages:
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
-  baseline-browser-mapping@2.7.3:
-    resolution: {integrity: sha512-z2DuZKeDZ8CmB+XtiDMW5yU7M0jAERjIcX1h/NXPWTcs1OlfuLg3oyhh6w1JVsJHxMZUqG6T6QHFLPdThPwoZg==}
+  baseline-browser-mapping@2.7.4:
+    resolution: {integrity: sha512-pFtIvNls8fV+rcMdapK8p65TWz6PLDQFuNT51Nw/f49rbW4XMAKmC2eVollLEzIEo2+AurWPoIe+0DH9SxqZiQ==}
     hasBin: true
 
   brace-expansion@1.1.12:
@@ -1787,7 +1787,7 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
-  baseline-browser-mapping@2.7.3: {}
+  baseline-browser-mapping@2.7.4: {}
 
   brace-expansion@1.1.12:
     dependencies:

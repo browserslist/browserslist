@@ -32,7 +32,7 @@
     "test": "pnpm run /^test:/"
   },
   "dependencies": {
-    "baseline-browser-mapping": "^2.7.3",
+    "baseline-browser-mapping": "^2.7.4",
     "caniuse-lite": "^1.0.30001737",
     "electron-to-chromium": "^1.5.211",
     "node-releases": "^2.0.19",
@@ -84,7 +84,7 @@
   "size-limit": [
     {
       "path": "index.js",
-      "limit": "35 KB"
+      "limit": "30 KB"
     }
   ],
   "eslintConfig": {
