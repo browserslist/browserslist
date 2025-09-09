@@ -1314,9 +1314,9 @@ var QUERIES = {
     }
   }
 
-browserslist.nodeVersions = jsReleases.map(function (release) {
-  return release.version
-})
+  browserslist.nodeVersions = jsReleases.map(function (release) {
+    return release.version
+  })
 })()
 
 module.exports = browserslist
