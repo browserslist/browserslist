@@ -823,6 +823,9 @@ var QUERIES = {
       var baselineVersions;
       var includeDownstream = !!node.downstream;
       var includeKaiOS = !!node.kaios;
+      if (node.availability === "newly" && node.date) {
+        throw new BrowserslistError('Using newly available with a date is not supported, please use "widely available on YYYY-MM-DD" and add 30 months to the date you specified.')
+      }
       if (node.year) {
         baselineVersions = bbm.getCompatibleVersions({
           targetYear: node.year,

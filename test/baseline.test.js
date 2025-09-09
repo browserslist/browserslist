@@ -1,6 +1,6 @@
 let { getCompatibleVersions } = require('baseline-browser-mapping');
 let { test } = require('uvu')
-let { is, equal } = require('uvu/assert');
+let { is, equal, throws } = require('uvu/assert');
 
 delete require.cache[require.resolve('..')]
 const browserslist = require('..');
@@ -88,3 +88,12 @@ test('Selects proper downstream versions for baseline 2020', () => {
     return acc === false ? false : browserslistBaseline2020.indexOf(curr) !== -1;
   }, true), true);
 });
+
+// Test for errors
+test('Throws an error when "newly available on YYYY-MM-DD" is used', () => {
+  throws(() => {
+    browserslist('baseline newly available on 2022-07-01')
+  }, /Using newly available with a date is not supported/)
+});
+
+test.run();
