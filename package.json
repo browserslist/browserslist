@@ -32,10 +32,10 @@
     "test": "pnpm run /^test:/"
   },
   "dependencies": {
-    "baseline-browser-mapping": "^2.8.0",
-    "caniuse-lite": "^1.0.30001737",
-    "electron-to-chromium": "^1.5.211",
-    "node-releases": "^2.0.19",
+    "baseline-browser-mapping": "^2.8.2",
+    "caniuse-lite": "^1.0.30001741",
+    "electron-to-chromium": "^1.5.218",
+    "node-releases": "^2.0.21",
     "update-browserslist-db": "^1.1.3"
   },
   "engines": {
@@ -49,11 +49,11 @@
     "@eslint/eslintrc": "^3.3.1",
     "@logux/eslint-config": "^56.1.0",
     "@size-limit/preset-small-lib": "^11.2.0",
-    "actions-up": "^1.1.1",
+    "actions-up": "^1.3.1",
     "c8": "^10.1.3",
     "clean-publish": "^5.2.2",
     "cross-spawn": "^7.0.6",
-    "eslint": "^9.34.0",
+    "eslint": "^9.35.0",
     "eslint-plugin-es5": "^1.5.0",
     "fs-extra": "^11.3.1",
     "nanospy": "^1.0.0",
