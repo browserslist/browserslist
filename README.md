@@ -238,7 +238,7 @@ You can specify the browser and Node.js versions by queries (case insensitive):
   * `cover 99.5% in browserslist-config-mycompany stats`: uses [custom usage data] from `browserslist-config-mycompany/browserslist-stats.json`.
 * By [Baseline](https://web-platform-dx.github.io/web-features):
   * `baseline newly available`: the latest release or core browser set from [Baseline Newly](https://webstatus.dev/?q=baseline_status%3Anewly).
-  * `baseline widely available`: core browser set from [Baseline Widely]((https://webstatus.dev/?q=baseline_status%3Awidely) which was released 30 month ago.
+  * `baseline widely available`: core browser set from [Baseline Widely](https://webstatus.dev/?q=baseline_status%3Awidely) which was released 30 month ago.
   * `baseline widely available on YYYY-MM-DD`: selects browser versions that supported the Widely available feature set on the specified date.
   * `baseline 2022`: selects browser versions that are compatible with all features that were Baseline Newly available at the end of the specified year.
   * `… with downstream`: includes browsers outside the core browser set that support the requested Baseline feature set based on their Chromium or Gecko version. [See `baseline-browser-mapping` for more details](https://github.com/web-platform-dx/baseline-browser-mapping#downstream-browsers).
