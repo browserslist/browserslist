@@ -18,7 +18,7 @@ jobs:
         with:
           version: 10
       - name: Install Node.js
-        uses: actions/setup-node@d7a11313b581b306c961b506cfc8971208bb03f6 # v4.4.0
+        uses: actions/setup-node@cd2651c46231bc0d6f48d6b34433b845331235fe # v5.0.0
         with:
           node-version: 24
           cache: pnpm
@@ -43,7 +43,7 @@ jobs:
         with:
           version: 10
       - name: Install Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@d7a11313b581b306c961b506cfc8971208bb03f6 # v4.4.0
+        uses: actions/setup-node@cd2651c46231bc0d6f48d6b34433b845331235fe # v5.0.0
         with:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
@@ -72,7 +72,7 @@ jobs:
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - name: Install Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@d7a11313b581b306c961b506cfc8971208bb03f6 # v4.4.0
+        uses: actions/setup-node@cd2651c46231bc0d6f48d6b34433b845331235fe # v5.0.0
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
