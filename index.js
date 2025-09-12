@@ -1,3 +1,4 @@
+var bbm = require('baseline-browser-mapping');
 var jsReleases = require('node-releases/data/processed/envs.json')
 var agents = require('caniuse-lite/dist/unpacker/agents').agents
 var e2c = require('electron-to-chromium/versions')
@@ -593,6 +594,34 @@ function sinceQuery(context, node) {
   return filterByYear(Date.UTC(year, month, day, 0, 0, 0), context)
 }
 
+function bbmTransform(bbmVersions) {
+  var browsers = {
+    chrome: "chrome",
+    chrome_android: "and_chr",
+    edge: "edge",
+    firefox: "firefox",
+    firefox_android: "and_ff",
+    safari: "safari",
+    safari_ios: "ios_saf",
+    webview_android: "android",
+    samsunginternet_android: "samsung",
+    opera_android: "op_mob",
+    opera: "opera",
+    qq_android: "and_qq",
+    uc_android: "and_uc",
+    kai_os: "kaios"
+  };
+
+  return bbmVersions
+    .filter(function (version) {
+      return (Object.keys(browsers).indexOf(version.browser) !== -1)
+    })
+    .map(function (version) {
+      return (browsers[version.browser] + " >= " + version.version)
+    })
+
+}
+
 function coverQuery(context, node) {
   var coverage = parseFloat(node.coverage)
   var usage = browserslist.usage.global
@@ -779,6 +808,53 @@ var QUERIES = {
     matches: ['year', 'month', 'day'],
     regexp: /^since (\d+)-(\d+)-(\d+)$/i,
     select: sinceQuery
+  },
+  baseline: {
+    matches: ['year', 'availability', 'date', 'downstream', 'kaios'],
+    // Matches:
+    //   baseline 2024
+    //   baseline newly available
+    //   baseline widely available
+    //   baseline widely available on 2024-06-01
+    //   ...with downstream
+    //   ...including kaios
+    regexp: /^baseline\s+(?:(\d+)|(newly|widely)\s+available(?:\s+on\s+(\d{4}-\d{2}-\d{2}))?)?(\s+with\s+downstream)?(\s+including\s+kaios)?$/i,
+    select: function (context, node) {
+      var baselineVersions;
+      var includeDownstream = !!node.downstream;
+      var includeKaiOS = !!node.kaios;
+      if (node.availability === "newly" && node.date) {
+        throw new BrowserslistError('Using newly available with a date is not supported, please use "widely available on YYYY-MM-DD" and add 30 months to the date you specified.')
+      }
+      if (node.year) {
+        baselineVersions = bbm.getCompatibleVersions({
+          targetYear: node.year,
+          includeDownstreamBrowsers: includeDownstream,
+          includeKaiOS: includeKaiOS,
+        })
+      }
+      else if (node.date) {
+        baselineVersions = bbm.getCompatibleVersions({
+          widelyAvailableOnDate: node.date,
+          includeDownstreamBrowsers: includeDownstream,
+          includeKaiOS: includeKaiOS,
+        })
+      }
+      else if (node.availability === "newly") {
+        var future30months = new Date().setMonth(new Date().getMonth() + 30)
+        baselineVersions = bbm.getCompatibleVersions({
+          widelyAvailableOnDate: future30months,
+          includeDownstreamBrowsers: includeDownstream,
+          includeKaiOS: includeKaiOS,
+        })
+      } else {
+        baselineVersions = bbm.getCompatibleVersions({
+          includeDownstreamBrowsers: includeDownstream,
+          includeKaiOS: includeKaiOS,
+        })
+      }
+      return resolve(bbmTransform(baselineVersions), context);
+    }
   },
   popularity: {
     matches: ['sign', 'popularity'],
