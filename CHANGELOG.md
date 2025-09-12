@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.26.0
+* Added Baseline queries (by @tonypconway).
+
 ## 4.25.4
 * Fixed Windows support for custom stats (by @torgeilo).
 
