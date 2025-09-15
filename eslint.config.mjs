@@ -45,6 +45,7 @@ export default [
   {
     files: ['test/**/*', 'eslint.config.mjs'],
     rules: {
+      'n/no-unsupported-features/node-builtins': 'off',
       'n/no-unsupported-features/es-syntax': 'off',
       'es5/no-shorthand-properties': 'off',
       'es5/no-template-literals': 'off',
