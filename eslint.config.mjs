@@ -62,14 +62,7 @@ export default [
   {
     files: ['eslint.config.mjs'],
     rules: {
-      'es5/no-modules': 'off',
-      'n/no-unsupported-features/node-builtins': [
-        'error',
-        {
-          version: '>=22.0.0',
-          ignores: []
-        }
-      ]
+      'es5/no-modules': 'off'
     }
   }
 ]
