@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.26.2
+* Fixed `baseline-browser-mapping` version requirement.
+
 ## 4.26.1
 * Updated Firefox ESR.
 
