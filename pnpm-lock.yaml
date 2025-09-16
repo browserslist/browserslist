@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       baseline-browser-mapping:
-        specifier: 2.8.4-beta
-        version: 2.8.4-beta
+        specifier: 2.8.4-beta3
+        version: 2.8.4-beta3
       caniuse-lite:
         specifier: ^1.0.30001741
         version: 1.0.30001741
@@ -34,8 +34,8 @@ importers:
         specifier: ^11.2.0
         version: 11.2.0(size-limit@11.2.0)
       actions-up:
-        specifier: ^1.3.1
-        version: 1.3.1
+        specifier: ^1.4.0
+        version: 1.4.0
       c8:
         specifier: ^10.1.3
         version: 10.1.3
@@ -551,8 +551,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  actions-up@1.3.1:
-    resolution: {integrity: sha512-aAP7l027e5FcZrXu2H4KMBfLJ51LX11hpfmOUz98sSqo/4mAVHrqZiFTgTF7BkwxqdkvZsvhfJQRfPfHlNxfaA==}
+  actions-up@1.4.0:
+    resolution: {integrity: sha512-fW3/HTtHL1nqLjrT7aFR2M7csN134Fc2ZVPXVHOeyNHK6rvPTlD3vb8i5v2jZ9XobKnGAodI+LMBuE4BsizC+Q==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
 
@@ -585,8 +585,8 @@ packages:
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
-  baseline-browser-mapping@2.8.4-beta:
-    resolution: {integrity: sha512-jDjDlekVOGXXFJSZt2mL1jFPVocreg3IriWzqospA5a5665qQCTs0GZK0IqopfIth6KkItp9fFJP4XF+eMX02w==}
+  baseline-browser-mapping@2.8.4-beta3:
+    resolution: {integrity: sha512-hwTHEj8TploJhXU7nY6h5aN3DjwJt0SsapImS+vOu5Tn/+azIOeuP7WPq8IqCdyN3jNzBoXCzjWwhrtCdhZKig==}
     hasBin: true
 
   brace-expansion@1.1.12:
@@ -1757,7 +1757,7 @@ snapshots:
 
   acorn@8.15.0: {}
 
-  actions-up@1.3.1:
+  actions-up@1.4.0:
     dependencies:
       cac: 6.7.14
       enquirer: 2.4.1
@@ -1789,7 +1789,7 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
-  baseline-browser-mapping@2.8.4-beta: {}
+  baseline-browser-mapping@2.8.4-beta3: {}
 
   brace-expansion@1.1.12:
     dependencies:
