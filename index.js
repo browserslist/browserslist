@@ -409,6 +409,7 @@ function browserslist(queries, opts) {
   var context = {
     ignoreUnknownVersions: opts.ignoreUnknownVersions,
     dangerousExtend: opts.dangerousExtend,
+    throwOnMissing: opts.throwOnMissing,
     mobileToDesktop: opts.mobileToDesktop,
     env: opts.env
   }
