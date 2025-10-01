@@ -12,13 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v5.0.0
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Install pnpm
-        uses: pnpm/action-setup@f2b2b233b538f500472c7274c7012f57857d8ce0 # v4.1.0
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
         with:
           version: 10
       - name: Install Node.js
-        uses: actions/setup-node@cd2651c46231bc0d6f48d6b34433b845331235fe # v5.0.0
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: 24
           cache: pnpm
@@ -37,13 +37,13 @@ jobs:
     name: Node.js ${{ matrix.node-version }} Quick
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v5.0.0
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Install pnpm
-        uses: pnpm/action-setup@f2b2b233b538f500472c7274c7012f57857d8ce0 # v4.1.0
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
         with:
           version: 10
       - name: Install Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@cd2651c46231bc0d6f48d6b34433b845331235fe # v5.0.0
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
@@ -64,15 +64,15 @@ jobs:
     name: Node.js ${{ matrix.node-version }} Quick
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v5.0.0
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Install pnpm
-        uses: pnpm/action-setup@f2b2b233b538f500472c7274c7012f57857d8ce0 # v4.1.0
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
         with:
           version: 3
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - name: Install Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@cd2651c46231bc0d6f48d6b34433b845331235fe # v5.0.0
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
