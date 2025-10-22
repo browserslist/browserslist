@@ -1,6 +1,9 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.27.0
+* Added `BROWSERSLIST_TRACE_WARNING` environment variable.
+
 ## 4.26.3
 * Fixed `throwOnMissing` with `extends` query (by @alexander-akait).
 
