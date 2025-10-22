@@ -711,6 +711,12 @@ with [environment variables]:
   BROWSERSLIST_ROOT_PATH=. npx webpack
    ```
 
+* `BROWSERSLIST_TRACE_WARNING` to find the source of update db warning.
+
+   ```sh
+  BROWSERSLIST_TRACE_WARNING=1 npx webpack
+   ```
+
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
 
 ### `browserslist.coverage()`

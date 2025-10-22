@@ -477,6 +477,11 @@ module.exports = {
     var monthsPassed = getMonthsPassed(latest)
 
     if (latest !== 0 && monthsPassed >= 6) {
+      if (process.env.BROWSERSLIST_TRACE_WARNING) {
+        console.info('Last browser release in DB: ' + String(new Date(latest)))
+        console.trace()
+      }
+
       var months = monthsPassed + ' ' + (monthsPassed > 1 ? 'months' : 'month')
       console.warn(
         'Browserslist: browsers data (caniuse-lite) is ' +
