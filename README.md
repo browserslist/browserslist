@@ -428,7 +428,7 @@ If you don’t accept Browserslist queries from users, you can disable the
 validation by using the or `BROWSERSLIST_DANGEROUS_EXTEND` environment variable.
 
 ```sh
-BROWSERSLIST_DANGEROUS_EXTEND=1 npx webpack
+BROWSERSLIST_DANGEROUS_EXTEND=1 npx vite build
 ```
 
 Because this uses `npm`'s resolution, you can also reference specific files
@@ -670,51 +670,51 @@ with [environment variables]:
 * `BROWSERSLIST` with browsers queries.
 
    ```sh
-  BROWSERSLIST="> 5%" npx webpack
+  BROWSERSLIST="> 5%" npx vite build
    ```
 
 * `BROWSERSLIST_CONFIG` with path to config file.
 
    ```sh
-  BROWSERSLIST_CONFIG=./config/browserslist npx webpack
+  BROWSERSLIST_CONFIG=./config/browserslist npx vite build
    ```
 
 * `BROWSERSLIST_ENV` with environments string.
 
    ```sh
-  BROWSERSLIST_ENV="development" npx webpack
+  BROWSERSLIST_ENV="development" npx vite build
    ```
 
 * `BROWSERSLIST_STATS` with path to the custom usage data
   for `> 1% in my stats` query.
 
    ```sh
-  BROWSERSLIST_STATS=./config/usage_data.json npx webpack
+  BROWSERSLIST_STATS=./config/usage_data.json npx vite build
    ```
 
 * `BROWSERSLIST_DISABLE_CACHE` if you want to disable config reading cache.
 
    ```sh
-  BROWSERSLIST_DISABLE_CACHE=1 npx webpack
+  BROWSERSLIST_DISABLE_CACHE=1 npx vite build
    ```
 
 * `BROWSERSLIST_DANGEROUS_EXTEND` to disable security shareable config
   name check.
 
    ```sh
-  BROWSERSLIST_DANGEROUS_EXTEND=1 npx webpack
+  BROWSERSLIST_DANGEROUS_EXTEND=1 npx vite build
    ```
 
 * `BROWSERSLIST_ROOT_PATH` to prevent reading files above this path.
 
    ```sh
-  BROWSERSLIST_ROOT_PATH=. npx webpack
+  BROWSERSLIST_ROOT_PATH=. npx vite build
    ```
 
 * `BROWSERSLIST_TRACE_WARNING` to find the source of update db warning.
 
    ```sh
-  BROWSERSLIST_TRACE_WARNING=1 npx webpack
+  BROWSERSLIST_TRACE_WARNING=1 npx vite build
    ```
 
 [environment variables]: https://en.wikipedia.org/wiki/Environment_variable
