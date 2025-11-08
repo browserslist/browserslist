@@ -12,6 +12,7 @@ var parseWithoutCache = require('./parse') // Will load browser.js in webpack
 var YEAR = 365.259641 * 24 * 60 * 60 * 1000
 var ANDROID_EVERGREEN_FIRST = '37'
 var OP_MOB_BLINK_FIRST = 14
+var FIREFOX_ESR_VERSION = '140'
 
 // Helpers
 
@@ -1109,12 +1110,13 @@ var QUERIES = {
   },
   browser_ray: {
     matches: ['browser', 'sign', 'version'],
-    regexp: /^(\w+)\s*(>=?|<=?)\s*([\d.]+)$/,
+    regexp: /^(\w+)\s*(>=?|<=?)\s*([\d.]+|esr)$/i,
     select: function (context, node) {
       var version = node.version
       var data = checkName(node.browser, context)
-      var alias = browserslist.versionAliases[data.name][version]
+      var alias = browserslist.versionAliases[data.name][version.toLowerCase()]
       if (alias) version = alias
+      if (!/[\d.]+/.test(version)) throw new BrowserslistError('Unknown version ' + version + ' of ' + node.browser);
       return data.released
         .filter(generateFilter(node.sign, version))
         .map(function (v) {
@@ -1126,7 +1128,7 @@ var QUERIES = {
     matches: [],
     regexp: /^(firefox|ff|fx)\s+esr$/i,
     select: function () {
-      return ['firefox 140']
+      return ['firefox ' + FIREFOX_ESR_VERSION]
     }
   },
   opera_mini_all: {
@@ -1319,5 +1321,7 @@ var QUERIES = {
     return release.version
   })
 })()
+
+browserslist.versionAliases.firefox.esr = FIREFOX_ESR_VERSION
 
 module.exports = browserslist
