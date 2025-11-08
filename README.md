@@ -116,21 +116,14 @@ Browserslist needs your support. We are accepting donations
 * [`browserslist-ga`] and [`browserslist-ga-export`] download your website
   browsers statistics to use it in `> 0.5% in my stats` query.
 * [`browserslist-new-relic`] generates a custom usage data file for Browserslist
-* [`browserslist-adobe-analytics`] uses Adobe Analytics data to target browsers
-  from your New Relic Browser data.
-
 
 ### Others
 
 * [`browserslist-rs`] is a Browserslist port to Rust.
-* [`browserslist-browserstack`] runs BrowserStack tests for all browsers
-  in Browserslist config.
 
 [`browserslist-useragent-regexp`]: https://github.com/browserslist/browserslist-useragent-regexp
-[`browserslist-adobe-analytics`]:  https://github.com/xeroxinteractive/browserslist-adobe-analytics
 [`browserslist-useragent-ruby`]:   https://github.com/browserslist/browserslist-useragent-ruby
 [`browserslist-update-action`]:    https://github.com/c2corg/browserslist-update-action
-[`browserslist-browserstack`]:     https://github.com/xeroxinteractive/browserslist-browserstack
 [`browserslist-ga-export`]:        https://github.com/browserslist/browserslist-ga-export
 [`browserslist-useragent`]:        https://github.com/pastelsky/browserslist-useragent
 [`update-browserslist-db`]:        https://github.com/browserslist/update-db
