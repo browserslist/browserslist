@@ -1,6 +1,10 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.48.0
+* Added `firefox >= esr` query support (by @SethFalco).
+* Fixed docs (by @SethFalco).
+
 ## 4.27.0
 * Added `BROWSERSLIST_TRACE_WARNING` environment variable.
 
