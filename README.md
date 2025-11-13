@@ -559,6 +559,7 @@ Note that you can query against your custom usage data while also querying
 against global or regional data. For example, the query
 `> 1% in my stats, > 5% in US, 10%` is permitted.
 
+[`browserslist-plausible`]: https://github.com/browserslist/browserslist-plausible
 [`browserslist-ga-export`]: https://github.com/browserslist/browserslist-ga-export
 [`browserslist-ga`]:        https://github.com/browserslist/browserslist-ga
 [Can I Use]:                https://caniuse.com/
