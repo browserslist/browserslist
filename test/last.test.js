@@ -22,8 +22,8 @@ test.before.each(() => {
     },
     chrome: {
       name: 'chrome',
-      released: ['37', '38', '39'],
-      versions: ['37', '38', '39', '40'],
+      released: ['36', '37', '38', '39'],
+      versions: ['36', '37', '38', '39', '40'],
       releaseDate: {}
     },
     bb: {
@@ -40,7 +40,19 @@ test.before.each(() => {
     },
     android: {
       name: 'android',
-      released: ['4.4', '4.4.3-4.4.4', '67'],
+      released: ['4.4', '4.4.3-4.4.4', '39'],
+      versions: [],
+      releaseDate: {}
+    },
+    opera: {
+      name: 'opera',
+      released: ['85', '86'],
+      versions: ['85', '86', '87'],
+      releaseDate: {}
+    },
+    op_mob: {
+      name: 'op_mob',
+      released: ['12', '12.1', '17'],
       versions: [],
       releaseDate: {}
     }
@@ -54,62 +66,75 @@ test.after.each(() => {
 test('selects versions of each browser', () => {
   let res = browserslist('last 2 versions', undefined, true)
 
-  equal(
-    res,
-    [
-      'android 67',
-      'bb 8',
-      'chrome 39',
-      'chrome 38',
-      'edge 12',
-      'ie 11',
-      'ie 10'
-    ]
-  )
+  equal(res, [
+    'android 39',
+    'bb 8',
+    'chrome 39',
+    'chrome 38',
+    'edge 12',
+    'ie 11',
+    'ie 10',
+    'op_mob 17',
+    'opera 86',
+    'opera 85'
+  ])
 })
 
-test('has special logic for android', () => {
-  equal(
-    browserslist('last 31 versions'),
-    [
-      'android 67',
-      'android 4.4.3-4.4.4',
-      'bb 8',
-      'chrome 39',
-      'chrome 38',
-      'chrome 37',
-      'edge 12',
-      'ie 11',
-      'ie 10',
-      'ie 9'
-    ]
-  )
+test('Properly handles Android version jump', () => {
+  equal(browserslist('last 3 android versions'), ['android 39'])
+  equal(browserslist('last 4 android versions'), [
+    'android 39',
+    'android 4.4.3-4.4.4'
+  ])
+})
+
+test('Properly handles Opera Mobile version jump', () => {
+  equal(browserslist('last 4 op_mob versions'), ['op_mob 17'])
+  equal(browserslist('last 5 op_mob versions'), ['op_mob 17', 'op_mob 12.1'])
 })
 
 test('supports pluralization', () => {
-  equal(
-    browserslist('last 1 version'),
-      [
-      'android 67',
-      'bb 8',
-      'chrome 39',
-      'edge 12',
-      'ie 11'
-    ]
-  )
+  equal(browserslist('last 1 version'), [
+    'android 39',
+    'bb 8',
+    'chrome 39',
+    'edge 12',
+    'ie 11',
+    'op_mob 17',
+    'opera 86'
+  ])
 })
 
 test('is case insensitive', () => {
-  equal(
-    browserslist('Last 01 Version'),
-    [
-      'android 67',
-      'bb 8',
-      'chrome 39',
-      'edge 12',
-      'ie 11'
-    ]
-  )
+  equal(browserslist('Last 01 Version'), [
+    'android 39',
+    'bb 8',
+    'chrome 39',
+    'edge 12',
+    'ie 11',
+    'op_mob 17',
+    'opera 86'
+  ])
+})
+
+test('excludes unreleased versions if enabling mobile to desktop', () => {
+  equal(browserslist('last 2 versions', { mobileToDesktop: true }), [
+    'and_chr 39',
+    'and_chr 38',
+    'android 39',
+    'android 38',
+    'bb 8',
+    'chrome 39',
+    'chrome 38',
+    'edge 12',
+    'ie 11',
+    'ie 10',
+    'ie_mob 11',
+    'ie_mob 10',
+    'op_mob 17',
+    'opera 86',
+    'opera 85'
+  ])
 })
 
 test.run()

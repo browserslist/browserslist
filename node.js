@@ -1,21 +1,25 @@
 var feature = require('caniuse-lite/dist/unpacker/feature').default
 var region = require('caniuse-lite/dist/unpacker/region').default
-var path = require('path')
 var fs = require('fs')
+var path = require('path')
 
 var BrowserslistError = require('./error')
 
 var IS_SECTION = /^\s*\[(.+)]\s*$/
 var CONFIG_PATTERN = /^browserslist-config-/
-var SCOPED_CONFIG__PATTERN = /@[^/]+\/browserslist-config(-|$|\/)/
-var TIME_TO_UPDATE_CANIUSE = 6 * 30 * 24 * 60 * 60 * 1000
+var SCOPED_CONFIG__PATTERN = /@[^/]+(?:\/[^/]+)?\/browserslist-config(?:-|$|\/)/
 var FORMAT =
   'Browserslist config should be a string or an array ' +
   'of strings with browser queries'
+var PATHTYPE_UNKNOWN = 'unknown'
+var PATHTYPE_DIR = 'directory'
+var PATHTYPE_FILE = 'file'
 
 var dataTimeChecked = false
-var filenessCache = {}
-var configCache = {}
+var statCache = {}
+var configPathCache = {}
+var parseConfigCache = {}
+
 function checkExtend(name) {
   var use = ' Use `dangerousExtend` option to disable.'
   if (!CONFIG_PATTERN.test(name) && !SCOPED_CONFIG__PATTERN.test(name)) {
@@ -35,25 +39,76 @@ function checkExtend(name) {
   }
 }
 
-function isFile(file) {
-  if (file in filenessCache) {
-    return filenessCache[file]
+function getPathType(filepath) {
+  var stats
+  try {
+    stats = fs.existsSync(filepath) && fs.statSync(filepath)
+  } catch (err) {
+    /* c8 ignore start */
+    if (
+      err.code !== 'ENOENT' &&
+      err.code !== 'EACCES' &&
+      err.code !== 'ERR_ACCESS_DENIED'
+    ) {
+      throw err
+    }
+    /* c8 ignore end */
   }
-  var result = fs.existsSync(file) && fs.statSync(file).isFile()
-  if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
-    filenessCache[file] = result
+
+  if (stats && stats.isDirectory()) return PATHTYPE_DIR
+  if (stats && stats.isFile()) return PATHTYPE_FILE
+
+  return PATHTYPE_UNKNOWN
+}
+
+function isFile(file) {
+  return getPathType(file) === PATHTYPE_FILE
+}
+
+function isDirectory(dir) {
+  return getPathType(dir) === PATHTYPE_DIR
+}
+
+function eachParent(file, callback, cache) {
+  var loc = path.resolve(file)
+  var pathsForCacheResult = []
+  var result
+  do {
+    if (!pathInRoot(loc)) {
+      break
+    }
+    if (cache && loc in cache) {
+      result = cache[loc]
+      break
+    }
+    pathsForCacheResult.push(loc)
+
+    if (!isDirectory(loc)) {
+      continue
+    }
+
+    var locResult = callback(loc)
+    if (typeof locResult !== 'undefined') {
+      result = locResult
+      break
+    }
+  } while (loc !== (loc = path.dirname(loc)))
+
+  if (cache && !process.env.BROWSERSLIST_DISABLE_CACHE) {
+    pathsForCacheResult.forEach(function (cachePath) {
+      cache[cachePath] = result
+    })
   }
   return result
 }
 
-function eachParent(file, callback) {
-  var dir = isFile(file) ? path.dirname(file) : file
-  var loc = path.resolve(dir)
-  do {
-    var result = callback(loc)
-    if (typeof result !== 'undefined') return result
-  } while (loc !== (loc = path.dirname(loc)))
-  return undefined
+function pathInRoot(p) {
+  if (!process.env.BROWSERSLIST_ROOT_PATH) return true
+  var rootPath = path.resolve(process.env.BROWSERSLIST_ROOT_PATH)
+  if (path.relative(rootPath, p).substring(0, 2) === '..') {
+    return false
+  }
+  return true
 }
 
 function check(section) {
@@ -94,13 +149,21 @@ function pickEnv(config, opts) {
 }
 
 function parsePackage(file) {
-  var config = JSON.parse(fs.readFileSync(file))
-  if (config.browserlist && !config.browserslist) {
-    throw new BrowserslistError(
-      '`browserlist` key instead of `browserslist` in ' + file
-    )
+  var text = fs
+    .readFileSync(file)
+    .toString()
+    .replace(/^\uFEFF/m, '')
+  var list
+  if (text.indexOf('"browserslist"') >= 0) {
+    list = JSON.parse(text).browserslist
+  } else if (text.indexOf('"browserlist"') >= 0) {
+    var config = JSON.parse(text)
+    if (config.browserlist && !config.browserslist) {
+      throw new BrowserslistError(
+        '`browserlist` key instead of `browserslist` in ' + file
+      )
+    }
   }
-  var list = config.browserslist
   if (Array.isArray(list) || typeof list === 'string') {
     list = { defaults: list }
   }
@@ -109,6 +172,20 @@ function parsePackage(file) {
   }
 
   return list
+}
+
+function parsePackageOrReadConfig(file) {
+  if (file in parseConfigCache) {
+    return parseConfigCache[file]
+  }
+
+  var isPackage = path.basename(file) === 'package.json'
+  var result = isPackage ? parsePackage(file) : module.exports.readConfig(file)
+
+  if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
+    parseConfigCache[file] = result
+  }
+  return result
 }
 
 function latestReleaseTime(agents) {
@@ -122,6 +199,16 @@ function latestReleaseTime(agents) {
     }
   }
   return latest * 1000
+}
+
+function getMonthsPassed(date) {
+  var now = new Date()
+  var past = new Date(date)
+
+  var years = now.getFullYear() - past.getFullYear()
+  var months = now.getMonth() - past.getMonth()
+
+  return years * 12 + months
 }
 
 function normalizeStats(data, stats) {
@@ -152,7 +239,6 @@ function normalizeStats(data, stats) {
 function normalizeUsageData(usageData, data) {
   for (var browser in usageData) {
     var browserUsage = usageData[browser]
-    // eslint-disable-next-line max-len
     // https://github.com/browserslist/browserslist/issues/431#issuecomment-565230615
     // caniuse-db returns { 0: "percentage" } for `and_*` regional stats
     if ('0' in browserUsage) {
@@ -169,6 +255,9 @@ module.exports = {
       checkExtend(name)
     }
     var queries = require(require.resolve(name, { paths: ['.', ctx.path] }))
+    if (typeof queries === 'object' && queries !== null && queries.__esModule) {
+      queries = queries.default
+    }
     if (queries) {
       if (Array.isArray(queries)) {
         return queries
@@ -189,10 +278,12 @@ module.exports = {
     if (!ctx.dangerousExtend && !process.env.BROWSERSLIST_DANGEROUS_EXTEND) {
       checkExtend(name)
     }
-    var stats = require(require.resolve(
-      path.join(name, 'browserslist-stats.json'),
-      { paths: ['.'] }
-    ))
+    var stats = require(
+      // Use forward slashes for module paths, also on Windows.
+      require.resolve(path.posix.join(name, 'browserslist-stats.json'), {
+        paths: ['.']
+      })
+    )
     return normalizeStats(data, stats)
   },
 
@@ -203,10 +294,14 @@ module.exports = {
     } else if (process.env.BROWSERSLIST_STATS) {
       stats = process.env.BROWSERSLIST_STATS
     } else if (opts.path && path.resolve && fs.existsSync) {
-      stats = eachParent(opts.path, function (dir) {
-        var file = path.join(dir, 'browserslist-stats.json')
-        return isFile(file) ? file : undefined
-      })
+      stats = eachParent(
+        opts.path,
+        function (dir) {
+          var file = path.join(dir, 'browserslist-stats.json')
+          return isFile(file) ? file : undefined
+        },
+        statCache
+      )
     }
     if (typeof stats === 'string') {
       try {
@@ -223,11 +318,7 @@ module.exports = {
       return process.env.BROWSERSLIST
     } else if (opts.config || process.env.BROWSERSLIST_CONFIG) {
       var file = opts.config || process.env.BROWSERSLIST_CONFIG
-      if (path.basename(file) === 'package.json') {
-        return pickEnv(parsePackage(file), opts)
-      } else {
-        return pickEnv(module.exports.readConfig(file), opts)
-      }
+      return pickEnv(parsePackageOrReadConfig(file), opts)
     } else if (opts.path) {
       return pickEnv(module.exports.findConfig(opts.path), opts)
     } else {
@@ -238,7 +329,12 @@ module.exports = {
   loadCountry: function loadCountry(usage, country, data) {
     var code = country.replace(/[^\w-]/g, '')
     if (!usage[code]) {
-      var compressed = require('caniuse-lite/data/regions/' + code + '.js')
+      var compressed
+      try {
+        compressed = require('caniuse-lite/data/regions/' + code + '.js')
+      } catch (e) {
+        throw new BrowserslistError('Unknown region name `' + code + '`.')
+      }
       var usageData = region(compressed)
       normalizeUsageData(usageData, data)
       usage[country] = {}
@@ -253,13 +349,18 @@ module.exports = {
   loadFeature: function loadFeature(features, name) {
     name = name.replace(/[^\w-]/g, '')
     if (features[name]) return
-
-    var compressed = require('caniuse-lite/data/features/' + name + '.js')
+    var compressed
+    try {
+      compressed = require('caniuse-lite/data/features/' + name + '.js')
+    } catch (e) {
+      throw new BrowserslistError('Unknown feature name `' + name + '`.')
+    }
     var stats = feature(compressed).stats
     features[name] = {}
     for (var i in stats) {
+      features[name][i] = {}
       for (var j in stats[i]) {
-        features[name][i + ' ' + j] = stats[i][j]
+        features[name][i][j] = stats[i][j]
       }
     }
   },
@@ -303,68 +404,66 @@ module.exports = {
     if (!isFile(file)) {
       throw new BrowserslistError("Can't read " + file + ' config')
     }
+
     return module.exports.parseConfig(fs.readFileSync(file))
   },
 
-  findConfig: function findConfig(from) {
-    from = path.resolve(from)
+  findConfigFile: function findConfigFile(from) {
+    return eachParent(
+      from,
+      function (dir) {
+        var config = path.join(dir, 'browserslist')
+        var pkg = path.join(dir, 'package.json')
+        var rc = path.join(dir, '.browserslistrc')
 
-    var passed = []
-    var resolved = eachParent(from, function (dir) {
-      if (dir in configCache) {
-        return configCache[dir]
-      }
-
-      passed.push(dir)
-
-      var config = path.join(dir, 'browserslist')
-      var pkg = path.join(dir, 'package.json')
-      var rc = path.join(dir, '.browserslistrc')
-
-      var pkgBrowserslist
-      if (isFile(pkg)) {
-        try {
-          pkgBrowserslist = parsePackage(pkg)
-        } catch (e) {
-          if (e.name === 'BrowserslistError') throw e
-          console.warn(
-            '[Browserslist] Could not parse ' + pkg + '. Ignoring it.'
-          )
+        var pkgBrowserslist
+        if (isFile(pkg)) {
+          try {
+            pkgBrowserslist = parsePackage(pkg)
+          } catch (e) {
+            if (e.name === 'BrowserslistError') throw e
+            console.warn(
+              '[Browserslist] Could not parse ' + pkg + '. Ignoring it.'
+            )
+          }
         }
-      }
 
-      if (isFile(config) && pkgBrowserslist) {
-        throw new BrowserslistError(
-          dir + ' contains both browserslist and package.json with browsers'
-        )
-      } else if (isFile(rc) && pkgBrowserslist) {
-        throw new BrowserslistError(
-          dir + ' contains both .browserslistrc and package.json with browsers'
-        )
-      } else if (isFile(config) && isFile(rc)) {
-        throw new BrowserslistError(
-          dir + ' contains both .browserslistrc and browserslist'
-        )
-      } else if (isFile(config)) {
-        return module.exports.readConfig(config)
-      } else if (isFile(rc)) {
-        return module.exports.readConfig(rc)
-      } else {
-        return pkgBrowserslist
-      }
-    })
-    if (!process.env.BROWSERSLIST_DISABLE_CACHE) {
-      passed.forEach(function (dir) {
-        configCache[dir] = resolved
-      })
-    }
-    return resolved
+        if (isFile(config) && pkgBrowserslist) {
+          throw new BrowserslistError(
+            dir + ' contains both browserslist and package.json with browsers'
+          )
+        } else if (isFile(rc) && pkgBrowserslist) {
+          throw new BrowserslistError(
+            dir +
+              ' contains both .browserslistrc and package.json with browsers'
+          )
+        } else if (isFile(config) && isFile(rc)) {
+          throw new BrowserslistError(
+            dir + ' contains both .browserslistrc and browserslist'
+          )
+        } else if (isFile(config)) {
+          return config
+        } else if (isFile(rc)) {
+          return rc
+        } else if (pkgBrowserslist) {
+          return pkg
+        }
+      },
+      configPathCache
+    )
+  },
+
+  findConfig: function findConfig(from) {
+    var configFile = this.findConfigFile(from)
+
+    return configFile ? parsePackageOrReadConfig(configFile) : undefined
   },
 
   clearCaches: function clearCaches() {
     dataTimeChecked = false
-    filenessCache = {}
-    configCache = {}
+    statCache = {}
+    configPathCache = {}
+    parseConfigCache = {}
 
     this.cache = {}
   },
@@ -375,19 +474,29 @@ module.exports = {
     if (process.env.BROWSERSLIST_IGNORE_OLD_DATA) return
 
     var latest = latestReleaseTime(agentsObj)
-    var halfYearAgo = Date.now() - TIME_TO_UPDATE_CANIUSE
+    var monthsPassed = getMonthsPassed(latest)
 
-    if (latest !== 0 && latest < halfYearAgo) {
+    if (latest !== 0 && monthsPassed >= 6) {
+      if (process.env.BROWSERSLIST_TRACE_WARNING) {
+        console.info('Last browser release in DB: ' + String(new Date(latest)))
+        console.trace()
+      }
+
+      var months = monthsPassed + ' ' + (monthsPassed > 1 ? 'months' : 'month')
       console.warn(
-        'Browserslist: caniuse-lite is outdated. Please run:\n' +
-          '  npx browserslist@latest --update-db\n' +
+        'Browserslist: browsers data (caniuse-lite) is ' +
+          months +
+          ' old. Please run:\n' +
+          '  npx update-browserslist-db@latest\n' +
           '  Why you should do it regularly: ' +
-          'https://github.com/browserslist/browserslist#browsers-data-updating'
+          'https://github.com/browserslist/update-db#readme'
       )
     }
   },
 
   currentNode: function currentNode() {
     return 'node ' + process.versions.node
-  }
+  },
+
+  env: process.env
 }

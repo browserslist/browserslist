@@ -1,5 +1,5 @@
 let { test } = require('uvu')
-let { is, equal } = require('uvu/assert')
+let { is, equal, throws } = require('uvu/assert')
 
 delete require.cache[require.resolve('..')]
 let browserslist = require('..')
@@ -71,8 +71,16 @@ test('loads country from Can I Use', () => {
   is(browserslist('> 1% in RU').length > 0, true)
 })
 
+test('throw an error on wrong country name from Can I Use', () => {
+  throws(() => browserslist('> 1% in __'), /Unknown region name/)
+})
+
 test('loads continents from Can I Use', () => {
   is(browserslist('> 1% in alt-AS').length > 0, true)
+})
+
+test('throw an error on wrong continent name from Can I Use', () => {
+  throws(() => browserslist('> 1% in alt-__'), /Unknown region name/)
 })
 
 test('allows omission of the space between the > and the percentage', () => {

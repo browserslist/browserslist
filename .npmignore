@@ -1,12 +1,6 @@
-node_modules/
-pnpm-lock.yaml
-
-.editorconfig
 test/
 coverage/
-.travis.yml
 
-.github/
 img/
 tsconfig.json
 grammar.w3c-ebnf

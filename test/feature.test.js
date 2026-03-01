@@ -1,49 +1,163 @@
 let { test } = require('uvu')
-let { equal, is } = require('uvu/assert')
+let { equal, is, throws } = require('uvu/assert')
 
 delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
-let originCache = browserslist.cache
+let originData = { ...browserslist.data }
 
 test.before.each(() => {
-  browserslist.cache = {}
-  browserslist.data.and_chr = {
-    name: 'and_chr',
-    versions: ['81'],
-    released: [],
-    releaseDate: {}
+  browserslist.data = {
+    and_chr: {
+      name: 'and_chr',
+      versions: ['81'],
+      released: ['81'],
+      releaseDate: {}
+    },
+    chrome: {
+      name: 'chrome',
+      versions: ['79', '80', '81', '82'],
+      released: ['79', '80', '81'],
+      releaseDate: {}
+    },
+    ie: {
+      name: 'ie',
+      versions: ['10', '11'],
+      released: ['10', '11'],
+      releaseDate: {}
+    }
   }
 })
 
 test.after.each(() => {
-  browserslist.cache = originCache
+  browserslist.clearCaches()
+  browserslist.data = originData
 })
 
 test('load features from Can I Use', () => {
+  browserslist.data = originData
   is(browserslist('supports objectrtc').length > 0, true)
 })
 
+test('throw an error on wrong feature name from Can I Use', () => {
+  throws(
+    () => browserslist('supports wrong-feature-name'),
+    /Unknown feature name/
+  )
+})
+
 test('selects browsers by feature', () => {
-  browserslist.cache = {
-    rtcpeerconnection: {
-      'and_chr 81': 'y',
-      'firefox 2': 'n'
-    }
+  browserslist.cache.rtcpeerconnection = {
+    and_chr: { 81: 'y' },
+    chrome: { 79: 'n', 80: 'n', 81: 'a', 82: 'y' },
+    ie: { 10: 'n', 11: 'n' }
   }
 
-  equal(browserslist('supports rtcpeerconnection'), ['and_chr 81'])
+  equal(browserslist('supports rtcpeerconnection'), [
+    'and_chr 81',
+    'chrome 82',
+    'chrome 81'
+  ])
+})
+
+test('selects browsers by feature, including partial support', () => {
+  browserslist.cache.rtcpeerconnection = {
+    and_chr: { 81: 'y' },
+    chrome: { 79: 'n', 80: 'n', 81: 'a', 82: 'y' },
+    ie: { 10: 'n', 11: 'n' }
+  }
+
+  equal(browserslist('partially supports rtcpeerconnection'), [
+    'and_chr 81',
+    'chrome 82',
+    'chrome 81'
+  ])
+
+  equal(browserslist('partially     supports rtcpeerconnection'), [
+    'and_chr 81',
+    'chrome 82',
+    'chrome 81'
+  ])
+})
+
+test('selects browsers by feature, omiting partial support', () => {
+  browserslist.cache.rtcpeerconnection = {
+    and_chr: { 81: 'y' },
+    chrome: { 79: 'n', 80: 'n', 81: 'a', 82: 'y' },
+    ie: { 10: 'n', 11: 'n' }
+  }
+
+  equal(browserslist('fully supports rtcpeerconnection'), [
+    'and_chr 81',
+    'chrome 82'
+  ])
+
+  equal(browserslist('fully    supports rtcpeerconnection'), [
+    'and_chr 81',
+    'chrome 82'
+  ])
 })
 
 test('selects browsers by feature with dashes in its name', () => {
-  browserslist.cache = {
-    'arrow-functions': {
-      'and_chr 81': 'y',
-      'ie 11': 'n'
-    }
+  browserslist.cache['arrow-functions'] = {
+    and_chr: { 81: 'n' },
+    chrome: { 79: 'n', 80: 'n', 81: 'y', 82: 'y' },
+    ie: { 10: 'n', 11: 'y' }
   }
 
-  equal(browserslist('supports arrow-functions'), ['and_chr 81'])
+  equal(browserslist('supports arrow-functions'), [
+    'chrome 82',
+    'chrome 81',
+    'ie 11'
+  ])
+})
+
+test('Selects extra versions with mobile to desktop option', () => {
+  browserslist.cache.filesystem = {
+    and_chr: { 81: 'y' },
+    chrome: { 79: 'n', 80: 'y', 81: 'y', 82: 'y' },
+    ie: { 10: 'n', 11: 'n' }
+  }
+
+  equal(browserslist('supports filesystem', { mobileToDesktop: true }), [
+    'and_chr 82',
+    'and_chr 81',
+    'and_chr 80',
+    'chrome 82',
+    'chrome 81',
+    'chrome 80'
+  ])
+})
+
+test('Selects extra versions with mobile to desktop and feature missing latest release', () => {
+  browserslist.cache.clipboard = {
+    and_chr: { 80: 'y' }, // not the latest release
+    chrome: { 79: 'y', 80: 'y', 81: 'y' },
+    ie: { 10: 'n', 11: 'n' }
+  }
+
+  equal(browserslist('supports clipboard', { mobileToDesktop: true }), [
+    'and_chr 81',
+    'and_chr 80',
+    'and_chr 79',
+    'chrome 81',
+    'chrome 80',
+    'chrome 79'
+  ])
+})
+
+test('Ignores mobile to desktop if unsupported by latest', () => {
+  browserslist.cache['font-smooth'] = {
+    and_chr: { 81: 'n' },
+    chrome: { 79: 'n', 80: 'y', 81: 'y', 82: 'y' },
+    ie: { 10: 'n', 11: 'n' }
+  }
+
+  equal(browserslist('supports font-smooth', { mobileToDesktop: true }), [
+    'chrome 82',
+    'chrome 81',
+    'chrome 80'
+  ])
 })
 
 test.run()

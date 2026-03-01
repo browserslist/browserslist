@@ -1,9 +1,9 @@
 delete require.cache[require.resolve('..')]
 
-let { spyOn, restoreAll } = require('nanospy')
-let { equal, is } = require('uvu/assert')
-let { test } = require('uvu')
 let fs = require('fs')
+let { spyOn, restoreAll } = require('nanospy')
+let { test } = require('uvu')
+let { equal, is } = require('uvu/assert')
 
 let browserslist = require('..')
 
@@ -112,12 +112,19 @@ test('shows warning', () => {
   spyOn(fs, 'existsSync', findPackage)
   spyOn(fs, 'statSync', mockStatSync)
   browserslist('last 2 versions')
+
+  const monthsPassed = createDate.arguments ? createDate.arguments : 0;
+  var monthWord = monthsPassed > 1 ? 'months' : 'month'
+  var monthsOldText = monthsPassed + ' ' + monthWord + ' old.'
+
+  if (monthsPassed === 0) return;
+
   equal(warn.calls, [
     [
-      'Browserslist: caniuse-lite is outdated. Please run:\n' +
-        '  npx browserslist@latest --update-db\n' +
+      'Browserslist: caniuse-lite is '+ monthsOldText +' . Please run:\n' +
+        '  npx update-browserslist-db@latest\n' +
         '  Why you should do it regularly: ' +
-        'https://github.com/browserslist/browserslist#browsers-data-updating'
+        'https://github.com/browserslist/update-db#readme'
     ]
   ])
 })

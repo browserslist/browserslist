@@ -1,6 +1,151 @@
 # Change Log
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.28.1
+* Removed Baseline warning since we have it own warning.
+
+## 4.48.0
+* Added `firefox >= esr` query support (by @SethFalco).
+* Fixed docs (by @SethFalco).
+
+## 4.27.0
+* Added `BROWSERSLIST_TRACE_WARNING` environment variable.
+
+## 4.26.3
+* Fixed `throwOnMissing` with `extends` query (by @alexander-akait).
+
+## 4.26.2
+* Fixed `baseline-browser-mapping` version requirement.
+
+## 4.26.1
+* Updated Firefox ESR.
+
+## 4.26.0
+* Added Baseline queries (by @tonypconway).
+
+## 4.25.4
+* Fixed Windows support for custom stats (by @torgeilo).
+
+## 4.25.3
+* Fixed ReDoS (by @ericcornelissen).
+
+## 4.25.2
+* Fixed Node.js `--permission` support (by @broofa).
+
+## 4.25.1
+* Updated Firefox ESR.
+
+## 4.25.0
+* Added `cover 95% in browserslist-config-mycompany stats` query support.
+
+## 4.24.5
+* Fixed support ESM shared config.
+* Fixed docs (by Alexander Pushkov & マルコメ).
+
+## 4.24.4
+* Improved performance by using caching better (by @thoughtspile).
+
+## 4.24.3
+* Updated Firefox ESR (by @fpapado).
+
+## 4.24.2
+* Clarify outdated `caniuse-lite` warning text.
+
+## 4.24.1
+* Added months since last `caniuse-lite` update to the warning (by @mezhnin).
+
+## 4.24.0
+* Added `browserslist.findConfigFile()` helper (by @JLHwung).
+
+## 4.23.3
+* Fixed `>=` query for `ios` (by @syi0808).
+
+## 4.23.2
+* Updated Firefox ESR.
+
+## 4.23.1
+* Fixed feature query with mobile to desktop when caniuse lags (by @steverep).
+
+## 4.23.0
+* Added `BROWSERSLIST_ROOT_PATH` (by @teleclimber).
+
+## 4.22.3
+* Fixed white spaces support in `supports` query (@g-plane).
+* Fixed shared config like `@company/package/browserslist-config` (@boucodes).
+
+## 4.22.2
+* Fixed idempotency in time queries with `mobileToDesktop` (by Aliaksei Sapach).
+
+## 4.22.1
+* Updated Firefox ESR (by @lerkor).
+
+## 4.22
+* Added `fully supports` query (by Ben Scott).
+* Added `partially supports` alias for `supports` query (by Ben Scott).
+
+## 4.21.11
+* Added warning to `--update-db` to move to new CLI (by Ivan Vasilev).
+* Fixed docs (by Tatsunori Uchino).
+
+## 4.21.10
+* Updated Firefox ESR.
+
+## 4.21.9
+* Fixed Opera Mobile edge cases (by Steve Repsher).
+
+## 4.21.8
+* Fixed `supports` query and `mobileToDesktop` (by Steve Repsher).
+
+## 4.21.7
+* Fixed last queries for Android (by Steve Repsher).
+
+## 4.21.6
+* Fixed time queries with `mobileToDesktop` (by Steve Repsher).
+* Fixed docs (by Tatsunori Uchino, Will Stone, and Dominik Pschenitschni).
+
+## 4.21.5
+* Fixed running Browserslist in browser environment.
+
+## 4.21.4
+* Updated Firefox ESR.
+
+## 4.21.3
+* Improved unknown region and unknown feature error (by Alexander Chabin).
+
+## 4.21.2
+* Updated Firefox ESR.
+
+## 4.21.1
+* Fixed parsing days in `since` query.
+
+## 4.21
+* IE 11 was added to `dead` and removed from `defaults` (by Albert Portnoy).
+* Added `browserslist.parse()` to get config AST for analysis.
+* Moved `--update-db` script to `update-browserslist-db` tool.
+* Fixed Unicode BOM support in `package.json`.
+
+## 4.20.4
+* Fixed Opera in `mobileToDesktop` (by Pig Fang).
+
+## 4.20.3
+* Added `Baidu` to `dead` browsers (by Igor Lukanin).
+
+## 4.20.2
+* Fixed `package.funding` URL format.
+
+## 4.20.1
+* Fixed `package.funding`.
+* Fixed docs (by Michael Lohmann).
+
+## 4.20
+* Added `last 2 node versions` and `last 2 node major versions` (by @g-plane).
+
+## 4.19.3
+* Updated Firefox ESR (by Christophe Coevoet).
+
+## 4.19.2
+* Fixed `--help` output.
+
 ## 4.19.1
 * Fixed `throwOnMissing` types (by Øyvind Saltvik).
 

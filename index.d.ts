@@ -6,6 +6,7 @@
  * ```
  *
  * @param queries Browser queries.
+ * @param opts Options.
  * @returns Array with browser names in Can I Use.
  */
 declare function browserslist(
@@ -14,6 +15,13 @@ declare function browserslist(
 ): string[]
 
 declare namespace browserslist {
+  interface Query {
+    compose: 'or' | 'and'
+    type: string
+    query: string
+    not?: true
+  }
+
   interface Options {
     /**
      * Path to processed file. It will be used to find config files.
@@ -37,7 +45,7 @@ declare namespace browserslist {
      */
     ignoreUnknownVersions?: boolean
     /**
-     * Throw a error if env is not found.
+     * Throw an error if env is not found.
      */
     throwOnMissing?: boolean
     /**
@@ -102,6 +110,8 @@ declare namespace browserslist {
       | undefined
   }
 
+  let nodeVersions: string[]
+
   interface Usage {
     [version: string]: number
   }
@@ -114,7 +124,9 @@ declare namespace browserslist {
 
   let cache: {
     [feature: string]: {
-      [name: string]: 'y' | 'n'
+      [name: string]: {
+        [version: string]: string
+      }
     }
   }
 
@@ -142,6 +154,29 @@ declare namespace browserslist {
    */
   function coverage(browsers: readonly string[], stats?: StatsOptions): number
 
+  /**
+   * Get queries AST to analyze the config content.
+   *
+   * @param queries Browser queries.
+   * @param opts Options.
+   * @returns An array of the data of each query in the config.
+   */
+  function parse(
+    queries?: string | readonly string[] | null,
+    opts?: browserslist.Options
+  ): Query[]
+
+  /**
+   * Return queries for specific file inside the project.
+   *
+   * ```js
+   * browserslist.loadConfig({
+   *   file: process.cwd()
+   * }) ?? browserslist.defaults
+   * ```
+   */
+  function loadConfig(options: LoadConfigOptions): string[] | undefined
+
   function clearCaches(): void
 
   function parseConfig(string: string): Config
@@ -150,13 +185,25 @@ declare namespace browserslist {
 
   function findConfig(...pathSegments: string[]): Config | undefined
 
+  function findConfigFile(...pathSegments: string[]): string | undefined
+
   interface LoadConfigOptions {
+    /**
+     * Path to config file
+     * */
     config?: string
+
+    /**
+     * Path to file inside the project to find Browserslist config
+     * in closest folder
+     */
     path?: string
+
+    /**
+     * Environment to choose part of config.
+     */
     env?: string
   }
-
-  function loadConfig(options: LoadConfigOptions): string[] | undefined
 }
 
 declare global {
@@ -169,6 +216,7 @@ declare global {
       BROWSERSLIST_ENV?: string
       BROWSERSLIST_IGNORE_OLD_DATA?: string
       BROWSERSLIST_STATS?: string
+      BROWSERSLIST_ROOT_PATH?: string
     }
   }
 }

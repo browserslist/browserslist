@@ -1,6 +1,6 @@
+let { join } = require('path')
 let { test } = require('uvu')
 let { is, equal, throws } = require('uvu/assert')
-let { join } = require('path')
 
 delete require.cache[require.resolve('..')]
 let browserslist = require('..')
@@ -78,16 +78,32 @@ test('returns undefined on no config', () => {
   equal(browserslist.findConfig(__dirname), undefined)
 })
 
+test('findConfigFile returns undefined on no config', () => {
+  equal(browserslist.findConfigFile(__dirname), undefined)
+})
+
 test('reads config', () => {
   equal(browserslist.findConfig(FILE), { defaults: ['ie 11', 'ie 10'] })
+})
+
+test('findConfigFile returns browserslist', () => {
+  equal(browserslist.findConfigFile(FILE), join(__dirname, 'fixtures', 'browserslist'))
 })
 
 test('reads .browserslistrc config', () => {
   equal(browserslist.findConfig(RC), { defaults: ['ie 11'] })
 })
 
+test('findConfigFile returns .browserslistrc config', () => {
+  equal(browserslist.findConfigFile(RC), join(__dirname, 'fixtures', 'rc', '.browserslistrc'))
+})
+
 test('reads config from package.json', () => {
   equal(browserslist.findConfig(PACKAGE), { defaults: ['ie 9', 'ie 10'] })
+})
+
+test('findConfigFile returns package.json', () => {
+  equal(browserslist.findConfigFile(PACKAGE), join(__dirname, 'fixtures', 'package', 'package.json'))
 })
 
 test('shows warning on broken package.json', () => {
@@ -118,6 +134,18 @@ test('checks config format', () => {
 
 test('reads config with one string', () => {
   equal(browserslist.findConfig(STRING), { defaults: 'ie 9, ie 8' })
+})
+
+test('stops at ROOT', () => {
+  browserslist.clearCaches()
+  process.env.BROWSERSLIST_ROOT_PATH = join(__dirname, 'fixtures', 'dir')
+  equal(browserslist.findConfig(FILE), undefined)
+})
+
+test('allows up to ROOT', () => {
+  browserslist.clearCaches()
+  process.env.BROWSERSLIST_ROOT_PATH = join(__dirname, 'fixtures')
+  equal(browserslist.findConfig(FILE), { defaults: ['ie 11', 'ie 10'] })
 })
 
 test.run()

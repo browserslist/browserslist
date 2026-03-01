@@ -1,7 +1,7 @@
-let { test } = require('uvu')
-let { equal, throws } = require('uvu/assert')
 let { ensureDir, writeFile, remove } = require('fs-extra')
 let { join } = require('path')
+let { test } = require('uvu')
+let { equal, throws } = require('uvu/assert')
 
 delete require.cache[require.resolve('..')]
 let browserslist = require('..')
@@ -27,6 +27,18 @@ test('uses package', async () => {
   let result = browserslist(['extends browserslist-config-test', 'ie 6'])
   equal(result, ['ie 11', 'ie 6'])
 })
+
+if (parseInt(process.versions.node) >= 20) {
+  test('uses ESM package', async () => {
+    let dir = join(__dirname, '..', 'node_modules', 'browserslist-config-esm')
+    mocked.push(dir)
+    await ensureDir(dir)
+    let content = 'export default ' + JSON.stringify(exports)
+    await writeFile(join(dir, 'index.js'), content)
+    let result = browserslist(['extends browserslist-config-esm', 'ie 6'])
+    equal(result, ['ie 6'])
+  })
+}
 
 test('uses file in package', async () => {
   await mock('browserslist-config-test/ie', ['ie 11'])

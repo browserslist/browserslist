@@ -19,9 +19,15 @@ test.before.each(() => {
       released: ['4.4', '4.4.3-4.4.4', '67'],
       versions: [],
       releaseDate: {}
+    },
+    chrome: {
+      name: 'chrome',
+      released: ['7', '17', '27', '37', '47', '57', '67'],
+      versions: [],
+      releaseDate: {}
     }
   }
-});
+})
 
 test.after.each(() => {
   browserslist.data = originData
@@ -46,13 +52,10 @@ test('has case insensitive aliases', () => {
 
 test('has special logic for android', () => {
   equal(browserslist('last 4 android versions'), ['android 67'])
-  equal(
-    browserslist('last 31 android versions'),
-    [
-      'android 67',
-      'android 4.4.3-4.4.4'
-    ]
-  )
+  equal(browserslist('last 5 android versions'), [
+    'android 67',
+    'android 4.4.3-4.4.4'
+  ])
 })
 
 test.run()

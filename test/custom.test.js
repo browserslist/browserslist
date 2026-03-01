@@ -1,13 +1,12 @@
-let { test } = require('uvu')
-let { equal, is, throws, match } = require('uvu/assert')
 let { readFile } = require('fs-extra')
 let { join } = require('path')
+let { test } = require('uvu')
+let { equal, is, throws, match } = require('uvu/assert')
 
 delete require.cache[require.resolve('..')]
 let browserslist = require('..')
 
 let originData = { ...browserslist.data }
-
 
 let CUSTOM_STATS = join(__dirname, 'fixtures', 'stats.json')
 let ANDROID = join(__dirname, 'fixtures', 'android-stats.json')
@@ -32,30 +31,27 @@ test('takes stats by path', () => {
 })
 
 test('selects popularity by more or equal', () => {
-  equal(
-    browserslist('>= 5.3% in my stats', { stats: CUSTOM_STATS }),
-    ['ie 11', 'ie 10']
-  )
+  equal(browserslist('>= 5.3% in my stats', { stats: CUSTOM_STATS }), [
+    'ie 11',
+    'ie 10'
+  ])
 })
 
 test('selects browsers by unpopularity', () => {
-  equal(
-    browserslist('< 0.5% in my stats', { stats: CUSTOM_STATS }),
-    ['chrome 34', 'ie 8']
-  )
+  equal(browserslist('< 0.5% in my stats', { stats: CUSTOM_STATS }), [
+    'chrome 34',
+    'ie 8'
+  ])
 })
 
 test('selects unpopularity by less or equal', () => {
-  equal(
-    browserslist('<= 2.3% in my stats', { stats: CUSTOM_STATS }),
-    [
-      'chrome 36',
-      'chrome 35',
-      'chrome 34',
-      'ie 9',
-      'ie 8'
-    ]
-  )
+  equal(browserslist('<= 2.3% in my stats', { stats: CUSTOM_STATS }), [
+    'chrome 36',
+    'chrome 35',
+    'chrome 34',
+    'ie 9',
+    'ie 8'
+  ])
 })
 
 test('accepts non-space query', () => {
@@ -80,7 +76,10 @@ test('normalizes versions', () => {
   let opts = { stats: ANDROID }
   let last = browserslist(['last 1 and_chr version'], undefined, true)
   match(browserslist(['> 3% in my stats'], opts)[0], last[0])
-  match(browserslist(['> 3% in my stats'], { ...opts, mobileToDesktop: true })[0], last[0])
+  match(
+    browserslist(['> 3% in my stats'], { ...opts, mobileToDesktop: true })[0],
+    last[0]
+  )
   equal(browserslist(['> 3% in my stats', 'not and_chr > 0'], opts), [])
 })
 

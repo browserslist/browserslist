@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 var fs = require('fs')
+var updateDb = require('update-browserslist-db')
 
 var browserslist = require('./')
-var updateDb = require('./update-db')
 var pkg = require('./package.json')
 
 var args = process.argv.slice(2)
@@ -20,8 +20,7 @@ var USAGE =
   '  npx browserslist --env="environment name defined in config"\n' +
   '  npx browserslist --stats="path/to/browserlist/stats/file"\n' +
   '  npx browserslist --mobile-to-desktop\n' +
-  '  npx browserslist --ignore-unknown-versions' +
-  '  npx browserslist --update-db'
+  '  npx browserslist --ignore-unknown-versions\n'
 
 function isArg(arg) {
   return args.some(function (str) {
@@ -39,7 +38,12 @@ if (isArg('--help') || isArg('-h')) {
 } else if (isArg('--version') || isArg('-v')) {
   process.stdout.write('browserslist ' + pkg.version + '\n')
 } else if (isArg('--update-db')) {
-  /* c8 ignore next 3 */
+  /* c8 ignore next 8 */
+  process.stdout.write(
+    'The --update-db command is deprecated.\n' +
+      'Please use npx update-browserslist-db@latest instead.\n'
+  )
+  process.stdout.write('Browserslist DB update will still be made.\n')
   updateDb(function (str) {
     process.stdout.write(str)
   })
@@ -93,7 +97,7 @@ if (isArg('--help') || isArg('-h')) {
   } catch (e) {
     if (e.name === 'BrowserslistError') {
       error(e.message)
-    } else /* c8 ignore start */ {
+    } /* c8 ignore start */ else {
       throw e
     } /* c8 ignore end */
   }

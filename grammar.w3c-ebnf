@@ -46,11 +46,15 @@ LastBrowsers ::= 'last' Space+ Digit+ Space+ (BrowserName Space+)? ('major' Spac
 
 LastElectron ::= 'last' Space+ Digit+ Space+ 'electron' Space+ ('major' Space+)? VersionKeyword
 
+LastNode ::= 'last' Space+ Digit+ Space+ 'node' Space+ ('major' Space+)? VersionKeyword
+
 Unreleased ::= 'unreleased' Space+ ((BrowserName | 'electron') Space+)? VersionKeyword
 
 Years ::= 'last' Space+ Numeric Space+ 'year' 's'?
 
 Since ::= 'since' Space Digit+ ('-' Digit+ ('-' Digit+)?)?
+
+Baseline ::= 'baseline' Space (Digit+ | ('newly' | 'widely') Space 'available' (Space 'on' Space Digit+ ('-' Digit+ ('-' Digit+)?)?)? (' with downstream')? (' including kaios')?)
 
 Region ::= ('alt-' [a-z][a-z] | [A-Z][A-Z])
 
@@ -62,7 +66,7 @@ Percentage ::= CompareOperator Space* Numeric '%' (Space+ 'in' Space+ (MyStats |
 
 Cover ::= 'cover' Space+ Numeric '%' (Space+ 'in' Space+ (MyStats | Region))?
 
-FeatureSupport ::= 'supports' Space+ ([a-z0-9] | '-')+
+FeatureSupport ::= (('fully' | 'partially') Space+)? 'supports' Space+ ([a-z0-9] | '-')+
 
 Version ::= (Digit | '.')+
 
@@ -96,6 +100,7 @@ Dead ::= 'dead'
 
 QueryAtom ::= LastBrowsers
   | LastElectron
+  | LastNode
   | Unreleased
   | Years
   | Since
