@@ -528,35 +528,62 @@ node 12
 
 ## Custom Usage Data
 
-If you have a website, you can query against the usage statistics of your site.
-[`browserslist-plausible`] will download your real statistics from [Plausible](https://plausible.io/) and then generate `browserslist-stats.json`.
+You can query against statistics derived from your real-world traffic rather than global marketshare, or use both together. For example, the query `> 1% in my stats, > 5% in US, > 10%` is valid.
+
+To do this, you'll first need to connect your analytics to Browserslist.
+
+### Plausible Analytics
+
+[`browserslist-plausible`] will query your statistics from [Plausible](https://plausible.io) and generate a `browserslist-stats.json` file.
 
 ```sh
 npx browserslist-plausible --host https://plausible.example.org example.org
 ```
 
-[`browserslist-ga`] will go the same for Google Analytics. Or you can use [`browserslist-ga-export`] to convert Google Analytics data without giving a password for Google account.
+### Google Analytics
 
-You can generate usage statistics file by any other method. File format should
-be like:
+[`browserslist-ga`] will query your statistics from Google Analytics. Alternatively, you can use [`browserslist-ga-export`] to convert Google Analytics data without being prompted to login with Google.
 
-```js
+### <abbr title="Do It Yourself">DIY</abbr> Statistics
+
+You can also create your statistics file yourself—just be sure to adhere to the statistics schema.
+
+```jsonc
 {
-  "ie": {
-    "6": 0.01,
-    "7": 0.4,
-    "8": 1.5
-  },
-  "chrome": {
-    …
-  },
-  …
+  // Browser name
+  "firefox": {
+    // Browser version
+    "144": 4.3, // % of traffic for this browser/version combination
+    "140": 0.2
+  }
 }
 ```
 
-Note that you can query against your custom usage data while also querying
-against global or regional data. For example, the query
-`> 1% in my stats, > 5% in US, 10%` is permitted.
+<details>
+
+<summary>The JavaScript API also exposes a type for code completion and type safety.</summary>
+
+```js
+/** @type {import('browserslist').Stats} */
+const browserslistStats = {
+  // Browser name
+  'firefox': {
+    // Browser version
+    '144': 4.3, // % of traffic for this browser/version combination
+    '140': 0.2
+  }
+}
+```
+
+</details>
+
+The excerpts above show that Firefox 144 made up 4.3% of traffic for the website. The query, `Firefox >= 140`, would have a coverage of `4.5%`.
+
+Each browser name and version must be present in the Can I Use database. Entries that are not present are ignored. To ensure traffic is mapped correctly, it's recommended to refer to [`caniuse-lite`] while converting your data.
+
+These distinctions are important—traffic like `Google Chrome` (browser) or `140.0` (version) would be ignored, these must match Can I use, so they're `chrome` and `140` in this case.
+
+It's acceptable for the sum of all percentages to be less than 100%. Not all browser and version combinations are present in Can I Use, and many third-party tools round percentages, so an obscure browser that makes up 0.04% of your traffic may be reported as 0.0%.
 
 [`browserslist-plausible`]: https://github.com/browserslist/browserslist-plausible
 [`browserslist-ga-export`]: https://github.com/browserslist/browserslist-ga-export
