@@ -76,11 +76,11 @@ test('throws when no custom stats', () => {
 })
 
 test('loads country usage data from Can I Use', () => {
-  is(browserslist.coverage(['ie 8', 'ie 9'], 'US') > 0, true)
+  is(browserslist.coverage(['ios_saf 26.4'], 'US') > 0, true)
 })
 
 test('loads continents usage data from Can I Use', () => {
-  is(browserslist.coverage(['ie 8', 'ie 9'], 'alt-AS') > 0, true)
+  is(browserslist.coverage(['ios_saf 26.4'], 'alt-AS') > 0, true)
 })
 
 test('fixes statistics of 0 version', () => {
