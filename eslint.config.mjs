@@ -43,7 +43,7 @@ export default [
     }
   },
   {
-    files: ['test/**/*', 'eslint.config.mjs'],
+    files: ['test/**/*', 'eslint.config.mjs', '.prettierrc.mjs'],
     rules: {
       'n/no-unsupported-features/node-builtins': 'off',
       'n/no-unsupported-features/es-syntax': 'off',
@@ -60,7 +60,7 @@ export default [
     }
   },
   {
-    files: ['eslint.config.mjs'],
+    files: ['eslint.config.mjs', '.prettierrc.mjs'],
     rules: {
       'es5/no-modules': 'off'
     }
