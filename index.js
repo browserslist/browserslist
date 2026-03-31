@@ -255,11 +255,12 @@ function normalizeAndroidVersions(androidVersions, chromeVersions) {
     .concat(chromeVersions.slice(iFirstEvergreen))
 }
 
+var DANGEROUS_KEYS = ['__proto__', 'constructor', 'prototype']
+
 function copyObject(obj) {
   var copy = {}
-  var dangerousKeys = ['__proto__', 'constructor', 'prototype']
   for (var key in obj) {
-    if (dangerousKeys.indexOf(key) === -1) {
+    if (DANGEROUS_KEYS.indexOf(key) === -1) {
       copy[key] = obj[key]
     }
   }
