@@ -2,6 +2,10 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.28.2
+
+- Fix prototype pollution (by @chluo1997).
+
 ## 4.28.1
 
 - Removed Baseline warning since we have it own warning.
