@@ -1,4 +1,7 @@
 {
   "private": true,
-  "browserslist": ["ie 9", "ie 10"]
+  "browserslist": [
+    "ie 9",
+    "ie 10"
+  ]
 }

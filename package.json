@@ -3,10 +3,13 @@
   "version": "4.28.1",
   "description": "Share target browsers between different front-end tools, like Autoprefixer, Stylelint and babel-env-preset",
   "keywords": [
-    "caniuse",
     "browsers",
+    "caniuse",
     "target"
   ],
+  "license": "MIT",
+  "author": "Andrey Sitnik <andrey@sitnik.ru>",
+  "repository": "browserslist/browserslist",
   "funding": [
     {
       "type": "opencollective",
@@ -21,9 +24,14 @@
       "url": "https://github.com/sponsors/ai"
     }
   ],
-  "author": "Andrey Sitnik <andrey@sitnik.ru>",
-  "license": "MIT",
-  "repository": "browserslist/browserslist",
+  "bin": {
+    "browserslist": "cli.js"
+  },
+  "browser": {
+    "./node.js": "./browser.js",
+    "path": false
+  },
+  "types": "./index.d.ts",
   "scripts": {
     "unit": "NODE_ENV=test uvu test .test.js",
     "test:coverage": "NODE_ENV=test c8 uvu test .test.js",
@@ -38,13 +46,6 @@
     "node-releases": "^2.0.36",
     "update-browserslist-db": "^1.2.3"
   },
-  "engines": {
-    "node": "^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7"
-  },
-  "bin": {
-    "browserslist": "cli.js"
-  },
-  "types": "./index.d.ts",
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
     "@logux/eslint-config": "^57.1.0",
@@ -59,54 +60,23 @@
     "fs-extra": "^11.3.4",
     "multiocular": "^0.8.2",
     "nanospy": "^1.0.0",
+    "oxfmt": "^0.42.0",
     "size-limit": "^12.0.1",
     "uvu": "^0.5.6"
   },
-  "browser": {
-    "./node.js": "./browser.js",
-    "path": false
+  "prettier": {
+    "arrowParens": "avoid",
+    "jsxSingleQuote": false,
+    "quoteProps": "consistent",
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none"
   },
-  "clean-publish": {
-    "cleanDocs": true
-  },
-  "c8": {
-    "check-coverage": true,
-    "clean": true,
-    "exclude": [
-      "**/*.test.*"
-    ],
-    "lines": 100,
-    "reporter": [
-      "text-summary",
-      "text",
-      "lcov"
-    ],
-    "skip-full": true
-  },
-  "size-limit": [
-    {
-      "path": "index.js",
-      "limit": "30 KB"
-    }
-  ],
   "eslintConfig": {
-    "plugins": [
-      "es5"
-    ],
     "extends": [
       "@logux/eslint-config",
       "plugin:es5/no-es2015"
     ],
-    "rules": {
-      "node-import/prefer-node-protocol": "off",
-      "perfectionist/sort-objects": "off",
-      "prefer-let/prefer-let": "off",
-      "prefer-arrow-callback": "off",
-      "n/global-require": "off",
-      "object-shorthand": "off",
-      "no-console": "off",
-      "no-var": "off"
-    },
     "overrides": [
       {
         "files": "test/**/*",
@@ -124,17 +94,48 @@
           "no-console": "off"
         }
       }
-    ]
+    ],
+    "plugins": [
+      "es5"
+    ],
+    "rules": {
+      "n/global-require": "off",
+      "no-console": "off",
+      "no-var": "off",
+      "node-import/prefer-node-protocol": "off",
+      "object-shorthand": "off",
+      "perfectionist/sort-objects": "off",
+      "prefer-arrow-callback": "off",
+      "prefer-let/prefer-let": "off"
+    }
   },
   "eslintIgnore": [
     "test/fixtures"
   ],
-  "prettier": {
-    "arrowParens": "avoid",
-    "jsxSingleQuote": false,
-    "quoteProps": "consistent",
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "none"
+  "size-limit": [
+    {
+      "path": "index.js",
+      "limit": "30 KB"
+    }
+  ],
+  "c8": {
+    "check-coverage": true,
+    "clean": true,
+    "exclude": [
+      "**/*.test.*"
+    ],
+    "lines": 100,
+    "reporter": [
+      "text-summary",
+      "text",
+      "lcov"
+    ],
+    "skip-full": true
+  },
+  "engines": {
+    "node": "^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7"
+  },
+  "clean-publish": {
+    "cleanDocs": true
   }
 }

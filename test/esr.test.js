@@ -31,10 +31,7 @@ test('uses case insensitive aliases', () => {
 })
 
 test('throw error when using esr in range for unsupported browsers', () => {
-  throws(
-    () => browserslist('Chrome >= ESR'),
-    /Unknown version ESR of Chrome/
-  )
+  throws(() => browserslist('Chrome >= ESR'), /Unknown version ESR of Chrome/)
 })
 
 test.run()

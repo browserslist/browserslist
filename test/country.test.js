@@ -52,15 +52,7 @@ test('works with float', () => {
 })
 
 test('works with float that has a leading dot', () => {
-  equal(
-    browserslist('> .2% in US'),
-    [
-      'ie 11',
-      'ie 10',
-      'ie 9',
-      'ie 8'
-    ]
-  )
+  equal(browserslist('> .2% in US'), ['ie 11', 'ie 10', 'ie 9', 'ie 8'])
 })
 
 test('fixes country case', () => {

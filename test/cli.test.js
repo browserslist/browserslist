@@ -162,10 +162,7 @@ test('shows Browserslist error', async () => {
 })
 
 test('supports JSON', async () => {
-  is(
-    await out('--json', '"ie 8"'),
-    '{\n  "browsers": [\n    "ie 8"\n  ]\n}\n'
-  )
+  is(await out('--json', '"ie 8"'), '{\n  "browsers": [\n    "ie 8"\n  ]\n}\n')
 })
 
 test('supports JSON with coverage', async () => {
