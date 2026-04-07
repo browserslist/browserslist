@@ -337,7 +337,7 @@ module.exports = {
       }
       var usageData = region(compressed)
       normalizeUsageData(usageData, data)
-      usage[country] = {}
+      usage[country] = Object.create(null)
       for (var i in usageData) {
         for (var j in usageData[i]) {
           usage[country][i + ' ' + j] = usageData[i][j]
