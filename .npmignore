@@ -4,3 +4,5 @@ coverage/
 img/
 tsconfig.json
 grammar.w3c-ebnf
+
+docs/
