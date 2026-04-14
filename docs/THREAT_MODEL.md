@@ -1,4 +1,4 @@
-# Thread Model
+# Threat Model
 
 What threads we think of when we design our tool and process.
 
