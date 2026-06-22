@@ -116,4 +116,16 @@ test('Throws an error when "newly available on YYYY-MM-DD" is used', () => {
   }, /Using newly available with a date is not supported/)
 })
 
+// Test case insensitivity
+test('Treats "newly available" as case insensitive', () => {
+  equal(
+    browserslist('BASELINE NEWLY AVAILABLE'),
+    browserslistBaselineNewly
+  )
+  equal(
+    browserslist('baseline NEWLY available'),
+    browserslistBaselineNewly
+  )
+})
+
 test.run()

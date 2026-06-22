@@ -829,7 +829,8 @@ var QUERIES = {
       var baselineVersions
       var includeDownstream = !!node.downstream
       var includeKaiOS = !!node.kaios
-      if (node.availability === 'newly' && node.date) {
+      var availability = node.availability && node.availability.toLowerCase()
+      if (availability === 'newly' && node.date) {
         throw new BrowserslistError(
           'Using newly available with a date is not supported, please use "widely available on YYYY-MM-DD" and add 30 months to the date you specified.'
         )
@@ -848,7 +849,7 @@ var QUERIES = {
           includeKaiOS: includeKaiOS,
           suppressWarnings: true
         })
-      } else if (node.availability === 'newly') {
+      } else if (availability === 'newly') {
         var future30months = new Date().setMonth(new Date().getMonth() + 30)
         baselineVersions = bbm.getCompatibleVersions({
           widelyAvailableOnDate: future30months,
