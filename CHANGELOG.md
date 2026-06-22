@@ -2,6 +2,10 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.28.4
+
+- Fixed `SyntaxError` regression of 4.28.3.
+
 ## 4.28.3
 
 - Fixed baseline query case-insensitivity (by @swwind).
