@@ -1,4 +1,6 @@
+let { mkdirSync, mkdtempSync, rmSync, writeFileSync } = require('fs')
 let { join } = require('path')
+let { tmpdir } = require('os')
 let { test } = require('uvu')
 let { is, equal, throws } = require('uvu/assert')
 
@@ -13,7 +15,6 @@ let BOTH2 = join(__dirname, 'fixtures', 'both2', 'test.css')
 let BOTH3 = join(__dirname, 'fixtures', 'both3', 'test.css')
 let WRONG1 = join(__dirname, 'fixtures', 'wrong1', 'test.css')
 let WRONG2 = join(__dirname, 'fixtures', 'wrong2', 'test.css')
-let BROKEN = join(__dirname, 'fixtures', 'broken', 'test.css')
 let STRING = join(__dirname, 'fixtures', 'string', 'test.css')
 let PACKAGE = join(__dirname, 'fixtures', 'package', 'test.css')
 
@@ -113,8 +114,19 @@ test('findConfigFile returns package.json', () => {
 })
 
 test('shows warning on broken package.json', () => {
-  equal(browserslist.findConfig(BROKEN), { defaults: ['ie 11', 'ie 10'] })
-  is(warnCallCount, 1)
+  let dir = mkdtempSync(join(tmpdir(), 'browserslist-'))
+  let subdir = join(dir, 'broken')
+  mkdirSync(subdir)
+  writeFileSync(join(dir, 'browserslist'), 'ie 11\nie 10')
+  writeFileSync(join(subdir, 'package.json'), '{\n  "browserslist": [\n')
+  try {
+    equal(browserslist.findConfig(join(subdir, 'test.css')), {
+      defaults: ['ie 11', 'ie 10']
+    })
+    is(warnCallCount, 1)
+  } finally {
+    rmSync(dir, { recursive: true, force: true })
+  }
 })
 
 test('shows error on key typo', () => {
