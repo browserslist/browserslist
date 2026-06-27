@@ -29,8 +29,6 @@ jobs:
         node:
           - 24
           - 22
-          - 20
-          - 18
     name: Node.js ${{ matrix.node }} Quick
     steps:
       - name: Checkout the repository
