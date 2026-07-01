@@ -88,4 +88,9 @@ test('selects browser lte or lt between version range', () => {
   equal(browserslist('ios < 15.7.2'), ['ios_saf 15.6-15.8', 'ios_saf 15.0'])
 })
 
+test('excludes range when gt upper bound of that range', () => {
+  equal(browserslist('ios > 15.8'), ['ios_saf 16.0'])
+  equal(browserslist('ios >= 15.8'), ['ios_saf 16.0', 'ios_saf 15.6-15.8'])
+})
+
 test.run()
