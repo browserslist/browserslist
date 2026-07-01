@@ -81,22 +81,21 @@ function fillUsage(result, name, data) {
 }
 
 function generateFilter(sign, version) {
-  version = parseFloat(version)
   if (sign === '>') {
     return function (v) {
-      return parseLatestFloat(v) > version
+      return parseLatestFloat(v) > parseLatestFloat(version)
     }
   } else if (sign === '>=') {
     return function (v) {
-      return parseLatestFloat(v) >= version
+      return parseLatestFloat(v) >= parseLatestFloat(version)
     }
   } else if (sign === '<') {
     return function (v) {
-      return parseFloat(v) < version
+      return parseFloat(v) < parseFloat(version)
     }
   } else {
     return function (v) {
-      return parseFloat(v) <= version
+      return parseFloat(v) <= parseFloat(version)
     }
   }
 
