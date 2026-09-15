@@ -1,4 +1,4 @@
-let { mkdirSync, mkdtempSync, rmSync, writeFileSync } = require('fs')
+let { mkdirSync, mkdtempSync, rmdirSync, unlinkSync, writeFileSync } = require('fs')
 let { tmpdir } = require('os')
 let { join } = require('path')
 let { test } = require('uvu')
@@ -125,7 +125,10 @@ test('shows warning on broken package.json', () => {
     })
     is(warnCallCount, 1)
   } finally {
-    rmSync(dir, { recursive: true, force: true })
+    unlinkSync(join(subdir, 'package.json'))
+    unlinkSync(join(dir, 'browserslist'))
+    rmdirSync(subdir)
+    rmdirSync(dir)
   }
 })
 
