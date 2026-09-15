@@ -25,6 +25,7 @@ jobs:
   short:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         node:
           - 24
@@ -45,6 +46,7 @@ jobs:
   old:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         node:
           - 20
