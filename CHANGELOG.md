@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## 4.28.9
 
-- Improve `or` parsing performance (by @NotAFlightRisk).
+- Improved `or` parsing performance (by @NotAFlightRisk).
 
 ## 4.28.8
 
