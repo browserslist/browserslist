@@ -374,7 +374,8 @@ browsers in `package.json` with `browserslist` key:
 
 Separated Browserslist config should be named `.browserslistrc`
 and have browsers queries split by a new line.
-Each line is combined with the `or` combiner. Comments starts with `#` symbol:
+Each line is combined with the `or` combiner by default.
+Comments starts with `#` symbol:
 
 ```yaml
 # Browsers that we support
@@ -383,6 +384,20 @@ last 1 version
 > 1%
 not dead # no browsers without security updates
 ```
+
+To continue a query onto the next line, end the preceding line with `and`,
+`or`, or `,`. For example, this selects the intersection of the two queries:
+
+```yaml
+last 2 versions and
+> 0.5%
+```
+
+The same continuation syntax works between entries in a `package.json`
+`browserslist` array or an array passed to the JavaScript API:
+`["last 2 versions and", "> 0.5%"]`. An operator must have a following query
+in the same configuration section. Blank lines and comments do not end a
+continuation, and entries without an explicit operator still use `or`.
 
 Browserslist will check config in every directory in `path`.
 So, if tool process `app/styles/main.css`, you can put config to root,

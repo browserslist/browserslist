@@ -1,5 +1,27 @@
 var SPACE = /\s/
 
+function endsWithOperator(block) {
+  // Scan the suffix once rather than backtracking over long whitespace runs.
+  var end = block.length
+  while (end > 0 && SPACE.test(block[end - 1])) end--
+
+  if (block[end - 1] === ',') {
+    return block.slice(0, end - 1).trim().length > 0
+  }
+
+  var tail = block.slice(Math.max(0, end - 3), end).toLowerCase()
+  var size = 0
+  if (tail === 'and') {
+    size = 3
+  } else if (tail.slice(-2) === 'or') {
+    size = 2
+  }
+  if (size === 0 || end <= size || !SPACE.test(block[end - size - 1])) {
+    return false
+  }
+  return block.slice(0, end - size).trim().length > 0
+}
+
 function flatten(array) {
   if (!Array.isArray(array)) return [array]
   // Iterative flatten: `reduce`+`concat` copies the accumulator on every step,
@@ -126,8 +148,22 @@ function parseBlock(all, block, qs) {
 
 module.exports = function parse(all, queries) {
   if (!Array.isArray(queries)) queries = [queries]
+  // Only explicitly connected entries share a block; all other entries keep
+  // the parser's implicit OR. Joining each group once keeps this pass linear.
+  var blocks = []
+  var pending = []
+  queries.forEach(function (block) {
+    if (block.length === 0) return
+    pending.push(block)
+    if (endsWithOperator(block)) return
+    blocks.push(pending.join('\n'))
+    pending = []
+  })
+  // Parse an unfinished continuation too, so a dangling operator still errors.
+  if (pending.length > 0) blocks.push(pending.join('\n'))
+
   return flatten(
-    queries.map(function (block) {
+    blocks.map(function (block) {
       var qs = []
       parseBlock(all, block, qs)
       return qs
