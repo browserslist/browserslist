@@ -34,6 +34,7 @@
   "types": "./index.d.ts",
   "scripts": {
     "unit": "NODE_ENV=test uvu test .test.js",
+    "unit:old": "NODE_ENV=test uvu -r uvu test .test.js",
     "test:coverage": "NODE_ENV=test c8 uvu test .test.js",
     "test:lint": "eslint .",
     "test:size": "size-limit",
@@ -55,7 +56,7 @@
     "cross-spawn": "^7.0.6",
     "eslint": "^9.39.5",
     "eslint-plugin-es5": "^1.5.0",
-    "fs-extra": "^11.4.0",
+    "fs-extra": "^8.1.0",
     "multiocular": "^0.8.4",
     "nanospy": "^2.0.2",
     "oxfmt": "^0.67.0",
