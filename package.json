@@ -34,6 +34,7 @@
   "types": "./index.d.ts",
   "scripts": {
     "unit": "NODE_ENV=test uvu test .test.js",
+    "unit:old": "NODE_ENV=test uvu -r uvu test .test.js",
     "test:coverage": "NODE_ENV=test c8 uvu test .test.js",
     "test:lint": "eslint .",
     "test:size": "size-limit",
