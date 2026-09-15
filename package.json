@@ -57,7 +57,7 @@
     "cross-spawn": "^7.0.6",
     "eslint": "^9.39.5",
     "eslint-plugin-es5": "^1.5.0",
-    "fs-extra": "^11.4.0",
+    "fs-extra": "^8.1.0",
     "multiocular": "^0.8.4",
     "nanospy": "^2.0.2",
     "oxfmt": "^0.66.0",
