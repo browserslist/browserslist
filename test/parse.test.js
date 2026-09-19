@@ -30,8 +30,8 @@ test('parses queries to AST', () => {
   ])
 })
 
-for (let operator of ['Not', 'nOt', 'NOT']) {
-  test(`parses ${operator} as a negation`, () => {
+test('parses case-insensitive negations', () => {
+  for (let operator of ['Not', 'nOt', 'NOT']) {
     let query = `${operator} IE 11`
     equal(browserslist.parse(query), [
       {
@@ -46,14 +46,11 @@ for (let operator of ['Not', 'nOt', 'NOT']) {
     equal(browserslist(`ie >= 9, ${query}`), ['ie 10', 'ie 9'])
     equal(browserslist(`ie >= 9 and ${query}`), ['ie 10', 'ie 9'])
     equal(browserslist(['ie >= 9', query]), ['ie 10', 'ie 9'])
-  })
-
-  test(`rejects ${operator} as the first query`, () => {
     throws(
       () => browserslist(`${operator} ie 11`),
       /^Write any browsers query/
     )
-  })
-}
+  }
+})
 
 test.run()
