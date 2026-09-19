@@ -59,6 +59,11 @@ test('fixes country case', () => {
   equal(browserslist('> 10.2% in us'), ['ie 11'])
 })
 
+test('is case insensitive', () => {
+  equal(browserslist('> 10.2% IN US'), ['ie 11'])
+  is(browserslist('> 1% In ALT-AS').length > 0, true)
+})
+
 test('loads country from Can I Use', () => {
   is(browserslist('> 1% in RU').length > 0, true)
 })

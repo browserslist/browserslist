@@ -98,6 +98,29 @@ test('selects browsers by feature, omiting partial support', () => {
   ])
 })
 
+test('is case insensitive', () => {
+  browserslist.cache.rtcpeerconnection = {
+    and_chr: { 81: 'y' },
+    chrome: { 79: 'n', 80: 'n', 81: 'a', 82: 'y' },
+    ie: { 10: 'n', 11: 'n' }
+  }
+
+  equal(browserslist('Supports rtcpeerconnection'), [
+    'and_chr 81',
+    'chrome 82',
+    'chrome 81'
+  ])
+  equal(browserslist('Partially Supports rtcpeerconnection'), [
+    'and_chr 81',
+    'chrome 82',
+    'chrome 81'
+  ])
+  equal(browserslist('FULLY SUPPORTS rtcpeerconnection'), [
+    'and_chr 81',
+    'chrome 82'
+  ])
+})
+
 test('selects browsers by feature with dashes in its name', () => {
   browserslist.cache['arrow-functions'] = {
     and_chr: { 81: 'n' },

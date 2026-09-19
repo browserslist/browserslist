@@ -907,7 +907,7 @@ var QUERIES = {
   },
   popularity_in_my_stats: {
     matches: ['sign', 'popularity'],
-    regexp: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+my\s+stats$/,
+    regexp: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+my\s+stats$/i,
     select: function (context, node) {
       var popularity = parseFloat(node.popularity)
       if (!context.customUsage) {
@@ -941,7 +941,7 @@ var QUERIES = {
   },
   popularity_in_config_stats: {
     matches: ['sign', 'popularity', 'config'],
-    regexp: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+(\S+)\s+stats$/,
+    regexp: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+(\S+)\s+stats$/i,
     select: function (context, node) {
       var popularity = parseFloat(node.popularity)
       var usage = loadCustomUsage(context, node.config)
@@ -972,7 +972,7 @@ var QUERIES = {
   },
   popularity_in_place: {
     matches: ['sign', 'popularity', 'place'],
-    regexp: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+((alt-)?\w\w)$/,
+    regexp: /^(>=?|<=?)\s*(\d+|\d+\.\d+|\.\d+)%\s+in\s+((alt-)?\w\w)$/i,
     select: function (context, node) {
       var popularity = parseFloat(node.popularity)
       var place = node.place
@@ -1025,10 +1025,11 @@ var QUERIES = {
   },
   supports: {
     matches: ['supportType', 'feature'],
-    regexp: /^(?:(fully|partially)\s+)?supports\s+([\w-]+)$/,
+    regexp: /^(?:(fully|partially)\s+)?supports\s+([\w-]+)$/i,
     select: function (context, node) {
       env.loadFeature(browserslist.cache, node.feature)
-      var withPartial = node.supportType !== 'fully'
+      var supportType = node.supportType && node.supportType.toLowerCase()
+      var withPartial = supportType !== 'fully'
       var features = browserslist.cache[node.feature]
       var result = []
       for (var name in features) {
