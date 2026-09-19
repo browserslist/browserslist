@@ -1,5 +1,5 @@
 let { test } = require('uvu')
-let { equal } = require('uvu/assert')
+let { equal, throws } = require('uvu/assert')
 
 delete require.cache[require.resolve('..')]
 let browserslist = require('..')
@@ -28,6 +28,29 @@ test('parses queries to AST', () => {
       compose: 'or'
     }
   ])
+})
+
+test('parses case-insensitive negations', () => {
+  for (let operator of ['Not', 'nOt', 'NOT']) {
+    let query = `${operator} IE 11`
+    equal(browserslist.parse(query), [
+      {
+        query,
+        not: true,
+        type: 'browser_version',
+        browser: 'IE',
+        version: '11',
+        compose: 'or'
+      }
+    ])
+    equal(browserslist(`ie >= 9, ${query}`), ['ie 10', 'ie 9'])
+    equal(browserslist(`ie >= 9 and ${query}`), ['ie 10', 'ie 9'])
+    equal(browserslist(['ie >= 9', query]), ['ie 10', 'ie 9'])
+    throws(
+      () => browserslist(`${operator} ie 11`),
+      /^Write any browsers query/
+    )
+  }
 })
 
 test.run()
