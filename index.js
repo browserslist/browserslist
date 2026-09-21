@@ -363,31 +363,18 @@ function resolve(queries, context) {
       }
     })
 
-    if (node.compose === 'and') {
-      if (node.not) {
-        return result.filter(function (j) {
-          return array.indexOf(j) === -1
-        })
-      } else {
-        return result.filter(function (j) {
-          return array.indexOf(j) !== -1
-        })
-      }
-    } else {
-      if (node.not) {
-        var filter = {}
-        array.forEach(function (j) {
-          filter[j] = true
-        })
-        return result.filter(function (j) {
-          return !filter[j]
-        })
-      }
+    if (!node.not && node.compose === 'or') {
       for (var i = 0; i < array.length; i++) {
         result.push(array[i])
       }
       return result
     }
+
+    var filter = new Set(array)
+    var filterKeep = !node.not
+    return result.filter(function (j) {
+      return filter.has(j) === filterKeep
+    })
   }, [])
 }
 
