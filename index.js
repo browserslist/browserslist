@@ -80,6 +80,26 @@ function fillUsage(result, name, data) {
   }
 }
 
+function filterUsage(usage, sign, popularity) {
+  return Object.keys(usage).filter(function (version) {
+    var percentage = usage[version]
+    if (percentage == null) {
+      return false
+    }
+
+    switch (sign) {
+      case '<':
+        return percentage < popularity
+      case '<=':
+        return percentage <= popularity
+      case '>':
+        return percentage > popularity
+      default:
+        return percentage >= popularity
+    }
+  })
+}
+
 function generateFilter(sign, version) {
   if (sign === '>') {
     return function (v) {
@@ -885,24 +905,7 @@ var QUERIES = {
     select: function (context, node) {
       var popularity = parseFloat(node.popularity)
       var usage = browserslist.usage.global
-      return Object.keys(usage).reduce(function (result, version) {
-        if (node.sign === '>') {
-          if (usage[version] > popularity) {
-            result.push(version)
-          }
-        } else if (node.sign === '<') {
-          if (usage[version] < popularity) {
-            result.push(version)
-          }
-        } else if (node.sign === '<=') {
-          if (usage[version] <= popularity) {
-            result.push(version)
-          }
-        } else if (usage[version] >= popularity) {
-          result.push(version)
-        }
-        return result
-      }, [])
+      return filterUsage(usage, node.sign, popularity)
     }
   },
   popularity_in_my_stats: {
@@ -914,29 +917,7 @@ var QUERIES = {
         throw new BrowserslistError('Custom usage statistics was not provided')
       }
       var usage = context.customUsage
-      return Object.keys(usage).reduce(function (result, version) {
-        var percentage = usage[version]
-        if (percentage == null) {
-          return result
-        }
-
-        if (node.sign === '>') {
-          if (percentage > popularity) {
-            result.push(version)
-          }
-        } else if (node.sign === '<') {
-          if (percentage < popularity) {
-            result.push(version)
-          }
-        } else if (node.sign === '<=') {
-          if (percentage <= popularity) {
-            result.push(version)
-          }
-        } else if (percentage >= popularity) {
-          result.push(version)
-        }
-        return result
-      }, [])
+      return filterUsage(usage, node.sign, popularity)
     }
   },
   popularity_in_config_stats: {
@@ -945,29 +926,7 @@ var QUERIES = {
     select: function (context, node) {
       var popularity = parseFloat(node.popularity)
       var usage = loadCustomUsage(context, node.config)
-      return Object.keys(usage).reduce(function (result, version) {
-        var percentage = usage[version]
-        if (percentage == null) {
-          return result
-        }
-
-        if (node.sign === '>') {
-          if (percentage > popularity) {
-            result.push(version)
-          }
-        } else if (node.sign === '<') {
-          if (percentage < popularity) {
-            result.push(version)
-          }
-        } else if (node.sign === '<=') {
-          if (percentage <= popularity) {
-            result.push(version)
-          }
-        } else if (percentage >= popularity) {
-          result.push(version)
-        }
-        return result
-      }, [])
+      return filterUsage(usage, node.sign, popularity)
     }
   },
   popularity_in_place: {
@@ -983,29 +942,7 @@ var QUERIES = {
       }
       env.loadCountry(browserslist.usage, place, browserslist.data)
       var usage = browserslist.usage[place]
-      return Object.keys(usage).reduce(function (result, version) {
-        var percentage = usage[version]
-        if (percentage == null) {
-          return result
-        }
-
-        if (node.sign === '>') {
-          if (percentage > popularity) {
-            result.push(version)
-          }
-        } else if (node.sign === '<') {
-          if (percentage < popularity) {
-            result.push(version)
-          }
-        } else if (node.sign === '<=') {
-          if (percentage <= popularity) {
-            result.push(version)
-          }
-        } else if (percentage >= popularity) {
-          result.push(version)
-        }
-        return result
-      }, [])
+      return filterUsage(usage, node.sign, popularity)
     }
   },
   cover: {
