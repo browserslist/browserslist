@@ -58,6 +58,10 @@ test('accepts non-space query', () => {
   equal(browserslist('>10% in my stats', { stats: CUSTOM_STATS }), ['ie 11'])
 })
 
+test('is case insensitive', () => {
+  equal(browserslist('> 10% In My Stats', { stats: CUSTOM_STATS }), ['ie 11'])
+})
+
 test('takes stats from usage data object', async () => {
   let data = JSON.parse((await readFile(CUSTOM_STATS)).toString())
   equal(browserslist('> 10% in my stats', { stats: data }), ['ie 11'])
