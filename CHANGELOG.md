@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 4.29.1
 
 - Fixed config name loading protection on Windows (by @oss-security-shop).
+- Fixed case-insensitive negation queries (by @jakezwang).
+- Fixed percentage and supports queries case-insensitive (by @wahidrizka).
+- Fixed old Node.js tests (by @aaron-belenky).
+- Reduced code (by @charmander).
 
 ## 4.29.0
 
