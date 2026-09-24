@@ -28,6 +28,11 @@ function checkExtend(name) {
       'Browserslist config needs `browserslist-config-` prefix. ' + use
     )
   }
+  if (name.indexOf('\\') !== -1) {
+    throw new BrowserslistError(
+      '`\\` not allowed in Browserslist config name. ' + use
+    )
+  }
   if (name.replace(/^@[^/]+\//, '').indexOf('.') !== -1) {
     throw new BrowserslistError(
       '`.` not allowed in Browserslist config name. ' + use

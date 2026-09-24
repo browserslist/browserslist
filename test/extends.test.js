@@ -122,6 +122,17 @@ test('throws when extends package has dot in path', () => {
   )
 })
 
+test('throws when extends package has backslash in path', () => {
+  throws(
+    () => browserslist(['extends @x\\..\\..\\payload/browserslist-config']),
+    /`\\` not allowed/
+  )
+  throws(
+    () => browserslist(['extends browserslist-config-a\\b']),
+    /`\\` not allowed/
+  )
+})
+
 test('throws when extends package has node_modules in path', () => {
   throws(
     () => browserslist(['extends browserslist-config-test/node_modules/a']),
