@@ -675,7 +675,9 @@ function coverQuery(context, node) {
   var version
   for (var i = 0; i < versions.length; i++) {
     version = versions[i]
-    if (usage[version] === 0) break
+    // Region data has `null` for versions without usage data. Like zero usage,
+    // they add nothing to the coverage and sort together with the zeros.
+    if (!usage[version]) break
     covered += usage[version]
     result.push(version)
     if (covered >= coverage) break

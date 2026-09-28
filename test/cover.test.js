@@ -74,6 +74,25 @@ test('does not add zero-popularity', () => {
   equal(browserslist('cover 20% in my stats', stats), ['ie 11'])
 })
 
+test('does not add versions without usage data', () => {
+  equal(browserslist('cover 30% in my stats'), [
+    'chrome 37',
+    'chrome 36',
+    'chrome 35',
+    'chrome 34',
+    'ie 11',
+    'ie 10',
+    'ie 9',
+    'ie 8'
+  ])
+})
+
+test('does not add versions without usage data in a country', () => {
+  browserslist.usage.US['ie 10'] = null
+  browserslist.usage.US['ie 11'] = 0
+  equal(browserslist('cover 10% in US'), ['ie 9', 'ie 8'])
+})
+
 test('throws error on no stats', () => {
   delete process.env.BROWSERSLIST_STATS
   throws(
