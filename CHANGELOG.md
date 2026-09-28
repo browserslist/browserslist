@@ -2,6 +2,10 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.29.2
+
+- Fixed ignoring `null` usage in `cover X in Y` query (by @wahidrizka).
+
 ## 4.29.1
 
 - Fixed config name loading protection on Windows (by @oss-security-shop).
