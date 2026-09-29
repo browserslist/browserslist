@@ -12,7 +12,7 @@ var parseWithoutCache = require('./parse') // Will load browser.js in webpack
 var YEAR = 365.259641 * 24 * 60 * 60 * 1000
 var ANDROID_EVERGREEN_FIRST = '37'
 var OP_MOB_BLINK_FIRST = 14
-var FIREFOX_ESR_VERSION = '140'
+var FIREFOX_ESR_VERSION = '153'
 
 // Helpers
 
