@@ -53,4 +53,9 @@ test('parses case-insensitive negations', () => {
   }
 })
 
+test('allows arbitrary whitespaces after negation', () => {
+  equal(browserslist('ie >= 9, not  ie 11'), ['ie 10', 'ie 9'])
+  equal(browserslist(['ie >= 9', 'not\tie 11']), ['ie 10', 'ie 9'])
+})
+
 test.run()

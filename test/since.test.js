@@ -56,4 +56,10 @@ test('selects versions released on date boundaries', () => {
   equal(browserslist('since 2017-02-10'), ['ie 3'])
 })
 
+test('allows arbitrary whitespaces', () => {
+  equal(browserslist('since  1970'), ['ie 3', 'ie 2', 'ie 1', 'safari 1'])
+  equal(browserslist('since\t2017-02'), ['ie 3', 'ie 2'])
+  equal(browserslist('since   2017-02-10'), ['ie 3'])
+})
+
 test.run()

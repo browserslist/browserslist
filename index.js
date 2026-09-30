@@ -821,17 +821,17 @@ var QUERIES = {
   },
   since_y: {
     matches: ['year'],
-    regexp: /^since (\d+)$/i,
+    regexp: /^since\s+(\d+)$/i,
     select: sinceQuery
   },
   since_y_m: {
     matches: ['year', 'month'],
-    regexp: /^since (\d+)-(\d+)$/i,
+    regexp: /^since\s+(\d+)-(\d+)$/i,
     select: sinceQuery
   },
   since_y_m_d: {
     matches: ['year', 'month', 'day'],
-    regexp: /^since (\d+)-(\d+)-(\d+)$/i,
+    regexp: /^since\s+(\d+)-(\d+)-(\d+)$/i,
     select: sinceQuery
   },
   baseline: {
@@ -1189,7 +1189,7 @@ var QUERIES = {
   },
   browserslist_config: {
     matches: [],
-    regexp: /^browserslist config$/i,
+    regexp: /^browserslist\s+config$/i,
     needsPath: true,
     select: function (context) {
       return browserslist(undefined, context)
@@ -1197,7 +1197,7 @@ var QUERIES = {
   },
   extends: {
     matches: ['config'],
-    regexp: /^extends (.+)$/i,
+    regexp: /^extends\s+(?!\s)(.+)$/i,
     needsPath: true,
     select: function (context, node) {
       return resolve(env.loadQueries(context, node.config), context)

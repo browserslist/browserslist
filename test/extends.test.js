@@ -40,6 +40,12 @@ if (parseInt(process.versions.node) >= 20) {
   })
 }
 
+test('allows arbitrary whitespaces', async () => {
+  await mock('browserslist-config-test', ['ie 11'])
+  let result = browserslist(['extends  browserslist-config-test', 'ie 6'])
+  equal(result, ['ie 11', 'ie 6'])
+})
+
 test('uses file in package', async () => {
   await mock('browserslist-config-test/ie', ['ie 11'])
   let result = browserslist(['extends browserslist-config-test/ie'])
