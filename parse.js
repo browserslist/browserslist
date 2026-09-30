@@ -43,9 +43,10 @@ function flatten(array) {
 
 function matchQuery(all, query) {
   var node = { query: query }
-  if (/^not /i.test(query)) {
+  var not = query.match(/^not\s+(?!\s)/i)
+  if (not) {
     node.not = true
-    query = query.slice(4)
+    query = query.slice(not[0].length)
   }
 
   for (var name in all) {

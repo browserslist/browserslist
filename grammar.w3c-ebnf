@@ -52,7 +52,7 @@ Unreleased ::= 'unreleased' Space+ ((BrowserName | 'electron') Space+)? VersionK
 
 Years ::= 'last' Space+ Numeric Space+ 'year' 's'?
 
-Since ::= 'since' Space Digit+ ('-' Digit+ ('-' Digit+)?)?
+Since ::= 'since' Space+ Digit+ ('-' Digit+ ('-' Digit+)?)?
 
 Baseline ::= 'baseline' Space (Digit+ | ('newly' | 'widely') Space 'available' (Space 'on' Space Digit+ ('-' Digit+ ('-' Digit+)?)?)?) (Space 'with' Space 'downstream')? (Space 'including' Space 'kaios')?
 
@@ -90,9 +90,9 @@ MaintainedNode ::= 'maintained' Space+ 'node' Space+ 'versions'
 
 Phantom ::= 'phantomjs' Space+ ('1.9' | '2.1')
 
-BrowserslistConfig ::= 'browserslist config'
+BrowserslistConfig ::= 'browserslist' Space+ 'config'
 
-Extending ::= 'extends' Space NonSpaceChar+
+Extending ::= 'extends' Space+ NonSpaceChar+
 
 Defaults ::= 'defaults'
 
@@ -120,7 +120,7 @@ QueryAtom ::= LastBrowsers
   | Defaults
   | Dead
 
-SingleQuery ::= ('not' Space)? QueryAtom
+SingleQuery ::= ('not' Space+)? QueryAtom
 
 OrOperator ::= Space+ 'or' Space+ | Space* ',' Space*
 

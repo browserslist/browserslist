@@ -17,4 +17,14 @@ test('supports config query', () => {
   )
 })
 
+test('allows arbitrary whitespaces in config query', () => {
+  equal(
+    browserslist('browserslist  config, not chrome >0', {
+      path: FILE,
+      env: 'development'
+    }),
+    ['firefox 50']
+  )
+})
+
 test.run()
