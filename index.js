@@ -1,4 +1,3 @@
-var bbm = require('baseline-browser-mapping')
 var jsReleases = require('node-releases/data/processed/envs.json')
 var agents = require('caniuse-lite/dist/unpacker/agents').agents
 var e2c = require('electron-to-chromium/versions')
@@ -846,6 +845,8 @@ var QUERIES = {
     regexp:
       /^baseline\s+(?!\s)(?:(\d+)|(newly|widely)\s+(?!\s)available(?:\s+(?!\s)on\s+(?!\s)(\d{4}-\d{2}-\d{2}))?)?(\s+(?!\s)with\s+(?!\s)downstream)?(\s+(?!\s)including\s+(?!\s)kaios)?$/i,
     select: function (context, node) {
+      // Loaded on demand: parsing its data takes a few ms on every require()
+      var bbm = require('baseline-browser-mapping')
       var availability = node.availability && node.availability.toLowerCase()
       if (availability === 'newly' && node.date) {
         throw new BrowserslistError(
