@@ -2,6 +2,11 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.29.4
+
+- Fixed joined version bounds in version ray and range queries (by @ybai08).
+- Fixed whitespaces processing (by @abhu85).
+
 ## 4.29.3
 
 - Updated Firefox ESR.
