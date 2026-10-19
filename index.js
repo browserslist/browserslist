@@ -118,10 +118,10 @@ function generateFilter(sign, version) {
       return parseFloat(v) <= parseFloat(version)
     }
   }
+}
 
-  function parseLatestFloat(v) {
-    return parseFloat(v.split('-')[1] || v)
-  }
+function parseLatestFloat(v) {
+  return parseFloat(v.split('-')[1] || v)
 }
 
 function generateSemverFilter(sign, version) {
@@ -1025,8 +1025,7 @@ var QUERIES = {
       var from = parseFloat(normalizeVersion(data, node.from) || node.from)
       var to = parseFloat(normalizeVersion(data, node.to) || node.to)
       function filter(v) {
-        var parsed = parseFloat(v)
-        return parsed >= from && parsed <= to
+        return parseLatestFloat(v) >= from && parseFloat(v) <= to
       }
       return data.released.filter(filter).map(nameMapper(data.name))
     }
@@ -1061,7 +1060,9 @@ var QUERIES = {
       var version = node.version
       var data = checkName(node.browser, context)
       var alias = browserslist.versionAliases[data.name][version.toLowerCase()]
-      if (alias) version = alias
+      // Keep numbers as is: a joined range like `15.6-15.8` would move
+      // the bound to its other end
+      if (alias && !/^[\d.]+$/.test(version)) version = alias
       if (!/[\d.]+/.test(version)) {
         throw new BrowserslistError(
           'Unknown version ' + version + ' of ' + node.browser

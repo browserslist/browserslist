@@ -19,6 +19,12 @@ test.before.each(() => {
       released: ['4.2-4.3', '4.4', '4.4.3-4.4.4', '37'],
       versions: ['4.2-4.3', '4.4', '4.4.3-4.4.4', '37'],
       releaseDate: {}
+    },
+    ios_saf: {
+      name: 'ios_saf',
+      released: ['15.0', '15.6-15.8', '16.0'],
+      versions: ['15.0', '15.6-15.8', '16.0'],
+      releaseDate: {}
     }
   }
 })
@@ -42,6 +48,12 @@ test('selects a range of android browsers', () => {
     'android 4.4',
     'android 4.2-4.3'
   ])
+})
+
+test('selects joined version when range starts inside it', () => {
+  equal(browserslist('ios 15.7-16'), ['ios_saf 16.0', 'ios_saf 15.6-15.8'])
+  equal(browserslist('ios 15.8-16'), ['ios_saf 16.0', 'ios_saf 15.6-15.8'])
+  equal(browserslist('ios 15-15.7'), ['ios_saf 15.6-15.8', 'ios_saf 15.0'])
 })
 
 test('raises on an unknown browser', () => {
