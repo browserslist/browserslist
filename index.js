@@ -558,7 +558,7 @@ browserslist.coverage = function (browsers, stats) {
   } else if (stats === 'my stats') {
     var opts = {}
     opts.path = path.resolve ? path.resolve('.') : '.'
-    var customStats = env.getStat(opts)
+    var customStats = env.getStat(opts, browserslist.data)
     if (!customStats) {
       throw new BrowserslistError('Custom usage statistics was not provided')
     }
@@ -578,6 +578,7 @@ browserslist.coverage = function (browsers, stats) {
     if ('dataByBrowser' in stats) {
       stats = stats.dataByBrowser
     }
+    stats = env.getStat({ stats: stats }, browserslist.data)
     data = {}
     for (var name in stats) {
       for (var version in stats[name]) {

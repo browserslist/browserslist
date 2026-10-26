@@ -7,6 +7,7 @@ let browserslist = require('..')
 
 let STATS = join(__dirname, 'fixtures', 'browserslist-stats.json')
 let CUSTOM_STATS = join(__dirname, 'fixtures', 'stats.json')
+let ANDROID = join(__dirname, 'fixtures', 'android-stats.json')
 
 let custom = {
   ie: {
@@ -94,6 +95,13 @@ test('fixes statistics of all version', () => {
 test('supports custom statistics', () => {
   is(browserslist.coverage(['ie 9'], custom), 10)
   is(browserslist.coverage(['ie 9'], { dataByBrowser: custom }), 10)
+})
+
+test('normalizes versions in custom statistics', () => {
+  let browsers = browserslist('> 3% in my stats', { stats: ANDROID })
+  equal(browserslist.coverage(browsers, { and_chr: { 10: 4 } }), 4)
+  process.env.BROWSERSLIST_STATS = ANDROID
+  equal(browserslist.coverage(browsers, 'my stats'), 4)
 })
 
 test.run()
