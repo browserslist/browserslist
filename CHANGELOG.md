@@ -2,6 +2,10 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.29.5
+
+- Fixed `browserslist.coverage` for `my stats` (by @nk-batman21).
+
 ## 4.29.4
 
 - Fixed joined version bounds in version ray and range queries (by @ybai08).
