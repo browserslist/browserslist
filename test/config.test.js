@@ -132,6 +132,34 @@ test('shows warning on broken package.json', () => {
   }
 })
 
+test('shows warning on .browserlistrc typo', () => {
+  let dir = mkdtempSync(join(tmpdir(), 'browserslist-'))
+  let subdir = join(dir, 'typo')
+  mkdirSync(subdir)
+  writeFileSync(join(dir, '.browserslistrc'), 'ie 11\nie 10')
+  writeFileSync(join(dir, '.browserlistrc'), 'ie 8')
+  writeFileSync(join(subdir, '.browserlistrc'), 'ie 9')
+  let warnings = []
+  console.warn = message => {
+    warnings.push(message)
+  }
+  try {
+    equal(browserslist.findConfig(join(subdir, 'test.css')), {
+      defaults: ['ie 11', 'ie 10']
+    })
+    equal(warnings, [
+      `[Browserslist] ${join(subdir, '.browserlistrc')} is ignored. ` +
+        'Did you mean .browserslistrc?'
+    ])
+  } finally {
+    unlinkSync(join(subdir, '.browserlistrc'))
+    unlinkSync(join(dir, '.browserlistrc'))
+    unlinkSync(join(dir, '.browserslistrc'))
+    rmdirSync(subdir)
+    rmdirSync(dir)
+  }
+})
+
 test('shows error on key typo', () => {
   throws(() => {
     browserslist.findConfig(TYPO)

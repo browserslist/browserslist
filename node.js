@@ -422,6 +422,7 @@ module.exports = {
         var config = path.join(dir, 'browserslist')
         var pkg = path.join(dir, 'package.json')
         var rc = path.join(dir, '.browserslistrc')
+        var rcTypo = path.join(dir, '.browserlistrc')
 
         var pkgBrowserslist
         if (isFile(pkg)) {
@@ -433,6 +434,14 @@ module.exports = {
               '[Browserslist] Could not parse ' + pkg + '. Ignoring it.'
             )
           }
+        }
+
+        if (isFile(rcTypo) && !isFile(rc)) {
+          console.warn(
+            '[Browserslist] ' +
+              rcTypo +
+              ' is ignored. Did you mean .browserslistrc?'
+          )
         }
 
         if (isFile(config) && pkgBrowserslist) {
