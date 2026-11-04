@@ -75,6 +75,18 @@ function isDirectory(dir) {
   return getPathType(dir) === PATHTYPE_DIR
 }
 
+function warnAboutConfigTypo(typo, correct) {
+  if (isFile(typo) && !isFile(correct)) {
+    console.warn(
+      '[Browserslist] ' +
+        typo +
+        ' is ignored. Did you mean ' +
+        path.basename(correct) +
+        '?'
+    )
+  }
+}
+
 function eachParent(file, callback, cache) {
   var loc = path.resolve(file)
   var pathsForCacheResult = []
@@ -160,15 +172,17 @@ function parsePackage(file) {
     .toString()
     .replace(/^\uFEFF/m, '')
   var list
-  if (text.indexOf('"browserslist"') >= 0) {
-    list = JSON.parse(text).browserslist
-  } else if (text.indexOf('"browserlist"') >= 0) {
+  if (
+    text.indexOf('"browserslist"') >= 0 ||
+    text.indexOf('"browserlist"') >= 0
+  ) {
     var config = JSON.parse(text)
-    if (config.browserlist && !config.browserslist) {
+    if (config.browserlist && typeof config.browserslist === 'undefined') {
       throw new BrowserslistError(
         '`browserlist` key instead of `browserslist` in ' + file
       )
     }
+    list = config.browserslist
   }
   if (Array.isArray(list) || typeof list === 'string') {
     list = { defaults: list }
@@ -422,7 +436,6 @@ module.exports = {
         var config = path.join(dir, 'browserslist')
         var pkg = path.join(dir, 'package.json')
         var rc = path.join(dir, '.browserslistrc')
-        var rcTypo = path.join(dir, '.browserlistrc')
 
         var pkgBrowserslist
         if (isFile(pkg)) {
@@ -436,13 +449,8 @@ module.exports = {
           }
         }
 
-        if (isFile(rcTypo) && !isFile(rc)) {
-          console.warn(
-            '[Browserslist] ' +
-              rcTypo +
-              ' is ignored. Did you mean .browserslistrc?'
-          )
-        }
+        warnAboutConfigTypo(path.join(dir, '.browserlistrc'), rc)
+        warnAboutConfigTypo(path.join(dir, 'browserlist'), config)
 
         if (isFile(config) && pkgBrowserslist) {
           throw new BrowserslistError(

@@ -1,4 +1,10 @@
-let { mkdirSync, mkdtempSync, rmdirSync, unlinkSync, writeFileSync } = require('fs')
+let {
+  mkdirSync,
+  mkdtempSync,
+  rmdirSync,
+  unlinkSync,
+  writeFileSync
+} = require('fs')
 let { tmpdir } = require('os')
 let { join } = require('path')
 let { test } = require('uvu')
@@ -132,30 +138,54 @@ test('shows warning on broken package.json', () => {
   }
 })
 
-test('shows warning on .browserlistrc typo', () => {
+;[
+  ['.browserlistrc', '.browserslistrc'],
+  ['browserlist', 'browserslist']
+].forEach(([typo, correct]) => {
+  test(`shows warning on ${typo} typo`, () => {
+    let dir = mkdtempSync(join(tmpdir(), 'browserslist-'))
+    let subdir = join(dir, 'typo')
+    mkdirSync(subdir)
+    writeFileSync(join(dir, correct), 'ie 11\nie 10')
+    writeFileSync(join(dir, typo), 'ie 8')
+    writeFileSync(join(subdir, typo), 'ie 9')
+    let warnings = []
+    console.warn = message => {
+      warnings.push(message)
+    }
+    try {
+      equal(browserslist.findConfig(join(subdir, 'test.css')), {
+        defaults: ['ie 11', 'ie 10']
+      })
+      equal(warnings, [
+        `[Browserslist] ${join(subdir, typo)} is ignored. ` +
+          `Did you mean ${correct}?`
+      ])
+    } finally {
+      unlinkSync(join(subdir, typo))
+      unlinkSync(join(dir, typo))
+      unlinkSync(join(dir, correct))
+      rmdirSync(subdir)
+      rmdirSync(dir)
+    }
+  })
+})
+
+test('detects a package key typo alongside a browserslist dependency', () => {
   let dir = mkdtempSync(join(tmpdir(), 'browserslist-'))
-  let subdir = join(dir, 'typo')
-  mkdirSync(subdir)
-  writeFileSync(join(dir, '.browserslistrc'), 'ie 11\nie 10')
-  writeFileSync(join(dir, '.browserlistrc'), 'ie 8')
-  writeFileSync(join(subdir, '.browserlistrc'), 'ie 9')
-  let warnings = []
-  console.warn = message => {
-    warnings.push(message)
-  }
+  let file = join(dir, 'package.json')
+  let config = { browserlist: ['ie 9'], devDependencies: { browserslist: '*' } }
+  writeFileSync(file, JSON.stringify(config))
   try {
-    equal(browserslist.findConfig(join(subdir, 'test.css')), {
-      defaults: ['ie 11', 'ie 10']
-    })
-    equal(warnings, [
-      `[Browserslist] ${join(subdir, '.browserlistrc')} is ignored. ` +
-        'Did you mean .browserslistrc?'
-    ])
+    throws(
+      () => browserslist.findConfig(dir),
+      /`browserlist` key instead of `browserslist`/
+    )
+    config.browserslist = ''
+    writeFileSync(file, JSON.stringify(config))
+    equal(browserslist.findConfig(dir), { defaults: '' })
   } finally {
-    unlinkSync(join(subdir, '.browserlistrc'))
-    unlinkSync(join(dir, '.browserlistrc'))
-    unlinkSync(join(dir, '.browserslistrc'))
-    rmdirSync(subdir)
+    unlinkSync(file)
     rmdirSync(dir)
   }
 })
