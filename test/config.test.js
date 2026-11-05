@@ -1,4 +1,10 @@
-let { mkdirSync, mkdtempSync, rmdirSync, unlinkSync, writeFileSync } = require('fs')
+let {
+  mkdirSync,
+  mkdtempSync,
+  rmdirSync,
+  unlinkSync,
+  writeFileSync
+} = require('fs')
 let { tmpdir } = require('os')
 let { join } = require('path')
 let { test } = require('uvu')
@@ -128,6 +134,57 @@ test('shows warning on broken package.json', () => {
     unlinkSync(join(subdir, 'package.json'))
     unlinkSync(join(dir, 'browserslist'))
     rmdirSync(subdir)
+    rmdirSync(dir)
+  }
+})
+
+;[
+  ['.browserlistrc', '.browserslistrc'],
+  ['browserlist', 'browserslist']
+].forEach(([typo, correct]) => {
+  test(`rejects ${typo} typo unless the correct file exists`, () => {
+    let dir = mkdtempSync(join(tmpdir(), 'browserslist-'))
+    let subdir = join(dir, 'typo')
+    mkdirSync(subdir)
+    writeFileSync(join(dir, correct), 'ie 11\nie 10')
+    writeFileSync(join(dir, typo), 'ie 8')
+    writeFileSync(join(subdir, typo), 'ie 9')
+    try {
+      throws(
+        () => browserslist.findConfig(join(subdir, 'test.css')),
+        error =>
+          error.name === 'BrowserslistError' &&
+          error.message === `\`${typo}\` instead of \`${correct}\` in ${subdir}`
+      )
+      equal(browserslist.findConfig(dir), {
+        defaults: ['ie 11', 'ie 10']
+      })
+      is(warnCallCount, 0)
+    } finally {
+      unlinkSync(join(subdir, typo))
+      unlinkSync(join(dir, typo))
+      unlinkSync(join(dir, correct))
+      rmdirSync(subdir)
+      rmdirSync(dir)
+    }
+  })
+})
+
+test('detects a package key typo alongside a browserslist dependency', () => {
+  let dir = mkdtempSync(join(tmpdir(), 'browserslist-'))
+  let file = join(dir, 'package.json')
+  let config = { browserlist: ['ie 9'], devDependencies: { browserslist: '*' } }
+  writeFileSync(file, JSON.stringify(config))
+  try {
+    throws(
+      () => browserslist.findConfig(dir),
+      /`browserlist` key instead of `browserslist`/
+    )
+    config.browserslist = ''
+    writeFileSync(file, JSON.stringify(config))
+    equal(browserslist.findConfig(dir), { defaults: '' })
+  } finally {
+    unlinkSync(file)
     rmdirSync(dir)
   }
 })

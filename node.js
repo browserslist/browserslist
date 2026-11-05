@@ -75,6 +75,19 @@ function isDirectory(dir) {
   return getPathType(dir) === PATHTYPE_DIR
 }
 
+function checkConfigTypo(typo, correct) {
+  if (isFile(typo) && !isFile(correct)) {
+    throw new BrowserslistError(
+      '`' +
+        path.basename(typo) +
+        '` instead of `' +
+        path.basename(correct) +
+        '` in ' +
+        path.dirname(typo)
+    )
+  }
+}
+
 function eachParent(file, callback, cache) {
   var loc = path.resolve(file)
   var pathsForCacheResult = []
@@ -160,15 +173,17 @@ function parsePackage(file) {
     .toString()
     .replace(/^\uFEFF/m, '')
   var list
-  if (text.indexOf('"browserslist"') >= 0) {
-    list = JSON.parse(text).browserslist
-  } else if (text.indexOf('"browserlist"') >= 0) {
+  if (
+    text.indexOf('"browserslist"') >= 0 ||
+    text.indexOf('"browserlist"') >= 0
+  ) {
     var config = JSON.parse(text)
-    if (config.browserlist && !config.browserslist) {
+    if (config.browserlist && typeof config.browserslist === 'undefined') {
       throw new BrowserslistError(
         '`browserlist` key instead of `browserslist` in ' + file
       )
     }
+    list = config.browserslist
   }
   if (Array.isArray(list) || typeof list === 'string') {
     list = { defaults: list }
@@ -434,6 +449,9 @@ module.exports = {
             )
           }
         }
+
+        checkConfigTypo(path.join(dir, '.browserlistrc'), rc)
+        checkConfigTypo(path.join(dir, 'browserlist'), config)
 
         if (isFile(config) && pkgBrowserslist) {
           throw new BrowserslistError(
