@@ -75,7 +75,11 @@ function isDirectory(dir) {
   return getPathType(dir) === PATHTYPE_DIR
 }
 
-function checkConfigTypo(typo, correct) {
+function checkConfigTypo(correct) {
+  var typo = path.join(
+    path.dirname(correct),
+    path.basename(correct).replace('browserslist', 'browserlist')
+  )
   if (isFile(typo) && !isFile(correct)) {
     throw new BrowserslistError(
       '`' +
@@ -450,8 +454,8 @@ module.exports = {
           }
         }
 
-        checkConfigTypo(path.join(dir, '.browserlistrc'), rc)
-        checkConfigTypo(path.join(dir, 'browserlist'), config)
+        checkConfigTypo(rc)
+        checkConfigTypo(config)
 
         if (isFile(config) && pkgBrowserslist) {
           throw new BrowserslistError(
