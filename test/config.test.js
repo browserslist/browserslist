@@ -142,25 +142,24 @@ test('shows warning on broken package.json', () => {
   ['.browserlistrc', '.browserslistrc'],
   ['browserlist', 'browserslist']
 ].forEach(([typo, correct]) => {
-  test(`shows warning on ${typo} typo`, () => {
+  test(`rejects ${typo} typo unless the correct file exists`, () => {
     let dir = mkdtempSync(join(tmpdir(), 'browserslist-'))
     let subdir = join(dir, 'typo')
     mkdirSync(subdir)
     writeFileSync(join(dir, correct), 'ie 11\nie 10')
     writeFileSync(join(dir, typo), 'ie 8')
     writeFileSync(join(subdir, typo), 'ie 9')
-    let warnings = []
-    console.warn = message => {
-      warnings.push(message)
-    }
     try {
-      equal(browserslist.findConfig(join(subdir, 'test.css')), {
+      throws(
+        () => browserslist.findConfig(join(subdir, 'test.css')),
+        error =>
+          error.name === 'BrowserslistError' &&
+          error.message === `\`${typo}\` instead of \`${correct}\` in ${subdir}`
+      )
+      equal(browserslist.findConfig(dir), {
         defaults: ['ie 11', 'ie 10']
       })
-      equal(warnings, [
-        `[Browserslist] ${join(subdir, typo)} is ignored. ` +
-          `Did you mean ${correct}?`
-      ])
+      is(warnCallCount, 0)
     } finally {
       unlinkSync(join(subdir, typo))
       unlinkSync(join(dir, typo))

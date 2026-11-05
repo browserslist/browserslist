@@ -75,14 +75,15 @@ function isDirectory(dir) {
   return getPathType(dir) === PATHTYPE_DIR
 }
 
-function warnAboutConfigTypo(typo, correct) {
+function checkConfigTypo(typo, correct) {
   if (isFile(typo) && !isFile(correct)) {
-    console.warn(
-      '[Browserslist] ' +
-        typo +
-        ' is ignored. Did you mean ' +
+    throw new BrowserslistError(
+      '`' +
+        path.basename(typo) +
+        '` instead of `' +
         path.basename(correct) +
-        '?'
+        '` in ' +
+        path.dirname(typo)
     )
   }
 }
@@ -449,8 +450,8 @@ module.exports = {
           }
         }
 
-        warnAboutConfigTypo(path.join(dir, '.browserlistrc'), rc)
-        warnAboutConfigTypo(path.join(dir, 'browserlist'), config)
+        checkConfigTypo(path.join(dir, '.browserlistrc'), rc)
+        checkConfigTypo(path.join(dir, 'browserlist'), config)
 
         if (isFile(config) && pkgBrowserslist) {
           throw new BrowserslistError(
