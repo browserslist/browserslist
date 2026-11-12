@@ -8,6 +8,12 @@ var pkg = require('./package.json')
 
 var args = process.argv.slice(2)
 
+// A reader that quits early (`| head`, `grep -q`) closes the pipe: exit quietly
+process.stdout.on('error', function (e) {
+  if (e.code !== 'EPIPE') throw e
+  process.exit(0)
+})
+
 var USAGE =
   'Usage:\n' +
   '  npx browserslist\n' +

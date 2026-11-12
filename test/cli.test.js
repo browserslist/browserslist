@@ -175,4 +175,18 @@ test('supports JSON with coverage', async () => {
   )
 })
 
+test('exits quietly when stdout is closed early', async () => {
+  let cli = spawn(join(__dirname, '..', 'cli.js'), ['--help'])
+  cli.stdout.destroy()
+  let stderr = ''
+  cli.stderr.on('data', data => {
+    stderr += data.toString()
+  })
+  let code = await new Promise(resolve => {
+    cli.on('close', resolve)
+  })
+  is(stderr, '')
+  is(code, 0)
+})
+
 test.run()
