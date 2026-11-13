@@ -1269,9 +1269,14 @@ var QUERIES = {
     }
   }
 
-  browserslist.nodeVersions = jsReleases.map(function (release) {
-    return release.version
-  })
+  browserslist.nodeVersions = jsReleases
+    .filter(function (release) {
+      // Skip prereleases like 27.0.0-alpha.0.0.0 from the Node.js alpha line
+      return release.version.indexOf('-') === -1
+    })
+    .map(function (release) {
+      return release.version
+    })
 })()
 
 browserslist.versionAliases.firefox.esr = FIREFOX_ESR_VERSION
