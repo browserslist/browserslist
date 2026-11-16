@@ -325,6 +325,23 @@ test('supports range selection', () => {
   ])
 })
 
+test('ignores Node.js prereleases', () => {
+  let envs = require.resolve('node-releases/data/processed/envs.json')
+  let releases = require(envs)
+  let latest = releases.filter(i => !i.version.includes('-')).pop().version
+  require.cache[envs].exports = releases.concat([
+    { name: 'nodejs', version: '99.0.0-alpha.0.0.0', date: '2099-01-01' }
+  ])
+  delete require.cache[require.resolve('..')]
+  let fresh = require('..')
+  require.cache[envs].exports = releases
+
+  is(fresh.nodeVersions.includes('99.0.0-alpha.0.0.0'), false)
+  equal(fresh('last 1 node versions'), ['node ' + latest])
+  equal(fresh('last 1 node major versions')[0], 'node ' + latest)
+  throws(() => fresh('node 99'), /Unknown version/)
+})
+
 test('supports last versions for Node.js', () => {
   is(browserslist('last 2 node versions').length >= 1, true)
 
