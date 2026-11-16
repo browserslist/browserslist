@@ -117,4 +117,12 @@ test('supports Can I Use missing mobile versions', () => {
   ])
 })
 
+test('selects nothing for zero major versions', () => {
+  equal(browserslist('last 0 major versions'), [])
+  equal(browserslist('last 0 chrome major versions'), [])
+  equal(browserslist('last 0 android major versions'), [])
+  equal(browserslist('last 0 node major versions'), [])
+  equal(browserslist('last 0 electron major versions'), [])
+})
+
 test.run()
