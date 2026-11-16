@@ -501,6 +501,7 @@ module.exports = {
     if (dataTimeChecked) return
     dataTimeChecked = true
     if (process.env.BROWSERSLIST_IGNORE_OLD_DATA) return
+    if (process.env.npm_config_loglevel === 'silent') return
 
     var latest = latestReleaseTime(agentsObj)
     var monthsPassed = getMonthsPassed(latest)

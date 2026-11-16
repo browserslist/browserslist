@@ -95,6 +95,7 @@ test.after.each(() => {
   restoreAll()
   browserslist.clearCaches()
   delete process.env.BROWSERSLIST_IGNORE_OLD_DATA
+  delete process.env.npm_config_loglevel
 })
 
 test.after(() => {
@@ -133,6 +134,15 @@ test('shows warning', () => {
 
 test('hides warning on request', () => {
   process.env.BROWSERSLIST_IGNORE_OLD_DATA = 'true'
+  browserslist.data = olderSixMonthsData
+  spyOn(fs, 'existsSync', findPackage)
+  spyOn(fs, 'statSync', mockStatSync)
+  browserslist('last 2 versions')
+  is(warn.called, false)
+})
+
+test('hides warning when npm log level is silent', () => {
+  process.env.npm_config_loglevel = 'silent'
   browserslist.data = olderSixMonthsData
   spyOn(fs, 'existsSync', findPackage)
   spyOn(fs, 'statSync', mockStatSync)
