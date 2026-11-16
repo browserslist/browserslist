@@ -2,6 +2,13 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.29.6
+
+- Added error for misspelled config files (by @blueDaydreaming725).
+- Fixed Node.js prereleases in `node` queries (by @Kernel-Hunter).
+- Fixed old data warning in npm silent mode (by @blueDaydreaming725).
+- Fixed CLI error on closed stdout (by @KhaledSaeed18).
+
 ## 4.29.5
 
 - Fixed `browserslist.coverage` for `my stats` (by @nk-batman21).
