@@ -51,8 +51,13 @@ function getMajor(version) {
   return parseInt(version.split('.')[0])
 }
 
+// `slice(-0)` is `slice(0)`, so a count of 0 would select every version
+function lastItems(list, number) {
+  return number > 0 ? list.slice(-number) : []
+}
+
 function getMajorVersions(released, number) {
-  if (released.length === 0) return []
+  if (released.length === 0 || !(number > 0)) return []
   var majorVersions = uniq(released.map(getMajor))
   var minimum = majorVersions[majorVersions.length - number]
   if (!minimum) {
@@ -708,7 +713,7 @@ var QUERIES = {
       return Object.keys(agents).reduce(function (selected, name) {
         var data = byName(name, context)
         if (!data) return selected
-        var list = data.released.slice(-node.versions)
+        var list = lastItems(data.released, node.versions)
         list = list.map(nameMapper(data.name))
         list = filterJumps(list, data.name, node.versions, context)
         return selected.concat(list)
@@ -751,22 +756,20 @@ var QUERIES = {
     matches: ['versions'],
     regexp: /^last\s+(\d+)\s+electron\s+versions?$/i,
     select: function (context, node) {
-      return Object.keys(e2c)
-        .slice(-node.versions)
-        .map(function (i) {
-          return 'chrome ' + e2c[i]
-        })
+      return lastItems(Object.keys(e2c), node.versions).map(function (i) {
+        return 'chrome ' + e2c[i]
+      })
     }
   },
   last_node_versions: {
     matches: ['versions'],
     regexp: /^last\s+(\d+)\s+node\s+versions?$/i,
     select: function (context, node) {
-      return browserslist.nodeVersions
-        .slice(-node.versions)
-        .map(function (version) {
+      return lastItems(browserslist.nodeVersions, node.versions).map(
+        function (version) {
           return 'node ' + version
-        })
+        }
+      )
     }
   },
   last_browser_versions: {
@@ -774,7 +777,9 @@ var QUERIES = {
     regexp: /^last\s+(\d+)\s+(\w+)\s+versions?$/i,
     select: function (context, node) {
       var data = checkName(node.browser, context)
-      var list = data.released.slice(-node.versions).map(nameMapper(data.name))
+      var list = lastItems(data.released, node.versions).map(
+        nameMapper(data.name)
+      )
       list = filterJumps(list, data.name, node.versions, context)
       return list
     }

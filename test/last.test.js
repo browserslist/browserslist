@@ -137,4 +137,14 @@ test('excludes unreleased versions if enabling mobile to desktop', () => {
   ])
 })
 
+test('selects nothing for zero versions', () => {
+  equal(browserslist('last 0 versions'), [])
+  equal(browserslist('last 0 chrome versions'), [])
+  equal(browserslist('last 0 android versions'), [])
+  equal(browserslist('last 0 op_mob versions'), [])
+  equal(browserslist('last 0 node versions'), [])
+  equal(browserslist('last 0 electron versions'), [])
+  equal(browserslist('chrome 39, last 0 versions'), ['chrome 39'])
+})
+
 test.run()
