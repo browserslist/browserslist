@@ -1,3 +1,5 @@
 allowBuilds:
   esbuild: false
   unrs-resolver: false
+minimumReleaseAgeExclude:
+  - update-browserslist-db

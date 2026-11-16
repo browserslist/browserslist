@@ -41,11 +41,11 @@
     "test": "pnpm run /^test:/"
   },
   "dependencies": {
-    "baseline-browser-mapping": "^2.11.35",
-    "caniuse-lite": "^1.0.30001820",
-    "electron-to-chromium": "^1.5.477",
-    "node-releases": "^2.0.63",
-    "update-browserslist-db": "^1.3.4"
+    "baseline-browser-mapping": "^2.11.37",
+    "caniuse-lite": "^1.0.30001826",
+    "electron-to-chromium": "^1.5.486",
+    "node-releases": "^2.0.64",
+    "update-browserslist-db": "^1.4.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.7",
@@ -58,7 +58,7 @@
     "eslint-plugin-es5": "^1.5.0",
     "fs-extra": "^8.1.0",
     "nanospy": "^2.0.2",
-    "oxfmt": "^0.76.0",
+    "oxfmt": "^0.78.0",
     "size-limit": "^14.3.0",
     "uvu": "^0.5.6"
   },
