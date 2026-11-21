@@ -700,6 +700,17 @@ with [environment variables]:
   BROWSERSLIST_ENV="development" npx vite build
   ```
 
+- `BROWSERSLIST_NOW` with an ISO date to use as the current time for
+  `last N years`, `since`, `maintained node versions`, and Baseline queries
+  without an explicit date or year.
+
+  ```sh
+  BROWSERSLIST_NOW=2023-10-31T00:00:00Z npx browserslist "last 6 years"
+  ```
+
+  This uses the installed browser data. It does not restore historical usage
+  statistics or change `last N versions` queries.
+
 - `BROWSERSLIST_STATS` with path to the custom usage data
   for `> 1% in my stats` query.
 

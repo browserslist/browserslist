@@ -232,14 +232,19 @@ function normalizeVersion(data, version) {
   }
 }
 
+function getNow(context) {
+  return context.now === undefined ? Date.now() : context.now
+}
+
 function filterByYear(since, context) {
   since = since / 1000
+  var until = context.now === undefined ? Infinity : context.now / 1000
   return Object.keys(agents).reduce(function (selected, name) {
     var data = byName(name, context)
     if (!data) return selected
     var versions = Object.keys(data.releaseDate).filter(function (v) {
       var date = data.releaseDate[v]
-      return date !== null && date >= since
+      return date !== null && date >= since && date <= until
     })
     return selected.concat(versions.map(nameMapper(data.name)))
   }, [])
@@ -440,6 +445,12 @@ function browserslist(queries, opts) {
     throwOnMissing: opts.throwOnMissing,
     mobileToDesktop: opts.mobileToDesktop,
     env: opts.env
+  }
+  if (env.env.BROWSERSLIST_NOW) {
+    context.now = Date.parse(env.env.BROWSERSLIST_NOW)
+    if (isNaN(context.now)) {
+      throw new BrowserslistError('BROWSERSLIST_NOW is not a valid date.')
+    }
   }
   // Removing to avoid using context.path without marking query as needsPath
   if (needsPath) {
@@ -822,7 +833,7 @@ var QUERIES = {
     matches: ['years'],
     regexp: /^last\s+((\d+\.)?\d+)\s+years?$/i,
     select: function (context, node) {
-      return filterByYear(Date.now() - YEAR * node.years, context)
+      return filterByYear(getNow(context) - YEAR * node.years, context)
     }
   },
   since_y: {
@@ -869,9 +880,10 @@ var QUERIES = {
       } else if (node.date) {
         options.widelyAvailableOnDate = node.date
       } else if (availability === 'newly') {
-        options.widelyAvailableOnDate = new Date().setMonth(
-          new Date().getMonth() + 30
-        )
+        var date = new Date(getNow(context))
+        options.widelyAvailableOnDate = date.setMonth(date.getMonth() + 30)
+      } else if (context.now !== undefined) {
+        options.widelyAvailableOnDate = context.now
       }
 
       var baselineVersions
@@ -1135,7 +1147,7 @@ var QUERIES = {
     matches: [],
     regexp: /^maintained\s+node\s+versions$/i,
     select: function (context) {
-      var now = Date.now()
+      var now = getNow(context)
       var queries = Object.keys(jsEOL)
         .filter(function (key) {
           return (
