@@ -215,6 +215,7 @@ declare global {
       BROWSERSLIST_DISABLE_CACHE?: string
       BROWSERSLIST_ENV?: string
       BROWSERSLIST_IGNORE_OLD_DATA?: string
+      BROWSERSLIST_NOW?: string
       BROWSERSLIST_STATS?: string
       BROWSERSLIST_ROOT_PATH?: string
     }
