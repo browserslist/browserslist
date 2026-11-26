@@ -112,6 +112,34 @@ test('handles scoped stats', async () => {
   ])
 })
 
+test('keeps own stats after shareable stats', async () => {
+  await mock('browserslist-config-test5', undefined, { ie: { 8: 2, 11: 6 } })
+  let opts = { stats: STATS }
+  equal(
+    browserslist(
+      '> 5% in browserslist-config-test5 stats, > 5% in my stats',
+      opts
+    ),
+    ['ie 11', 'ie 8']
+  )
+  equal(
+    browserslist(
+      '> 5% in browserslist-config-test5 stats, cover 5% in my stats',
+      opts
+    ),
+    ['ie 11', 'ie 8']
+  )
+})
+
+test('does not use shareable stats as own stats', async () => {
+  await mock('browserslist-config-test6', undefined, { ie: { 8: 2, 11: 6 } })
+  throws(
+    () =>
+      browserslist('> 5% in browserslist-config-test6 stats, > 5% in my stats'),
+    /statistics was not provided/
+  )
+})
+
 test('ignores passed stats', () => {
   throws(
     () =>

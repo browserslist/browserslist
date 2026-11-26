@@ -490,16 +490,15 @@ function parseQueries(queries) {
 
 function loadCustomUsage(context, config) {
   var stats = env.loadStat(context, config, browserslist.data)
-  if (stats) {
-    context.customUsage = {}
-    for (var browser in stats) {
-      fillUsage(context.customUsage, browser, stats[browser])
-    }
-  }
-  if (!context.customUsage) {
+  if (!stats) {
     throw new BrowserslistError('Custom usage statistics was not provided')
   }
-  return context.customUsage
+  // Keep `context.customUsage` for `in my stats` queries
+  var usage = {}
+  for (var browser in stats) {
+    fillUsage(usage, browser, stats[browser])
+  }
+  return usage
 }
 
 browserslist.parse = function (queries, opts) {
